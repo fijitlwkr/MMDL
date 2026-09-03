@@ -1,4 +1,3 @@
-# MMDL
 ## Project Overview
 
 본 프로젝트는 오픈소스 MLLM(예: Qwen3-VL-4B-Instruct)을 파인튜닝하여 target benchmark(MMMU)에서의 성능을 개선하는 것을 목표로 한다.
