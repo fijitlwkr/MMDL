@@ -39,25 +39,11 @@ commit은 수동으로 해도 되고, agent에게 시켜도 됩니다.
 
 **Scope**는 세부 대상(예: `preprocess`, `lora`, `mmmu`, `qwen3vl`)을 자유롭게 명시.
 
-### Branch Naming
+---
+
+## Branch Naming
 
 ```
 <type>/<short-description>
 예: exp/lora-rank-search, eval/mmmu-baseline
 ```
-
----
-
-## PR Convention
-
-- **제목**: 커밋 타입과 동일한 규칙 사용 (예: `exp: LoRA rank 탐색 실험`)
-- **본문에 포함할 내용**:
-  1. 목적 (무엇을, 왜)
-  2. 변경 사항 요약
-  3. 실험 결과 (있다면 벤치마크 점수, 비교 표/그래프)
-  4. 재현 방법 (config, seed, 실행 커맨드)
-- **체크리스트**:
-  - [ ] `results/`에 실험 결과 기록 여부
-  - [ ] config/seed 고정 및 기록 여부
-  - [ ] 불필요한 대용량 파일(체크포인트 등) 포함 여부 확인
-  - [ ] requirements/환경 변경 시 관련 파일 업데이트 여부
