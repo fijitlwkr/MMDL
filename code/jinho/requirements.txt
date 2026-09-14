@@ -1,0 +1,15 @@
+# PyTorch and core ML dependencies
+torch>=2.4.0
+transformers>=4.45.0
+accelerate>=0.34.0
+datasets>=3.0.0
+
+# Inference engine (recommended for fast evaluation)
+vllm>=0.6.0
+
+# Qwen VL vision utilities & image processing
+qwen-vl-utils
+pillow>=10.0.0
+
+# Utility & Progress tracking
+tqdm>=4.66.0
