@@ -1,0 +1,11 @@
+# Python 3.12; Linux CUDA environment. Install with setup_env.sh in a new venv.
+# These are the proposed reproducible versions, not a claim that GPU setup was rerun.
+torch==2.8.0
+torchvision==0.23.0
+vllm==0.11.0
+transformers==4.57.1
+qwen-vl-utils==0.0.14
+datasets==3.6.0
+huggingface-hub==0.35.3
+numpy==2.2.6
+Pillow==11.3.0
