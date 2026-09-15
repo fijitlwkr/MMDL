@@ -19,7 +19,7 @@
 | 실측 peak VRAM      | 약 18.5 GB (vLLM EngineCore 프로세스 점유 기준)                                                  |
 | 총 소요 시간        | 569.78초 (약 9분 30초, 900문제 전체 평가)                                                        |
 | MMMU dataset        | `MMMU/MMMU` (revision: `98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68`, split: `validation`)          |
-| 의존성              | [code/requirements.txt](../code/requirements.txt)                                                |
+| 의존성              | [baseline_draft/requirements.txt](../requirements.txt)                                           |
 | 실행 커맨드         | `bash scripts/run_mmmu_eval.sh --model_path "Qwen/Qwen3-VL-4B-Instruct" --data_root "MMMU/MMMU"` |
 
 ### 재현 커맨드
@@ -124,7 +124,7 @@ Answer with the option's letter from the given choices directly.
 
 ## 4.1 사용한 Parser / Logic
 
-- 자체 구현 정규식 기반 결정론적 파서: [code/src/parser.py](../code/src/parser.py)
+- 자체 구현 정규식 기반 결정론적 파서: [baseline_draft/src/parser.py](../src/parser.py)
 
 ## 4.2 동작 방식
 
