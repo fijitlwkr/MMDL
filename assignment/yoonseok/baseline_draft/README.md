@@ -11,50 +11,32 @@ Qwen3-VL-4B-Instruct의 MMMU validation 평가를 위한 실행 패키지입니�
 baseline_draft/
 ├── README.md
 ├── .gitignore
-├── env.sh
 ├── requirements.txt
-├── setup_env.sh
-├── smoke_test.sh
-├── build_dataset.py
-├── build_stress_dataset.py
-├── run_inference.py
-├── mc_parsers.py
-├── evaluate_baseline.py
-├── compare_scoring_pipelines.py
-├── common.py
 ├── THIRD_PARTY.md
-├── vendor/
-│   ├── __init__.py
-│   ├── mmmu_eval.py
-│   ├── vlmevalkit_matching.py
-│   ├── sources.json
-│   ├── MMMU-LICENSE
-│   └── VLMEvalKit-LICENSE
-├── tests/
-│   └── test_pipeline.py
-└── data/
-    ├── baseline_score.json
-    ├── baseline_table.md
-    └── eval_val.json
+├── scripts/                 # 환경 설정과 실행 진입점
+├── src/                     # Python 평가·추론 코드
+├── vendor/                  # 고정 parser와 라이선스
+├── tests/                   # CPU 회귀 테스트
+└── data/                    # 추적하는 요약 결과
 ```
 
-`common.py`는 중복 없는 입력 검증과 파일 저장을, `vendor/`는 버전을 고정한 공식 parser의 독립 실행을 위한 파일입니다. `vendor/`와 라이선스도 함께 올려야 합니다. 예측·이미지·가상환경·캐시는 `.gitignore`에 따라 제외됩니다.
+`src/common.py`는 중복 없는 입력 검증과 파일 저장을, `vendor/`는 버전을 고정한 공식 parser의 독립 실행을 위한 파일입니다. `vendor/`와 라이선스도 함께 올려야 합니다. 예측·이미지·가상환경·캐시는 `.gitignore`에 따라 제외됩니다.
 
 ## 파일 이름과 역할
 
 | 역할 | 파일명 | 사용 시점 |
 |---|---|---|
-| RunPod 환경 변수 | `env.sh` | 모든 실행 전 `source` |
+| RunPod 환경 변수 | `scripts/env.sh` | 모든 실행 전 `source` |
 | Python 의존성 | `requirements.txt` | 최초 환경 설치 |
-| 환경 설치/검증 | `setup_env.sh` | 새 Pod에서 최초 1회 |
-| Smoke test 전체 실행 | `smoke_test.sh` | 900문항 실행 전 |
-| 공통 MMMU 데이터셋 생성 | `build_dataset.py` | 지정 revision의 smoke/full 데이터 생성 |
-| 공통 vLLM 추론 | `run_inference.py` | smoke/stress/full 추론 또는 기존 Qwen 결과 가져오기 |
-| MC parser 구현/비교 | `mc_parsers.py` | 평가 스크립트에서 import, CPU parser 점검 |
-| 최종 baseline 평가 | `evaluate_baseline.py` | MC와 open 전용 로직으로 score 후보 산출 |
-| 평가 파이프라인 비교 | `compare_scoring_pipelines.py` | MMMU/VLMEvalKit 규칙 parser 비교 |
-| Stress dataset 생성 | `build_stress_dataset.py` | 긴 입력·다중 이미지·open 경로 점검 |
-| 공통 입력/저장 | `common.py` | UID·스키마·900문항 구성 검증, 원자적 결과 저장 |
+| 환경 설치/검증 | `scripts/setup_env.sh` | 새 Pod에서 최초 1회 |
+| Smoke test 전체 실행 | `scripts/smoke_test.sh` | 900문항 실행 전 |
+| 공통 MMMU 데이터셋 생성 | `src/build_dataset.py` | 지정 revision의 smoke/full 데이터 생성 |
+| 공통 vLLM 추론 | `src/run_inference.py` | smoke/stress/full 추론 또는 기존 Qwen 결과 가져오기 |
+| MC parser 구현/비교 | `src/mc_parsers.py` | 평가 스크립트에서 import, CPU parser 점검 |
+| 최종 baseline 평가 | `src/evaluate_baseline.py` | MC와 open 전용 로직으로 score 후보 산출 |
+| 평가 파이프라인 비교 | `src/compare_scoring_pipelines.py` | MMMU/VLMEvalKit 규칙 parser 비교 |
+| Stress dataset 생성 | `src/build_stress_dataset.py` | 긴 입력·다중 이미지·open 경로 점검 |
+| 공통 입력/저장 | `src/common.py` | UID·스키마·900문항 구성 검증, 원자적 결과 저장 |
 
 ## `data/` 파일 설명
 
@@ -62,9 +44,9 @@ baseline_draft/
 
 | 파일 | 생성 스크립트 | 현재 결과 |
 |---|---|---|
-| [baseline_score.json](data/baseline_score.json) | `compare_scoring_pipelines.py` | MMMU MC 방식 **50.00% (450/900)**, VLMEvalKit 규칙 방식 **14.89% (134/900)**. 과목별 점수, 실패 UID, random fallback, parser 간 불일치 포함 |
-| [baseline_table.md](data/baseline_table.md) | `compare_scoring_pipelines.py` | MMMU MC 방식의 30과목·900문항 표, macro average **50.00%** |
-| [eval_val.json](data/eval_val.json) | `evaluate_baseline.py` | MC/open을 구분한 MMMU 방식 **48.89% (440/900)**. 문항별 정오답과 macro/micro 포함 |
+| [baseline_score.json](data/baseline_score.json) | `src/compare_scoring_pipelines.py` | MMMU MC 방식 **50.00% (450/900)**, VLMEvalKit 규칙 방식 **14.89% (134/900)**. 과목별 점수, 실패 UID, random fallback, parser 간 불일치 포함 |
+| [baseline_table.md](data/baseline_table.md) | `src/compare_scoring_pipelines.py` | MMMU MC 방식의 30과목·900문항 표, macro average **50.00%** |
+| [eval_val.json](data/eval_val.json) | `src/evaluate_baseline.py` | MC/open을 구분한 MMMU 방식 **48.89% (440/900)**. 문항별 정오답과 macro/micro 포함 |
 
 JSON의 accuracy는 0~1, Markdown 표는 % 단위입니다. 세 파일에 입력 SHA-256과 parser source commit이 기록되어 있습니다. 예시로 전달된 50.33%·30.11%·49.11%는 이 데이터의 결과로 사용하지 않았습니다.
 
@@ -84,27 +66,27 @@ JSON의 accuracy는 0~1, Markdown 표는 % 단위입니다. 세 파일에 입력
 ## 파일 흐름
 
 ```text
-env.sh + requirements.txt
+scripts/env.sh + requirements.txt
         │
         ▼
-setup_env.sh
+scripts/setup_env.sh
         │
-        ├──────────────▶ smoke_test.sh
-        │                    ├─ build_dataset.py
-        │                    ├─ run_inference.py
-        │                    ├─ mc_parsers.py
+        ├──────────────▶ scripts/smoke_test.sh
+        │                    ├─ src/build_dataset.py
+        │                    ├─ src/run_inference.py
+        │                    ├─ src/mc_parsers.py
         │                    └─ 두 평가 스크립트 (--allow-partial)
         │
-        └─ build_dataset.py ─▶ run_inference.py ─▶ predictions_val.jsonl
+        └─ src/build_dataset.py ─▶ src/run_inference.py ─▶ predictions_val.jsonl
                                               │
                            ┌──────────────────┴──────────────────┐
                            ▼                                     ▼
-                evaluate_baseline.py              compare_scoring_pipelines.py
+                src/evaluate_baseline.py              src/compare_scoring_pipelines.py
                 └─ eval_val.json                  ├─ baseline_score.json
                    최종 score 후보                └─ baseline_table.md
                                                      비교/분석
 
-build_stress_dataset.py ─▶ run_inference.py ─▶ predictions_stress.jsonl
+src/build_stress_dataset.py ─▶ src/run_inference.py ─▶ predictions_stress.jsonl
 ```
 
 ## 실행 방법
@@ -114,20 +96,20 @@ build_stress_dataset.py ─▶ run_inference.py ─▶ predictions_stress.jsonl
 ### 1. 최초 환경 설치
 
 ```bash
-bash setup_env.sh
-source env.sh
+bash scripts/setup_env.sh
+source scripts/env.sh
 ```
 
 `.venv/`에 의존성을 설치하고 GPU 접근·import·parser를 검사합니다. 캐시는 기본적으로 패키지의 `.cache/huggingface`에 저장하며 기존 `HF_HOME`이 있으면 유지합니다. 새 환경의 설치와 GPU 동작은 실행 시 검증합니다. API 키는 필요하지 않습니다.
 
 ```bash
-bash setup_env.sh --check-only
+bash scripts/setup_env.sh --check-only
 ```
 
 ### 2. Smoke test
 
 ```bash
-bash smoke_test.sh
+bash scripts/smoke_test.sh
 ```
 
 Accounting·Physics·Art에서 각 1문항을 가져와 추론하고 두 평가 경로를 검사합니다. 매 실행마다 `data/smoke.XXXXXX/`를 새로 만들어 결과를 보존합니다.
@@ -135,18 +117,18 @@ Accounting·Physics·Art에서 각 1문항을 가져와 추론하고 두 평가 
 GPU 없이 parser만 확인하려면 NumPy가 설치된 Python에서 다음을 실행합니다.
 
 ```bash
-bash smoke_test.sh --parsers-only
+bash scripts/smoke_test.sh --parsers-only
 python -m unittest discover -s tests -v
 ```
 
 ### 3. Full dataset → 추론 → 평가
 
 ```bash
-source env.sh
-"${BASELINE_PYTHON}" build_dataset.py
-"${BASELINE_PYTHON}" run_inference.py
-"${BASELINE_PYTHON}" evaluate_baseline.py --force
-"${BASELINE_PYTHON}" compare_scoring_pipelines.py --force
+source scripts/env.sh
+"${BASELINE_PYTHON}" src/build_dataset.py
+"${BASELINE_PYTHON}" src/run_inference.py
+"${BASELINE_PYTHON}" src/evaluate_baseline.py --force
+"${BASELINE_PYTHON}" src/compare_scoring_pipelines.py --force
 ```
 
 배포된 `data/`에는 기존 점수가 있으므로 평가 예시는 `--force`로 갱신합니다. 다른 출력 경로를 지정해 보존할 수도 있습니다. 모든 스크립트는 기본적으로 기존 출력 파일의 덮어쓰기를 거부합니다.
@@ -172,11 +154,11 @@ Revision 값은 이전 과제 안내 정리에 근거합니다. 모델을 로컬
 ### 4. Stress test
 
 ```bash
-"${BASELINE_PYTHON}" build_stress_dataset.py
-"${BASELINE_PYTHON}" run_inference.py \
+"${BASELINE_PYTHON}" src/build_stress_dataset.py
+"${BASELINE_PYTHON}" src/run_inference.py \
   --input data/dataset_stress.jsonl \
   --output data/predictions_stress.jsonl
-"${BASELINE_PYTHON}" evaluate_baseline.py \
+"${BASELINE_PYTHON}" src/evaluate_baseline.py \
   --input data/predictions_stress.jsonl \
   --output data/eval_stress.json --allow-partial
 ```
@@ -188,10 +170,10 @@ Full manifest에서 질문·선택지 문자 수가 긴 문항, 이미지 2개 �
 현재 포함된 결과를 생성한 경로입니다. 이 모드에서는 GPU나 judge API를 호출하지 않습니다.
 
 ```bash
-"${BASELINE_PYTHON}" run_inference.py \
+"${BASELINE_PYTHON}" src/run_inference.py \
   --import-qwen-jsonl /workspace/mmdl/results/mmmu_validation900.jsonl
-"${BASELINE_PYTHON}" evaluate_baseline.py --force
-"${BASELINE_PYTHON}" compare_scoring_pipelines.py --force
+"${BASELINE_PYTHON}" src/evaluate_baseline.py --force
+"${BASELINE_PYTHON}" src/compare_scoring_pipelines.py --force
 ```
 
 기존 `result.gen`을 그대로 `prediction`에 복사하고 `gen_raw`도 보존합니다. 과거 실행의 model/data revision, finish reason, token 수를 새 기본값으로 소급해 채우지 않습니다. 이미 예측 파일이 있으면 다른 `--output`을 지정하거나 `--force`를 명시합니다.
