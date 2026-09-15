@@ -11,7 +11,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from common import ROOT, SUBJECTS, read_rows, validate, full_validation, write_rows
 from evaluate_baseline import evaluate
 from compare_scoring_pipelines import compare
@@ -103,7 +103,7 @@ class PipelineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp)/'predictions.jsonl'; out = Path(tmp)/'score.json'; table = Path(tmp)/'table.md'
             write_rows(path, [example(), example('validation_Accounting_2', 'open', '1200')])
-            command = [sys.executable, str(ROOT/'evaluate_baseline.py'), '--input', str(path), '--output', str(out)]
+            command = [sys.executable, str(ROOT/'src/evaluate_baseline.py'), '--input', str(path), '--output', str(out)]
             rejected = subprocess.run(command, capture_output=True)
             self.assertNotEqual(rejected.returncode, 0)
             subprocess.run(command+['--allow-partial'], check=True, capture_output=True)
@@ -111,7 +111,7 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(json.loads(original)['correct'], 2)
             self.assertNotEqual(subprocess.run(command+['--allow-partial'], capture_output=True).returncode, 0)
             self.assertEqual(out.read_bytes(), original)
-            subprocess.run([sys.executable, str(ROOT/'compare_scoring_pipelines.py'), '--input', str(path),
+            subprocess.run([sys.executable, str(ROOT/'src/compare_scoring_pipelines.py'), '--input', str(path),
                             '--output', str(Path(tmp)/'compare.json'), '--table', str(table), '--allow-partial'],
                            check=True, capture_output=True)
             self.assertIn('Overall (macro)', table.read_text())
