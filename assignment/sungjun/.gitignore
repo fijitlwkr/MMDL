@@ -1,0 +1,92 @@
+# =============================================================================
+# .gitignore  —  FACTS.md 12 (git 위생) 기준
+# 이 파일은 "처음부터" 있어야 합니다. GitHub 는 100 MiB 초과 파일을 push 단계에서
+# 하드 블록하며, 큰 blob 이 한 번 히스토리에 들어가면 히스토리 재작성(filter-repo 등)
+# 없이는 제거할 수 없습니다. 4명이 공유하는 저장소에서 히스토리 재작성은 사고입니다.
+# =============================================================================
+
+# --- 모델 가중치 --------------------------------------------------------------
+# Qwen3-VL-4B-Instruct 가중치는 8.89 GB / 2 shard 입니다. 절대 커밋하지 않습니다.
+# 재현성은 파일이 아니라 revision sha 로 보장합니다(FACTS.md 6).
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.gguf
+
+# --- 데이터셋 ------------------------------------------------------------------
+# MMMU validation parquet 만도 ~341 MB 이고 전체 저장소는 3.66 GB 입니다.
+# scripts/fetch_data.sh 가 /workspace 의 HF 캐시로 받으며, 저장소에는 넣지 않습니다.
+*.parquet
+*.arrow
+data/
+datasets/
+images/
+*.tar
+*.tar.gz
+*.zip
+
+# --- 파이썬 가상환경 / 캐시 ----------------------------------------------------
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+.mypy_cache/
+.ruff_cache/
+
+# --- HuggingFace / vLLM 캐시 (저장소 안에 생기는 경우 대비) --------------------
+.cache/
+hf_cache/
+.hf_home/
+*.lock
+
+# --- 에디터 / OS ---------------------------------------------------------------
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# --- 비밀정보 ------------------------------------------------------------------
+# HF 토큰이나 RunPod API 키가 저장소에 들어가면 즉시 폐기 대상입니다.
+.env
+.env.*
+*.pem
+.huggingface/
+hf_token*
+token.txt
+
+# --- 실행 결과물(outputs) -----------------------------------------------------
+# [중요] outputs/ 자체는 절대 무시하지 않습니다. env.json / ENVIRONMENT.md /
+# config.json / metrics.json / timing.json / predictions.jsonl / run.log 는
+# 과제의 재현성 증거이므로 반드시 커밋합니다.
+# predictions.jsonl 은 Git LFS 가 필요 없습니다: 900개 응답이 모두 2048 토큰까지
+# 차는 최악의 경우에도 ~7.4 MB 로, GitHub 의 50 MiB 경고 기준 아래입니다(FACTS.md 12).
+# 중간 산출물(원본 이미지 덤프, 텐서 덤프 등)만 아래 규칙으로 제외합니다.
+outputs/*/raw/
+outputs/**/raw/
+outputs/*/images/
+outputs/**/*.npy
+outputs/**/*.npz
+
+# 혹시 위쪽의 광범위한 규칙(*.parquet 등)이 outputs 안의 기록 파일까지 잡지 않도록
+# 명시적으로 추적을 강제합니다(부정 규칙은 마지막에 와야 효력이 있습니다).
+#
+# [주의] 여기에 '!outputs/' 나 '!outputs/**/' 같은 "디렉터리" 부정 규칙을 넣으면 안 됩니다.
+# 그 규칙이 위의 outputs/*/raw/ 제외를 덮어써서 raw 덤프까지 다시 추적 대상이 됩니다
+# (실제로 검증했습니다). 부정 규칙은 아래처럼 "파일 단위"로만 둡니다.
+!outputs/**/env.json
+!outputs/**/ENVIRONMENT.md
+!outputs/**/config.json
+!outputs/**/metrics.json
+!outputs/**/timing.json
+!outputs/**/predictions.jsonl
+!outputs/**/run.log
+!outputs/**/report.md

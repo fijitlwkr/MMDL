@@ -1,0 +1,69 @@
+# =============================================================================
+# requirements.lock.txt  —  STACK A (권장)
+# FACTS.md 5 "STACK A" 를 글자 그대로 옮긴 고정 핀(pin) 목록입니다.
+# 대상 환경: Python 3.12 / CUDA 12.8 / RTX 4090 (sm_89)
+# 이 스택을 권장하는 이유: 공개 점수 MMMU 67.4 가 발표된 2025-10 시점의 릴리스와
+# 정합(release-matched)하기 때문입니다. 즉 "같은 버전으로 돌린 결과"를 비교할 수 있습니다.
+# -----------------------------------------------------------------------------
+# [매우 중요] 설치 "순서"가 결과를 좌우합니다.
+# 이 파일을 `pip install -r requirements.lock.txt` 로 한 번에 넘기지 마십시오.
+# pip 는 파일의 줄 순서를 설치 순서로 보장하지 않습니다. 아래 (1)(2)(3) 순서를
+# 지키지 않으면 torch 가 다른 CUDA 빌드로 덮어써지거나, transformers 가 5.x 로
+# 끌어올려져 Stack A 가 조용히 깨집니다. scripts/setup_pod.sh 가 이 순서를 구현합니다.
+#
+#   (1) torch 3종을 "가장 먼저", cu128 전용 인덱스에서 설치합니다.
+#       pip install --index-url https://download.pytorch.org/whl/cu128 \
+#                   torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0
+#       -> PyPI 기본 휠은 다른 CUDA 빌드이므로 반드시 이 인덱스를 지정해야 합니다.
+#
+#   (2) 나머지 라이브러리를 "이 파일을 제약(constraint) 파일로 걸어서" 설치합니다.
+#       pip install -c requirements.lock.txt transformers==4.57.1 tokenizers==0.22.2 \
+#                   huggingface-hub==0.35.3 accelerate==1.11.0 safetensors==0.6.2 \
+#                   datasets==4.0.0 pillow==11.3.0
+#
+#   (3) vLLM 을 "가장 마지막"에, 역시 -c 로 제약을 걸어서 설치합니다.
+#       pip install -c requirements.lock.txt vllm==0.11.0
+#       -> vllm 0.11.0 의 메타데이터는 transformers 의 "하한"만 요구합니다. 제약 없이
+#          설치하면 pip 가 transformers 를 5.x 최신으로 끌어올리고, 그 순간 이 스택은
+#          Stack B 와 Stack A 의 잡종이 되어 torch_dtype= 계열 코드가 깨집니다. (FACTS.md 5)
+#
+# [금지] 설치가 끝난 뒤 이 venv 안에서 `pip install -U` / `--upgrade` 를 절대 실행하지
+# 마십시오. 단 한 번의 -U 가 transformers 나 huggingface-hub 를 올려버리면 4명의 팀원이
+# 서로 다른 스택으로 측정하게 되고, 그 차이는 보고서에서 설명할 수 없는 정확도 격차로
+# 나타납니다. 추가 패키지가 필요하면 이 파일에 핀을 추가하고 venv 를 다시 만드십시오.
+#
+# [확인] 이 파일은 주석만 포함하고 pip 옵션 줄(--index-url 등)은 포함하지 않으므로,
+# 그대로 `-c` 제약 파일로도 사용할 수 있습니다. 옵션은 일부러 주석 안에만 두었습니다.
+# =============================================================================
+
+# --- (1) 가장 먼저: PyTorch 3종. cu128 인덱스에서 설치 ------------------------
+torch==2.8.0              # vllm 0.11.0 이 정확히 이 버전을 요구(exact pin). 올리면 vLLM 설치가 깨집니다. (FACTS.md 5)
+torchvision==0.23.0       # torch 2.8.0 과 짝이 맞는 버전이며 vllm 0.11.0 의 exact pin 입니다.
+torchaudio==2.8.0         # 역시 vllm 0.11.0 의 exact pin. MMMU 평가에 직접 쓰이지는 않지만 핀 충돌을 막기 위해 함께 고정합니다.
+
+# --- (2) 모델/데이터 런타임 ---------------------------------------------------
+transformers==4.57.1      # Qwen3-VL 지원 최소 버전은 4.57.0(2025-10-03, PR #40795). 4.57.1 은 그 패치 릴리스입니다. 모델 카드의 `pip install git+...` 는 오래된 안내입니다. (FACTS.md 5)
+tokenizers==0.22.2        # transformers 4.57.1 의 요구 조건이 <=0.23.0 입니다. 0.23.1 / 0.23.2 는 설치 불가입니다. (FACTS.md 5)
+huggingface-hub==0.35.3   # transformers 4.57.1 은 hub <1.0 을 요구합니다. 현재 최신은 1.31.0 이므로 핀하지 않으면 바로 깨집니다. (FACTS.md 5)
+accelerate==1.11.0        # transformers 4.57.x 와 함께 검증된 버전. device_map / 가중치 로딩 경로에 영향을 줍니다.
+safetensors==0.6.2        # 모델 가중치 포맷 로더. 가중치 8.89 GB 2-shard 를 읽는 주체이므로 고정합니다.
+datasets==4.0.0           # MMMU/MMMU 는 스크립트 없는 parquet 저장소입니다. datasets 4.x 에는 trust_remote_code 인자가 아예 없으므로 전달하면 TypeError 입니다. (FACTS.md 4)
+pillow==11.3.0            # import 이름은 PIL. MMMU 의 image_1..image_7 디코딩과 smart_resize 결과(=비전 토큰 수)에 직접 영향을 주므로 반드시 고정합니다.
+
+# --- (3) 가장 마지막: vLLM ----------------------------------------------------
+vllm==0.11.0              # Qwen3VLForConditionalGeneration 이 registry.py 에 들어간 첫 릴리스(2025-10-04). v0.10.2 에는 없습니다. trust_remote_code 는 필요하지 않습니다. (FACTS.md 5)
+
+# --- 의도적으로 설치하지 않는 것들 --------------------------------------------
+# flash-attn            : PyPI 에 sdist 만 있어서 30~60분 컴파일합니다. 설치하지 마십시오.
+#                         Qwen3VL 은 _supports_sdpa = True 이므로 attn_implementation="sdpa" 로
+#                         충분히 대체됩니다. (FACTS.md 5 "Other stack facts")
+# qwen-vl-utils==0.0.14 : 선택 사항입니다. 이미지 전용 MMMU 베이스라인에는 필요하지 않습니다.
+#                         (동영상 프레임 샘플링용 유틸). 굳이 쓰려면 이 줄의 주석을 풀고
+#                         venv 를 재생성하십시오. src/capture_env.py 는 미설치 시 null 로 기록합니다.
+# numpy                 : FACTS.md 에 검증된 핀이 없으므로 일부러 고정하지 않습니다.
+#                         torch / vllm 의 전이 의존성으로 해결되며, 실제 설치된 값은
+#                         env.json 의 packages 와 pip_freeze 에 그대로 기록됩니다.
+#                         (기억에 의존해 임의의 버전을 써넣는 것보다 기록이 안전합니다.)
+# huggingface_hub 1.x   : 이 venv 에는 넣을 수 없습니다(transformers 4.57.1 이 <1.0 요구).
+#                         `hf` CLI 와 `hf cache verify` 는 hub >= 1.1.0 에만 있으므로,
+#                         scripts/fetch_data.sh 가 다운로드 전용 별도 venv 를 따로 만듭니다.

@@ -1,0 +1,37 @@
+{
+  "overall": {
+    "n": 30,
+    "correct": 19,
+    "accuracy": 0.633333
+  },
+  "by_subject": {
+    "Accounting": {
+      "n": 30,
+      "correct": 19,
+      "accuracy": 0.633333
+    }
+  },
+  "by_category": {
+    "Business": {
+      "n": 30,
+      "correct": 19,
+      "accuracy": 0.633333
+    }
+  },
+  "multiple_choice": {
+    "n": 30,
+    "correct": 19,
+    "accuracy": 0.633333
+  },
+  "open_ended": {
+    "n": 0,
+    "correct": 0,
+    "accuracy": 0.0
+  },
+  "n_unparseable": 3,
+  "aggregation": "micro / sample-weighted",
+  "published_reference": {
+    "mmmu_val": 67.4,
+    "source": "Qwen3-VL technical report arXiv:2511.21631"
+  }
+}

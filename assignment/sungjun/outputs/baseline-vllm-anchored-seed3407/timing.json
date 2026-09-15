@@ -1,0 +1,190 @@
+{
+  "total_wall_s": 988.418,
+  "model_load_s": 32.36,
+  "inference_s": 901.359,
+  "scoring_s": 0.077,
+  "by_subject": {
+    "Accounting": {
+      "n": 30,
+      "wall_s": 44.485,
+      "s_per_sample": 1.483
+    },
+    "Agriculture": {
+      "n": 30,
+      "wall_s": 15.135,
+      "s_per_sample": 0.504
+    },
+    "Architecture_and_Engineering": {
+      "n": 30,
+      "wall_s": 60.631,
+      "s_per_sample": 2.021
+    },
+    "Art": {
+      "n": 30,
+      "wall_s": 6.17,
+      "s_per_sample": 0.206
+    },
+    "Art_Theory": {
+      "n": 30,
+      "wall_s": 8.869,
+      "s_per_sample": 0.296
+    },
+    "Basic_Medical_Science": {
+      "n": 30,
+      "wall_s": 6.533,
+      "s_per_sample": 0.218
+    },
+    "Biology": {
+      "n": 30,
+      "wall_s": 34.824,
+      "s_per_sample": 1.161
+    },
+    "Chemistry": {
+      "n": 30,
+      "wall_s": 37.78,
+      "s_per_sample": 1.259
+    },
+    "Clinical_Medicine": {
+      "n": 30,
+      "wall_s": 5.727,
+      "s_per_sample": 0.191
+    },
+    "Computer_Science": {
+      "n": 30,
+      "wall_s": 40.138,
+      "s_per_sample": 1.338
+    },
+    "Design": {
+      "n": 30,
+      "wall_s": 5.207,
+      "s_per_sample": 0.174
+    },
+    "Diagnostics_and_Laboratory_Medicine": {
+      "n": 30,
+      "wall_s": 9.433,
+      "s_per_sample": 0.314
+    },
+    "Economics": {
+      "n": 30,
+      "wall_s": 32.933,
+      "s_per_sample": 1.098
+    },
+    "Electronics": {
+      "n": 30,
+      "wall_s": 41.619,
+      "s_per_sample": 1.387
+    },
+    "Energy_and_Power": {
+      "n": 30,
+      "wall_s": 55.67,
+      "s_per_sample": 1.856
+    },
+    "Finance": {
+      "n": 30,
+      "wall_s": 38.149,
+      "s_per_sample": 1.272
+    },
+    "Geography": {
+      "n": 30,
+      "wall_s": 32.913,
+      "s_per_sample": 1.097
+    },
+    "History": {
+      "n": 30,
+      "wall_s": 7.802,
+      "s_per_sample": 0.26
+    },
+    "Literature": {
+      "n": 30,
+      "wall_s": 6.143,
+      "s_per_sample": 0.205
+    },
+    "Manage": {
+      "n": 30,
+      "wall_s": 32.336,
+      "s_per_sample": 1.078
+    },
+    "Marketing": {
+      "n": 30,
+      "wall_s": 34.021,
+      "s_per_sample": 1.134
+    },
+    "Materials": {
+      "n": 30,
+      "wall_s": 62.109,
+      "s_per_sample": 2.07
+    },
+    "Math": {
+      "n": 30,
+      "wall_s": 44.006,
+      "s_per_sample": 1.467
+    },
+    "Mechanical_Engineering": {
+      "n": 30,
+      "wall_s": 50.395,
+      "s_per_sample": 1.68
+    },
+    "Music": {
+      "n": 30,
+      "wall_s": 46.2,
+      "s_per_sample": 1.54
+    },
+    "Pharmacy": {
+      "n": 30,
+      "wall_s": 32.353,
+      "s_per_sample": 1.078
+    },
+    "Physics": {
+      "n": 30,
+      "wall_s": 35.282,
+      "s_per_sample": 1.176
+    },
+    "Psychology": {
+      "n": 30,
+      "wall_s": 10.53,
+      "s_per_sample": 0.351
+    },
+    "Public_Health": {
+      "n": 30,
+      "wall_s": 35.979,
+      "s_per_sample": 1.199
+    },
+    "Sociology": {
+      "n": 30,
+      "wall_s": 27.987,
+      "s_per_sample": 0.933
+    }
+  },
+  "by_category": {
+    "Art and Design": {
+      "n": 120,
+      "wall_s": 66.446,
+      "s_per_sample": 0.554
+    },
+    "Business": {
+      "n": 150,
+      "wall_s": 181.924,
+      "s_per_sample": 1.213
+    },
+    "Science": {
+      "n": 150,
+      "wall_s": 184.805,
+      "s_per_sample": 1.232
+    },
+    "Health and Medicine": {
+      "n": 150,
+      "wall_s": 90.025,
+      "s_per_sample": 0.6
+    },
+    "Humanities and Social Science": {
+      "n": 120,
+      "wall_s": 52.462,
+      "s_per_sample": 0.437
+    },
+    "Tech and Engineering": {
+      "n": 210,
+      "wall_s": 325.697,
+      "s_per_sample": 1.551
+    }
+  }
+}

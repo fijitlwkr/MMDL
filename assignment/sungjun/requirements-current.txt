@@ -1,0 +1,65 @@
+# =============================================================================
+# requirements-current.txt  —  STACK B (최신 스택, 기본값 아님)
+# FACTS.md 5 "STACK B" 를 글자 그대로 옮긴 고정 핀 목록입니다.
+# -----------------------------------------------------------------------------
+# 이 파일은 "필요할 때만" 쓰는 대안입니다. 과제의 기본 스택은
+# requirements.lock.txt (Stack A) 이며, 4명이 결과를 비교할 때는 Stack A 로 통일하십시오.
+#
+# ## 왜 기본값이 아닌가 — 트레이드오프
+# 1) 버전 사슬이 강제됩니다.
+#    vllm 0.29.0 의 메타데이터는 transformers>=5.10.4 를 요구합니다. 따라서
+#    "최신 vLLM" 을 쓰는 순간 transformers 4.57.x 는 물리적으로 불가능해지고,
+#    transformers 5.x 로 넘어가야 합니다. 중간 타협점은 없습니다. (FACTS.md 5 HARD CONSTRAINT)
+# 2) transformers 5.x 는 호출 규약을 바꿉니다. 코드 수정이 필요합니다.
+#    - `torch_dtype=` -> `dtype=`  (5.x 에서 dtype 기본값이 "auto" 로 바뀌었습니다)
+#    - `config.vocab_size` -> `config.text_config.vocab_size`
+#      (Qwen3-VL 은 텍스트 하위 설정 "qwen3_vl_text" 를 따로 가집니다)
+#    - TF 백엔드 제거, `transformers-cli` 제거, 직렬화는 safetensors 전용입니다.
+#    => 즉 이 파일로 환경을 만들면 src/ 의 모델 로딩 코드를 함께 고쳐야 하며,
+#       고치지 않으면 TypeError 로 즉시 실패합니다(조용히 틀리지는 않습니다).
+# 3) 공개 점수 67.4 가 발표된 시점(2025-10)의 릴리스와 정합하지 않습니다.
+#    FACTS.md 0 이 요구하는 "공개 성능과의 비교" 에서, 프레임워크 버전 차이가
+#    설명해야 할 변수로 하나 더 늘어납니다. 교수님도 "추론 프레임워크에 따라 결과가
+#    조금씩 달라질 수 있다" 고 명시했습니다. (FACTS.md 0)
+#
+# ## 그래도 이 스택을 선택하는 경우
+# - Stack A 의 vllm 0.11.0 이 해당 GPU/드라이버 조합에서 빌드/실행되지 않을 때
+#   (예: 더 새로운 아키텍처 GPU 를 배정받아 sm_89 빌드가 맞지 않을 때)
+# - vllm 0.11.0 에 존재하는 버그를 확실히 특정했고, 최신 릴리스에서 고쳐졌을 때
+# - 과제 제출과 무관한 추가 실험/확장을 할 때
+# 선택했다면 보고서의 "실험 환경" 절에 Stack B 를 썼다는 사실과 이유를 반드시 적고,
+# 4명 전원이 같은 스택으로 다시 측정하십시오. 스택이 섞인 4개의 숫자는 비교 불가입니다.
+#
+# ## 설치 순서 — Stack A 와 완전히 동일한 규칙
+#   (1) torch 3종을 가장 먼저 설치합니다.
+#       [주의] torch 2.13.0 에 대응하는 CUDA 휠 인덱스 URL 은 FACTS.md 에 검증 기록이
+#       없습니다. 기억에 의존해 URL 을 만들어 쓰지 마십시오. PyTorch 공식 설치 페이지에서
+#       2.13.0 + 해당 CUDA 조합의 인덱스 URL 을 직접 확인한 뒤 --index-url 로 넘기십시오.
+#       확인 전에는 PyPI 기본 휠이 설치되며, 이는 파드의 드라이버와 맞지 않을 수 있습니다.
+#   (2) pip install -c requirements-current.txt transformers==5.17.0 ... pillow==12.3.0
+#   (3) pip install -c requirements-current.txt vllm==0.29.0      <- 반드시 마지막
+#   설치 후 `pip install -U` 는 Stack A 와 똑같이 금지입니다.
+# =============================================================================
+
+# --- (1) 가장 먼저: PyTorch 3종 -----------------------------------------------
+torch==2.13.0             # Stack B 의 기준 torch. vllm 0.29.0 이 요구하는 버전입니다. (FACTS.md 5 STACK B)
+torchvision==0.28.0       # torch 2.13.0 과 짝이 맞는 버전입니다.
+torchaudio==2.11.0        # torch 2.13.0 과 짝이 맞는 버전입니다. 평가에 직접 쓰이지는 않지만 핀 충돌 방지를 위해 고정합니다.
+
+# --- (2) 모델/데이터 런타임 ---------------------------------------------------
+transformers==5.17.0      # vllm 0.29.0 이 transformers>=5.10.4 를 요구하므로 5.x 가 강제됩니다. torch_dtype= 대신 dtype= 를 써야 합니다. (FACTS.md 5)
+tokenizers==0.23.2        # transformers 5.17.0 과 짝이 맞는 버전입니다. Stack A 에서는 금지된 버전이라는 점에 주의하십시오.
+huggingface-hub==1.31.0   # hub v1 계열. CLI 이름이 `hf` 로 바뀌었고 `hf cache verify` 를 쓸 수 있습니다(>=1.1.0). (FACTS.md 5)
+accelerate==1.15.0        # transformers 5.x 와 짝이 맞는 버전입니다.
+datasets==4.8.5           # Stack B 기준 datasets. trust_remote_code 인자는 여전히 존재하지 않습니다. (FACTS.md 4)
+pillow==12.3.0            # 이미지 디코딩/리사이즈 경로. 비전 토큰 수에 영향을 주므로 고정합니다.
+
+# --- (3) 가장 마지막: vLLM ----------------------------------------------------
+vllm==0.29.0              # 2026-09-12 기준 최신. 이 한 줄이 transformers 5.x 를 강제하는 원인입니다. (FACTS.md 5)
+
+# --- 의도적으로 설치하지 않는 것들 --------------------------------------------
+# safetensors : Stack B 에는 FACTS.md 에 검증된 핀이 없습니다. transformers 5.x 의
+#               전이 의존성으로 설치되며(5.x 는 safetensors 전용 직렬화), 실제 버전은
+#               env.json 에 기록됩니다. 임의의 핀을 추측해 넣지 마십시오.
+# flash-attn  : Stack A 와 동일하게 설치 금지입니다(sdist 전용, 30~60분 컴파일).
+#               attn_implementation="sdpa" 를 사용하십시오. (FACTS.md 5)

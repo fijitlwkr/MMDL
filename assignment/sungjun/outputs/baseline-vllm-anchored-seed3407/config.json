@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-14T16:50:20Z",
+  "reportable": true,
+  "dry_run": false,
+  "cli": {
+    "data_path": "MMMU/MMMU",
+    "model": "Qwen/Qwen3-VL-4B-Instruct",
+    "model_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "dataset_revision": "98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "backend": "vllm",
+    "split": "validation",
+    "subjects": null,
+    "limit": null,
+    "template": "anchored",
+    "out": "/workspace/MMDL/outputs/baseline-vllm-anchored-seed3407",
+    "max_model_len": 9048,
+    "max_new_tokens": 2048,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "repetition_penalty": 1.0,
+    "presence_penalty": 1.5,
+    "min_pixels": "1280*28*28",
+    "max_pixels": "5120*28*28",
+    "seed": 3407,
+    "gpu_memory_utilization": 0.9,
+    "max_num_seqs": 32,
+    "limit_mm_images": 5,
+    "hf_presence_penalty": "custom",
+    "dry_run": false,
+    "allow_output_squeeze": false,
+    "allow_dirty": false,
+    "enforce_eager": false,
+    "no_progress": false,
+    "verbose": false
+  },
+  "resolved": {
+    "out_dir": "/workspace/MMDL/outputs/baseline-vllm-anchored-seed3407",
+    "data_path": "MMMU/MMMU",
+    "split": "validation",
+    "subjects_filter": null,
+    "limit": null,
+    "template": "anchored",
+    "backend": "vllm",
+    "sampling": {
+      "temperature": 0.7,
+      "top_p": 0.8,
+      "top_k": 20,
+      "repetition_penalty": 1.0,
+      "presence_penalty": 1.5,
+      "max_new_tokens": 2048,
+      "seed": 3407,
+      "note": "temperature>0 이므로 표본 추출이 확률적입니다. FACTS 7: n=900, p=0.674 에서 서로 독립인 두 실행의 차이에 대한 95% 구간은 ±4.33pp 이므로 팀원 간 1~2pp 차이는 잡음입니다."
+    },
+    "presence_penalty_mechanism": {
+      "requested": 1.5,
+      "applied": true,
+      "mechanism": "vllm.SamplingParams.presence_penalty (네이티브, 가산형)",
+      "note": "vLLM 공식 구현. logits -= penalty * (생성된 토큰 여부), prompt 제외, 횟수 무시."
+    },
+    "pixel_budget": {
+      "min_pixels_spec": "1280*28*28",
+      "max_pixels_spec": "5120*28*28",
+      "min_pixels": 1003520,
+      "max_pixels": 4014080,
+      "min_vision_tokens_per_image": 980,
+      "max_vision_tokens_per_image": 3920,
+      "smart_resize_factor": 32,
+      "pixels_per_vision_token": 1024,
+      "processor_size_requested": {
+        "shortest_edge": 1003520,
+        "longest_edge": 4014080
+      },
+      "processor_size_resolved": {
+        "shortest_edge": 1003520,
+        "longest_edge": 4014080
+      },
+      "processor_size_forced": false,
+      "precount_min_pixels": 1003520,
+      "precount_max_pixels": 4014080,
+      "note": "Qwen3-VL 은 patch_size 16 * spatial_merge_size 2 = 32 그리드이므로 visual token 1개가 32x32=1024 px 를 덮습니다. 교수님 슬라이드의 '*28*28' 은 Qwen2.5-VL 관례이며 Qwen3-VL 에서는 토큰 수를 뜻하지 않습니다."
+    },
+    "context": {
+      "max_model_len": 9048,
+      "max_new_tokens": 2048,
+      "limit_mm_per_prompt": {
+        "image": 5,
+        "video": 0
+      },
+      "allow_output_squeeze": false
+    },
+    "engine": {
+      "gpu_memory_utilization": 0.9,
+      "max_num_seqs": 32,
+      "enforce_eager": false,
+      "attn_implementation": "vllm 내부 선택"
+    },
+    "determinism": {
+      "seed": 3407,
+      "parser_seed": 42,
+      "sample_order": "load_mmmu 의 (SUBJECTS 인덱스, id 의 문항 번호) 정렬",
+      "vllm_enable_v1_multiprocessing": "0",
+      "full_determinism": false,
+      "note": "FACTS 7: enable_full_determinism() 은 CUDA_LAUNCH_BLOCKING=1 을 켜서 소요 시간 측정을 무의미하게 만들므로 사용하지 않았습니다."
+    },
+    "metrics_accuracy_scale": "fraction_0_1 (백분율로 쓰려면 100을 곱하십시오)",
+    "aggregation": "micro / sample-weighted",
+    "timing_note": "total_wall_s 는 이번 프로세스 wall clock + 이어받은 추론 시간입니다. model_load_s 는 별도로 측정하여 알파벳순 첫 과목에 엔진 시작 비용이 섞이지 않게 했습니다."
+  },
+  "model": {
+    "repo_id": "Qwen/Qwen3-VL-4B-Instruct",
+    "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "dtype": "bfloat16",
+    "attn_implementation": "vllm 내부 백엔드 (transformers attn_implementation 미적용)"
+  },
+  "dataset": {
+    "repo_id_or_path": "MMMU/MMMU",
+    "revision": "98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "split": "validation",
+    "n": 900,
+    "n_subjects": 30,
+    "n_multiple_choice": 847,
+    "n_open": 53,
+    "max_image_index": 5,
+    "n_without_image": 0,
+    "subjects": [
+      "Accounting",
+      "Agriculture",
+      "Architecture_and_Engineering",
+      "Art",
+      "Art_Theory",
+      "Basic_Medical_Science",
+      "Biology",
+      "Chemistry",
+      "Clinical_Medicine",
+      "Computer_Science",
+      "Design",
+      "Diagnostics_and_Laboratory_Medicine",
+      "Economics",
+      "Electronics",
+      "Energy_and_Power",
+      "Finance",
+      "Geography",
+      "History",
+      "Literature",
+      "Manage",
+      "Marketing",
+      "Materials",
+      "Math",
+      "Mechanical_Engineering",
+      "Music",
+      "Pharmacy",
+      "Physics",
+      "Psychology",
+      "Public_Health",
+      "Sociology"
+    ]
+  },
+  "token_precount": {
+    "n_checked": 900,
+    "max_prompt_tokens": 5665,
+    "max_prompt_tokens_id": "validation_Music_21",
+    "max_vision_tokens": 5536,
+    "max_vision_tokens_id": "validation_Music_21",
+    "max_mm_items": 5,
+    "max_mm_items_id": "validation_Biology_29",
+    "n_prompt_overflow": 0,
+    "n_output_squeeze": 0,
+    "n_mm_limit_exceeded": 0,
+    "allow_output_squeeze": false,
+    "n_samples_with_repeated_markers": 1,
+    "total_vision_tokens": 1090790,
+    "total_prompt_tokens": 1229223
+  },
+  "resume": {
+    "existing_predictions": 0,
+    "skipped": 0,
+    "to_generate": 900,
+    "carried_timing_subjects": []
+  },
+  "backend_detail": {
+    "backend": "vllm",
+    "engine_kwargs": {
+      "model": "Qwen/Qwen3-VL-4B-Instruct",
+      "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+      "tokenizer_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+      "dtype": "bfloat16",
+      "max_model_len": 9048,
+      "limit_mm_per_prompt": {
+        "image": 5,
+        "video": 0
+      },
+      "mm_processor_kwargs": {
+        "min_pixels": 1003520,
+        "max_pixels": 4014080,
+        "size": {
+          "shortest_edge": 1003520,
+          "longest_edge": 4014080
+        }
+      },
+      "gpu_memory_utilization": 0.9,
+      "max_num_seqs": 32,
+      "seed": 3407
+    },
+    "latency_basis": "amortized_per_subject_batch",
+    "vllm_env": {
+      "VLLM_ENABLE_V1_MULTIPROCESSING": "0",
+      "VLLM_BATCH_INVARIANT": null,
+      "VLLM_ATTENTION_BACKEND": null,
+      "VLLM_USE_V1": "1"
+    }
+  },
+  "run_summary": {
+    "finished_at_utc": "2026-09-14T17:06:05Z",
+    "n_samples": 900,
+    "n_generated_this_run": 900,
+    "n_reused_from_previous_run": 0,
+    "n_empty_response": 0,
+    "n_finish_reason_length": 199,
+    "n_unparseable": 48,
+    "overall_accuracy_fraction": 0.593333,
+    "overall_accuracy_percent": 59.33,
+    "published_reference_percent": 67.4,
+    "delta_vs_published_pp": -8.07,
+    "total_wall_s": 988.418,
+    "model_load_s": 32.36,
+    "inference_s": 901.359,
+    "scoring_s": 0.077
+  }
+}

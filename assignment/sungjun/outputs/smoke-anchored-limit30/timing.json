@@ -1,0 +1,20 @@
+{
+  "total_wall_s": 124.816,
+  "model_load_s": 32.013,
+  "inference_s": 44.529,
+  "scoring_s": 0.004,
+  "by_subject": {
+    "Accounting": {
+      "n": 30,
+      "wall_s": 44.529,
+      "s_per_sample": 1.484
+    }
+  },
+  "by_category": {
+    "Business": {
+      "n": 30,
+      "wall_s": 44.529,
+      "s_per_sample": 1.484
+    }
+  }
+}

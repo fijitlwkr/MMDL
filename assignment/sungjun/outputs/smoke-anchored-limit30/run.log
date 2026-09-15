@@ -1,0 +1,131 @@
+2026-09-14 16:47:29 [INFO] ==============================================================================
+2026-09-14 16:47:29 [INFO] MMMU validation 베이스라인 평가 — Qwen/Qwen3-VL-4B-Instruct
+2026-09-14 16:47:29 [INFO] ==============================================================================
+2026-09-14 16:47:29 [INFO] 시작(UTC): 2026-09-14T16:47:29Z
+2026-09-14 16:47:29 [INFO] 명령행: /workspace/venv/bin/python /workspace/MMDL/src/eval_mmmu.py --data-path MMMU/MMMU --model Qwen/Qwen3-VL-4B-Instruct --model-revision ebb281ec70b05090aa6165b016eac8ec08e71b17 --dataset-revision 98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68 --backend vllm --split validation --template anchored --max-model-len 9048 --max-new-tokens 2048 --temperature 0.7 --top-p 0.8 --top-k 20 --repetition-penalty 1.0 --presence-penalty 1.5 --min-pixels 1280*28*28 --max-pixels 5120*28*28 --seed 3407 --gpu-memory-utilization 0.90 --max-num-seqs 32 --limit 30 --out /workspace/MMDL/outputs/smoke-anchored-limit30
+2026-09-14 16:47:29 [INFO] 출력 디렉터리: /workspace/MMDL/outputs/smoke-anchored-limit30
+2026-09-14 16:47:29 [INFO] 백엔드: vllm (약 15~45분 예상)
+2026-09-14 16:47:29 [INFO] ==============================================================================
+2026-09-14 16:47:29 [INFO] 픽셀 예산(min_pixels / max_pixels) 해석 결과
+2026-09-14 16:47:29 [INFO] ==============================================================================
+2026-09-14 16:47:29 [INFO] Qwen3-VL-4B-Instruct: patch_size=16, spatial_merge_size=2 -> smart_resize factor = 32
+2026-09-14 16:47:29 [INFO] 즉 visual token 1개 = 32x32 = 1,024 px (Qwen2.5-VL 의 28x28=784 가 아님)
+2026-09-14 16:47:29 [INFO] --min-pixels 1280*28*28 = 1,003,520 px  ->  이미지 1장 최소 980 visual tokens
+2026-09-14 16:47:29 [INFO] --max-pixels 5120*28*28 = 4,014,080 px  ->  이미지 1장 최대 3,920 visual tokens
+2026-09-14 16:47:29 [INFO] 주의: 교수님 표기 1280*28*28 / 5120*28*28 은 '1280 / 5120 토큰' 을 의미하지 않습니다.
+2026-09-14 16:47:29 [INFO]       Qwen3-VL 에서는 각각 980 / 3,920 토큰으로 해석됩니다. 보고서에는 이 환산값을 쓰십시오.
+2026-09-14 16:47:29 [INFO] ==============================================================================
+2026-09-14 16:47:29 [INFO] MMMU 데이터 로드
+2026-09-14 16:47:29 [INFO] ==============================================================================
+2026-09-14 16:47:29 [INFO] --data-path = MMMU/MMMU (split=validation, revision=98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68)
+2026-09-14 16:47:29 [INFO] FACTS 4: MMMU 는 'all' config 이 없어 30개 과목 config 을 각각 로드해 이어붙입니다.
+2026-09-14 16:48:11 [INFO] 로드 완료: 30문항, 41.9초
+2026-09-14 16:48:11 [INFO] ==============================================================================
+2026-09-14 16:48:11 [INFO] 데이터셋 확인
+2026-09-14 16:48:11 [INFO] ==============================================================================
+2026-09-14 16:48:11 [INFO] 문항 수 30 / 과목 1개 / multiple-choice 30 / open 0
+2026-09-14 16:48:11 [INFO] 참조 이미지 최대 인덱스 1 / 이미지가 없는 문항 0개
+2026-09-14 16:48:11 [WARNING] [주의] 이 실행은 보고용 전체 실행이 아닙니다(--limit/--subjects 또는 문항 수 불일치). metrics.json 을 보고서의 대표 숫자로 쓰지 마십시오.
+2026-09-14 16:48:11 [INFO] ==============================================================================
+2026-09-14 16:48:11 [INFO] 프로세서 및 픽셀 예산 확정
+2026-09-14 16:48:11 [INFO] ==============================================================================
+2026-09-14 16:48:14 [INFO] AutoProcessor 로드: Qwen/Qwen3-VL-4B-Instruct (revision=ebb281ec70b05090aa6165b016eac8ec08e71b17)
+2026-09-14 16:48:16 [INFO] factor 교차검증: image_processor -> patch_size*merge_size = 32
+2026-09-14 16:48:16 [INFO] factor 교차검증: config.vision_config -> patch_size*merge_size = 32
+2026-09-14 16:48:16 [INFO] 되읽은 processor.image_processor.size = {'shortest_edge': 1003520, 'longest_edge': 4014080}
+2026-09-14 16:48:16 [INFO] 되읽은 예산의 토큰 환산 = 980 .. 3,920 visual tokens / image
+2026-09-14 16:48:16 [INFO] ==============================================================================
+2026-09-14 16:48:16 [INFO] 실험 환경 기록 (모델 로드 전)
+2026-09-14 16:48:16 [INFO] ==============================================================================
+2026-09-14 16:48:17 [INFO] 환경 기록 완료: /workspace/MMDL/outputs/smoke-anchored-limit30/env.json, /workspace/MMDL/outputs/smoke-anchored-limit30/ENVIRONMENT.md
+2026-09-14 16:48:17 [INFO] GPU=NVIDIA GeForce RTX 4090 x1 / VRAM=24564 MiB / nvidia-smi CUDA=13.0 / torch.version.cuda=12.8
+2026-09-14 16:48:17 [INFO] ==============================================================================
+2026-09-14 16:48:17 [INFO] 프롬프트 생성 및 토큰 사전 계산 (템플릿: anchored)
+2026-09-14 16:48:17 [INFO] ==============================================================================
+2026-09-14 16:48:17 [INFO] 프롬프트 30건 생성, 0.1초
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_1            items=1 vision=  1008 prompt=  1169 [{'w': 733, 'h': 237, 'resized_w': 1792, 'resized_h': 576, 'tokens': 1008}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_2            items=1 vision=   990 prompt=  1138 [{'w': 342, 'h': 310, 'resized_w': 1056, 'resized_h': 960, 'tokens': 990}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_3            items=1 vision=  1035 prompt=  1155 [{'w': 336, 'h': 169, 'resized_w': 1440, 'resized_h': 736, 'tokens': 1035}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_4            items=1 vision=  1008 prompt=  1136 [{'w': 1222, 'h': 237, 'resized_w': 2304, 'resized_h': 448, 'tokens': 1008}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_5            items=1 vision=  1050 prompt=  1240 [{'w': 1219, 'h': 217, 'resized_w': 2400, 'resized_h': 448, 'tokens': 1050}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_6            items=1 vision=  1040 prompt=  1223 [{'w': 1216, 'h': 286, 'resized_w': 2080, 'resized_h': 512, 'tokens': 1040}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_7            items=1 vision=   992 prompt=  1160 [{'w': 436, 'h': 112, 'resized_w': 1984, 'resized_h': 512, 'tokens': 992}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_8            items=1 vision=  1008 prompt=  1187 [{'w': 756, 'h': 244, 'resized_w': 1792, 'resized_h': 576, 'tokens': 1008}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_9            items=1 vision=  1008 prompt=  1139 [{'w': 343, 'h': 192, 'resized_w': 1344, 'resized_h': 768, 'tokens': 1008}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_10           items=1 vision=  1012 prompt=  1187 [{'w': 567, 'h': 264, 'resized_w': 1472, 'resized_h': 704, 'tokens': 1012}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_11           items=1 vision=  1040 prompt=  1262 [{'w': 777, 'h': 184, 'resized_w': 2080, 'resized_h': 512, 'tokens': 1040}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_12           items=1 vision=   990 prompt=  1175 [{'w': 700, 'h': 160, 'resized_w': 2112, 'resized_h': 480, 'tokens': 990}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_13           items=1 vision=  1008 prompt=  1141 [{'w': 712, 'h': 181, 'resized_w': 2016, 'resized_h': 512, 'tokens': 1008}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_14           items=1 vision=  1050 prompt=  1214 [{'w': 1219, 'h': 244, 'resized_w': 2240, 'resized_h': 480, 'tokens': 1050}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_15           items=1 vision=   988 prompt=  1130 [{'w': 742, 'h': 504, 'resized_w': 1216, 'resized_h': 832, 'tokens': 988}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_16           items=1 vision=  1008 prompt=  1181 [{'w': 628, 'h': 271, 'resized_w': 1536, 'resized_h': 672, 'tokens': 1008}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_17           items=1 vision=   990 prompt=  1157 [{'w': 343, 'h': 166, 'resized_w': 1440, 'resized_h': 704, 'tokens': 990}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_18           items=1 vision=  1040 prompt=  1217 [{'w': 727, 'h': 172, 'resized_w': 2080, 'resized_h': 512, 'tokens': 1040}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_19           items=1 vision=  1008 prompt=  1173 [{'w': 733, 'h': 237, 'resized_w': 1792, 'resized_h': 576, 'tokens': 1008}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_20           items=1 vision=  1040 prompt=  1182 [{'w': 843, 'h': 130, 'resized_w': 2560, 'resized_h': 416, 'tokens': 1040}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_21           items=1 vision=   987 prompt=  1182 [{'w': 409, 'h': 183, 'resized_w': 1504, 'resized_h': 672, 'tokens': 987}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_22           items=1 vision=  1029 prompt=  1168 [{'w': 406, 'h': 166, 'resized_w': 1568, 'resized_h': 672, 'tokens': 1029}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_23           items=1 vision=  1008 prompt=  1144 [{'w': 444, 'h': 112, 'resized_w': 2016, 'resized_h': 512, 'tokens': 1008}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_24           items=1 vision=  1040 prompt=  1236 [{'w': 592, 'h': 139, 'resized_w': 2080, 'resized_h': 512, 'tokens': 1040}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_25           items=1 vision=  1024 prompt=  1159 [{'w': 505, 'h': 121, 'resized_w': 2048, 'resized_h': 512, 'tokens': 1024}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_26           items=1 vision=  1015 prompt=  1246 [{'w': 741, 'h': 619, 'resized_w': 1120, 'resized_h': 928, 'tokens': 1015}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_27           items=1 vision=  1034 prompt=  1155 [{'w': 820, 'h': 370, 'resized_w': 1504, 'resized_h': 704, 'tokens': 1034}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_28           items=1 vision=   987 prompt=  1180 [{'w': 736, 'h': 328, 'resized_w': 1504, 'resized_h': 672, 'tokens': 987}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_29           items=1 vision=  1056 prompt=  1191 [{'w': 445, 'h': 103, 'resized_w': 2112, 'resized_h': 512, 'tokens': 1056}]
+2026-09-14 16:48:17 [DEBUG] 토큰 사전계산 validation_Accounting_30           items=1 vision=  1014 prompt=  1125 [{'w': 286, 'h': 187, 'resized_w': 1248, 'resized_h': 832, 'tokens': 1014}]
+2026-09-14 16:48:17 [INFO] ==============================================================================
+2026-09-14 16:48:17 [INFO] 컨텍스트 사전 점검 (추론 전 전수 검사)
+2026-09-14 16:48:17 [INFO] ==============================================================================
+2026-09-14 16:48:17 [INFO] 문항 수: 30 / max_model_len=9,048 / max_new_tokens=2,048 / limit_mm_per_prompt.image=5
+2026-09-14 16:48:17 [INFO] 최대 prompt_tokens : 1,262 (validation_Accounting_11)
+2026-09-14 16:48:17 [INFO] 최대 vision_tokens : 1,056 (validation_Accounting_29)
+2026-09-14 16:48:17 [INFO] 최대 이미지 아이템 : 1개 (validation_Accounting_1, 마커 등장 횟수 기준)
+2026-09-14 16:48:17 [INFO] 여유분(headroom)    : 5,738 토큰 = max_model_len - (최대 prompt + max_new_tokens)
+2026-09-14 16:48:17 [INFO] 참고: FACTS 3 의 실측 최대 vision token 5,536(validation_Music_21)은 '고유 참조 이미지' 기준입니다. 여기 값은 FACTS 4a 의 반복 참조(예: validation_Math_19 의 [1,2,1,1,2])를 모두 세므로 더 클 수 있고, 그것이 실제 요청 비용입니다.
+2026-09-14 16:48:17 [INFO] 사전 점검 통과: 30문항 모두 max_model_len 안에 들어갑니다.
+2026-09-14 16:48:17 [INFO] 설정 기록: /workspace/MMDL/outputs/smoke-anchored-limit30/config.json
+2026-09-14 16:48:17 [INFO] ==============================================================================
+2026-09-14 16:48:17 [INFO] 모델 적재 (vllm)
+2026-09-14 16:48:17 [INFO] ==============================================================================
+2026-09-14 16:48:19 [INFO] vLLM 엔진 인자: {"dtype": "bfloat16", "gpu_memory_utilization": 0.9, "limit_mm_per_prompt": {"image": 5, "video": 0}, "max_model_len": 9048, "max_num_seqs": 32, "mm_processor_kwargs": {"max_pixels": 4014080, "min_pixels": 1003520, "size": {"longest_edge": 4014080, "shortest_edge": 1003520}}, "model": "Qwen/Qwen3-VL-4B-Instruct", "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17", "seed": 3407, "tokenizer_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17"}
+2026-09-14 16:48:49 [INFO] SamplingParams: SamplingParams(n=1, presence_penalty=1.5, frequency_penalty=0.0, repetition_penalty=1.0, temperature=0.7, top_p=0.8, top_k=20, min_p=0.0, seed=3407, stop=[], stop_token_ids=[], bad_words=[], include_stop_str_in_output=False, ignore_eos=False, max_tokens=2048, min_tokens=0, logprobs=None, prompt_logprobs=None, skip_special_tokens=True, spaces_between_special_tokens=True, truncate_prompt_tokens=None, structured_outputs=None, extra_args=None)
+2026-09-14 16:48:49 [INFO] model_load_s = 32.01초 (32.0초). 과목별 시간에는 포함되지 않습니다.
+2026-09-14 16:48:49 [INFO] ==============================================================================
+2026-09-14 16:48:49 [INFO] 추론 시작 — 과목별로 시간을 따로 측정합니다 (총 30문항)
+2026-09-14 16:48:49 [INFO] ==============================================================================
+2026-09-14 16:48:49 [INFO] [Accounting                          ] 추론 30문항 시작 (이어받음 0문항)
+2026-09-14 16:49:33 [INFO] vLLM 이 요청별 metrics 를 제공하지 않습니다. latency_s 는 과목 배치 시간의 문항당 분할값으로 기록합니다(config.json 의 latency_basis 참조).
+2026-09-14 16:49:33 [INFO] [Accounting                          ] 완료: 44.5초 (문항당 1.48초)
+2026-09-14 16:49:34 [INFO] 추론 완료: 30문항 생성, 빈 응답 0건, max_new_tokens 까지 생성(잘림 의심) 14건
+2026-09-14 16:49:34 [INFO] ==============================================================================
+2026-09-14 16:49:34 [INFO] 채점 — random.seed(42) 직후 고정 순서로 전체 재채점
+2026-09-14 16:49:34 [INFO] ==============================================================================
+2026-09-14 16:49:34 [INFO] FACTS 4c: 공식 파서는 파싱 실패 시 random.choice 로 찍으므로 점수가 순회 순서에 의존합니다. 이어하기 여부와 무관하게 같은 점수가 나오도록 전체를 다시 채점합니다.
+2026-09-14 16:49:34 [INFO] 채점 완료: 30문항, 파싱 실패(난수 폴백) 3건, 0.0초
+2026-09-14 16:49:34 [INFO] ==============================================================================
+2026-09-14 16:49:34 [INFO] 결과 요약
+2026-09-14 16:49:34 [INFO] ==============================================================================
+2026-09-14 16:49:34 [INFO] 전체        :   19/  30 =  63.33%  (micro / sample-weighted)
+2026-09-14 16:49:34 [INFO] 객관식만    :   19/  30 =  63.33%
+2026-09-14 16:49:34 [INFO] 단답형만    :    0/   0 =   0.00%
+2026-09-14 16:49:34 [INFO] 파싱 실패   : 3건 (공식 파서의 난수 폴백으로 처리, FACTS 4c)
+2026-09-14 16:49:34 [INFO] 공개 점수   : 67.4% (Qwen3-VL technical report arXiv:2511.21631)
+2026-09-14 16:49:34 [INFO] 차이        : -4.07 pp
+2026-09-14 16:49:34 [INFO] 주의: 공개된 67.4 는 객관식 847 + 단답형 53 을 모두 포함한 900문항 기준입니다(FACTS 4). 분모가 847 인 '객관식만' 숫자를 67.4 와 나란히 쓰면 비교가 성립하지 않습니다.
+2026-09-14 16:49:34 [INFO] FACTS 7: n=900, p=0.674 에서 독립 두 실행 차이의 95%% 구간은 ±4.33pp 입니다. 팀원 간 1~2pp 차이는 잡음이며 버그가 아닙니다.
+2026-09-14 16:49:34 [INFO] ------------------------------------------------------------------------------
+2026-09-14 16:49:34 [INFO] 카테고리                                 n       정확도     소요(초)
+2026-09-14 16:49:34 [INFO] Business                            30    63.33%      44.5
+2026-09-14 16:49:34 [INFO] ------------------------------------------------------------------------------
+2026-09-14 16:49:34 [INFO] 과목                                   n       정확도     소요(초)
+2026-09-14 16:49:34 [INFO] Accounting                          30    63.33%      44.5
+2026-09-14 16:49:34 [INFO] ------------------------------------------------------------------------------
+2026-09-14 16:49:34 [INFO] 총 소요      : 2분 5초 (124.8초)
+2026-09-14 16:49:34 [INFO] 모델 적재    : 32.0초
+2026-09-14 16:49:34 [INFO] 추론         : 44.5초
+2026-09-14 16:49:34 [INFO] 채점         : 0.0초
+2026-09-14 16:49:34 [INFO] presence_penalty: 요청 1.500 / 적용 예 / 방식 vllm.SamplingParams.presence_penalty (네이티브, 가산형)
+2026-09-14 16:49:34 [INFO] 산출물: env.json, ENVIRONMENT.md, config.json, predictions.jsonl, metrics.json, timing.json, run.log
+2026-09-14 16:49:34 [INFO] 경로  : /workspace/MMDL/outputs/smoke-anchored-limit30
+2026-09-14 16:49:34 [WARNING] [주의] 이 실행은 보고용 전체 실행이 아닙니다. 보고서에는 900문항 전체 실행 결과를 쓰십시오.
+2026-09-14 16:49:34 [INFO] 보고서 생성: python src/report.py --run-dir /workspace/MMDL/outputs/smoke-anchored-limit30
