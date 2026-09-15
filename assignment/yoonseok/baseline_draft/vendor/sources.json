@@ -1,0 +1,12 @@
+{
+  "mmmu": {
+    "commit": "51ce7f3e829c16bb44bc5445782686b4c3508794",
+    "url": "https://github.com/MMMU-Benchmark/MMMU",
+    "changes": "None"
+  },
+  "vlmevalkit": {
+    "commit": "f71d47360cb884eee041f280c8e8095b6b051251",
+    "url": "https://github.com/open-compass/VLMEvalKit",
+    "changes": "Replace toolkit logger import with Python logging; parser logic unchanged."
+  }
+}
