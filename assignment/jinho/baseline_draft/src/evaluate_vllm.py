@@ -62,6 +62,7 @@ DEFAULT_TOP_P = 0.8
 DEFAULT_TOP_K = 20
 DEFAULT_REPETITION_PENALTY = 1.0
 DEFAULT_PRESENCE_PENALTY = 1.5
+DEFAULT_SEED = 42
 DEFAULT_MIN_PIXELS = 1280 * 28 * 28  # 1003520
 DEFAULT_MAX_PIXELS = 5120 * 28 * 28  # 4014080
 
@@ -78,6 +79,8 @@ def parse_args():
                         help="Exact pinned dataset revision")
     parser.add_argument("--output_dir", type=str, default="results",
                         help="Directory to store evaluation outputs")
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEED,
+                        help="Random seed for deterministic generation (default: 42)")
     parser.add_argument("--backend", type=str, choices=["auto", "vllm", "transformers"], default="auto",
                         help="Inference engine backend")
     parser.add_argument("--limit_samples", type=int, default=None,
@@ -88,9 +91,9 @@ def parse_args():
 
 
 class VLLMRunner:
-    def __init__(self, model_path: str, revision: str, max_model_len: int):
+    def __init__(self, model_path: str, revision: str, max_model_len: int, seed: int = DEFAULT_SEED):
         from vllm import LLM, SamplingParams
-        print(f"[Init vLLM] Loading {model_path} (revision={revision}) with max_model_len={max_model_len}...")
+        print(f"[Init vLLM] Loading {model_path} (revision={revision}) with max_model_len={max_model_len}, seed={seed}...")
         self.llm = LLM(
             model=model_path,
             revision=revision,
@@ -98,6 +101,7 @@ class VLLMRunner:
             max_model_len=max_model_len,
             trust_remote_code=True,
             limit_mm_per_prompt={"image": 7},
+            seed=seed,
         )
         self.sampling_params = SamplingParams(
             temperature=DEFAULT_TEMPERATURE,
@@ -106,6 +110,7 @@ class VLLMRunner:
             repetition_penalty=DEFAULT_REPETITION_PENALTY,
             presence_penalty=DEFAULT_PRESENCE_PENALTY,
             max_tokens=DEFAULT_MAX_NEW_TOKENS,
+            seed=seed,
         )
 
     def generate(self, prompts: List[str], images_list: List[List[Any]]) -> List[str]:
@@ -127,10 +132,14 @@ class VLLMRunner:
 
 
 class TransformersRunner:
-    def __init__(self, model_path: str, revision: str):
+    def __init__(self, model_path: str, revision: str, seed: int = DEFAULT_SEED):
         from transformers import AutoProcessor, AutoModelForVision2Seq
-        print(f"[Init Transformers] Loading {model_path} (revision={revision})...")
+        print(f"[Init Transformers] Loading {model_path} (revision={revision}) with seed={seed}...")
         
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+
         device = "cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu")
         print(f"[Device] Using device: {device}")
         
@@ -213,14 +222,14 @@ def main():
     print(f"Dataset: {args.data_root} (revision: {args.dataset_revision})")
     print(f"Backend: {backend_choice}")
     print(f"Decoding Settings: temp={DEFAULT_TEMPERATURE}, top_p={DEFAULT_TOP_P}, top_k={DEFAULT_TOP_K}, "
-          f"presence_penalty={DEFAULT_PRESENCE_PENALTY}, max_new_tokens={DEFAULT_MAX_NEW_TOKENS}")
+          f"presence_penalty={DEFAULT_PRESENCE_PENALTY}, max_new_tokens={DEFAULT_MAX_NEW_TOKENS}, seed={args.seed}")
     print(f"Image Budget: min_pixels={DEFAULT_MIN_PIXELS}, max_pixels={DEFAULT_MAX_PIXELS}")
 
     # Initialize runner
     if backend_choice == "vllm":
-        runner = VLLMRunner(args.model_path, args.model_revision, DEFAULT_MAX_MODEL_LENGTH)
+        runner = VLLMRunner(args.model_path, args.model_revision, DEFAULT_MAX_MODEL_LENGTH, seed=args.seed)
     else:
-        runner = TransformersRunner(args.model_path, args.model_revision)
+        runner = TransformersRunner(args.model_path, args.model_revision, seed=args.seed)
 
     target_subjects = args.subjects if args.subjects else MMMU_SUBJECTS
     all_predictions = []
@@ -253,7 +262,9 @@ def main():
         samples_info = []
 
         for sample in dataset:
-            prompt = format_mmmu_prompt(sample["question"], sample.get("options", []))
+            opts = sample.get("options", [])
+            q_type = sample.get("question_type", "multiple-choice")
+            prompt = format_mmmu_prompt(sample["question"], opts)
             imgs = extract_images_from_sample(sample)
             prompts.append(prompt)
             images_list.append(imgs)
@@ -261,6 +272,8 @@ def main():
                 "id": sample.get("id", ""),
                 "subject": subject,
                 "question": sample["question"],
+                "options": opts,
+                "question_type": q_type,
                 "ground_truth": sample.get("answer", ""),
             })
 
@@ -271,9 +284,17 @@ def main():
         sub_total = len(samples_info)
 
         for info, out_text in zip(samples_info, outputs):
-            pred_choice = parse_answer(out_text)
+            pred_choice = parse_answer(
+                out_text,
+                question_type=info.get("question_type", "multiple-choice"),
+                options=info.get("options", []),
+            )
             gt = info["ground_truth"]
-            correct = is_correct(pred_choice, gt)
+            correct = is_correct(
+                pred_choice,
+                gt,
+                question_type=info.get("question_type", "multiple-choice"),
+            )
             if correct:
                 sub_correct += 1
 
