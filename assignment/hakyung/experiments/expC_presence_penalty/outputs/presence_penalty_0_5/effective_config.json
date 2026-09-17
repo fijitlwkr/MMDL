@@ -1,0 +1,78 @@
+{
+  "enforce_fixed_baseline": true,
+  "experiment": {
+    "kind": "presence_penalty_stratified",
+    "conditions": [
+      0.0,
+      0.5
+    ]
+  },
+  "model": {
+    "name": "Qwen/Qwen3-VL-4B-Instruct",
+    "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17"
+  },
+  "dataset": {
+    "name": "MMMU/MMMU",
+    "revision": "98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "split": "validation",
+    "expected_subjects": 30,
+    "expected_examples_per_subject": 30
+  },
+  "selection": {
+    "method": "stratified_by_subject",
+    "seed": 20260917,
+    "source_predictions": "/workspace/repo/assignment/hakyung/experiments/exp0_baseline/outputs/predictions.jsonl",
+    "expected_source_examples": 900,
+    "expected_examples": 200
+  },
+  "backend": {
+    "name": "vllm",
+    "required_version": "0.11.0",
+    "gpu_memory_utilization": 0.9
+  },
+  "env": {
+    "VLLM_ENABLE_V1_MULTIPROCESSING": "0",
+    "VLLM_WORKER_MULTIPROC_METHOD": "spawn",
+    "TOKENIZERS_PARALLELISM": "false"
+  },
+  "sampling": {
+    "do_sample": true,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "repetition_penalty": 1.0,
+    "presence_penalty": 0.5,
+    "engine_seed": 42,
+    "sampling_params_seed": 42
+  },
+  "generation_budget": {
+    "max_model_len": 9048,
+    "max_new_tokens": 2048
+  },
+  "image": {
+    "min_pixels": 1003520,
+    "max_pixels": 4014080,
+    "resize": "qwen_vl_utils.process_vision_info -> fetch_image -> smart_resize",
+    "marker_handling": "marker 유지, 참조된 이미지만 순서대로 텍스트 앞 배치"
+  },
+  "prompt_template_source": "Qwen3-VL 공식 MMMU 템플릿",
+  "system_message": null,
+  "scoring": {
+    "parse_failure_policy": "mark_as_incorrect",
+    "report_parse_failure_rate": true
+  },
+  "logging": {
+    "save_raw_generation": true,
+    "save_env_snapshot": true
+  },
+  "comparison": {
+    "reference_presence_penalty": 1.5,
+    "exp0_length_count": 230
+  },
+  "output_dir": "/workspace/repo/assignment/hakyung/experiments/expC_presence_penalty/outputs/presence_penalty_0_5",
+  "experiment_output_root": "/workspace/repo/assignment/hakyung/experiments/expC_presence_penalty/outputs",
+  "active_condition": {
+    "presence_penalty": 0.5,
+    "name": "presence_penalty_0_5"
+  }
+}
