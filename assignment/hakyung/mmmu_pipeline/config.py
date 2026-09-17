@@ -70,9 +70,39 @@ PRESENCE_PENALTY_FIXED = {
     "comparison.exp0_length_count": 230,
 }
 
+IMAGE_LAYOUT_FIXED = {
+    "experiment.kind": "image_layout_multi_image",
+    "experiment.conditions": ["inline", "prefix"],
+    "selection.method": "question_text_distinct_image_markers_gte_2",
+    "selection.expected_source_examples": 900,
+    "selection.expected_examples": 23,
+    "selection.expected_subject_counts": {
+        "Architecture_and_Engineering": 1,
+        "Art_Theory": 5,
+        "Chemistry": 2,
+        "Clinical_Medicine": 1,
+        "Computer_Science": 1,
+        "Diagnostics_and_Laboratory_Medicine": 1,
+        "Economics": 2,
+        "History": 2,
+        "Manage": 1,
+        "Math": 1,
+        "Mechanical_Engineering": 1,
+        "Music": 3,
+        "Pharmacy": 1,
+        "Psychology": 1,
+    },
+    "image.layout": None,
+    "image.marker_handling": (
+        "inline은 마커를 이미지 블록으로 치환; prefix는 마커를 유지하고 "
+        "참조 이미지를 원래 순서대로 텍스트 앞 배치"
+    ),
+}
+
 EXPERIMENT_FIXED_OVERRIDES = {
     "truncation_budget_increase": BUDGET_INCREASE_FIXED,
     "presence_penalty_stratified": PRESENCE_PENALTY_FIXED,
+    "image_layout_multi_image": IMAGE_LAYOUT_FIXED,
 }
 
 def _get(config, dotted_key):

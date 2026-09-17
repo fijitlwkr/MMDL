@@ -148,6 +148,7 @@ def run(config, config_path):
 
     from transformers import AutoProcessor
     from vllm import LLM, SamplingParams
+    # NOTE: image_layout.py depends on this being a late/local import — see install_layout_builder
     from mmmu_pipeline.dataset import build_dataset, build_messages
     from mmmu_pipeline.scoring import evaluate, score_generation, write_results
 

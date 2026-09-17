@@ -7,6 +7,7 @@ import json
 
 from . import subset as _subset
 from . import presence_penalty as _presence_penalty
+from . import image_layout as _image_layout
 
 
 def _truncation_dry_run_extra(config, selection_data):
@@ -49,6 +50,34 @@ def _presence_penalty_pre_run(config, selection_data, output_dir):
     _presence_penalty.write_or_validate_manifest(selection_data, config["experiment_output_root"])
 
 
+def _image_layout_dry_run_extra(config, selection_data):
+    print(
+        f"image_layout={config['image']['layout']} "
+        f"condition={config['active_condition']['name']}"
+    )
+    print(
+        f"multi_image_selection={len(selection_data['selected_ids'])}/"
+        f"{selection_data['source_count']}"
+    )
+    print("selection_by_subject=" + json.dumps(
+        selection_data["subject_counts"], ensure_ascii=False, sort_keys=True
+    ))
+    print("selection_ids=" + json.dumps(
+        selection_data["selected_ids"], ensure_ascii=False
+    ))
+
+
+def _image_layout_pre_run(config, selection_data, output_dir):
+    _image_layout.install_layout_builder(config)
+    _image_layout.write_or_validate_manifest(
+        selection_data, config["experiment_output_root"]
+    )
+
+
+def _image_layout_post_run(config, selection_data, rows, output_dir):
+    _image_layout.maybe_write_comparison(config)
+
+
 # Each handler may define: load_selection (required), pre_run, post_run, dry_run_extra.
 # Missing keys simply mean "do nothing at that step" for that experiment.
 REGISTRY = {
@@ -64,6 +93,12 @@ REGISTRY = {
         # presence_penalty conditions to exist first, so it's built separately
         # by experiments/expC_presence_penalty/compare_conditions.py.
         "dry_run_extra": _presence_penalty_dry_run_extra,
+    },
+    "image_layout_multi_image": {
+        "load_selection": _image_layout.load_multi_image_selection,
+        "pre_run": _image_layout_pre_run,
+        "post_run": _image_layout_post_run,
+        "dry_run_extra": _image_layout_dry_run_extra,
     },
 }
 
