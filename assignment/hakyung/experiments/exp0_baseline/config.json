@@ -38,7 +38,7 @@
   "image": {
     "min_pixels": 1003520,
     "max_pixels": 4014080,
-    "resize": "qwen_vl_utils.process_vision_info (smart_resize)",
+    "resize": "qwen_vl_utils.process_vision_info -> fetch_image -> smart_resize",
     "marker_handling": "marker 유지, 참조된 이미지만 순서대로 텍스트 앞 배치"
   },
   "prompt_template_source": "Qwen3-VL 공식 MMMU 템플릿",

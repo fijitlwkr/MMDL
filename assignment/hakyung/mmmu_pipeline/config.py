@@ -12,6 +12,9 @@ SUBJECTS = [
 ]
 
 
+IMAGE_RESIZE = "qwen_vl_utils.process_vision_info -> fetch_image -> smart_resize"
+
+
 FIXED = {
     "model.name": "Qwen/Qwen3-VL-4B-Instruct",
     "model.revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
@@ -72,8 +75,11 @@ def load_config(path):
         errors.append("engine_seed and sampling_params_seed must be identical")
     if not config.get("prompt_template_source"):
         errors.append("prompt_template_source must be the official Qwen3-VL MMMU template")
-    if not config["image"].get("resize"):
-        errors.append("image.resize must use qwen_vl_utils.process_vision_info (smart_resize)")
+    actual_resize = config.get("image", {}).get("resize")
+    if actual_resize != IMAGE_RESIZE:
+        errors.append(
+            f"image.resize: {actual_resize!r} (expected exactly {IMAGE_RESIZE!r})"
+        )
     if not config["image"].get("marker_handling"):
         errors.append("image.marker_handling does not match the required policy")
     if not config.get("logging", {}).get("save_raw_generation"):
