@@ -1,78 +1,61 @@
-## 디렉터리 구조
+# MMMU / Qwen3-VL-4B-Instruct baseline
 
-```text
-baseline_draft/
-├── env.sh
-├── requirements.txt
-├── setup_env.sh
-├── smoke_test.sh
-├── build_dataset.py
-├── build_stress_dataset.py
-├── run_inference.py
-├── mc_parsers.py
-├── evaluate_baseline.py
-├── compare_scoring_pipelines.py
-└── data/
-    ├── baseline_score.json
-    ├── baseline_table.md
-    └── eval_val.json
+고정된 30과목 × 과목당 30문항(총 900문항) validation 평가 파이프라인이다. 기존
+`baseline_draft/`는 참고용 초안이며, 실제 재현 실행의 기준은
+`experiments/exp0_baseline/config.json`과 루트의 공유 코드 `run_mmmu_eval.py`이다.
+
+## 실행
+
+```bash
+python3 -m pip install -r requirements.txt
+./experiments/exp0_baseline/run.sh
 ```
 
-### 파일 이름
+또는 동일하게 다음 한 줄로 실행할 수 있다.
 
-| 역할 | 새 파일명 | 사용 시점 |
-|---|---|---|
-| RunPod 환경 변수 | `env.sh` | 모든 실행 전 |
-| Python 의존성 | `requirements.txt` | 최초 환경 설치 |
-| 환경 설치/검증 | `setup_env.sh` | 새 Pod에서 최초 1회 |
-| Smoke test 전체 실행 | `smoke_test.sh` | 900문항 실행 전 빠른 검증 |
-| 공통 MMMU 데이터셋 생성 | `build_dataset.py` | smoke/full dataset 생성 |
-| 공통 vLLM 추론 | `run_inference.py` | smoke/stress/full inference |
-| MC parser 구현/비교 | `mc_parsers.py` | smoke parser test 및 비교 평가에서 import |
-| 최종 baseline 평가 | `evaluate_baseline.py` | 900문항 최종 score 후보 산출 |
-| 평가 파이프라인 비교 | `compare_scoring_pipelines.py` | MMMU/VLMEvalKit 방식 비교 |
-| Stress dataset 생성 | `build_stress_dataset.py` | 긴 입력·다중 이미지·open 경로 점검 |
-
-### `data/` 파일 설명
-
-세 파일 모두 `data/predictions_val.jsonl`을 입력으로 채점한 결과다. 현재
-저장소에는 이 입력 파일이 없으므로, 결과를 다시 생성하려면 먼저
-`run_inference.py`로 예측 파일을 만들어야 한다.
-
-| 파일 | 생성 스크립트 | 설명 |
-|---|---|---|
-| `baseline_score.json` | `compare_scoring_pipelines.py` | MMMU 공식 선택지 파서와 VLMEvalKit 파서의 과목별 정확도, macro average, 파싱 실패 UID, 두 파서 간 불일치 문항을 담은 상세 비교 결과다. 현재 MMMU 방식은 50.33%, VLMEvalKit 방식은 30.11%다. |
-| `baseline_table.md` | `compare_scoring_pipelines.py` | `baseline_score.json` 중 1차 채택 방식인 MMMU 공식 파서 결과를 제출용 표 형태로 요약한 파일이다. 30개 과목, 900문항의 overall macro average는 50.33%다. |
-| `eval_val.json` | `evaluate_baseline.py` | MMMU 공식 평가 로직에 따라 multiple-choice와 open-ended 문항을 각각 채점한 상세 결과다. 문항별 파싱 결과와 정오답, 과목별 정확도, macro/micro accuracy를 포함하며 현재 결과는 49.11%다. |
-
-`baseline_score.json`/`baseline_table.md`와 `eval_val.json`의 점수가 다른 이유는
-open-ended 문항 처리 방식이 다르기 때문이다. 비교 스크립트는 open-ended
-정답을 `A`, `Other Answers`를 `B`로 둔 선택지 문제로 변환해 두 MC 파서를
-비교하고, 최종 평가 스크립트는 MMMU의 open-ended 전용 parser/evaluator를
-사용한다.
-
-## 파일 흐름
-
-```text
-env.sh + requirements.txt
-        │
-        ▼
-setup_env.sh
-        │
-        ├──────────────▶ smoke_test.sh
-        │                    │
-        │                    ├─ build_dataset.py
-        │                    ├─ run_inference.py
-        │                    └─ mc_parsers.py
-        │
-        └─ build_dataset.py ─▶ run_inference.py ─▶ predictions_val.jsonl
-                                              │
-                           ┌──────────────────┴──────────────────┐
-                           ▼                                     ▼
-                evaluate_baseline.py              compare_scoring_pipelines.py
-                │                                  ├─ baseline_score.json
-                └─ eval_val.json                  └─ baseline_table.md
-                최종 score 후보                    평가 방식 비교/분석
-
-build_stress_dataset.py ─▶ run_inference.py ─▶ predictions_stress.jsonl
+```bash
+python3 run_mmmu_eval.py --config experiments/exp0_baseline/config.json
 ```
+
+스크립트는 `vLLM==0.11.0`, GPU/driver 존재, 고정 설정값, subject별 정확히 30문항을
+검증한다. 하나라도 다르면 부분 결과를 최종 결과처럼 저장하지 않고 중단한다. Hugging Face
+캐시 위치나 인증 토큰처럼 실험값이 아닌 운영 환경은 일반 환경 변수로 지정할 수 있다.
+
+## 산출물
+
+실험 0 출력 디렉터리는 `experiments/exp0_baseline/outputs/`이다. `output_dir` 같은 상대경로는
+현재 CWD가 아니라 해당 `config.json`이 있는 디렉터리를 기준으로 해석된다.
+
+- `predictions.jsonl`: `question_id`, `subject`, 원문 그대로의 `raw_text`,
+  `finish_reason`, `input_tokens`, `output_tokens`, `parse_failure`와 재채점에 필요한 annotation
+- `env.json`: CUDA, NVIDIA driver/GPU, torch, vLLM, Python, 실행 config hash
+- `results.md`: 과목별 accuracy와 parse failure rate 및 overall macro average 표
+- `results.json`: 문항별 파싱 결과와 정확한 집계값
+- `dataset.jsonl`, `images/`: revision이 고정된 실행 입력과 참조 이미지
+
+파싱 시에만 `</think>` 뒤쪽을 사용하며 `raw_text`는 절대 변경하지 않는다. 객관식 답을
+추출하지 못하면 `parse_failure=true`와 오답으로 기록하고 random fallback은 사용하지 않는다.
+open-ended 응답은 MMMU 공식 문자열/숫자 정규화 방식으로 채점하며, 빈 생성만 구조적인 파싱
+실패로 센다.
+
+저장된 raw 응답만 다시 파싱할 때는 모델이나 GPU를 로드하지 않는다.
+
+```bash
+python3 run_mmmu_eval.py --config experiments/exp0_baseline/config.json \
+  --score-only experiments/exp0_baseline/outputs/predictions.jsonl
+```
+
+## 설정 재사용
+
+후속 실험은 baseline JSON을 복사하고 `enforce_fixed_baseline`을 `false`로 바꾼 뒤 필요한 값과
+`output_dir`만 변경한다. baseline config는 이 플래그가 `true`라 고정값 위반을 거부하므로,
+baseline 결과가 다른 설정으로 실수로 덮이는 것을 막으면서 같은 코드를 A~F에도 재사용할 수 있다.
+구체적인 생성 절차는 `experiments/README.md`를 따른다.
+
+`results.md`는 제출 템플릿의 `No. / Subject / Data Num / Acc` 구조를 유지하면서 요구된
+`Parse Failure Rate` 열을 별도로 추가한다.
+
+## 기존 초안
+
+`baseline_draft/`에는 이전 실험 코드와 결과가 남아 있다. 그 안의 `max_new_tokens=3200`,
+범위 지정 vLLM 의존성, 이미지 마커 제거 등의 값은 이 baseline 실행에 사용되지 않는다.
