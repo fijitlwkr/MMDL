@@ -45,7 +45,6 @@ FIXED = {
     "scoring.parse_failure_policy": "mark_as_incorrect",
 }
 
-
 BUDGET_INCREASE_FIXED = {
     "experiment.kind": "truncation_budget_increase",
     "selection.finish_reason": "length",
@@ -59,6 +58,22 @@ BUDGET_INCREASE_FIXED = {
     "comparison_context.experiment_a_length_failures": 25,
 }
 
+PRESENCE_PENALTY_FIXED = {
+    "experiment.kind": "presence_penalty_stratified",
+    "experiment.conditions": [0.0, 0.5],
+    "selection.method": "stratified_by_subject",
+    "selection.seed": 20260917,
+    "selection.expected_source_examples": 900,
+    "selection.expected_examples": 200,
+    "sampling.presence_penalty": None,
+    "comparison.reference_presence_penalty": 1.5,
+    "comparison.exp0_length_count": 230,
+}
+
+EXPERIMENT_FIXED_OVERRIDES = {
+    "truncation_budget_increase": BUDGET_INCREASE_FIXED,
+    "presence_penalty_stratified": PRESENCE_PENALTY_FIXED,
+}
 
 def _get(config, dotted_key):
     value = config
@@ -75,7 +90,7 @@ def load_config(path):
         output_dir = path.parent / output_dir
     config["output_dir"] = str(output_dir.resolve())
     selection = config.get("selection")
-    if selection is not None:
+    if selection is not None and "source_predictions" in selection:
         source_predictions = Path(selection["source_predictions"])
         if not source_predictions.is_absolute():
             source_predictions = path.parent / source_predictions
@@ -83,8 +98,8 @@ def load_config(path):
     errors = []
     if config.get("enforce_fixed_baseline", False):
         expected_settings = dict(FIXED)
-        if config.get("experiment", {}).get("kind") == "truncation_budget_increase":
-            expected_settings.update(BUDGET_INCREASE_FIXED)
+        experiment_kind = config.get("experiment", {}).get("kind")
+        expected_settings.update(EXPERIMENT_FIXED_OVERRIDES.get(experiment_kind, {}))
         for key, expected in expected_settings.items():
             try:
                 actual = _get(config, key)
@@ -94,7 +109,7 @@ def load_config(path):
             if actual != expected:
                 errors.append(f"{key}: {actual!r} (expected {expected!r})")
 
-    if selection is not None:
+    if selection is not None and "source_predictions" in selection:
         source_path = Path(selection["source_predictions"])
         if not source_path.is_file():
             errors.append(f"selection.source_predictions does not exist: {source_path}")

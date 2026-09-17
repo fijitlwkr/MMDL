@@ -71,6 +71,11 @@ def save_environment_snapshot(path, config, config_path):
         "config_sha256": hashlib.sha256(config_bytes).hexdigest(),
         "model": config["model"],
         "dataset": config["dataset"],
+        "sampling": config["sampling"],
+        "generation_budget": config["generation_budget"],
+        "experiment": config.get("experiment"),
+        "selection": config.get("selection"),
+        "active_condition": config.get("active_condition"),
     }
     Path(path).write_text(json.dumps(snapshot, ensure_ascii=False, indent=2), encoding="utf-8")
     return snapshot
@@ -103,18 +108,25 @@ def run(config, config_path):
     for key, value in config["env"].items():
         os.environ[key] = str(value)
 
-    from mmmu_pipeline.subset import (
-        build_comparison,
-        load_truncation_selection,
-        write_comparison,
-        write_subset_summary,
-    )
+    experiment_kind = config.get("experiment", {}).get("kind")
+    selection_data = None
+    if experiment_kind == "truncation_budget_increase":
+        from mmmu_pipeline.subset import load_truncation_selection
 
-    selection_data = load_truncation_selection(config)
+        selection_data = load_truncation_selection(config)
+    elif experiment_kind == "presence_penalty_stratified":
+        from mmmu_pipeline.presence_penalty import (
+            build_stratified_selection,
+            write_or_validate_manifest,
+        )
+
+        selection_data = build_stratified_selection(config)
+
     output_dir = Path(config["output_dir"])
     protected_names = [
-        "env.json", "dataset.jsonl", "predictions.jsonl", "results.json", "results.md",
-        "subset_summary.json", "subset_summary.md", "comparison.json", "comparison.md",
+        "effective_config.json", "env.json", "dataset.jsonl", "predictions.jsonl",
+        "results.json", "results.md", "subset_summary.json", "subset_summary.md",
+        "comparison.json", "comparison.md",
     ]
     existing_outputs = [name for name in protected_names if (output_dir / name).exists()]
     image_dir = output_dir / "images"
@@ -124,6 +136,11 @@ def run(config, config_path):
             f"{existing_outputs or ['images/']}"
         )
     output_dir.mkdir(parents=True, exist_ok=True)
+    if experiment_kind == "presence_penalty_stratified" and selection_data is not None:
+        write_or_validate_manifest(selection_data, config["experiment_output_root"])
+    (output_dir / "effective_config.json").write_text(
+        json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     env_path = output_dir / "env.json"
 
     snapshot = save_environment_snapshot(env_path, config, config_path)
@@ -210,11 +227,16 @@ def run(config, config_path):
         rows.append(row)
 
     result = evaluate(rows)
-    expected_result_subjects = (
-        config["dataset"]["expected_subjects"]
-        if selection_data is None
-        else sum(count > 0 for count in selection_data["subject_counts"].values())
-    )
+    if experiment_kind == "truncation_budget_increase":
+        expected_result_subjects = sum(
+            count > 0 for count in selection_data["subject_counts"].values()
+        )
+    elif experiment_kind == "presence_penalty_stratified":
+        expected_result_subjects = sum(
+            count > 0 for count in selection_data["manifest"]["subject_counts"].values()
+        )
+    else:
+        expected_result_subjects = config["dataset"]["expected_subjects"]
     if result["n_total"] != expected_total or result["n_subjects"] != expected_result_subjects:
         raise RuntimeError(
             f"Refusing to publish partial result: {result['n_total']} examples / {result['n_subjects']} subjects"
@@ -224,17 +246,18 @@ def run(config, config_path):
         for row in rows:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
     write_results(result, output_dir / "results.json", output_dir / "results.md")
-    if selection_data is not None:
+    if experiment_kind == "truncation_budget_increase":
+        from mmmu_pipeline.subset import build_comparison, write_comparison, write_subset_summary
+
         write_subset_summary(config, selection_data, output_dir)
         comparison = build_comparison(config, selection_data, rows)
         write_comparison(comparison, output_dir)
+        print(f"Comparison:      {output_dir / 'comparison.md'}")
     print(f"Raw generations: {predictions_path}")
     print(f"Environment:     {env_path}")
     print(f"Results:         {output_dir / 'results.md'}")
     print(f"Macro accuracy:  {result['macro_accuracy'] * 100:.2f}")
     print(f"Parse failures:  {result['parse_failure_count']}/{expected_total}")
-    if selection_data is not None:
-        print(f"Comparison:      {output_dir / 'comparison.md'}")
 
 
 def score_only(config, predictions_path):
@@ -251,26 +274,46 @@ def score_only(config, predictions_path):
 
 def dry_run(config, config_path):
     import mmmu_pipeline
-    from mmmu_pipeline.subset import load_truncation_selection
 
     print(f"config_path={config_path}")
     print(f"output_dir={config['output_dir']}")
     print(f"output_dir_exists={Path(config['output_dir']).is_dir()}")
     print(f"mmmu_pipeline={Path(mmmu_pipeline.__file__).resolve()}")
-    selection_data = load_truncation_selection(config)
-    if selection_data is not None:
+    experiment_kind = config.get("experiment", {}).get("kind")
+    if experiment_kind == "truncation_budget_increase":
+        from mmmu_pipeline.subset import load_truncation_selection
+
+        selection_data = load_truncation_selection(config)
+        if selection_data is not None:
+            print(
+                f"selection=finish_reason:{config['selection']['finish_reason']} "
+                f"{len(selection_data['selected_rows'])}/{len(selection_data['source_rows'])}"
+            )
+            print("selection_by_subject=" + json.dumps(
+                selection_data["subject_counts"], ensure_ascii=False, sort_keys=True
+            ))
+            print(
+                "generation_budget="
+                f"{config['generation_budget']['max_new_tokens']}/"
+                f"{config['generation_budget']['max_model_len']}"
+            )
+    elif experiment_kind == "presence_penalty_stratified":
+        from mmmu_pipeline.presence_penalty import build_stratified_selection
+
+        selection_data = build_stratified_selection(config)
         print(
-            f"selection=finish_reason:{config['selection']['finish_reason']} "
-            f"{len(selection_data['selected_rows'])}/{len(selection_data['source_rows'])}"
+            f"presence_penalty={config['sampling']['presence_penalty']} "
+            f"condition={config['active_condition']['name']}"
+        )
+        print(
+            f"stratified_selection={len(selection_data['selected_ids'])}/"
+            f"{len(selection_data['source_rows'])} seed={config['selection']['seed']}"
         )
         print("selection_by_subject=" + json.dumps(
-            selection_data["subject_counts"], ensure_ascii=False, sort_keys=True
+            selection_data["manifest"]["subject_counts"],
+            ensure_ascii=False,
+            sort_keys=True,
         ))
-        print(
-            "generation_budget="
-            f"{config['generation_budget']['max_new_tokens']}/"
-            f"{config['generation_budget']['max_model_len']}"
-        )
     print("dry_run=OK (model and vLLM were not loaded)")
 
 
@@ -287,9 +330,23 @@ def main():
         action="store_true",
         help="Validate config paths and package imports without loading the model or vLLM",
     )
+    parser.add_argument(
+        "--presence-penalty",
+        type=float,
+        help="Experiment-C condition; allowed values are fixed by its config (0 or 0.5)",
+    )
     args = parser.parse_args()
     config_path = Path(args.config).resolve()
     config = load_config(config_path)
+    experiment_kind = config.get("experiment", {}).get("kind")
+    if experiment_kind == "presence_penalty_stratified":
+        if args.presence_penalty is None:
+            parser.error("Experiment C requires --presence-penalty 0 or 0.5")
+        from mmmu_pipeline.presence_penalty import configure_condition
+
+        configure_condition(config, args.presence_penalty)
+    elif args.presence_penalty is not None:
+        parser.error("--presence-penalty is only allowed for Experiment C")
     if args.dry_run:
         dry_run(config, config_path)
     elif args.score_only:
