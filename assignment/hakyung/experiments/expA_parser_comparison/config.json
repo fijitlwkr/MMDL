@@ -1,0 +1,16 @@
+{
+  "input_predictions": "../exp0_baseline/outputs/predictions.jsonl",
+  "output_dir": "outputs",
+  "expected_examples": 900,
+  "expected_subjects": 30,
+  "judge": {
+    "model": "gpt-3.5-turbo-0125",
+    "api_key_env": "OPENAI_API_KEY",
+    "timeout_seconds": 30,
+    "max_attempts": 3,
+    "initial_backoff_seconds": 1.0,
+    "max_output_tokens": 8,
+    "input_usd_per_million_tokens": 0.5,
+    "output_usd_per_million_tokens": 1.5
+  }
+}
