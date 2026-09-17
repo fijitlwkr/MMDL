@@ -1,0 +1,296 @@
+{
+  "manifest": {
+    "method": "question_text_distinct_image_markers_gte_2",
+    "source_examples": 900,
+    "selected_examples": 23,
+    "subject_counts": {
+      "Architecture_and_Engineering": 1,
+      "Art_Theory": 5,
+      "Chemistry": 2,
+      "Clinical_Medicine": 1,
+      "Computer_Science": 1,
+      "Diagnostics_and_Laboratory_Medicine": 1,
+      "Economics": 2,
+      "History": 2,
+      "Manage": 1,
+      "Math": 1,
+      "Mechanical_Engineering": 1,
+      "Music": 3,
+      "Pharmacy": 1,
+      "Psychology": 1
+    },
+    "question_ids": [
+      "Architecture_and_Engineering__validation_Architecture_and_Engineering_24",
+      "Art_Theory__validation_Art_Theory_1",
+      "Art_Theory__validation_Art_Theory_4",
+      "Art_Theory__validation_Art_Theory_11",
+      "Art_Theory__validation_Art_Theory_16",
+      "Art_Theory__validation_Art_Theory_27",
+      "Chemistry__validation_Chemistry_10",
+      "Chemistry__validation_Chemistry_18",
+      "Clinical_Medicine__validation_Clinical_Medicine_13",
+      "Computer_Science__validation_Computer_Science_28",
+      "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_16",
+      "Economics__validation_Economics_14",
+      "Economics__validation_Economics_25",
+      "History__validation_History_15",
+      "History__validation_History_18",
+      "Manage__validation_Manage_20",
+      "Math__validation_Math_19",
+      "Mechanical_Engineering__validation_Mechanical_Engineering_19",
+      "Music__validation_Music_21",
+      "Music__validation_Music_23",
+      "Music__validation_Music_29",
+      "Pharmacy__validation_Pharmacy_18",
+      "Psychology__validation_Psychology_21"
+    ]
+  },
+  "conditions": {
+    "inline": {
+      "n": 23,
+      "correct": 9,
+      "accuracy": 0.391304347826087,
+      "parse_failure_count": 3,
+      "parse_failure_rate": 0.13043478260869565
+    },
+    "prefix": {
+      "n": 23,
+      "correct": 10,
+      "accuracy": 0.43478260869565216,
+      "parse_failure_count": 6,
+      "parse_failure_rate": 0.2608695652173913
+    }
+  },
+  "transitions": {
+    "both_correct": 7,
+    "both_incorrect": 11,
+    "prefix_only_correct": 3,
+    "inline_only_correct": 2
+  },
+  "flipped_count": 5,
+  "flipped_question_ids": [
+    "Art_Theory__validation_Art_Theory_27",
+    "Clinical_Medicine__validation_Clinical_Medicine_13",
+    "History__validation_History_15",
+    "Manage__validation_Manage_20",
+    "Music__validation_Music_21"
+  ],
+  "mcnemar": {
+    "test": "exact two-sided McNemar (binomial)",
+    "inline_only_correct": 2,
+    "prefix_only_correct": 3,
+    "discordant": 5,
+    "exact_two_sided_p": 1.0,
+    "significant_at_0_05": false
+  },
+  "caveat": "The sample size is small (n=23), so statistical power is low.",
+  "items": [
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_24",
+      "subject": "Architecture_and_Engineering",
+      "inline_correct": true,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_correct"
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_1",
+      "subject": "Art_Theory",
+      "inline_correct": true,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_correct"
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_4",
+      "subject": "Art_Theory",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": true,
+      "prefix_parse_failure": true,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_11",
+      "subject": "Art_Theory",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": true,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_16",
+      "subject": "Art_Theory",
+      "inline_correct": true,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_correct"
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_27",
+      "subject": "Art_Theory",
+      "inline_correct": false,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "prefix_only_correct"
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_10",
+      "subject": "Chemistry",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": true,
+      "prefix_parse_failure": true,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_18",
+      "subject": "Chemistry",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_13",
+      "subject": "Clinical_Medicine",
+      "inline_correct": false,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "prefix_only_correct"
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_28",
+      "subject": "Computer_Science",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_16",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Economics__validation_Economics_14",
+      "subject": "Economics",
+      "inline_correct": true,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_correct"
+    },
+    {
+      "question_id": "Economics__validation_Economics_25",
+      "subject": "Economics",
+      "inline_correct": true,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_correct"
+    },
+    {
+      "question_id": "History__validation_History_15",
+      "subject": "History",
+      "inline_correct": true,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "inline_only_correct"
+    },
+    {
+      "question_id": "History__validation_History_18",
+      "subject": "History",
+      "inline_correct": true,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_correct"
+    },
+    {
+      "question_id": "Manage__validation_Manage_20",
+      "subject": "Manage",
+      "inline_correct": false,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "prefix_only_correct"
+    },
+    {
+      "question_id": "Math__validation_Math_19",
+      "subject": "Math",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": true,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_19",
+      "subject": "Mechanical_Engineering",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": true,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Music__validation_Music_21",
+      "subject": "Music",
+      "inline_correct": true,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "inline_only_correct"
+    },
+    {
+      "question_id": "Music__validation_Music_23",
+      "subject": "Music",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Music__validation_Music_29",
+      "subject": "Music",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": true,
+      "prefix_parse_failure": true,
+      "transition": "both_incorrect"
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_18",
+      "subject": "Pharmacy",
+      "inline_correct": true,
+      "prefix_correct": true,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_correct"
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_21",
+      "subject": "Psychology",
+      "inline_correct": false,
+      "prefix_correct": false,
+      "inline_parse_failure": false,
+      "prefix_parse_failure": false,
+      "transition": "both_incorrect"
+    }
+  ]
+}
