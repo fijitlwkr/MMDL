@@ -8,44 +8,51 @@ All conditions use the same 900 stored `raw_text` values. Random fallback is for
 |---|---:|---:|---:|---:|
 | a_custom | 410 / 900 | 45.56% | 86 / 900 | 9.56% |
 | b_official_no_random | 410 / 900 | 45.56% | 86 / 900 | 9.56% |
-| c_official_then_gpt_judge | — | — | — | — |
+| c_official_then_gpt_judge | 447 / 900 | 49.67% | 26 / 900 | 2.89% |
 
 | No. | Subject | N | (a) Acc / Fail | (b) Acc / Fail | (c) Acc / Fail |
 |---:|---|---:|---:|---:|---:|
-| 1 | Accounting | 30 | 50.00% / 1 | 50.00% / 1 | — |
-| 2 | Agriculture | 30 | 33.33% / 9 | 33.33% / 9 | — |
-| 3 | Architecture_and_Engineering | 30 | 40.00% / 5 | 40.00% / 5 | — |
-| 4 | Art | 30 | 43.33% / 5 | 43.33% / 5 | — |
-| 5 | Art_Theory | 30 | 60.00% / 3 | 60.00% / 3 | — |
-| 6 | Basic_Medical_Science | 30 | 46.67% / 2 | 46.67% / 2 | — |
-| 7 | Biology | 30 | 36.67% / 2 | 36.67% / 2 | — |
-| 8 | Chemistry | 30 | 30.00% / 6 | 30.00% / 6 | — |
-| 9 | Clinical_Medicine | 30 | 43.33% / 0 | 43.33% / 0 | — |
-| 10 | Computer_Science | 30 | 40.00% / 2 | 40.00% / 2 | — |
-| 11 | Design | 30 | 60.00% / 1 | 60.00% / 1 | — |
-| 12 | Diagnostics_and_Laboratory_Medicine | 30 | 20.00% / 1 | 20.00% / 1 | — |
-| 13 | Economics | 30 | 60.00% / 2 | 60.00% / 2 | — |
-| 14 | Electronics | 30 | 33.33% / 5 | 33.33% / 5 | — |
-| 15 | Energy_and_Power | 30 | 30.00% / 10 | 30.00% / 10 | — |
-| 16 | Finance | 30 | 63.33% / 3 | 63.33% / 3 | — |
-| 17 | Geography | 30 | 36.67% / 1 | 36.67% / 1 | — |
-| 18 | History | 30 | 60.00% / 0 | 60.00% / 0 | — |
-| 19 | Literature | 30 | 63.33% / 1 | 63.33% / 1 | — |
-| 20 | Manage | 30 | 50.00% / 0 | 50.00% / 0 | — |
-| 21 | Marketing | 30 | 86.67% / 1 | 86.67% / 1 | — |
-| 22 | Materials | 30 | 26.67% / 2 | 26.67% / 2 | — |
-| 23 | Math | 30 | 36.67% / 8 | 36.67% / 8 | — |
-| 24 | Mechanical_Engineering | 30 | 20.00% / 7 | 20.00% / 7 | — |
-| 25 | Music | 30 | 13.33% / 4 | 13.33% / 4 | — |
-| 26 | Pharmacy | 30 | 63.33% / 0 | 63.33% / 0 | — |
-| 27 | Physics | 30 | 50.00% / 2 | 50.00% / 2 | — |
-| 28 | Psychology | 30 | 56.67% / 1 | 56.67% / 1 | — |
-| 29 | Public_Health | 30 | 63.33% / 1 | 63.33% / 1 | — |
-| 30 | Sociology | 30 | 50.00% / 1 | 50.00% / 1 | — |
+| 1 | Accounting | 30 | 50.00% / 1 | 50.00% / 1 | 50.00% / 1 |
+| 2 | Agriculture | 30 | 33.33% / 9 | 33.33% / 9 | 46.67% / 1 |
+| 3 | Architecture_and_Engineering | 30 | 40.00% / 5 | 40.00% / 5 | 50.00% / 0 |
+| 4 | Art | 30 | 43.33% / 5 | 43.33% / 5 | 56.67% / 0 |
+| 5 | Art_Theory | 30 | 60.00% / 3 | 60.00% / 3 | 70.00% / 0 |
+| 6 | Basic_Medical_Science | 30 | 46.67% / 2 | 46.67% / 2 | 53.33% / 0 |
+| 7 | Biology | 30 | 36.67% / 2 | 36.67% / 2 | 36.67% / 1 |
+| 8 | Chemistry | 30 | 30.00% / 6 | 30.00% / 6 | 40.00% / 2 |
+| 9 | Clinical_Medicine | 30 | 43.33% / 0 | 43.33% / 0 | 43.33% / 0 |
+| 10 | Computer_Science | 30 | 40.00% / 2 | 40.00% / 2 | 40.00% / 1 |
+| 11 | Design | 30 | 60.00% / 1 | 60.00% / 1 | 63.33% / 0 |
+| 12 | Diagnostics_and_Laboratory_Medicine | 30 | 20.00% / 1 | 20.00% / 1 | 23.33% / 0 |
+| 13 | Economics | 30 | 60.00% / 2 | 60.00% / 2 | 63.33% / 0 |
+| 14 | Electronics | 30 | 33.33% / 5 | 33.33% / 5 | 46.67% / 1 |
+| 15 | Energy_and_Power | 30 | 30.00% / 10 | 30.00% / 10 | 36.67% / 6 |
+| 16 | Finance | 30 | 63.33% / 3 | 63.33% / 3 | 63.33% / 3 |
+| 17 | Geography | 30 | 36.67% / 1 | 36.67% / 1 | 36.67% / 0 |
+| 18 | History | 30 | 60.00% / 0 | 60.00% / 0 | 60.00% / 0 |
+| 19 | Literature | 30 | 63.33% / 1 | 63.33% / 1 | 66.67% / 0 |
+| 20 | Manage | 30 | 50.00% / 0 | 50.00% / 0 | 50.00% / 0 |
+| 21 | Marketing | 30 | 86.67% / 1 | 86.67% / 1 | 86.67% / 1 |
+| 22 | Materials | 30 | 26.67% / 2 | 26.67% / 2 | 26.67% / 2 |
+| 23 | Math | 30 | 36.67% / 8 | 36.67% / 8 | 43.33% / 3 |
+| 24 | Mechanical_Engineering | 30 | 20.00% / 7 | 20.00% / 7 | 20.00% / 4 |
+| 25 | Music | 30 | 13.33% / 4 | 13.33% / 4 | 20.00% / 0 |
+| 26 | Pharmacy | 30 | 63.33% / 0 | 63.33% / 0 | 63.33% / 0 |
+| 27 | Physics | 30 | 50.00% / 2 | 50.00% / 2 | 56.67% / 0 |
+| 28 | Psychology | 30 | 56.67% / 1 | 56.67% / 1 | 60.00% / 0 |
+| 29 | Public_Health | 30 | 63.33% / 1 | 63.33% / 1 | 63.33% / 0 |
+| 30 | Sociology | 30 | 50.00% / 1 | 50.00% / 1 | 53.33% / 0 |
 
 ## GPT judge
 
-Not run. Set `OPENAI_API_KEY` and run without `--skip-judge`.
+- Model: `gpt-3.5-turbo-0125`
+- Items sent: 86
+- API attempts: 139
+- Tokens: 232698 input + 139 output = 232837 total
+- Estimated cost: $0.116558
+- Under $1 limit: True
+- Retry: at most 3 attempts, 30s timeout, exponential backoff
+- Final fallback: incorrect; no random selection
 
 ## 검증 노트
 
