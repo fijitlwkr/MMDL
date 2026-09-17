@@ -66,7 +66,7 @@ def _save_referenced_images(row, prompt, image_dir, question_id):
     return paths
 
 
-def build_dataset(config, output_path, image_dir):
+def build_dataset(config, output_path, image_dir, selected_question_ids=None):
     from datasets import load_dataset
 
     output_path = Path(output_path)
@@ -74,6 +74,8 @@ def build_dataset(config, output_path, image_dir):
     output_path.parent.mkdir(parents=True, exist_ok=True)
     image_dir.mkdir(parents=True, exist_ok=True)
     expected_per_subject = config["dataset"]["expected_examples_per_subject"]
+    selected_ids = None if selected_question_ids is None else set(selected_question_ids)
+    encountered_ids = set()
     records = []
 
     for subject in SUBJECTS:
@@ -92,6 +94,11 @@ def build_dataset(config, output_path, image_dir):
             source_id = row.get("id", row.get("index", ordinal))
             safe_source_id = re.sub(r"[^A-Za-z0-9_.-]+", "_", str(source_id))
             question_id = f"{subject}__{safe_source_id}"
+            if question_id in encountered_ids:
+                raise RuntimeError(f"Duplicate MMMU question_id: {question_id}")
+            encountered_ids.add(question_id)
+            if selected_ids is not None and question_id not in selected_ids:
+                continue
             option_values = _parse_options(row.get("options"))
             options = {
                 string.ascii_uppercase[index]: str(value)
@@ -112,8 +119,22 @@ def build_dataset(config, output_path, image_dir):
         print(f"[dataset] {subject}: {len(dataset)}")
 
     expected_total = config["dataset"]["expected_subjects"] * expected_per_subject
-    if len(SUBJECTS) != config["dataset"]["expected_subjects"] or len(records) != expected_total:
-        raise RuntimeError(f"Expected 30 subjects / 900 examples, got {len(SUBJECTS)} / {len(records)}")
+    if len(SUBJECTS) != config["dataset"]["expected_subjects"] or len(encountered_ids) != expected_total:
+        raise RuntimeError(
+            f"Expected 30 subjects / 900 source examples, got "
+            f"{len(SUBJECTS)} / {len(encountered_ids)}"
+        )
+    if selected_ids is None:
+        if len(records) != expected_total:
+            raise RuntimeError(f"Expected {expected_total} records, got {len(records)}")
+    else:
+        missing = sorted(selected_ids - encountered_ids)
+        if missing:
+            raise RuntimeError(f"Selected question IDs missing from MMMU: {missing}")
+        if len(records) != len(selected_ids):
+            raise RuntimeError(
+                f"Expected {len(selected_ids)} selected records, got {len(records)}"
+            )
     with output_path.open("w", encoding="utf-8") as handle:
         for record in records:
             handle.write(json.dumps(record, ensure_ascii=False) + "\n")

@@ -103,7 +103,26 @@ def run(config, config_path):
     for key, value in config["env"].items():
         os.environ[key] = str(value)
 
+    from mmmu_pipeline.subset import (
+        build_comparison,
+        load_truncation_selection,
+        write_comparison,
+        write_subset_summary,
+    )
+
+    selection_data = load_truncation_selection(config)
     output_dir = Path(config["output_dir"])
+    protected_names = [
+        "env.json", "dataset.jsonl", "predictions.jsonl", "results.json", "results.md",
+        "subset_summary.json", "subset_summary.md", "comparison.json", "comparison.md",
+    ]
+    existing_outputs = [name for name in protected_names if (output_dir / name).exists()]
+    image_dir = output_dir / "images"
+    if existing_outputs or (image_dir.exists() and any(image_dir.iterdir())):
+        raise RuntimeError(
+            f"Refusing to overwrite existing experiment outputs in {output_dir}: "
+            f"{existing_outputs or ['images/']}"
+        )
     output_dir.mkdir(parents=True, exist_ok=True)
     env_path = output_dir / "env.json"
 
@@ -123,8 +142,8 @@ def run(config, config_path):
     from mmmu_pipeline.scoring import evaluate, score_generation, write_results
 
     dataset_path = output_dir / "dataset.jsonl"
-    image_dir = output_dir / "images"
-    records = build_dataset(config, dataset_path, image_dir)
+    selected_ids = None if selection_data is None else selection_data["selected_id_set"]
+    records = build_dataset(config, dataset_path, image_dir, selected_ids)
     processor = AutoProcessor.from_pretrained(
         config["model"]["name"], revision=config["model"]["revision"]
     )
@@ -160,6 +179,8 @@ def run(config, config_path):
     expected_total = (
         config["dataset"]["expected_subjects"]
         * config["dataset"]["expected_examples_per_subject"]
+        if selection_data is None
+        else config["selection"]["expected_examples"]
     )
     if len(outputs) != expected_total:
         raise RuntimeError(f"Expected {expected_total} vLLM outputs, got {len(outputs)}")
@@ -183,11 +204,18 @@ def run(config, config_path):
         }
         if row["input_tokens"] is None:
             raise RuntimeError(f"vLLM did not report input token ids for {record['question_id']}")
-        _, _, row["parse_failure"] = score_generation(row)
+        parsed, correct, row["parse_failure"] = score_generation(row)
+        row["parsed_prediction"] = parsed
+        row["correct"] = correct
         rows.append(row)
 
     result = evaluate(rows)
-    if result["n_total"] != expected_total or result["n_subjects"] != config["dataset"]["expected_subjects"]:
+    expected_result_subjects = (
+        config["dataset"]["expected_subjects"]
+        if selection_data is None
+        else sum(count > 0 for count in selection_data["subject_counts"].values())
+    )
+    if result["n_total"] != expected_total or result["n_subjects"] != expected_result_subjects:
         raise RuntimeError(
             f"Refusing to publish partial result: {result['n_total']} examples / {result['n_subjects']} subjects"
         )
@@ -196,11 +224,17 @@ def run(config, config_path):
         for row in rows:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
     write_results(result, output_dir / "results.json", output_dir / "results.md")
+    if selection_data is not None:
+        write_subset_summary(config, selection_data, output_dir)
+        comparison = build_comparison(config, selection_data, rows)
+        write_comparison(comparison, output_dir)
     print(f"Raw generations: {predictions_path}")
     print(f"Environment:     {env_path}")
     print(f"Results:         {output_dir / 'results.md'}")
     print(f"Macro accuracy:  {result['macro_accuracy'] * 100:.2f}")
     print(f"Parse failures:  {result['parse_failure_count']}/{expected_total}")
+    if selection_data is not None:
+        print(f"Comparison:      {output_dir / 'comparison.md'}")
 
 
 def score_only(config, predictions_path):
@@ -217,16 +251,31 @@ def score_only(config, predictions_path):
 
 def dry_run(config, config_path):
     import mmmu_pipeline
+    from mmmu_pipeline.subset import load_truncation_selection
 
     print(f"config_path={config_path}")
     print(f"output_dir={config['output_dir']}")
     print(f"output_dir_exists={Path(config['output_dir']).is_dir()}")
     print(f"mmmu_pipeline={Path(mmmu_pipeline.__file__).resolve()}")
+    selection_data = load_truncation_selection(config)
+    if selection_data is not None:
+        print(
+            f"selection=finish_reason:{config['selection']['finish_reason']} "
+            f"{len(selection_data['selected_rows'])}/{len(selection_data['source_rows'])}"
+        )
+        print("selection_by_subject=" + json.dumps(
+            selection_data["subject_counts"], ensure_ascii=False, sort_keys=True
+        ))
+        print(
+            "generation_budget="
+            f"{config['generation_budget']['max_new_tokens']}/"
+            f"{config['generation_budget']['max_model_len']}"
+        )
     print("dry_run=OK (model and vLLM were not loaded)")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run the fixed 900-example MMMU/Qwen3-VL baseline")
+    parser = argparse.ArgumentParser(description="Run a fixed MMMU/Qwen3-VL experiment")
     parser.add_argument("--config", default=str(DEFAULT_CONFIG))
     parser.add_argument(
         "--score-only",

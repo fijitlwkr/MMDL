@@ -46,6 +46,20 @@ FIXED = {
 }
 
 
+BUDGET_INCREASE_FIXED = {
+    "experiment.kind": "truncation_budget_increase",
+    "selection.finish_reason": "length",
+    "selection.expected_source_examples": 900,
+    "selection.expected_examples": 230,
+    "selection.source_generation_budget.max_model_len": 9048,
+    "selection.source_generation_budget.max_new_tokens": 2048,
+    "generation_budget.max_model_len": 16384,
+    "generation_budget.max_new_tokens": 8192,
+    "comparison_context.experiment_a_judge_final_failures": 26,
+    "comparison_context.experiment_a_length_failures": 25,
+}
+
+
 def _get(config, dotted_key):
     value = config
     for key in dotted_key.split("."):
@@ -60,9 +74,18 @@ def load_config(path):
     if not output_dir.is_absolute():
         output_dir = path.parent / output_dir
     config["output_dir"] = str(output_dir.resolve())
+    selection = config.get("selection")
+    if selection is not None:
+        source_predictions = Path(selection["source_predictions"])
+        if not source_predictions.is_absolute():
+            source_predictions = path.parent / source_predictions
+        selection["source_predictions"] = str(source_predictions.resolve())
     errors = []
     if config.get("enforce_fixed_baseline", False):
-        for key, expected in FIXED.items():
+        expected_settings = dict(FIXED)
+        if config.get("experiment", {}).get("kind") == "truncation_budget_increase":
+            expected_settings.update(BUDGET_INCREASE_FIXED)
+        for key, expected in expected_settings.items():
             try:
                 actual = _get(config, key)
             except KeyError:
@@ -70,6 +93,13 @@ def load_config(path):
                 continue
             if actual != expected:
                 errors.append(f"{key}: {actual!r} (expected {expected!r})")
+
+    if selection is not None:
+        source_path = Path(selection["source_predictions"])
+        if not source_path.is_file():
+            errors.append(f"selection.source_predictions does not exist: {source_path}")
+        if source_path.parent.resolve() == output_dir.resolve():
+            errors.append("selection.source_predictions must not be inside the experiment output_dir")
 
     if config["sampling"]["engine_seed"] != config["sampling"]["sampling_params_seed"]:
         errors.append("engine_seed and sampling_params_seed must be identical")
@@ -89,5 +119,5 @@ def load_config(path):
     if not config.get("scoring", {}).get("report_parse_failure_rate"):
         errors.append("scoring.report_parse_failure_rate must be true")
     if errors:
-        raise ValueError("Config violates the fixed baseline settings:\n- " + "\n- ".join(errors))
+        raise ValueError("Config violates the fixed experiment settings:\n- " + "\n- ".join(errors))
     return config
