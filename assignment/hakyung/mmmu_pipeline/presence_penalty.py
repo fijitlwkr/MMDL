@@ -123,6 +123,7 @@ def build_stratified_selection(config):
         "selected_rows": selected_rows,
         "selected_ids": selected_ids,
         "selected_id_set": set(selected_ids),
+        "subject_counts": manifest["subject_counts"],
         "manifest": manifest,
     }
 

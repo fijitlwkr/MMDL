@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from mmmu_pipeline.config import load_config
+from mmmu_pipeline.experiments import get_handler
 
 
 REPO_ROOT = Path(__file__).resolve().parent
@@ -109,18 +110,8 @@ def run(config, config_path):
         os.environ[key] = str(value)
 
     experiment_kind = config.get("experiment", {}).get("kind")
-    selection_data = None
-    if experiment_kind == "truncation_budget_increase":
-        from mmmu_pipeline.subset import load_truncation_selection
-
-        selection_data = load_truncation_selection(config)
-    elif experiment_kind == "presence_penalty_stratified":
-        from mmmu_pipeline.presence_penalty import (
-            build_stratified_selection,
-            write_or_validate_manifest,
-        )
-
-        selection_data = build_stratified_selection(config)
+    handler = get_handler(experiment_kind)
+    selection_data = handler["load_selection"](config) if handler else None
 
     output_dir = Path(config["output_dir"])
     protected_names = [
@@ -136,8 +127,10 @@ def run(config, config_path):
             f"{existing_outputs or ['images/']}"
         )
     output_dir.mkdir(parents=True, exist_ok=True)
-    if experiment_kind == "presence_penalty_stratified" and selection_data is not None:
-        write_or_validate_manifest(selection_data, config["experiment_output_root"])
+
+    if handler and handler.get("pre_run"):
+        handler["pre_run"](config, selection_data, output_dir)
+
     (output_dir / "effective_config.json").write_text(
         json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
@@ -227,16 +220,11 @@ def run(config, config_path):
         rows.append(row)
 
     result = evaluate(rows)
-    if experiment_kind == "truncation_budget_increase":
-        expected_result_subjects = sum(
-            count > 0 for count in selection_data["subject_counts"].values()
-        )
-    elif experiment_kind == "presence_penalty_stratified":
-        expected_result_subjects = sum(
-            count > 0 for count in selection_data["manifest"]["subject_counts"].values()
-        )
-    else:
-        expected_result_subjects = config["dataset"]["expected_subjects"]
+    expected_result_subjects = (
+        config["dataset"]["expected_subjects"]
+        if selection_data is None
+        else sum(count > 0 for count in selection_data["subject_counts"].values())
+    )
     if result["n_total"] != expected_total or result["n_subjects"] != expected_result_subjects:
         raise RuntimeError(
             f"Refusing to publish partial result: {result['n_total']} examples / {result['n_subjects']} subjects"
@@ -246,13 +234,10 @@ def run(config, config_path):
         for row in rows:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
     write_results(result, output_dir / "results.json", output_dir / "results.md")
-    if experiment_kind == "truncation_budget_increase":
-        from mmmu_pipeline.subset import build_comparison, write_comparison, write_subset_summary
 
-        write_subset_summary(config, selection_data, output_dir)
-        comparison = build_comparison(config, selection_data, rows)
-        write_comparison(comparison, output_dir)
-        print(f"Comparison:      {output_dir / 'comparison.md'}")
+    if handler and handler.get("post_run"):
+        handler["post_run"](config, selection_data, rows, output_dir)
+
     print(f"Raw generations: {predictions_path}")
     print(f"Environment:     {env_path}")
     print(f"Results:         {output_dir / 'results.md'}")
@@ -279,41 +264,14 @@ def dry_run(config, config_path):
     print(f"output_dir={config['output_dir']}")
     print(f"output_dir_exists={Path(config['output_dir']).is_dir()}")
     print(f"mmmu_pipeline={Path(mmmu_pipeline.__file__).resolve()}")
+
     experiment_kind = config.get("experiment", {}).get("kind")
-    if experiment_kind == "truncation_budget_increase":
-        from mmmu_pipeline.subset import load_truncation_selection
+    handler = get_handler(experiment_kind)
+    if handler:
+        selection_data = handler["load_selection"](config)
+        if handler.get("dry_run_extra"):
+            handler["dry_run_extra"](config, selection_data)
 
-        selection_data = load_truncation_selection(config)
-        if selection_data is not None:
-            print(
-                f"selection=finish_reason:{config['selection']['finish_reason']} "
-                f"{len(selection_data['selected_rows'])}/{len(selection_data['source_rows'])}"
-            )
-            print("selection_by_subject=" + json.dumps(
-                selection_data["subject_counts"], ensure_ascii=False, sort_keys=True
-            ))
-            print(
-                "generation_budget="
-                f"{config['generation_budget']['max_new_tokens']}/"
-                f"{config['generation_budget']['max_model_len']}"
-            )
-    elif experiment_kind == "presence_penalty_stratified":
-        from mmmu_pipeline.presence_penalty import build_stratified_selection
-
-        selection_data = build_stratified_selection(config)
-        print(
-            f"presence_penalty={config['sampling']['presence_penalty']} "
-            f"condition={config['active_condition']['name']}"
-        )
-        print(
-            f"stratified_selection={len(selection_data['selected_ids'])}/"
-            f"{len(selection_data['source_rows'])} seed={config['selection']['seed']}"
-        )
-        print("selection_by_subject=" + json.dumps(
-            selection_data["manifest"]["subject_counts"],
-            ensure_ascii=False,
-            sort_keys=True,
-        ))
     print("dry_run=OK (model and vLLM were not loaded)")
 
 
