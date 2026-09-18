@@ -15,6 +15,9 @@ SUBJECTS = [
 IMAGE_RESIZE = "qwen_vl_utils.process_vision_info -> fetch_image -> smart_resize"
 
 
+_ANY = object()
+
+
 FIXED = {
     "model.name": "Qwen/Qwen3-VL-4B-Instruct",
     "model.revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
@@ -99,10 +102,26 @@ IMAGE_LAYOUT_FIXED = {
     ),
 }
 
+SEED_REPRO_FIXED = {
+    "experiment.kind": "seed_reproducibility",
+    "experiment.conditions": [42, 3407, 1234],
+    "sampling.engine_seed": _ANY,
+    "sampling.sampling_params_seed": _ANY,
+    # NOTE: 아래 두 값은 실험 F를 실행한 특정 RunPod pod의 CUDA/driver 버전을 하드코딩한 것이다.
+    # 이 실험의 목적(세 seed를 "동일 환경"에서 비교)을 위한 안전장치이며, 범용 고정값이 아니다.
+    # pod이 재시작/마이그레이션되어 버전이 달라지면 build_comparison()이 의도적으로 실패한다 —
+    # 이는 버그가 아니라 정상 동작이다. 재실행 시에는 이 값을 실제 nvidia-smi 출력에 맞게
+    # 갱신하거나, 세 조건을 전부 같은 pod에서 다시 실행해야 한다.
+    "comparison.expected_cuda_version": "13.2",
+    "comparison.expected_driver_version": "595.91.07",
+    "comparison.historical_exp0_cuda_version": "12.8",
+}
+
 EXPERIMENT_FIXED_OVERRIDES = {
     "truncation_budget_increase": BUDGET_INCREASE_FIXED,
     "presence_penalty_stratified": PRESENCE_PENALTY_FIXED,
     "image_layout_multi_image": IMAGE_LAYOUT_FIXED,
+    "seed_reproducibility": SEED_REPRO_FIXED,
 }
 
 def _get(config, dotted_key):
@@ -131,6 +150,8 @@ def load_config(path):
         experiment_kind = config.get("experiment", {}).get("kind")
         expected_settings.update(EXPERIMENT_FIXED_OVERRIDES.get(experiment_kind, {}))
         for key, expected in expected_settings.items():
+            if expected is _ANY:
+                continue
             try:
                 actual = _get(config, key)
             except KeyError:

@@ -8,6 +8,7 @@ import json
 from . import subset as _subset
 from . import presence_penalty as _presence_penalty
 from . import image_layout as _image_layout
+from . import seed_repro as _seed_repro
 
 
 def _truncation_dry_run_extra(config, selection_data):
@@ -78,6 +79,18 @@ def _image_layout_post_run(config, selection_data, rows, output_dir):
     _image_layout.maybe_write_comparison(config)
 
 
+def _seed_repro_dry_run_extra(config, selection_data):
+    print(
+        f"seed={config['sampling']['engine_seed']} "
+        f"condition={config['active_condition']['name']}"
+    )
+    print("selection=full_validation_set (900/900)")
+
+
+def _seed_repro_post_run(config, selection_data, rows, output_dir):
+    _seed_repro.maybe_write_comparison(config)
+
+
 # Each handler may define: load_selection (required), pre_run, post_run, dry_run_extra.
 # Missing keys simply mean "do nothing at that step" for that experiment.
 REGISTRY = {
@@ -99,6 +112,11 @@ REGISTRY = {
         "pre_run": _image_layout_pre_run,
         "post_run": _image_layout_post_run,
         "dry_run_extra": _image_layout_dry_run_extra,
+    },
+    "seed_reproducibility": {
+        "load_selection": _seed_repro.load_selection,
+        "post_run": _seed_repro_post_run,
+        "dry_run_extra": _seed_repro_dry_run_extra,
     },
 }
 
