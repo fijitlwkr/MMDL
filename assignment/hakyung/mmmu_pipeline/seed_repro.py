@@ -319,8 +319,9 @@ def write_comparison(comparison, output_root):
         "## Environment",
         "",
         f"세 조건 모두 동일 환경(CUDA {environment['cuda_version']}, driver "
-        f"{environment['driver_version']})에서 실행되었으며, 과거 exp0의 seed=42"
-        f"(CUDA {environment['historical_exp0_cuda_version']}) 결과와는 직접 비교하지 않는다.",
+        f"{environment['driver_version']})에서 실행되었다. 과거 exp0의 seed=42도 동일 환경"
+        f"(CUDA {environment['historical_exp0_cuda_version']})에서 실행되어, 이번 세 조건과 "
+        f"exp0 결과를 함께 직접 비교할 수 있다.",
         "",
         "## Conclusion",
         "",

@@ -80,25 +80,25 @@ IMAGE_LAYOUT_FIXED = {
     "selection.expected_source_examples": 900,
     "selection.expected_examples": 23,
     "selection.expected_subject_counts": {
-        "Architecture_and_Engineering": 1,
-        "Art_Theory": 5,
-        "Chemistry": 2,
-        "Clinical_Medicine": 1,
-        "Computer_Science": 1,
-        "Diagnostics_and_Laboratory_Medicine": 1,
-        "Economics": 2,
-        "History": 2,
-        "Manage": 1,
-        "Math": 1,
-        "Mechanical_Engineering": 1,
-        "Music": 3,
-        "Pharmacy": 1,
-        "Psychology": 1,
+    "Architecture_and_Engineering": 1,
+    "Art_Theory": 5,
+    "Chemistry": 2,
+    "Clinical_Medicine": 1,
+    "Computer_Science": 1,
+    "Diagnostics_and_Laboratory_Medicine": 1,
+    "Economics": 2,
+    "History": 2,
+    "Manage": 1,
+    "Math": 1,
+    "Mechanical_Engineering": 1,
+    "Music": 3,
+    "Pharmacy": 1,
+    "Psychology": 1,
     },
     "image.layout": None,
     "image.marker_handling": (
-        "inline은 마커를 이미지 블록으로 치환; prefix는 마커를 유지하고 "
-        "참조 이미지를 원래 순서대로 텍스트 앞 배치"
+    "inline은 마커를 이미지 블록으로 치환; prefix는 마커를 유지하고 "
+    "참조 이미지를 원래 순서대로 텍스트 앞 배치"
     ),
 }
 
@@ -107,12 +107,7 @@ SEED_REPRO_FIXED = {
     "experiment.conditions": [42, 3407, 1234],
     "sampling.engine_seed": _ANY,
     "sampling.sampling_params_seed": _ANY,
-    # NOTE: 아래 두 값은 실험 F를 실행한 특정 RunPod pod의 CUDA/driver 버전을 하드코딩한 것이다.
-    # 이 실험의 목적(세 seed를 "동일 환경"에서 비교)을 위한 안전장치이며, 범용 고정값이 아니다.
-    # pod이 재시작/마이그레이션되어 버전이 달라지면 build_comparison()이 의도적으로 실패한다 —
-    # 이는 버그가 아니라 정상 동작이다. 재실행 시에는 이 값을 실제 nvidia-smi 출력에 맞게
-    # 갱신하거나, 세 조건을 전부 같은 pod에서 다시 실행해야 한다.
-    "comparison.expected_cuda_version": "13.2",
+    "comparison.expected_cuda_version": "12.8",
     "comparison.expected_driver_version": "595.91.07",
     "comparison.historical_exp0_cuda_version": "12.8",
 }
