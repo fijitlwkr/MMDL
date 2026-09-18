@@ -1,0 +1,276 @@
+{
+  "n_total": 23,
+  "n_subjects": 14,
+  "subject_results": {
+    "Architecture_and_Engineering": {
+      "n": 1,
+      "correct": 1,
+      "accuracy": 1.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Art_Theory": {
+      "n": 5,
+      "correct": 3,
+      "accuracy": 0.6,
+      "parse_failures": 2,
+      "parse_failure_rate": 0.4
+    },
+    "Chemistry": {
+      "n": 2,
+      "correct": 0,
+      "accuracy": 0.0,
+      "parse_failures": 1,
+      "parse_failure_rate": 0.5
+    },
+    "Clinical_Medicine": {
+      "n": 1,
+      "correct": 1,
+      "accuracy": 1.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Computer_Science": {
+      "n": 1,
+      "correct": 0,
+      "accuracy": 0.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Diagnostics_and_Laboratory_Medicine": {
+      "n": 1,
+      "correct": 0,
+      "accuracy": 0.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Economics": {
+      "n": 2,
+      "correct": 2,
+      "accuracy": 1.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "History": {
+      "n": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Manage": {
+      "n": 1,
+      "correct": 1,
+      "accuracy": 1.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Math": {
+      "n": 1,
+      "correct": 0,
+      "accuracy": 0.0,
+      "parse_failures": 1,
+      "parse_failure_rate": 1.0
+    },
+    "Mechanical_Engineering": {
+      "n": 1,
+      "correct": 0,
+      "accuracy": 0.0,
+      "parse_failures": 1,
+      "parse_failure_rate": 1.0
+    },
+    "Music": {
+      "n": 3,
+      "correct": 0,
+      "accuracy": 0.0,
+      "parse_failures": 1,
+      "parse_failure_rate": 0.3333333333333333
+    },
+    "Pharmacy": {
+      "n": 1,
+      "correct": 1,
+      "accuracy": 1.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Psychology": {
+      "n": 1,
+      "correct": 0,
+      "accuracy": 0.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    }
+  },
+  "macro_accuracy": 0.43571428571428567,
+  "macro_parse_failure_rate": 0.23095238095238096,
+  "parse_failure_count": 6,
+  "details": [
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_24",
+      "subject": "Architecture_and_Engineering",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_1",
+      "subject": "Art_Theory",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_4",
+      "subject": "Art_Theory",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_11",
+      "subject": "Art_Theory",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_16",
+      "subject": "Art_Theory",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_27",
+      "subject": "Art_Theory",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_10",
+      "subject": "Chemistry",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_18",
+      "subject": "Chemistry",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_13",
+      "subject": "Clinical_Medicine",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_28",
+      "subject": "Computer_Science",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_16",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "parsed_prediction": "E",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Economics__validation_Economics_14",
+      "subject": "Economics",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Economics__validation_Economics_25",
+      "subject": "Economics",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "History__validation_History_15",
+      "subject": "History",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "History__validation_History_18",
+      "subject": "History",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Manage__validation_Manage_20",
+      "subject": "Manage",
+      "parsed_prediction": [
+        960.0,
+        "an **unfavorable variance** — the company paid more per pound than expected.",
+        2960.0,
+        "known as the **materials price variance**), we use the formula:",
+        "answer: **$2,960 unfavorable**"
+      ],
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Math__validation_Math_19",
+      "subject": "Math",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_19",
+      "subject": "Mechanical_Engineering",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Music__validation_Music_21",
+      "subject": "Music",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Music__validation_Music_23",
+      "subject": "Music",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Music__validation_Music_29",
+      "subject": "Music",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_18",
+      "subject": "Pharmacy",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_21",
+      "subject": "Psychology",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    }
+  ]
+}

@@ -1,0 +1,1871 @@
+{
+  "n_total": 200,
+  "n_subjects": 30,
+  "subject_results": {
+    "Accounting": {
+      "n": 7,
+      "correct": 2,
+      "accuracy": 0.2857142857142857,
+      "parse_failures": 2,
+      "parse_failure_rate": 0.2857142857142857
+    },
+    "Agriculture": {
+      "n": 6,
+      "correct": 2,
+      "accuracy": 0.3333333333333333,
+      "parse_failures": 2,
+      "parse_failure_rate": 0.3333333333333333
+    },
+    "Architecture_and_Engineering": {
+      "n": 6,
+      "correct": 1,
+      "accuracy": 0.16666666666666666,
+      "parse_failures": 2,
+      "parse_failure_rate": 0.3333333333333333
+    },
+    "Art": {
+      "n": 7,
+      "correct": 3,
+      "accuracy": 0.42857142857142855,
+      "parse_failures": 1,
+      "parse_failure_rate": 0.14285714285714285
+    },
+    "Art_Theory": {
+      "n": 7,
+      "correct": 4,
+      "accuracy": 0.5714285714285714,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Basic_Medical_Science": {
+      "n": 6,
+      "correct": 6,
+      "accuracy": 1.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Biology": {
+      "n": 7,
+      "correct": 4,
+      "accuracy": 0.5714285714285714,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Chemistry": {
+      "n": 7,
+      "correct": 3,
+      "accuracy": 0.42857142857142855,
+      "parse_failures": 2,
+      "parse_failure_rate": 0.2857142857142857
+    },
+    "Clinical_Medicine": {
+      "n": 7,
+      "correct": 6,
+      "accuracy": 0.8571428571428571,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Computer_Science": {
+      "n": 7,
+      "correct": 2,
+      "accuracy": 0.2857142857142857,
+      "parse_failures": 2,
+      "parse_failure_rate": 0.2857142857142857
+    },
+    "Design": {
+      "n": 7,
+      "correct": 5,
+      "accuracy": 0.7142857142857143,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Diagnostics_and_Laboratory_Medicine": {
+      "n": 7,
+      "correct": 4,
+      "accuracy": 0.5714285714285714,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Economics": {
+      "n": 7,
+      "correct": 4,
+      "accuracy": 0.5714285714285714,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Electronics": {
+      "n": 6,
+      "correct": 3,
+      "accuracy": 0.5,
+      "parse_failures": 1,
+      "parse_failure_rate": 0.16666666666666666
+    },
+    "Energy_and_Power": {
+      "n": 7,
+      "correct": 2,
+      "accuracy": 0.2857142857142857,
+      "parse_failures": 4,
+      "parse_failure_rate": 0.5714285714285714
+    },
+    "Finance": {
+      "n": 6,
+      "correct": 3,
+      "accuracy": 0.5,
+      "parse_failures": 1,
+      "parse_failure_rate": 0.16666666666666666
+    },
+    "Geography": {
+      "n": 7,
+      "correct": 2,
+      "accuracy": 0.2857142857142857,
+      "parse_failures": 1,
+      "parse_failure_rate": 0.14285714285714285
+    },
+    "History": {
+      "n": 7,
+      "correct": 6,
+      "accuracy": 0.8571428571428571,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Literature": {
+      "n": 7,
+      "correct": 4,
+      "accuracy": 0.5714285714285714,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Manage": {
+      "n": 7,
+      "correct": 5,
+      "accuracy": 0.7142857142857143,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Marketing": {
+      "n": 7,
+      "correct": 4,
+      "accuracy": 0.5714285714285714,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Materials": {
+      "n": 6,
+      "correct": 2,
+      "accuracy": 0.3333333333333333,
+      "parse_failures": 1,
+      "parse_failure_rate": 0.16666666666666666
+    },
+    "Math": {
+      "n": 7,
+      "correct": 3,
+      "accuracy": 0.42857142857142855,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Mechanical_Engineering": {
+      "n": 7,
+      "correct": 3,
+      "accuracy": 0.42857142857142855,
+      "parse_failures": 3,
+      "parse_failure_rate": 0.42857142857142855
+    },
+    "Music": {
+      "n": 7,
+      "correct": 0,
+      "accuracy": 0.0,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Pharmacy": {
+      "n": 6,
+      "correct": 3,
+      "accuracy": 0.5,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Physics": {
+      "n": 6,
+      "correct": 4,
+      "accuracy": 0.6666666666666666,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    },
+    "Psychology": {
+      "n": 6,
+      "correct": 3,
+      "accuracy": 0.5,
+      "parse_failures": 2,
+      "parse_failure_rate": 0.3333333333333333
+    },
+    "Public_Health": {
+      "n": 7,
+      "correct": 5,
+      "accuracy": 0.7142857142857143,
+      "parse_failures": 1,
+      "parse_failure_rate": 0.14285714285714285
+    },
+    "Sociology": {
+      "n": 6,
+      "correct": 3,
+      "accuracy": 0.5,
+      "parse_failures": 0,
+      "parse_failure_rate": 0.0
+    }
+  },
+  "macro_accuracy": 0.5047619047619047,
+  "macro_parse_failure_rate": 0.1261904761904762,
+  "parse_failure_count": 25,
+  "details": [
+    {
+      "question_id": "Accounting__validation_Accounting_1",
+      "subject": "Accounting",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_2",
+      "subject": "Accounting",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_5",
+      "subject": "Accounting",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_6",
+      "subject": "Accounting",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_10",
+      "subject": "Accounting",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_20",
+      "subject": "Accounting",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_30",
+      "subject": "Accounting",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_4",
+      "subject": "Agriculture",
+      "parsed_prediction": "E",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_6",
+      "subject": "Agriculture",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_12",
+      "subject": "Agriculture",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_13",
+      "subject": "Agriculture",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_18",
+      "subject": "Agriculture",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_26",
+      "subject": "Agriculture",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_1",
+      "subject": "Architecture_and_Engineering",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_5",
+      "subject": "Architecture_and_Engineering",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_7",
+      "subject": "Architecture_and_Engineering",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_8",
+      "subject": "Architecture_and_Engineering",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_23",
+      "subject": "Architecture_and_Engineering",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_30",
+      "subject": "Architecture_and_Engineering",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art__validation_Art_4",
+      "subject": "Art",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Art__validation_Art_5",
+      "subject": "Art",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art__validation_Art_8",
+      "subject": "Art",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art__validation_Art_14",
+      "subject": "Art",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art__validation_Art_23",
+      "subject": "Art",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art__validation_Art_24",
+      "subject": "Art",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art__validation_Art_27",
+      "subject": "Art",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_2",
+      "subject": "Art_Theory",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_6",
+      "subject": "Art_Theory",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_15",
+      "subject": "Art_Theory",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_16",
+      "subject": "Art_Theory",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_17",
+      "subject": "Art_Theory",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_21",
+      "subject": "Art_Theory",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_22",
+      "subject": "Art_Theory",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_10",
+      "subject": "Basic_Medical_Science",
+      "parsed_prediction": [
+        "bonded to an oxygen atom (o).",
+        "involved in a hydrogen bond with another hydrogen atom.",
+        "not possible, since the arrows are pointing to atoms.",
+        "involved in a hydrogen bond.",
+        "involved in a hydrogen bond?\"",
+        "involved in a hydrogen bond with another oxygen atom.",
+        "labeled with the letter.",
+        "not possible.",
+        "ambiguous. the arrows are pointing to atoms, not to the bonds. however, in many diagrams, arrows are used to indicate the direction of the hydrogen bond.",
+        "all four arrows are pointing to atoms that are involved in hydrogen bonds.",
+        "bonded to a hydrogen atom (h).",
+        "a covalent bond, not a hydrogen bond.",
+        "covalently bonded to a highly electronegative atom (like o, n, or f) to another electronegative atom (like o, n, or f) that has a lone pair.",
+        "asking which arrow points to a hydrogen bond. that doesn't make sense, because the arrows are pointing to atoms.",
+        "any of them."
+      ],
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_15",
+      "subject": "Basic_Medical_Science",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_16",
+      "subject": "Basic_Medical_Science",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_19",
+      "subject": "Basic_Medical_Science",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_20",
+      "subject": "Basic_Medical_Science",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_24",
+      "subject": "Basic_Medical_Science",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Biology__validation_Biology_10",
+      "subject": "Biology",
+      "parsed_prediction": [
+        "child of #5 and #6.",
+        2.0,
+        "affected",
+        1.0,
+        "very low, and that unaffected individuals are almost certainly **homozygous dominant (aa)** — unless otherwise stated.",
+        "the normal allele.",
+        3.0,
+        4.0,
+        6.0,
+        5.0,
+        7.0,
+        "aa) = (1/2) * (1/2) = 1/4",
+        16.0,
+        "aa) = p(both pass a) = (1/2) * (1/2) = 1/4",
+        "they are **aa**.",
+        "aa, and spouses are aa.",
+        "affected).",
+        "**unaffected carrier**.",
+        50.0,
+        "aa → 50% aa, 50% aa",
+        "**#5 and #6 are both unaffected**, and **cannot be affected** — because they are offspring of at least one aa parent, and the other parent (if carrier) can only give a recessive allele with 50% chance — but even then, #5 and #6 are **not aa**.",
+        "same logic: #6’s genotype depends on #4’s genotype.",
+        64.0,
+        "answer: **1/64**",
+        "aa** — because **only if both are carriers** can their child (#7) be affected (aa).",
+        "aa, all offspring get one a from #2. the other allele comes from #1 (a or a, each 50%).",
+        "aa | both parents aa) = 1/4",
+        "affected (i.e., **aa**).",
+        "**aa** (since it’s a male, and not affected, and not a carrier — meaning no recessive allele).",
+        "aa or aa — **never aa**.",
+        "aa.",
+        "#3 and #4 each have a **50% chance of being aa** (carrier) and **50% chance of being aa**.",
+        "aa) = (1/4) * (1/4) = **1/16**",
+        "aa (not a carrier).",
+        "aa (carrier) or aa — **but never aa**.",
+        "aa)",
+        "aa | both carriers)",
+        "aa) = 1/4"
+      ],
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Biology__validation_Biology_12",
+      "subject": "Biology",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Biology__validation_Biology_18",
+      "subject": "Biology",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Biology__validation_Biology_23",
+      "subject": "Biology",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Biology__validation_Biology_25",
+      "subject": "Biology",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Biology__validation_Biology_26",
+      "subject": "Biology",
+      "parsed_prediction": "E",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Biology__validation_Biology_30",
+      "subject": "Biology",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_1",
+      "subject": "Chemistry",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_7",
+      "subject": "Chemistry",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_9",
+      "subject": "Chemistry",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_10",
+      "subject": "Chemistry",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_12",
+      "subject": "Chemistry",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_17",
+      "subject": "Chemistry",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_25",
+      "subject": "Chemistry",
+      "parsed_prediction": [
+        24.3
+      ],
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_3",
+      "subject": "Clinical_Medicine",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_13",
+      "subject": "Clinical_Medicine",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_15",
+      "subject": "Clinical_Medicine",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_17",
+      "subject": "Clinical_Medicine",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_22",
+      "subject": "Clinical_Medicine",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_23",
+      "subject": "Clinical_Medicine",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_25",
+      "subject": "Clinical_Medicine",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_1",
+      "subject": "Computer_Science",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_11",
+      "subject": "Computer_Science",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_12",
+      "subject": "Computer_Science",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_14",
+      "subject": "Computer_Science",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_18",
+      "subject": "Computer_Science",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_20",
+      "subject": "Computer_Science",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_23",
+      "subject": "Computer_Science",
+      "parsed_prediction": [
+        "the estimatedrtt after the first rtt?**",
+        "answers:"
+      ],
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Design__validation_Design_3",
+      "subject": "Design",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Design__validation_Design_6",
+      "subject": "Design",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Design__validation_Design_7",
+      "subject": "Design",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Design__validation_Design_9",
+      "subject": "Design",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Design__validation_Design_10",
+      "subject": "Design",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Design__validation_Design_12",
+      "subject": "Design",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Design__validation_Design_24",
+      "subject": "Design",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_9",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_11",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_12",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_14",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_15",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_26",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_29",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Economics__validation_Economics_4",
+      "subject": "Economics",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Economics__validation_Economics_10",
+      "subject": "Economics",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Economics__validation_Economics_20",
+      "subject": "Economics",
+      "parsed_prediction": [
+        "at **price = $8** and **quantity = 4 bagels**.",
+        4.0,
+        "red and upward sloping.",
+        8.0,
+        "the equilibrium price and quantity in a closed economy (no trade).",
+        "blue and downward sloping."
+      ],
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Economics__validation_Economics_22",
+      "subject": "Economics",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Economics__validation_Economics_24",
+      "subject": "Economics",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Economics__validation_Economics_25",
+      "subject": "Economics",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Economics__validation_Economics_26",
+      "subject": "Economics",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_4",
+      "subject": "Electronics",
+      "parsed_prediction": [
+        "connected to $ v_{cc} $ via $ r_c $, so:",
+        0.7,
+        1.0,
+        2.0,
+        0.0,
+        "it $ v_e = i_e \\cdot r_e $?",
+        "the voltage at the emitter terminal is:",
+        "flowing from the transistor to ground, then the voltage at the emitter terminal is:",
+        "called a simple bias circuit), where:",
+        "**not** zero.",
+        "$ v_{be(on)} \\approx 0.7 $ v.",
+        "connected from emitter to ground.",
+        "connected to ground.",
+        "no voltage drop across $ r_e $ — but in reality, **$ v_e = i_e r_e $**? no — wait.",
+        "connected between the emitter and ground, then the voltage at the emitter is:",
+        "$ i_e r_e $. since $ v_c = v_{cc} - i_c r_c $, and $ v_e = 0 $, then:",
+        "at ground (0 v), and $ v_{be} = 0.7 $ v, so:",
+        "in active mode (which we assume here).",
+        "the mistake!**",
+        "**positive** with respect to ground? no — that’s not right.",
+        "**positive** if we define the direction of current from emitter to ground? no.",
+        "determined by the voltage divider formed by $ r_1 $ and $ r_2 $:",
+        "connected to $ v_{cc} $ via $ r_c $.",
+        "connected to ground via $ r_e $.",
+        "negative relative to ground?**",
+        "**$ v_e = i_e \\cdot r_e $**? no.",
+        "the voltage drop from the emitter to ground, which is:",
+        "at $ v_c $, then:",
+        "connected to the top of $ r_e $.",
+        "connected to ground via $ r_e $, then the"
+      ],
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_10",
+      "subject": "Electronics",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_20",
+      "subject": "Electronics",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_23",
+      "subject": "Electronics",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_25",
+      "subject": "Electronics",
+      "parsed_prediction": [
+        0.0,
+        "50 v**.",
+        0.7,
+        "**50 v**.",
+        "**reverse-biased** during the negative half-cycle of the input voltage.",
+        "at 0 v, then:",
+        "circuit unless it refers to a **protective resistor** or perhaps a **peak reverse voltage (prv)** rating of the diode.",
+        "a **half-wave rectifier** with:",
+        "context.",
+        "the **voltage difference between anode and cathode**.",
+        "answer:",
+        "negative).",
+        "50 v enough?",
+        "reverse-biased, and it’s the voltage that appears **across the diode terminals**.",
+        50.0,
+        "0 v.",
+        "answer",
+        60.0,
+        "reverse-biased, and the **reverse voltage across the diode** is:",
+        "recommended.",
+        "to be safe, we might choose a diode rated for **60 v** or higher.",
+        "the diode sees a reverse voltage of 50 v.",
+        "required.",
+        "correct? let’s think carefully.",
+        "about 0.7 v. but that’s not relevant for the reverse voltage rating.",
+        "50 v.",
+        "at 0 v (ground). so:",
+        "connected in series with the source. let’s analyze the polarity.",
+        "we need to find the **maximum reverse voltage** that appears across the diode.",
+        "50 v.)*",
+        "asking for the **maximum reverse voltage (prv)** that the silicon diode must be rated to withstand — i.e., the **peak reverse voltage** across the diode during operation.",
+        "oriented with anode to the + side of the source)."
+      ],
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_26",
+      "subject": "Electronics",
+      "parsed_prediction": [
+        "a capacitor (5μf) connected from that junction to the bottom terminal.",
+        "not part of the network — it’s a separate load — and we are to find the equivalent capacitance of the network on the left.",
+        "it’s probably a separate branch.",
+        "directly from point a to bottom.",
+        "from point a to bottom.",
+        "itself — but that’s trivial.",
+        "they are **in parallel** with each other? wait — no.",
+        "it’s just itself.",
+        "a capacitor (5μf) going to the bottom terminal (call it ground).",
+        "8ω total).",
+        "ambiguous. it could mean:",
+        "written as ≡ (a symbol often used for equivalence).",
+        "all three capacitors (5μf, 2μf, 4μf) are connected **in parallel** between point a and the bottom terminal.",
+        "shown in series with r on the right side. but there are other capacitors: 5μf, 2μf, and 4μf.",
+        "likely indicating they are in parallel).",
+        "in **parallel** with the 4ω resistor.",
+        "not part of the network we just analyzed — it’s separate.",
+        "that can’t be.",
+        "drawn below the 2ω-6ω series, and they are connected between the same two nodes? let's interpret the diagram.",
+        "separate.",
+        "has a \"≡\" symbol between the 2μf and 4μf, which might indicate they are equivalent — but in reality, they are in parallel.",
+        "to find the equivalent capacitance of the capacitor network on the left — ignoring the r-c branch.",
+        "the equivalent capacitance of the entire capacitor network — and we are to find it, ignoring the r-c branch? but that doesn’t make sense.",
+        "it’s a **separate** capacitor.",
+        "labeled as a capacitor, not the equivalent of the whole thing).",
+        "in parallel with the 4ω resistor? let's check the connections.",
+        "that correct?",
+        "a branch going to the right — and in that branch, there are two capacitors: 2μf and 4μf — connected in **parallel**? because they are connected between the same two nodes — point a and the bottom terminal? yes — because they are both connected from point a to the bottom terminal.",
+        "on the left.",
+        "part of the network — and we are to find the equivalent capacitance of the entire network — which includes r and c.",
+        "a typo — and they mean to find the equivalent capacitance of the entire network.",
+        "connected from point a to the bottom terminal.",
+        "drawn with:",
+        "connected to:",
+        "misleading."
+      ],
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_5",
+      "subject": "Energy_and_Power",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_8",
+      "subject": "Energy_and_Power",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_9",
+      "subject": "Energy_and_Power",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_13",
+      "subject": "Energy_and_Power",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_17",
+      "subject": "Energy_and_Power",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_20",
+      "subject": "Energy_and_Power",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_22",
+      "subject": "Energy_and_Power",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Finance__validation_Finance_3",
+      "subject": "Finance",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Finance__validation_Finance_5",
+      "subject": "Finance",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Finance__validation_Finance_13",
+      "subject": "Finance",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Finance__validation_Finance_20",
+      "subject": "Finance",
+      "parsed_prediction": [
+        "not quite right either.",
+        "not correct.",
+        "a **list of bids** — each row represents a bid from a buyer: they are willing to buy a certain number of shares at a certain price.",
+        "not accurate.",
+        "presented as if it's a list of bids with shares and prices.",
+        "that the seller can **set the price** for each share, and the **highest bidders get the shares at the price they bid**, but the seller **does not necessarily take the highest bid** — instead, in a discriminatory auction, the seller **accepts bids in descending order** until the total shares sold meet the target.",
+        "still acceptable**.",
+        "not standard."
+      ],
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Finance__validation_Finance_22",
+      "subject": "Finance",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Finance__validation_Finance_28",
+      "subject": "Finance",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Geography__validation_Geography_1",
+      "subject": "Geography",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Geography__validation_Geography_2",
+      "subject": "Geography",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Geography__validation_Geography_7",
+      "subject": "Geography",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Geography__validation_Geography_13",
+      "subject": "Geography",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Geography__validation_Geography_18",
+      "subject": "Geography",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Geography__validation_Geography_19",
+      "subject": "Geography",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Geography__validation_Geography_25",
+      "subject": "Geography",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "History__validation_History_1",
+      "subject": "History",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "History__validation_History_3",
+      "subject": "History",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "History__validation_History_16",
+      "subject": "History",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "History__validation_History_17",
+      "subject": "History",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "History__validation_History_18",
+      "subject": "History",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "History__validation_History_26",
+      "subject": "History",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "History__validation_History_28",
+      "subject": "History",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Literature__validation_Literature_9",
+      "subject": "Literature",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Literature__validation_Literature_11",
+      "subject": "Literature",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Literature__validation_Literature_12",
+      "subject": "Literature",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Literature__validation_Literature_17",
+      "subject": "Literature",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Literature__validation_Literature_18",
+      "subject": "Literature",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Literature__validation_Literature_21",
+      "subject": "Literature",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Literature__validation_Literature_26",
+      "subject": "Literature",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Manage__validation_Manage_3",
+      "subject": "Manage",
+      "parsed_prediction": [
+        0.98,
+        1.5,
+        0.0,
+        "correct?",
+        10.0,
+        105356.0,
+        "$38,000 → no discount → $38,00",
+        25.0,
+        "correct.",
+        "taken only if paid within 10 days, we must consider whether the discount affects cash receipts.*",
+        "only **95% are collectible**.",
+        "in november, after billing in october)",
+        40.0,
+        35625.0,
+        "taken**.",
+        140981.0,
+        "**no discount**.",
+        60.0,
+        "**only for the 60% collected in november**.",
+        "within november).**",
+        "means that **75% of the collectible credit sales are paid with a 1.5% discount**, and **25% are paid without discount**.",
+        75.0,
+        "they get the discount.",
+        "paid without discount**.",
+        "**not correct**.",
+        "**discount applies**.",
+        "75% of collectible), they actually pay **$106,875 × 0.985 = $105,356.25**",
+        "within 10 days — but the problem doesn’t specify the exact timing.",
+        981.25,
+        95.0,
+        "applied **to the amount paid**. so:",
+        356.25,
+        "we must adjust the cash receipts accordingly.",
+        "total = $105,356.25 + $35,625 = **$140,981.25**",
+        875.0,
+        38000.0,
+        625.0,
+        106875.0,
+        "consider **collections from october credit sales** that are collected in november (the 40% of october credit sales)."
+      ],
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Manage__validation_Manage_10",
+      "subject": "Manage",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Manage__validation_Manage_17",
+      "subject": "Manage",
+      "parsed_prediction": [
+        1.0,
+        "the commission rate applies.",
+        "1/4 of a point.”",
+        4.0,
+        "more than $65 - $20 = $45, then we cap the total at $65.",
+        "**not used in the commission calculation**. it’s probably irrelevant or for another context.",
+        20.0,
+        "case:",
+        "we compute:",
+        "answer: **$65**",
+        "likely means:",
+        "an odd lot — not a round lot).",
+        "less than $65? no — that’s not how it works.",
+        "capped.",
+        65.0,
+        "capped at $65**.",
+        2500.0,
+        "correct?**",
+        "usually means:",
+        "calculated as:",
+        "we cap at $65.",
+        "titled **\"brokerage rates on odd lots\"**, and it applies to **odd lots** (i.e., not round lots — typically, round lots are 100 shares or multiples thereof).",
+        "commission = $65**",
+        "**$65**",
+        "the correct interpretation?**",
+        100.0,
+        "**above $2,500**, we use the **third row**:",
+        "we must **cap the total commission at $65** if the calculated commission exceeds $65.",
+        "$65**, we **cap it at $65**.",
+        "for the $2,500+ bracket:",
+        500.0,
+        "commission = **$65**",
+        "we ignore it for commission calculation."
+      ],
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Manage__validation_Manage_24",
+      "subject": "Manage",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Manage__validation_Manage_26",
+      "subject": "Manage",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Manage__validation_Manage_28",
+      "subject": "Manage",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Manage__validation_Manage_30",
+      "subject": "Manage",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_4",
+      "subject": "Marketing",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_6",
+      "subject": "Marketing",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_14",
+      "subject": "Marketing",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_17",
+      "subject": "Marketing",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_27",
+      "subject": "Marketing",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_28",
+      "subject": "Marketing",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_29",
+      "subject": "Marketing",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Materials__validation_Materials_18",
+      "subject": "Materials",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Materials__validation_Materials_19",
+      "subject": "Materials",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Materials__validation_Materials_22",
+      "subject": "Materials",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Materials__validation_Materials_25",
+      "subject": "Materials",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Materials__validation_Materials_28",
+      "subject": "Materials",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Materials__validation_Materials_30",
+      "subject": "Materials",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Math__validation_Math_3",
+      "subject": "Math",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Math__validation_Math_5",
+      "subject": "Math",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Math__validation_Math_7",
+      "subject": "Math",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Math__validation_Math_13",
+      "subject": "Math",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Math__validation_Math_20",
+      "subject": "Math",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Math__validation_Math_23",
+      "subject": "Math",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Math__validation_Math_26",
+      "subject": "Math",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_5",
+      "subject": "Mechanical_Engineering",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_9",
+      "subject": "Mechanical_Engineering",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_11",
+      "subject": "Mechanical_Engineering",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_16",
+      "subject": "Mechanical_Engineering",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_24",
+      "subject": "Mechanical_Engineering",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_27",
+      "subject": "Mechanical_Engineering",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_29",
+      "subject": "Mechanical_Engineering",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Music__validation_Music_6",
+      "subject": "Music",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Music__validation_Music_8",
+      "subject": "Music",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Music__validation_Music_9",
+      "subject": "Music",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Music__validation_Music_11",
+      "subject": "Music",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Music__validation_Music_15",
+      "subject": "Music",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Music__validation_Music_16",
+      "subject": "Music",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Music__validation_Music_21",
+      "subject": "Music",
+      "parsed_prediction": "D",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_7",
+      "subject": "Pharmacy",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_12",
+      "subject": "Pharmacy",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_13",
+      "subject": "Pharmacy",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_16",
+      "subject": "Pharmacy",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_18",
+      "subject": "Pharmacy",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_30",
+      "subject": "Pharmacy",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Physics__validation_Physics_3",
+      "subject": "Physics",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Physics__validation_Physics_4",
+      "subject": "Physics",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Physics__validation_Physics_9",
+      "subject": "Physics",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Physics__validation_Physics_16",
+      "subject": "Physics",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Physics__validation_Physics_22",
+      "subject": "Physics",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Physics__validation_Physics_26",
+      "subject": "Physics",
+      "parsed_prediction": "C",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_1",
+      "subject": "Psychology",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_2",
+      "subject": "Psychology",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_13",
+      "subject": "Psychology",
+      "parsed_prediction": "E",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_17",
+      "subject": "Psychology",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_21",
+      "subject": "Psychology",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_25",
+      "subject": "Psychology",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_1",
+      "subject": "Public_Health",
+      "parsed_prediction": null,
+      "correct": false,
+      "parse_failure": true
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_5",
+      "subject": "Public_Health",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_10",
+      "subject": "Public_Health",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_12",
+      "subject": "Public_Health",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_21",
+      "subject": "Public_Health",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_23",
+      "subject": "Public_Health",
+      "parsed_prediction": "A",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_25",
+      "subject": "Public_Health",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_1",
+      "subject": "Sociology",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_2",
+      "subject": "Sociology",
+      "parsed_prediction": "D",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_4",
+      "subject": "Sociology",
+      "parsed_prediction": "C",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_13",
+      "subject": "Sociology",
+      "parsed_prediction": "A",
+      "correct": false,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_14",
+      "subject": "Sociology",
+      "parsed_prediction": "B",
+      "correct": true,
+      "parse_failure": false
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_21",
+      "subject": "Sociology",
+      "parsed_prediction": "B",
+      "correct": false,
+      "parse_failure": false
+    }
+  ]
+}

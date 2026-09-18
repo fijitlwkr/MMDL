@@ -1,5 +1,12 @@
 {
   "enforce_fixed_baseline": true,
+  "experiment": {
+    "kind": "presence_penalty_stratified",
+    "conditions": [
+      0.0,
+      0.5
+    ]
+  },
   "model": {
     "name": "Qwen/Qwen3-VL-4B-Instruct",
     "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17"
@@ -10,6 +17,13 @@
     "split": "validation",
     "expected_subjects": 30,
     "expected_examples_per_subject": 30
+  },
+  "selection": {
+    "method": "stratified_by_subject",
+    "seed": 20260917,
+    "source_predictions": "/workspace/repo/assignment/hakyung/experiments/exp0_baseline/outputs/predictions.jsonl",
+    "expected_source_examples": 900,
+    "expected_examples": 200
   },
   "backend": {
     "name": "vllm",
@@ -27,7 +41,7 @@
     "top_p": 0.8,
     "top_k": 20,
     "repetition_penalty": 1.0,
-    "presence_penalty": 1.5,
+    "presence_penalty": 0.0,
     "engine_seed": 42,
     "sampling_params_seed": 42
   },
@@ -51,5 +65,14 @@
     "save_raw_generation": true,
     "save_env_snapshot": true
   },
-  "output_dir": "outputs"
+  "comparison": {
+    "reference_presence_penalty": 1.5,
+    "exp0_length_count": 230
+  },
+  "output_dir": "/workspace/repo/assignment/hakyung/experiments/expC_presence_penalty/outputs/presence_penalty_0_0",
+  "experiment_output_root": "/workspace/repo/assignment/hakyung/experiments/expC_presence_penalty/outputs",
+  "active_condition": {
+    "presence_penalty": 0.0,
+    "name": "presence_penalty_0_0"
+  }
 }

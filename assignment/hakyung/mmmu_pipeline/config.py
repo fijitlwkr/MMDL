@@ -12,6 +12,12 @@ SUBJECTS = [
 ]
 
 
+IMAGE_RESIZE = "qwen_vl_utils.process_vision_info -> fetch_image -> smart_resize"
+
+
+_ANY = object()
+
+
 FIXED = {
     "model.name": "Qwen/Qwen3-VL-4B-Instruct",
     "model.revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
@@ -42,6 +48,76 @@ FIXED = {
     "scoring.parse_failure_policy": "mark_as_incorrect",
 }
 
+BUDGET_INCREASE_FIXED = {
+    "experiment.kind": "truncation_budget_increase",
+    "selection.finish_reason": "length",
+    "selection.expected_source_examples": 900,
+    "selection.expected_examples": 230,
+    "selection.source_generation_budget.max_model_len": 9048,
+    "selection.source_generation_budget.max_new_tokens": 2048,
+    "generation_budget.max_model_len": 16384,
+    "generation_budget.max_new_tokens": 8192,
+    "comparison_context.experiment_a_judge_final_failures": 26,
+    "comparison_context.experiment_a_length_failures": 25,
+}
+
+PRESENCE_PENALTY_FIXED = {
+    "experiment.kind": "presence_penalty_stratified",
+    "experiment.conditions": [0.0, 0.5],
+    "selection.method": "stratified_by_subject",
+    "selection.seed": 20260917,
+    "selection.expected_source_examples": 900,
+    "selection.expected_examples": 200,
+    "sampling.presence_penalty": None,
+    "comparison.reference_presence_penalty": 1.5,
+    "comparison.exp0_length_count": 230,
+}
+
+IMAGE_LAYOUT_FIXED = {
+    "experiment.kind": "image_layout_multi_image",
+    "experiment.conditions": ["inline", "prefix"],
+    "selection.method": "question_text_distinct_image_markers_gte_2",
+    "selection.expected_source_examples": 900,
+    "selection.expected_examples": 23,
+    "selection.expected_subject_counts": {
+    "Architecture_and_Engineering": 1,
+    "Art_Theory": 5,
+    "Chemistry": 2,
+    "Clinical_Medicine": 1,
+    "Computer_Science": 1,
+    "Diagnostics_and_Laboratory_Medicine": 1,
+    "Economics": 2,
+    "History": 2,
+    "Manage": 1,
+    "Math": 1,
+    "Mechanical_Engineering": 1,
+    "Music": 3,
+    "Pharmacy": 1,
+    "Psychology": 1,
+    },
+    "image.layout": None,
+    "image.marker_handling": (
+    "inline은 마커를 이미지 블록으로 치환; prefix는 마커를 유지하고 "
+    "참조 이미지를 원래 순서대로 텍스트 앞 배치"
+    ),
+}
+
+SEED_REPRO_FIXED = {
+    "experiment.kind": "seed_reproducibility",
+    "experiment.conditions": [42, 3407, 1234],
+    "sampling.engine_seed": _ANY,
+    "sampling.sampling_params_seed": _ANY,
+    "comparison.expected_cuda_version": "12.8",
+    "comparison.expected_driver_version": "595.91.07",
+    "comparison.historical_exp0_cuda_version": "12.8",
+}
+
+EXPERIMENT_FIXED_OVERRIDES = {
+    "truncation_budget_increase": BUDGET_INCREASE_FIXED,
+    "presence_penalty_stratified": PRESENCE_PENALTY_FIXED,
+    "image_layout_multi_image": IMAGE_LAYOUT_FIXED,
+    "seed_reproducibility": SEED_REPRO_FIXED,
+}
 
 def _get(config, dotted_key):
     value = config
@@ -57,9 +133,20 @@ def load_config(path):
     if not output_dir.is_absolute():
         output_dir = path.parent / output_dir
     config["output_dir"] = str(output_dir.resolve())
+    selection = config.get("selection")
+    if selection is not None and "source_predictions" in selection:
+        source_predictions = Path(selection["source_predictions"])
+        if not source_predictions.is_absolute():
+            source_predictions = path.parent / source_predictions
+        selection["source_predictions"] = str(source_predictions.resolve())
     errors = []
     if config.get("enforce_fixed_baseline", False):
-        for key, expected in FIXED.items():
+        expected_settings = dict(FIXED)
+        experiment_kind = config.get("experiment", {}).get("kind")
+        expected_settings.update(EXPERIMENT_FIXED_OVERRIDES.get(experiment_kind, {}))
+        for key, expected in expected_settings.items():
+            if expected is _ANY:
+                continue
             try:
                 actual = _get(config, key)
             except KeyError:
@@ -68,12 +155,22 @@ def load_config(path):
             if actual != expected:
                 errors.append(f"{key}: {actual!r} (expected {expected!r})")
 
+    if selection is not None and "source_predictions" in selection:
+        source_path = Path(selection["source_predictions"])
+        if not source_path.is_file():
+            errors.append(f"selection.source_predictions does not exist: {source_path}")
+        if source_path.parent.resolve() == output_dir.resolve():
+            errors.append("selection.source_predictions must not be inside the experiment output_dir")
+
     if config["sampling"]["engine_seed"] != config["sampling"]["sampling_params_seed"]:
         errors.append("engine_seed and sampling_params_seed must be identical")
     if not config.get("prompt_template_source"):
         errors.append("prompt_template_source must be the official Qwen3-VL MMMU template")
-    if not config["image"].get("resize"):
-        errors.append("image.resize must use qwen_vl_utils.process_vision_info (smart_resize)")
+    actual_resize = config.get("image", {}).get("resize")
+    if actual_resize != IMAGE_RESIZE:
+        errors.append(
+            f"image.resize: {actual_resize!r} (expected exactly {IMAGE_RESIZE!r})"
+        )
     if not config["image"].get("marker_handling"):
         errors.append("image.marker_handling does not match the required policy")
     if not config.get("logging", {}).get("save_raw_generation"):
@@ -83,5 +180,5 @@ def load_config(path):
     if not config.get("scoring", {}).get("report_parse_failure_rate"):
         errors.append("scoring.report_parse_failure_rate must be true")
     if errors:
-        raise ValueError("Config violates the fixed baseline settings:\n- " + "\n- ".join(errors))
+        raise ValueError("Config violates the fixed experiment settings:\n- " + "\n- ".join(errors))
     return config

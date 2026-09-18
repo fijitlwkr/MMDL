@@ -1,0 +1,5 @@
+# Regenerable MMMU dataset artifacts
+experiments/*/outputs/images/
+experiments/*/outputs/**/images/
+experiments/*/outputs/dataset.jsonl
+experiments/*/outputs/**/dataset.jsonl

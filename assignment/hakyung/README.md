@@ -7,9 +7,11 @@
 ## 실행
 
 ```bash
-python3 -m pip install -r requirements.txt
+./scripts/setup_env.sh
 ./experiments/exp0_baseline/run.sh
 ```
+
+새 환경에서는 반드시 `scripts/setup_env.sh`로 설치하고, 고정 버전이 바뀌는 `pip install -U`는 사용하지 않는다.
 
 또는 동일하게 다음 한 줄로 실행할 수 있다.
 

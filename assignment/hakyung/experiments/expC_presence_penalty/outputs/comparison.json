@@ -1,0 +1,5928 @@
+{
+  "manifest": {
+    "method": "stratified_by_subject",
+    "sampling_seed": 20260917,
+    "model_engine_seed": 42,
+    "sampling_params_seed": 42,
+    "source_predictions": "/workspace/repo/assignment/hakyung/experiments/exp0_baseline/outputs/predictions.jsonl",
+    "source_examples": 900,
+    "selected_examples": 200,
+    "allocation_rule": "20 subjects x 7 items + 10 subjects x 6 items",
+    "subject_counts": {
+      "Accounting": 7,
+      "Agriculture": 6,
+      "Architecture_and_Engineering": 6,
+      "Art": 7,
+      "Art_Theory": 7,
+      "Basic_Medical_Science": 6,
+      "Biology": 7,
+      "Chemistry": 7,
+      "Clinical_Medicine": 7,
+      "Computer_Science": 7,
+      "Design": 7,
+      "Diagnostics_and_Laboratory_Medicine": 7,
+      "Economics": 7,
+      "Electronics": 6,
+      "Energy_and_Power": 7,
+      "Finance": 6,
+      "Geography": 7,
+      "History": 7,
+      "Literature": 7,
+      "Manage": 7,
+      "Marketing": 7,
+      "Materials": 6,
+      "Math": 7,
+      "Mechanical_Engineering": 7,
+      "Music": 7,
+      "Pharmacy": 6,
+      "Physics": 6,
+      "Psychology": 6,
+      "Public_Health": 7,
+      "Sociology": 6
+    },
+    "question_ids_by_subject": {
+      "Accounting": [
+        "Accounting__validation_Accounting_1",
+        "Accounting__validation_Accounting_10",
+        "Accounting__validation_Accounting_2",
+        "Accounting__validation_Accounting_20",
+        "Accounting__validation_Accounting_30",
+        "Accounting__validation_Accounting_5",
+        "Accounting__validation_Accounting_6"
+      ],
+      "Agriculture": [
+        "Agriculture__validation_Agriculture_12",
+        "Agriculture__validation_Agriculture_13",
+        "Agriculture__validation_Agriculture_18",
+        "Agriculture__validation_Agriculture_26",
+        "Agriculture__validation_Agriculture_4",
+        "Agriculture__validation_Agriculture_6"
+      ],
+      "Architecture_and_Engineering": [
+        "Architecture_and_Engineering__validation_Architecture_and_Engineering_1",
+        "Architecture_and_Engineering__validation_Architecture_and_Engineering_23",
+        "Architecture_and_Engineering__validation_Architecture_and_Engineering_30",
+        "Architecture_and_Engineering__validation_Architecture_and_Engineering_5",
+        "Architecture_and_Engineering__validation_Architecture_and_Engineering_7",
+        "Architecture_and_Engineering__validation_Architecture_and_Engineering_8"
+      ],
+      "Art": [
+        "Art__validation_Art_14",
+        "Art__validation_Art_23",
+        "Art__validation_Art_24",
+        "Art__validation_Art_27",
+        "Art__validation_Art_4",
+        "Art__validation_Art_5",
+        "Art__validation_Art_8"
+      ],
+      "Art_Theory": [
+        "Art_Theory__validation_Art_Theory_15",
+        "Art_Theory__validation_Art_Theory_16",
+        "Art_Theory__validation_Art_Theory_17",
+        "Art_Theory__validation_Art_Theory_2",
+        "Art_Theory__validation_Art_Theory_21",
+        "Art_Theory__validation_Art_Theory_22",
+        "Art_Theory__validation_Art_Theory_6"
+      ],
+      "Basic_Medical_Science": [
+        "Basic_Medical_Science__validation_Basic_Medical_Science_10",
+        "Basic_Medical_Science__validation_Basic_Medical_Science_15",
+        "Basic_Medical_Science__validation_Basic_Medical_Science_16",
+        "Basic_Medical_Science__validation_Basic_Medical_Science_19",
+        "Basic_Medical_Science__validation_Basic_Medical_Science_20",
+        "Basic_Medical_Science__validation_Basic_Medical_Science_24"
+      ],
+      "Biology": [
+        "Biology__validation_Biology_10",
+        "Biology__validation_Biology_12",
+        "Biology__validation_Biology_18",
+        "Biology__validation_Biology_23",
+        "Biology__validation_Biology_25",
+        "Biology__validation_Biology_26",
+        "Biology__validation_Biology_30"
+      ],
+      "Chemistry": [
+        "Chemistry__validation_Chemistry_1",
+        "Chemistry__validation_Chemistry_10",
+        "Chemistry__validation_Chemistry_12",
+        "Chemistry__validation_Chemistry_17",
+        "Chemistry__validation_Chemistry_25",
+        "Chemistry__validation_Chemistry_7",
+        "Chemistry__validation_Chemistry_9"
+      ],
+      "Clinical_Medicine": [
+        "Clinical_Medicine__validation_Clinical_Medicine_13",
+        "Clinical_Medicine__validation_Clinical_Medicine_15",
+        "Clinical_Medicine__validation_Clinical_Medicine_17",
+        "Clinical_Medicine__validation_Clinical_Medicine_22",
+        "Clinical_Medicine__validation_Clinical_Medicine_23",
+        "Clinical_Medicine__validation_Clinical_Medicine_25",
+        "Clinical_Medicine__validation_Clinical_Medicine_3"
+      ],
+      "Computer_Science": [
+        "Computer_Science__validation_Computer_Science_1",
+        "Computer_Science__validation_Computer_Science_11",
+        "Computer_Science__validation_Computer_Science_12",
+        "Computer_Science__validation_Computer_Science_14",
+        "Computer_Science__validation_Computer_Science_18",
+        "Computer_Science__validation_Computer_Science_20",
+        "Computer_Science__validation_Computer_Science_23"
+      ],
+      "Design": [
+        "Design__validation_Design_10",
+        "Design__validation_Design_12",
+        "Design__validation_Design_24",
+        "Design__validation_Design_3",
+        "Design__validation_Design_6",
+        "Design__validation_Design_7",
+        "Design__validation_Design_9"
+      ],
+      "Diagnostics_and_Laboratory_Medicine": [
+        "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_11",
+        "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_12",
+        "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_14",
+        "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_15",
+        "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_26",
+        "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_29",
+        "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_9"
+      ],
+      "Economics": [
+        "Economics__validation_Economics_10",
+        "Economics__validation_Economics_20",
+        "Economics__validation_Economics_22",
+        "Economics__validation_Economics_24",
+        "Economics__validation_Economics_25",
+        "Economics__validation_Economics_26",
+        "Economics__validation_Economics_4"
+      ],
+      "Electronics": [
+        "Electronics__validation_Electronics_10",
+        "Electronics__validation_Electronics_20",
+        "Electronics__validation_Electronics_23",
+        "Electronics__validation_Electronics_25",
+        "Electronics__validation_Electronics_26",
+        "Electronics__validation_Electronics_4"
+      ],
+      "Energy_and_Power": [
+        "Energy_and_Power__validation_Energy_and_Power_13",
+        "Energy_and_Power__validation_Energy_and_Power_17",
+        "Energy_and_Power__validation_Energy_and_Power_20",
+        "Energy_and_Power__validation_Energy_and_Power_22",
+        "Energy_and_Power__validation_Energy_and_Power_5",
+        "Energy_and_Power__validation_Energy_and_Power_8",
+        "Energy_and_Power__validation_Energy_and_Power_9"
+      ],
+      "Finance": [
+        "Finance__validation_Finance_13",
+        "Finance__validation_Finance_20",
+        "Finance__validation_Finance_22",
+        "Finance__validation_Finance_28",
+        "Finance__validation_Finance_3",
+        "Finance__validation_Finance_5"
+      ],
+      "Geography": [
+        "Geography__validation_Geography_1",
+        "Geography__validation_Geography_13",
+        "Geography__validation_Geography_18",
+        "Geography__validation_Geography_19",
+        "Geography__validation_Geography_2",
+        "Geography__validation_Geography_25",
+        "Geography__validation_Geography_7"
+      ],
+      "History": [
+        "History__validation_History_1",
+        "History__validation_History_16",
+        "History__validation_History_17",
+        "History__validation_History_18",
+        "History__validation_History_26",
+        "History__validation_History_28",
+        "History__validation_History_3"
+      ],
+      "Literature": [
+        "Literature__validation_Literature_11",
+        "Literature__validation_Literature_12",
+        "Literature__validation_Literature_17",
+        "Literature__validation_Literature_18",
+        "Literature__validation_Literature_21",
+        "Literature__validation_Literature_26",
+        "Literature__validation_Literature_9"
+      ],
+      "Manage": [
+        "Manage__validation_Manage_10",
+        "Manage__validation_Manage_17",
+        "Manage__validation_Manage_24",
+        "Manage__validation_Manage_26",
+        "Manage__validation_Manage_28",
+        "Manage__validation_Manage_3",
+        "Manage__validation_Manage_30"
+      ],
+      "Marketing": [
+        "Marketing__validation_Marketing_14",
+        "Marketing__validation_Marketing_17",
+        "Marketing__validation_Marketing_27",
+        "Marketing__validation_Marketing_28",
+        "Marketing__validation_Marketing_29",
+        "Marketing__validation_Marketing_4",
+        "Marketing__validation_Marketing_6"
+      ],
+      "Materials": [
+        "Materials__validation_Materials_18",
+        "Materials__validation_Materials_19",
+        "Materials__validation_Materials_22",
+        "Materials__validation_Materials_25",
+        "Materials__validation_Materials_28",
+        "Materials__validation_Materials_30"
+      ],
+      "Math": [
+        "Math__validation_Math_13",
+        "Math__validation_Math_20",
+        "Math__validation_Math_23",
+        "Math__validation_Math_26",
+        "Math__validation_Math_3",
+        "Math__validation_Math_5",
+        "Math__validation_Math_7"
+      ],
+      "Mechanical_Engineering": [
+        "Mechanical_Engineering__validation_Mechanical_Engineering_11",
+        "Mechanical_Engineering__validation_Mechanical_Engineering_16",
+        "Mechanical_Engineering__validation_Mechanical_Engineering_24",
+        "Mechanical_Engineering__validation_Mechanical_Engineering_27",
+        "Mechanical_Engineering__validation_Mechanical_Engineering_29",
+        "Mechanical_Engineering__validation_Mechanical_Engineering_5",
+        "Mechanical_Engineering__validation_Mechanical_Engineering_9"
+      ],
+      "Music": [
+        "Music__validation_Music_11",
+        "Music__validation_Music_15",
+        "Music__validation_Music_16",
+        "Music__validation_Music_21",
+        "Music__validation_Music_6",
+        "Music__validation_Music_8",
+        "Music__validation_Music_9"
+      ],
+      "Pharmacy": [
+        "Pharmacy__validation_Pharmacy_12",
+        "Pharmacy__validation_Pharmacy_13",
+        "Pharmacy__validation_Pharmacy_16",
+        "Pharmacy__validation_Pharmacy_18",
+        "Pharmacy__validation_Pharmacy_30",
+        "Pharmacy__validation_Pharmacy_7"
+      ],
+      "Physics": [
+        "Physics__validation_Physics_16",
+        "Physics__validation_Physics_22",
+        "Physics__validation_Physics_26",
+        "Physics__validation_Physics_3",
+        "Physics__validation_Physics_4",
+        "Physics__validation_Physics_9"
+      ],
+      "Psychology": [
+        "Psychology__validation_Psychology_1",
+        "Psychology__validation_Psychology_13",
+        "Psychology__validation_Psychology_17",
+        "Psychology__validation_Psychology_2",
+        "Psychology__validation_Psychology_21",
+        "Psychology__validation_Psychology_25"
+      ],
+      "Public_Health": [
+        "Public_Health__validation_Public_Health_1",
+        "Public_Health__validation_Public_Health_10",
+        "Public_Health__validation_Public_Health_12",
+        "Public_Health__validation_Public_Health_21",
+        "Public_Health__validation_Public_Health_23",
+        "Public_Health__validation_Public_Health_25",
+        "Public_Health__validation_Public_Health_5"
+      ],
+      "Sociology": [
+        "Sociology__validation_Sociology_1",
+        "Sociology__validation_Sociology_13",
+        "Sociology__validation_Sociology_14",
+        "Sociology__validation_Sociology_2",
+        "Sociology__validation_Sociology_21",
+        "Sociology__validation_Sociology_4"
+      ]
+    },
+    "question_ids": [
+      "Accounting__validation_Accounting_1",
+      "Accounting__validation_Accounting_10",
+      "Accounting__validation_Accounting_2",
+      "Accounting__validation_Accounting_20",
+      "Accounting__validation_Accounting_30",
+      "Accounting__validation_Accounting_5",
+      "Accounting__validation_Accounting_6",
+      "Agriculture__validation_Agriculture_12",
+      "Agriculture__validation_Agriculture_13",
+      "Agriculture__validation_Agriculture_18",
+      "Agriculture__validation_Agriculture_26",
+      "Agriculture__validation_Agriculture_4",
+      "Agriculture__validation_Agriculture_6",
+      "Architecture_and_Engineering__validation_Architecture_and_Engineering_1",
+      "Architecture_and_Engineering__validation_Architecture_and_Engineering_23",
+      "Architecture_and_Engineering__validation_Architecture_and_Engineering_30",
+      "Architecture_and_Engineering__validation_Architecture_and_Engineering_5",
+      "Architecture_and_Engineering__validation_Architecture_and_Engineering_7",
+      "Architecture_and_Engineering__validation_Architecture_and_Engineering_8",
+      "Art__validation_Art_14",
+      "Art__validation_Art_23",
+      "Art__validation_Art_24",
+      "Art__validation_Art_27",
+      "Art__validation_Art_4",
+      "Art__validation_Art_5",
+      "Art__validation_Art_8",
+      "Art_Theory__validation_Art_Theory_15",
+      "Art_Theory__validation_Art_Theory_16",
+      "Art_Theory__validation_Art_Theory_17",
+      "Art_Theory__validation_Art_Theory_2",
+      "Art_Theory__validation_Art_Theory_21",
+      "Art_Theory__validation_Art_Theory_22",
+      "Art_Theory__validation_Art_Theory_6",
+      "Basic_Medical_Science__validation_Basic_Medical_Science_10",
+      "Basic_Medical_Science__validation_Basic_Medical_Science_15",
+      "Basic_Medical_Science__validation_Basic_Medical_Science_16",
+      "Basic_Medical_Science__validation_Basic_Medical_Science_19",
+      "Basic_Medical_Science__validation_Basic_Medical_Science_20",
+      "Basic_Medical_Science__validation_Basic_Medical_Science_24",
+      "Biology__validation_Biology_10",
+      "Biology__validation_Biology_12",
+      "Biology__validation_Biology_18",
+      "Biology__validation_Biology_23",
+      "Biology__validation_Biology_25",
+      "Biology__validation_Biology_26",
+      "Biology__validation_Biology_30",
+      "Chemistry__validation_Chemistry_1",
+      "Chemistry__validation_Chemistry_10",
+      "Chemistry__validation_Chemistry_12",
+      "Chemistry__validation_Chemistry_17",
+      "Chemistry__validation_Chemistry_25",
+      "Chemistry__validation_Chemistry_7",
+      "Chemistry__validation_Chemistry_9",
+      "Clinical_Medicine__validation_Clinical_Medicine_13",
+      "Clinical_Medicine__validation_Clinical_Medicine_15",
+      "Clinical_Medicine__validation_Clinical_Medicine_17",
+      "Clinical_Medicine__validation_Clinical_Medicine_22",
+      "Clinical_Medicine__validation_Clinical_Medicine_23",
+      "Clinical_Medicine__validation_Clinical_Medicine_25",
+      "Clinical_Medicine__validation_Clinical_Medicine_3",
+      "Computer_Science__validation_Computer_Science_1",
+      "Computer_Science__validation_Computer_Science_11",
+      "Computer_Science__validation_Computer_Science_12",
+      "Computer_Science__validation_Computer_Science_14",
+      "Computer_Science__validation_Computer_Science_18",
+      "Computer_Science__validation_Computer_Science_20",
+      "Computer_Science__validation_Computer_Science_23",
+      "Design__validation_Design_10",
+      "Design__validation_Design_12",
+      "Design__validation_Design_24",
+      "Design__validation_Design_3",
+      "Design__validation_Design_6",
+      "Design__validation_Design_7",
+      "Design__validation_Design_9",
+      "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_11",
+      "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_12",
+      "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_14",
+      "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_15",
+      "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_26",
+      "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_29",
+      "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_9",
+      "Economics__validation_Economics_10",
+      "Economics__validation_Economics_20",
+      "Economics__validation_Economics_22",
+      "Economics__validation_Economics_24",
+      "Economics__validation_Economics_25",
+      "Economics__validation_Economics_26",
+      "Economics__validation_Economics_4",
+      "Electronics__validation_Electronics_10",
+      "Electronics__validation_Electronics_20",
+      "Electronics__validation_Electronics_23",
+      "Electronics__validation_Electronics_25",
+      "Electronics__validation_Electronics_26",
+      "Electronics__validation_Electronics_4",
+      "Energy_and_Power__validation_Energy_and_Power_13",
+      "Energy_and_Power__validation_Energy_and_Power_17",
+      "Energy_and_Power__validation_Energy_and_Power_20",
+      "Energy_and_Power__validation_Energy_and_Power_22",
+      "Energy_and_Power__validation_Energy_and_Power_5",
+      "Energy_and_Power__validation_Energy_and_Power_8",
+      "Energy_and_Power__validation_Energy_and_Power_9",
+      "Finance__validation_Finance_13",
+      "Finance__validation_Finance_20",
+      "Finance__validation_Finance_22",
+      "Finance__validation_Finance_28",
+      "Finance__validation_Finance_3",
+      "Finance__validation_Finance_5",
+      "Geography__validation_Geography_1",
+      "Geography__validation_Geography_13",
+      "Geography__validation_Geography_18",
+      "Geography__validation_Geography_19",
+      "Geography__validation_Geography_2",
+      "Geography__validation_Geography_25",
+      "Geography__validation_Geography_7",
+      "History__validation_History_1",
+      "History__validation_History_16",
+      "History__validation_History_17",
+      "History__validation_History_18",
+      "History__validation_History_26",
+      "History__validation_History_28",
+      "History__validation_History_3",
+      "Literature__validation_Literature_11",
+      "Literature__validation_Literature_12",
+      "Literature__validation_Literature_17",
+      "Literature__validation_Literature_18",
+      "Literature__validation_Literature_21",
+      "Literature__validation_Literature_26",
+      "Literature__validation_Literature_9",
+      "Manage__validation_Manage_10",
+      "Manage__validation_Manage_17",
+      "Manage__validation_Manage_24",
+      "Manage__validation_Manage_26",
+      "Manage__validation_Manage_28",
+      "Manage__validation_Manage_3",
+      "Manage__validation_Manage_30",
+      "Marketing__validation_Marketing_14",
+      "Marketing__validation_Marketing_17",
+      "Marketing__validation_Marketing_27",
+      "Marketing__validation_Marketing_28",
+      "Marketing__validation_Marketing_29",
+      "Marketing__validation_Marketing_4",
+      "Marketing__validation_Marketing_6",
+      "Materials__validation_Materials_18",
+      "Materials__validation_Materials_19",
+      "Materials__validation_Materials_22",
+      "Materials__validation_Materials_25",
+      "Materials__validation_Materials_28",
+      "Materials__validation_Materials_30",
+      "Math__validation_Math_13",
+      "Math__validation_Math_20",
+      "Math__validation_Math_23",
+      "Math__validation_Math_26",
+      "Math__validation_Math_3",
+      "Math__validation_Math_5",
+      "Math__validation_Math_7",
+      "Mechanical_Engineering__validation_Mechanical_Engineering_11",
+      "Mechanical_Engineering__validation_Mechanical_Engineering_16",
+      "Mechanical_Engineering__validation_Mechanical_Engineering_24",
+      "Mechanical_Engineering__validation_Mechanical_Engineering_27",
+      "Mechanical_Engineering__validation_Mechanical_Engineering_29",
+      "Mechanical_Engineering__validation_Mechanical_Engineering_5",
+      "Mechanical_Engineering__validation_Mechanical_Engineering_9",
+      "Music__validation_Music_11",
+      "Music__validation_Music_15",
+      "Music__validation_Music_16",
+      "Music__validation_Music_21",
+      "Music__validation_Music_6",
+      "Music__validation_Music_8",
+      "Music__validation_Music_9",
+      "Pharmacy__validation_Pharmacy_12",
+      "Pharmacy__validation_Pharmacy_13",
+      "Pharmacy__validation_Pharmacy_16",
+      "Pharmacy__validation_Pharmacy_18",
+      "Pharmacy__validation_Pharmacy_30",
+      "Pharmacy__validation_Pharmacy_7",
+      "Physics__validation_Physics_16",
+      "Physics__validation_Physics_22",
+      "Physics__validation_Physics_26",
+      "Physics__validation_Physics_3",
+      "Physics__validation_Physics_4",
+      "Physics__validation_Physics_9",
+      "Psychology__validation_Psychology_1",
+      "Psychology__validation_Psychology_13",
+      "Psychology__validation_Psychology_17",
+      "Psychology__validation_Psychology_2",
+      "Psychology__validation_Psychology_21",
+      "Psychology__validation_Psychology_25",
+      "Public_Health__validation_Public_Health_1",
+      "Public_Health__validation_Public_Health_10",
+      "Public_Health__validation_Public_Health_12",
+      "Public_Health__validation_Public_Health_21",
+      "Public_Health__validation_Public_Health_23",
+      "Public_Health__validation_Public_Health_25",
+      "Public_Health__validation_Public_Health_5",
+      "Sociology__validation_Sociology_1",
+      "Sociology__validation_Sociology_13",
+      "Sociology__validation_Sociology_14",
+      "Sociology__validation_Sociology_2",
+      "Sociology__validation_Sociology_21",
+      "Sociology__validation_Sociology_4"
+    ]
+  },
+  "conditions": {
+    "0": {
+      "n": 200,
+      "correct": 98,
+      "accuracy": 0.49,
+      "mean_output_tokens": 885.075,
+      "median_output_tokens": 459.5,
+      "parse_failure_count": 26,
+      "parse_failure_rate": 0.13,
+      "length_count": 54,
+      "length_rate": 0.27
+    },
+    "0.5": {
+      "n": 200,
+      "correct": 101,
+      "accuracy": 0.505,
+      "mean_output_tokens": 875.765,
+      "median_output_tokens": 414.0,
+      "parse_failure_count": 25,
+      "parse_failure_rate": 0.125,
+      "length_count": 57,
+      "length_rate": 0.285
+    },
+    "1.5": {
+      "n": 200,
+      "correct": 102,
+      "accuracy": 0.51,
+      "mean_output_tokens": 869.71,
+      "median_output_tokens": 430.5,
+      "parse_failure_count": 16,
+      "parse_failure_rate": 0.08,
+      "length_count": 55,
+      "length_rate": 0.275
+    }
+  },
+  "per_subject": [
+    {
+      "subject": "Accounting",
+      "n": 7,
+      "0": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 1
+      },
+      "0.5": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 2
+      },
+      "1.5": {
+        "correct": 1,
+        "accuracy": 0.14285714285714285,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Agriculture",
+      "n": 6,
+      "0": {
+        "correct": 1,
+        "accuracy": 0.16666666666666666,
+        "parse_failures": 2
+      },
+      "0.5": {
+        "correct": 2,
+        "accuracy": 0.3333333333333333,
+        "parse_failures": 2
+      },
+      "1.5": {
+        "correct": 1,
+        "accuracy": 0.16666666666666666,
+        "parse_failures": 2
+      }
+    },
+    {
+      "subject": "Architecture_and_Engineering",
+      "n": 6,
+      "0": {
+        "correct": 2,
+        "accuracy": 0.3333333333333333,
+        "parse_failures": 2
+      },
+      "0.5": {
+        "correct": 1,
+        "accuracy": 0.16666666666666666,
+        "parse_failures": 2
+      },
+      "1.5": {
+        "correct": 3,
+        "accuracy": 0.5,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Art",
+      "n": 7,
+      "0": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 1
+      },
+      "0.5": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 1
+      },
+      "1.5": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 1
+      }
+    },
+    {
+      "subject": "Art_Theory",
+      "n": 7,
+      "0": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Basic_Medical_Science",
+      "n": 6,
+      "0": {
+        "correct": 5,
+        "accuracy": 0.8333333333333334,
+        "parse_failures": 1
+      },
+      "0.5": {
+        "correct": 6,
+        "accuracy": 1.0,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 6,
+        "accuracy": 1.0,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Biology",
+      "n": 7,
+      "0": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Chemistry",
+      "n": 7,
+      "0": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 2
+      },
+      "0.5": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 2
+      },
+      "1.5": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 2
+      }
+    },
+    {
+      "subject": "Clinical_Medicine",
+      "n": 7,
+      "0": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 6,
+        "accuracy": 0.8571428571428571,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Computer_Science",
+      "n": 7,
+      "0": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 1
+      },
+      "0.5": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 2
+      },
+      "1.5": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 2
+      }
+    },
+    {
+      "subject": "Design",
+      "n": 7,
+      "0": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "n": 7,
+      "0": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Economics",
+      "n": 7,
+      "0": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Electronics",
+      "n": 6,
+      "0": {
+        "correct": 2,
+        "accuracy": 0.3333333333333333,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 3,
+        "accuracy": 0.5,
+        "parse_failures": 1
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Energy_and_Power",
+      "n": 7,
+      "0": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 3
+      },
+      "0.5": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 4
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 1
+      }
+    },
+    {
+      "subject": "Finance",
+      "n": 6,
+      "0": {
+        "correct": 2,
+        "accuracy": 0.3333333333333333,
+        "parse_failures": 2
+      },
+      "0.5": {
+        "correct": 3,
+        "accuracy": 0.5,
+        "parse_failures": 1
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "parse_failures": 1
+      }
+    },
+    {
+      "subject": "Geography",
+      "n": 7,
+      "0": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 1
+      },
+      "0.5": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 1
+      },
+      "1.5": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 1
+      }
+    },
+    {
+      "subject": "History",
+      "n": 7,
+      "0": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 6,
+        "accuracy": 0.8571428571428571,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 6,
+        "accuracy": 0.8571428571428571,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Literature",
+      "n": 7,
+      "0": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Manage",
+      "n": 7,
+      "0": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Marketing",
+      "n": 7,
+      "0": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 4,
+        "accuracy": 0.5714285714285714,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Materials",
+      "n": 6,
+      "0": {
+        "correct": 1,
+        "accuracy": 0.16666666666666666,
+        "parse_failures": 1
+      },
+      "0.5": {
+        "correct": 2,
+        "accuracy": 0.3333333333333333,
+        "parse_failures": 1
+      },
+      "1.5": {
+        "correct": 2,
+        "accuracy": 0.3333333333333333,
+        "parse_failures": 1
+      }
+    },
+    {
+      "subject": "Math",
+      "n": 7,
+      "0": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 2
+      },
+      "0.5": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 1,
+        "accuracy": 0.14285714285714285,
+        "parse_failures": 1
+      }
+    },
+    {
+      "subject": "Mechanical_Engineering",
+      "n": 7,
+      "0": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 4
+      },
+      "0.5": {
+        "correct": 3,
+        "accuracy": 0.42857142857142855,
+        "parse_failures": 3
+      },
+      "1.5": {
+        "correct": 2,
+        "accuracy": 0.2857142857142857,
+        "parse_failures": 3
+      }
+    },
+    {
+      "subject": "Music",
+      "n": 7,
+      "0": {
+        "correct": 1,
+        "accuracy": 0.14285714285714285,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 0,
+        "accuracy": 0.0,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 0,
+        "accuracy": 0.0,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Pharmacy",
+      "n": 6,
+      "0": {
+        "correct": 3,
+        "accuracy": 0.5,
+        "parse_failures": 1
+      },
+      "0.5": {
+        "correct": 3,
+        "accuracy": 0.5,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Physics",
+      "n": 6,
+      "0": {
+        "correct": 5,
+        "accuracy": 0.8333333333333334,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Psychology",
+      "n": 6,
+      "0": {
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "parse_failures": 1
+      },
+      "0.5": {
+        "correct": 3,
+        "accuracy": 0.5,
+        "parse_failures": 2
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "parse_failures": 1
+      }
+    },
+    {
+      "subject": "Public_Health",
+      "n": 7,
+      "0": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 1
+      },
+      "0.5": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 1
+      },
+      "1.5": {
+        "correct": 5,
+        "accuracy": 0.7142857142857143,
+        "parse_failures": 0
+      }
+    },
+    {
+      "subject": "Sociology",
+      "n": 6,
+      "0": {
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "parse_failures": 0
+      },
+      "0.5": {
+        "correct": 3,
+        "accuracy": 0.5,
+        "parse_failures": 0
+      },
+      "1.5": {
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "parse_failures": 0
+      }
+    }
+  ],
+  "trend_checks": {
+    "lower_penalty_has_non_longer_mean_response": false,
+    "lower_penalty_has_non_higher_parse_failure_rate": false,
+    "lower_penalty_has_non_higher_length_rate": false
+  },
+  "truncation_context": {
+    "exp0_full_length_count": 230,
+    "exp0_full_examples": 900,
+    "exp0_full_length_rate": 0.25555555555555554,
+    "note": "Experiment B changes generation budget for truncation cases; Experiment C holds the original budget fixed and varies presence_penalty."
+  },
+  "items": [
+    {
+      "question_id": "Accounting__validation_Accounting_1",
+      "subject": "Accounting",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 388
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_10",
+      "subject": "Accounting",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 577
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 576
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 566
+        }
+      }
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_2",
+      "subject": "Accounting",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1277
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1392
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_20",
+      "subject": "Accounting",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_30",
+      "subject": "Accounting",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 694
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 593
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 623
+        }
+      }
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_5",
+      "subject": "Accounting",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Accounting__validation_Accounting_6",
+      "subject": "Accounting",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 2016
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_12",
+      "subject": "Agriculture",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 284
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 396
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 295
+        }
+      }
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_13",
+      "subject": "Agriculture",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 364
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 322
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 215
+        }
+      }
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_18",
+      "subject": "Agriculture",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 5
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 5
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 5
+        }
+      }
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_26",
+      "subject": "Agriculture",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 7
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 7
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 7
+        }
+      }
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_4",
+      "subject": "Agriculture",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 128
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 132
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 137
+        }
+      }
+    },
+    {
+      "question_id": "Agriculture__validation_Agriculture_6",
+      "subject": "Agriculture",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 212
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 195
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 202
+        }
+      }
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_1",
+      "subject": "Architecture_and_Engineering",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_23",
+      "subject": "Architecture_and_Engineering",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_30",
+      "subject": "Architecture_and_Engineering",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_5",
+      "subject": "Architecture_and_Engineering",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 1259
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1601
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1093
+        }
+      }
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_7",
+      "subject": "Architecture_and_Engineering",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1154
+        }
+      }
+    },
+    {
+      "question_id": "Architecture_and_Engineering__validation_Architecture_and_Engineering_8",
+      "subject": "Architecture_and_Engineering",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Art__validation_Art_14",
+      "subject": "Art",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 104
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 104
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 102
+        }
+      }
+    },
+    {
+      "question_id": "Art__validation_Art_23",
+      "subject": "Art",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 118
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 94
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 130
+        }
+      }
+    },
+    {
+      "question_id": "Art__validation_Art_24",
+      "subject": "Art",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 243
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 267
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 270
+        }
+      }
+    },
+    {
+      "question_id": "Art__validation_Art_27",
+      "subject": "Art",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 158
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 126
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 211
+        }
+      }
+    },
+    {
+      "question_id": "Art__validation_Art_4",
+      "subject": "Art",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 8
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 8
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 8
+        }
+      }
+    },
+    {
+      "question_id": "Art__validation_Art_5",
+      "subject": "Art",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 100
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 112
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 112
+        }
+      }
+    },
+    {
+      "question_id": "Art__validation_Art_8",
+      "subject": "Art",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 245
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 176
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 152
+        }
+      }
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_15",
+      "subject": "Art_Theory",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 297
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 279
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 307
+        }
+      }
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_16",
+      "subject": "Art_Theory",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 365
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 384
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 356
+        }
+      }
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_17",
+      "subject": "Art_Theory",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 271
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 234
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 306
+        }
+      }
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_2",
+      "subject": "Art_Theory",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 87
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 152
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 250
+        }
+      }
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_21",
+      "subject": "Art_Theory",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 114
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 119
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 101
+        }
+      }
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_22",
+      "subject": "Art_Theory",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 199
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 325
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 297
+        }
+      }
+    },
+    {
+      "question_id": "Art_Theory__validation_Art_Theory_6",
+      "subject": "Art_Theory",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 248
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 188
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 288
+        }
+      }
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_10",
+      "subject": "Basic_Medical_Science",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_15",
+      "subject": "Basic_Medical_Science",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 278
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 210
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 210
+        }
+      }
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_16",
+      "subject": "Basic_Medical_Science",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 187
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 138
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 150
+        }
+      }
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_19",
+      "subject": "Basic_Medical_Science",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 126
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 137
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 155
+        }
+      }
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_20",
+      "subject": "Basic_Medical_Science",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 9
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 106
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 127
+        }
+      }
+    },
+    {
+      "question_id": "Basic_Medical_Science__validation_Basic_Medical_Science_24",
+      "subject": "Basic_Medical_Science",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 195
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 187
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 215
+        }
+      }
+    },
+    {
+      "question_id": "Biology__validation_Biology_10",
+      "subject": "Biology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 900
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1397
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1267
+        }
+      }
+    },
+    {
+      "question_id": "Biology__validation_Biology_12",
+      "subject": "Biology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1060
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1383
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1071
+        }
+      }
+    },
+    {
+      "question_id": "Biology__validation_Biology_18",
+      "subject": "Biology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 456
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 419
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 374
+        }
+      }
+    },
+    {
+      "question_id": "Biology__validation_Biology_23",
+      "subject": "Biology",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 273
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 267
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 257
+        }
+      }
+    },
+    {
+      "question_id": "Biology__validation_Biology_25",
+      "subject": "Biology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 246
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 246
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 326
+        }
+      }
+    },
+    {
+      "question_id": "Biology__validation_Biology_26",
+      "subject": "Biology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 478
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 409
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 427
+        }
+      }
+    },
+    {
+      "question_id": "Biology__validation_Biology_30",
+      "subject": "Biology",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 265
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 307
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 527
+        }
+      }
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_1",
+      "subject": "Chemistry",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 385
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 444
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 476
+        }
+      }
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_10",
+      "subject": "Chemistry",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 467
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 455
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 456
+        }
+      }
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_12",
+      "subject": "Chemistry",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_17",
+      "subject": "Chemistry",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_25",
+      "subject": "Chemistry",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 5
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 5
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 5
+        }
+      }
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_7",
+      "subject": "Chemistry",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Chemistry__validation_Chemistry_9",
+      "subject": "Chemistry",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 763
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 953
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 681
+        }
+      }
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_13",
+      "subject": "Clinical_Medicine",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 517
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 564
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 624
+        }
+      }
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_15",
+      "subject": "Clinical_Medicine",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1621
+        }
+      }
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_17",
+      "subject": "Clinical_Medicine",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 535
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 429
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 434
+        }
+      }
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_22",
+      "subject": "Clinical_Medicine",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 448
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 444
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 424
+        }
+      }
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_23",
+      "subject": "Clinical_Medicine",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 285
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 300
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 249
+        }
+      }
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_25",
+      "subject": "Clinical_Medicine",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 463
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 560
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 661
+        }
+      }
+    },
+    {
+      "question_id": "Clinical_Medicine__validation_Clinical_Medicine_3",
+      "subject": "Clinical_Medicine",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 198
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 190
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 179
+        }
+      }
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_1",
+      "subject": "Computer_Science",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1162
+        }
+      }
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_11",
+      "subject": "Computer_Science",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_12",
+      "subject": "Computer_Science",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_14",
+      "subject": "Computer_Science",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1452
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 557
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 529
+        }
+      }
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_18",
+      "subject": "Computer_Science",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1708
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_20",
+      "subject": "Computer_Science",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 624
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1051
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 499
+        }
+      }
+    },
+    {
+      "question_id": "Computer_Science__validation_Computer_Science_23",
+      "subject": "Computer_Science",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1345
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1551
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1321
+        }
+      }
+    },
+    {
+      "question_id": "Design__validation_Design_10",
+      "subject": "Design",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 72
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 87
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 79
+        }
+      }
+    },
+    {
+      "question_id": "Design__validation_Design_12",
+      "subject": "Design",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 83
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 105
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 118
+        }
+      }
+    },
+    {
+      "question_id": "Design__validation_Design_24",
+      "subject": "Design",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 262
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 315
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 212
+        }
+      }
+    },
+    {
+      "question_id": "Design__validation_Design_3",
+      "subject": "Design",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 132
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 114
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 258
+        }
+      }
+    },
+    {
+      "question_id": "Design__validation_Design_6",
+      "subject": "Design",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 131
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 147
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 130
+        }
+      }
+    },
+    {
+      "question_id": "Design__validation_Design_7",
+      "subject": "Design",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 100
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 100
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 100
+        }
+      }
+    },
+    {
+      "question_id": "Design__validation_Design_9",
+      "subject": "Design",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 141
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 170
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 113
+        }
+      }
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_11",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 308
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 381
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 417
+        }
+      }
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_12",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 433
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 540
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 645
+        }
+      }
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_14",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 329
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 307
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 389
+        }
+      }
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_15",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 364
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 495
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 379
+        }
+      }
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_26",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 334
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 278
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 301
+        }
+      }
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_29",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 468
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 378
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 350
+        }
+      }
+    },
+    {
+      "question_id": "Diagnostics_and_Laboratory_Medicine__validation_Diagnostics_and_Laboratory_Medicine_9",
+      "subject": "Diagnostics_and_Laboratory_Medicine",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 498
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 403
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 464
+        }
+      }
+    },
+    {
+      "question_id": "Economics__validation_Economics_10",
+      "subject": "Economics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 299
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 305
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 307
+        }
+      }
+    },
+    {
+      "question_id": "Economics__validation_Economics_20",
+      "subject": "Economics",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 130
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 105
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 116
+        }
+      }
+    },
+    {
+      "question_id": "Economics__validation_Economics_22",
+      "subject": "Economics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 285
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 264
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 327
+        }
+      }
+    },
+    {
+      "question_id": "Economics__validation_Economics_24",
+      "subject": "Economics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1075
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1331
+        }
+      }
+    },
+    {
+      "question_id": "Economics__validation_Economics_25",
+      "subject": "Economics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 561
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 541
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 765
+        }
+      }
+    },
+    {
+      "question_id": "Economics__validation_Economics_26",
+      "subject": "Economics",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Economics__validation_Economics_4",
+      "subject": "Economics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 186
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 186
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 100
+        }
+      }
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_10",
+      "subject": "Electronics",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_20",
+      "subject": "Electronics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 355
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 345
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 344
+        }
+      }
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_23",
+      "subject": "Electronics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_25",
+      "subject": "Electronics",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1659
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1407
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1229
+        }
+      }
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_26",
+      "subject": "Electronics",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Electronics__validation_Electronics_4",
+      "subject": "Electronics",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1270
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1312
+        }
+      }
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_13",
+      "subject": "Energy_and_Power",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_17",
+      "subject": "Energy_and_Power",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_20",
+      "subject": "Energy_and_Power",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_22",
+      "subject": "Energy_and_Power",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_5",
+      "subject": "Energy_and_Power",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_8",
+      "subject": "Energy_and_Power",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Energy_and_Power__validation_Energy_and_Power_9",
+      "subject": "Energy_and_Power",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Finance__validation_Finance_13",
+      "subject": "Finance",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 635
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 498
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 511
+        }
+      }
+    },
+    {
+      "question_id": "Finance__validation_Finance_20",
+      "subject": "Finance",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Finance__validation_Finance_22",
+      "subject": "Finance",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 413
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 428
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 330
+        }
+      }
+    },
+    {
+      "question_id": "Finance__validation_Finance_28",
+      "subject": "Finance",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Finance__validation_Finance_3",
+      "subject": "Finance",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 320
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 320
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 320
+        }
+      }
+    },
+    {
+      "question_id": "Finance__validation_Finance_5",
+      "subject": "Finance",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Geography__validation_Geography_1",
+      "subject": "Geography",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Geography__validation_Geography_13",
+      "subject": "Geography",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 371
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 362
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Geography__validation_Geography_18",
+      "subject": "Geography",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 141
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 114
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 157
+        }
+      }
+    },
+    {
+      "question_id": "Geography__validation_Geography_19",
+      "subject": "Geography",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 518
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 349
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 612
+        }
+      }
+    },
+    {
+      "question_id": "Geography__validation_Geography_2",
+      "subject": "Geography",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 208
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1101
+        }
+      }
+    },
+    {
+      "question_id": "Geography__validation_Geography_25",
+      "subject": "Geography",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 328
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 293
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 284
+        }
+      }
+    },
+    {
+      "question_id": "Geography__validation_Geography_7",
+      "subject": "Geography",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 195
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 183
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 169
+        }
+      }
+    },
+    {
+      "question_id": "History__validation_History_1",
+      "subject": "History",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 476
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 549
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 465
+        }
+      }
+    },
+    {
+      "question_id": "History__validation_History_16",
+      "subject": "History",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 369
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 378
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 389
+        }
+      }
+    },
+    {
+      "question_id": "History__validation_History_17",
+      "subject": "History",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 361
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 340
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 374
+        }
+      }
+    },
+    {
+      "question_id": "History__validation_History_18",
+      "subject": "History",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 239
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 344
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 251
+        }
+      }
+    },
+    {
+      "question_id": "History__validation_History_26",
+      "subject": "History",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 615
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 506
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 468
+        }
+      }
+    },
+    {
+      "question_id": "History__validation_History_28",
+      "subject": "History",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 467
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 285
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 413
+        }
+      }
+    },
+    {
+      "question_id": "History__validation_History_3",
+      "subject": "History",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 181
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 175
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 391
+        }
+      }
+    },
+    {
+      "question_id": "Literature__validation_Literature_11",
+      "subject": "Literature",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 239
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 224
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 218
+        }
+      }
+    },
+    {
+      "question_id": "Literature__validation_Literature_12",
+      "subject": "Literature",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 198
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 191
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 191
+        }
+      }
+    },
+    {
+      "question_id": "Literature__validation_Literature_17",
+      "subject": "Literature",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 256
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 257
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 292
+        }
+      }
+    },
+    {
+      "question_id": "Literature__validation_Literature_18",
+      "subject": "Literature",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 265
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 317
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 279
+        }
+      }
+    },
+    {
+      "question_id": "Literature__validation_Literature_21",
+      "subject": "Literature",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 208
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 207
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 169
+        }
+      }
+    },
+    {
+      "question_id": "Literature__validation_Literature_26",
+      "subject": "Literature",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 305
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 303
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 310
+        }
+      }
+    },
+    {
+      "question_id": "Literature__validation_Literature_9",
+      "subject": "Literature",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 144
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 145
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 134
+        }
+      }
+    },
+    {
+      "question_id": "Manage__validation_Manage_10",
+      "subject": "Manage",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 178
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 172
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 177
+        }
+      }
+    },
+    {
+      "question_id": "Manage__validation_Manage_17",
+      "subject": "Manage",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 795
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1504
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1061
+        }
+      }
+    },
+    {
+      "question_id": "Manage__validation_Manage_24",
+      "subject": "Manage",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1278
+        }
+      }
+    },
+    {
+      "question_id": "Manage__validation_Manage_26",
+      "subject": "Manage",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Manage__validation_Manage_28",
+      "subject": "Manage",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 320
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 440
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 448
+        }
+      }
+    },
+    {
+      "question_id": "Manage__validation_Manage_3",
+      "subject": "Manage",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 482
+        }
+      }
+    },
+    {
+      "question_id": "Manage__validation_Manage_30",
+      "subject": "Manage",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 595
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 396
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 385
+        }
+      }
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_14",
+      "subject": "Marketing",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1401
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 227
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 214
+        }
+      }
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_17",
+      "subject": "Marketing",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 410
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 374
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 364
+        }
+      }
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_27",
+      "subject": "Marketing",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 213
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 177
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 136
+        }
+      }
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_28",
+      "subject": "Marketing",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 820
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 470
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 841
+        }
+      }
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_29",
+      "subject": "Marketing",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 277
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 279
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 189
+        }
+      }
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_4",
+      "subject": "Marketing",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 170
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 160
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 225
+        }
+      }
+    },
+    {
+      "question_id": "Marketing__validation_Marketing_6",
+      "subject": "Marketing",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1004
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1288
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1069
+        }
+      }
+    },
+    {
+      "question_id": "Materials__validation_Materials_18",
+      "subject": "Materials",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Materials__validation_Materials_19",
+      "subject": "Materials",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Materials__validation_Materials_22",
+      "subject": "Materials",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Materials__validation_Materials_25",
+      "subject": "Materials",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Materials__validation_Materials_28",
+      "subject": "Materials",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Materials__validation_Materials_30",
+      "subject": "Materials",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Math__validation_Math_13",
+      "subject": "Math",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Math__validation_Math_20",
+      "subject": "Math",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 2008
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Math__validation_Math_23",
+      "subject": "Math",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 620
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1967
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Math__validation_Math_26",
+      "subject": "Math",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Math__validation_Math_3",
+      "subject": "Math",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Math__validation_Math_5",
+      "subject": "Math",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 462
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 466
+        }
+      }
+    },
+    {
+      "question_id": "Math__validation_Math_7",
+      "subject": "Math",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1057
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_11",
+      "subject": "Mechanical_Engineering",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_16",
+      "subject": "Mechanical_Engineering",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1999
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 933
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1169
+        }
+      }
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_24",
+      "subject": "Mechanical_Engineering",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 497
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 639
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 581
+        }
+      }
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_27",
+      "subject": "Mechanical_Engineering",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_29",
+      "subject": "Mechanical_Engineering",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1600
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_5",
+      "subject": "Mechanical_Engineering",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Mechanical_Engineering__validation_Mechanical_Engineering_9",
+      "subject": "Mechanical_Engineering",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Music__validation_Music_11",
+      "subject": "Music",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 400
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 353
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 391
+        }
+      }
+    },
+    {
+      "question_id": "Music__validation_Music_15",
+      "subject": "Music",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 268
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 268
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 254
+        }
+      }
+    },
+    {
+      "question_id": "Music__validation_Music_16",
+      "subject": "Music",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 476
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 324
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 362
+        }
+      }
+    },
+    {
+      "question_id": "Music__validation_Music_21",
+      "subject": "Music",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 323
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Music__validation_Music_6",
+      "subject": "Music",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Music__validation_Music_8",
+      "subject": "Music",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 970
+        }
+      }
+    },
+    {
+      "question_id": "Music__validation_Music_9",
+      "subject": "Music",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_12",
+      "subject": "Pharmacy",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 2013
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 426
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1057
+        }
+      }
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_13",
+      "subject": "Pharmacy",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 350
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 244
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 231
+        }
+      }
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_16",
+      "subject": "Pharmacy",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 384
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 298
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 309
+        }
+      }
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_18",
+      "subject": "Pharmacy",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 345
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 336
+        }
+      }
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_30",
+      "subject": "Pharmacy",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 656
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Pharmacy__validation_Pharmacy_7",
+      "subject": "Pharmacy",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 259
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 253
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 246
+        }
+      }
+    },
+    {
+      "question_id": "Physics__validation_Physics_16",
+      "subject": "Physics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 173
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 214
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 195
+        }
+      }
+    },
+    {
+      "question_id": "Physics__validation_Physics_22",
+      "subject": "Physics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 686
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 706
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 585
+        }
+      }
+    },
+    {
+      "question_id": "Physics__validation_Physics_26",
+      "subject": "Physics",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 140
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 183
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 157
+        }
+      }
+    },
+    {
+      "question_id": "Physics__validation_Physics_3",
+      "subject": "Physics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1003
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 810
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1049
+        }
+      }
+    },
+    {
+      "question_id": "Physics__validation_Physics_4",
+      "subject": "Physics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 628
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 627
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1084
+        }
+      }
+    },
+    {
+      "question_id": "Physics__validation_Physics_9",
+      "subject": "Physics",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 1252
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "length",
+          "output_tokens": 2048
+        }
+      }
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_1",
+      "subject": "Psychology",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 189
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 205
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 221
+        }
+      }
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_13",
+      "subject": "Psychology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 263
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 248
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 235
+        }
+      }
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_17",
+      "subject": "Psychology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 287
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 251
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 295
+        }
+      }
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_2",
+      "subject": "Psychology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 481
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 428
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 502
+        }
+      }
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_21",
+      "subject": "Psychology",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 335
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 307
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 342
+        }
+      }
+    },
+    {
+      "question_id": "Psychology__validation_Psychology_25",
+      "subject": "Psychology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 405
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 365
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 322
+        }
+      }
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_1",
+      "subject": "Public_Health",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 338
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": true,
+          "finish_reason": "stop",
+          "output_tokens": 698
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 788
+        }
+      }
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_10",
+      "subject": "Public_Health",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 195
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 199
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 203
+        }
+      }
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_12",
+      "subject": "Public_Health",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 149
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 152
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 151
+        }
+      }
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_21",
+      "subject": "Public_Health",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 288
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 322
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 292
+        }
+      }
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_23",
+      "subject": "Public_Health",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 871
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 585
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 335
+        }
+      }
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_25",
+      "subject": "Public_Health",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 142
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 196
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 133
+        }
+      }
+    },
+    {
+      "question_id": "Public_Health__validation_Public_Health_5",
+      "subject": "Public_Health",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 290
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 290
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 344
+        }
+      }
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_1",
+      "subject": "Sociology",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 363
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 221
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 318
+        }
+      }
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_13",
+      "subject": "Sociology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 203
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 171
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 239
+        }
+      }
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_14",
+      "subject": "Sociology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 309
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 362
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 313
+        }
+      }
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_2",
+      "subject": "Sociology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 265
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 295
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 246
+        }
+      }
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_21",
+      "subject": "Sociology",
+      "conditions": {
+        "0": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 229
+        },
+        "0.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 232
+        },
+        "1.5": {
+          "correct": false,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 301
+        }
+      }
+    },
+    {
+      "question_id": "Sociology__validation_Sociology_4",
+      "subject": "Sociology",
+      "conditions": {
+        "0": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 326
+        },
+        "0.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 223
+        },
+        "1.5": {
+          "correct": true,
+          "parse_failure": false,
+          "finish_reason": "stop",
+          "output_tokens": 183
+        }
+      }
+    }
+  ]
+}

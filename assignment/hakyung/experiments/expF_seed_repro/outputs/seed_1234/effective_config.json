@@ -1,5 +1,13 @@
 {
   "enforce_fixed_baseline": true,
+  "experiment": {
+    "kind": "seed_reproducibility",
+    "conditions": [
+      42,
+      3407,
+      1234
+    ]
+  },
   "model": {
     "name": "Qwen/Qwen3-VL-4B-Instruct",
     "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17"
@@ -28,8 +36,8 @@
     "top_k": 20,
     "repetition_penalty": 1.0,
     "presence_penalty": 1.5,
-    "engine_seed": 42,
-    "sampling_params_seed": 42
+    "engine_seed": 1234,
+    "sampling_params_seed": 1234
   },
   "generation_budget": {
     "max_model_len": 9048,
@@ -51,5 +59,15 @@
     "save_raw_generation": true,
     "save_env_snapshot": true
   },
-  "output_dir": "outputs"
+  "comparison": {
+    "expected_cuda_version": "13.2",
+    "expected_driver_version": "595.91.07",
+    "historical_exp0_cuda_version": "12.8"
+  },
+  "output_dir": "/workspace/repo/assignment/hakyung/experiments/expF_seed_repro/outputs/seed_1234",
+  "experiment_output_root": "/workspace/repo/assignment/hakyung/experiments/expF_seed_repro/outputs",
+  "active_condition": {
+    "seed": 1234,
+    "name": "seed_1234"
+  }
 }
