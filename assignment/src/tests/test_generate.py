@@ -9,7 +9,9 @@ import yaml
 from datasets import Dataset
 
 
-from assignment.src import common, generate
+import common
+import generate
+sys.modules.pop("common", None)  # Keep another test suite's same-named module independent.
 
 
 @pytest.fixture
@@ -109,8 +111,9 @@ def test_smoke_selection_deterministic():
     assert [item.id for item in common.select_smoke(items, 5)] == expected
 
 
-def run(cfg, out, items, engine=None, config_bytes=b"same"):
+def run(cfg, out, items, engine=None, config_bytes=b"same", limit=None, subjects=None):
     return generate.run_pipeline(cfg, config_bytes, out, items, "model", "revision", None, True,
+                                 limit=limit, subjects=subjects,
                                  engine=engine, counter=generate.FakeTokenCounter())
 
 
@@ -121,13 +124,14 @@ def read_raw(out, cfg):
 def test_resume_interruption_matches_uninterrupted_and_skips_engine(tmp_path, cfg):
     cfg = copy.deepcopy(cfg)
     cfg["run"]["chunk_size"] = 2
-    items = [sample(index) for index in range(6)]
+    items = [sample(index, images=[1, 3] if index == 2 else None) for index in range(6)]
+    items[2].dataset = {0: {"image_1": "first image", "image_3": "third image"}}
     full = tmp_path / "full"
     interrupted = tmp_path / "interrupted"
     full_engine = generate.FakeEngine()
     assert run(cfg, full, items, full_engine) == 2
     assert items[2].id not in [id for call in full_engine.calls for id in call]
-    assert read_raw(full, cfg)[2]["image_indices"] == []
+    assert read_raw(full, cfg)[2]["image_indices"] == [1, 3]
     with pytest.raises(RuntimeError, match="interruption"):
         run(cfg, interrupted, items, generate.FakeEngine(stop_after_chunks=1))
     assert len(read_raw(interrupted, cfg)) == 2
@@ -174,6 +178,47 @@ def test_resume_rejects_foreign_and_duplicate_ids(tmp_path, cfg):
         run(cfg, out, items)
 
 
+def test_resume_rejects_limit_and_subject_changes(tmp_path, cfg):
+    items = [sample(index) for index in range(4)]
+    out = tmp_path / "case"
+    run(cfg, out, items, limit=4, subjects=["Test"])
+    with pytest.raises(ValueError, match="limit mismatch"):
+        run(cfg, out, items, limit=3, subjects=["Test"])
+    with pytest.raises(ValueError, match="subjects mismatch"):
+        run(cfg, out, items, limit=4, subjects=["Other"])
+    all_out = tmp_path / "all"
+    run(cfg, all_out, items)
+    with pytest.raises(ValueError, match="subjects mismatch"):
+        run(cfg, all_out, items, subjects=cfg["dataset"]["subjects"])
+
+
+def test_git_metadata_per_invocation_and_warning(tmp_path, cfg, monkeypatch, capsys):
+    commits = iter(({"commit": "first", "dirty": True}, {"commit": "second", "dirty": False}))
+    monkeypatch.setattr(generate, "git_info", lambda: next(commits))
+    out = tmp_path / "case"
+    items = [sample(0)]
+    assert run(cfg, out, items) == 0
+    assert run(cfg, out, items) == 0
+    output = capsys.readouterr().out
+    assert "WARNING: code commit changed" in output
+    assert "code_commits: ['first', 'second']" in output
+    env = json.loads((out / cfg["run"]["env_filename"]).read_text())
+    assert env["git_first"] == {"commit": "first", "dirty": True}
+    assert "git" not in env
+    assert [call["git"]["commit"] for call in env["invocations"]] == ["first", "second"]
+
+
+def test_git_info_uses_script_directory_and_ignores_untracked(monkeypatch):
+    calls = []
+    def fake_run(argv, **kwargs):
+        calls.append((argv, kwargs))
+        return type("Result", (), {"stdout": "commit\n" if "rev-parse" in argv else ""})()
+    monkeypatch.setattr(generate.subprocess, "run", fake_run)
+    assert generate.git_info() == {"commit": "commit", "dirty": False}
+    assert calls[0][1]["cwd"] == Path(generate.__file__).resolve().parent
+    assert calls[1][0] == ["git", "status", "--porcelain", "--untracked-files=no"]
+
+
 def test_token_mismatch_discards_whole_chunk(tmp_path, cfg):
     cfg = copy.deepcopy(cfg)
     cfg["run"]["chunk_size"] = 2
@@ -189,16 +234,18 @@ def test_no_heavy_modules_on_dry_run_and_no_forbidden_source_strings(tmp_path, c
 import sys
 import yaml
 from pathlib import Path
-from assignment.src import common, generate
-cfg = yaml.safe_load(Path('assignment/src/config.yaml').read_text())
+sys.path.insert(0, sys.argv[2])
+import common, generate
+cfg = yaml.safe_load(Path(sys.argv[3]).read_text())
 item = common.Sample('id', 'subject', None, None, None, 'open', 'Question', [], '[]', 'answer', [])
 generate.run_pipeline(cfg, b'config', Path(sys.argv[1]), [item], 'model', 'revision', None, True)
 assert 'vllm' not in sys.modules and 'torch' not in sys.modules and 'transformers' not in sys.modules
 """
-    completed = subprocess.run([sys.executable, "-c", script, str(tmp_path / "case")],
-                               capture_output=True, text=True)
-    assert completed.returncode == 0, completed.stderr
     source = Path(__file__).resolve().parents[1]
+    completed = subprocess.run([sys.executable, "-c", script, str(tmp_path / "case"),
+                                str(source), str(source / "config.yaml")],
+                               cwd=tmp_path, capture_output=True, text=True)
+    assert completed.returncode == 0, completed.stderr
     for name in ("check_env.py", "common.py", "generate.py"):
         code = (source / name).read_text()
-        assert not any(piece in code for piece in ("assignment", "results", "runs", "/workspace", "/home"))
+        assert not any(piece in code for piece in ("assignment/", "results/", "runs/", "/workspace", "/home"))

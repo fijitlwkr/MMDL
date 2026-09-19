@@ -1,4 +1,3 @@
-import importlib.util
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -7,10 +6,7 @@ from datasets import Dataset
 from packaging.requirements import Requirement
 
 
-SOURCE = Path(__file__).resolve().parents[1] / "check_env.py"
-SPEC = importlib.util.spec_from_file_location("check_env", SOURCE)
-check_env = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(check_env)
+import check_env
 
 
 def test_parse_requirements_comments_options_markers(tmp_path):

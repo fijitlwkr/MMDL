@@ -145,7 +145,7 @@ RAW_FIELDS = {
     "gold": str,
     "options": list,
     "options_raw": str,
-    "image_indices": list,
+    "image_indices": list,  # Image numbers owned by the question, ascending; also retained for skips.
     "prompt": str,
     "status": str,
     "reason": (str, type(None)),
@@ -166,7 +166,7 @@ def make_record(sample: Sample, cfg: dict, **values) -> dict:
     base.update(schema_version=cfg["schema"]["version"], synthetic=False, id=sample.id,
                 subject=sample.subject, subfield=sample.subfield, topic_difficulty=sample.topic_difficulty,
                 img_type=sample.img_type, question_type=sample.question_type, gold=sample.answer,
-                options=sample.options, options_raw=sample.options_raw, image_indices=sample.image_indices,
+                options=sample.options, options_raw=sample.options_raw, image_indices=sorted(sample.image_indices),
                 prompt=build_prompt(sample, cfg), status="error", max_new_tokens=cfg["budget"]["max_new_tokens"])
     if set(values) - set(RAW_FIELDS):
         raise ValueError(f"unknown record fields: {sorted(set(values) - set(RAW_FIELDS))}")

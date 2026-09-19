@@ -83,13 +83,14 @@ class VLLMEngine(Engine):
 def git_info() -> dict:
     def run(*args):
         try:
-            result = subprocess.run(["git", *args], capture_output=True, text=True, check=True)
+            result = subprocess.run(["git", *args], cwd=Path(__file__).resolve().parent,
+                                    capture_output=True, text=True, check=True)
             return result.stdout.strip()
         except (OSError, subprocess.CalledProcessError):
             return None
 
     commit = run("rev-parse", "HEAD")
-    dirty = run("status", "--porcelain")
+    dirty = run("status", "--porcelain", "--untracked-files=no")
     return {"commit": commit or "unknown", "dirty": bool(dirty) if dirty is not None else "unknown"}
 
 
@@ -122,7 +123,8 @@ def recover_raw(path: Path) -> list[dict]:
     return records
 
 
-def resume_state(raw_path: Path, env_path: Path, selected: list, config_sha256: str, dry_run: bool) -> list[dict]:
+def resume_state(raw_path: Path, env_path: Path, selected: list, config_sha256: str,
+                 dry_run: bool, limit: int | None, subjects: list[str] | None) -> list[dict]:
     if raw_path.exists() and not env_path.exists():
         raise ValueError("raw file exists without environment metadata")
     if env_path.exists():
@@ -131,6 +133,10 @@ def resume_state(raw_path: Path, env_path: Path, selected: list, config_sha256: 
             raise ValueError("config_sha256 mismatch")
         if env.get("dry_run") is not dry_run:
             raise ValueError("dry_run mode mismatch")
+        if env.get("limit") != limit:
+            raise ValueError("limit mismatch")
+        if env.get("subjects") != subjects:
+            raise ValueError("subjects mismatch")
     records = recover_raw(raw_path)
     ids = [record["id"] for record in records]
     if len(ids) != len(set(ids)):
@@ -151,7 +157,7 @@ def write_env(path: Path, env: dict) -> None:
     temporary.replace(path)
 
 
-def print_summary(records: list[dict], mismatches: int) -> int:
+def print_summary(records: list[dict], mismatches: int, code_commits: list[str]) -> int:
     statuses = Counter(record["status"] for record in records)
     finishes = Counter(record["finish_reason"] for record in records if record["finish_reason"] is not None)
     skips = Counter(record["reason"] for record in records if record["status"] == "skip")
@@ -170,6 +176,7 @@ def print_summary(records: list[dict], mismatches: int) -> int:
     print("skip reasons:", dict(skips), "errors:", statuses["error"])
     print("length ids:", dict(lengths))
     print("invariant violations:", violations, "token mismatches:", mismatches)
+    print("code_commits:", code_commits)
     return 2 if statuses["error"] or violations else 0
 
 
@@ -188,17 +195,25 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
     raw_path = out / cfg["run"]["raw_filename"]
     env_path = out / cfg["run"]["env_filename"]
     digest = hashlib.sha256(config_bytes).hexdigest()
-    records = resume_state(raw_path, env_path, samples, digest, dry_run)
+    records = resume_state(raw_path, env_path, samples, digest, dry_run, limit, subjects)
     prior = json.loads(env_path.read_text(encoding="utf-8")) if env_path.exists() else None
+    current_git = git_info()
+    if prior and prior.get("invocations"):
+        previous_git = prior["invocations"][-1].get("git", {})
+        previous_commit = previous_git.get("commit", "unknown")
+        if previous_commit != current_git["commit"]:
+            print(f"WARNING: code commit changed since previous invocation: "
+                  f"{previous_commit} -> {current_git['commit']}")
     env = prior or {"schema_version": cfg["schema"]["version"], "config": cfg,
                     "config_sha256": digest, "model": {"repo": cfg["model"]["repo_id"],
                     "revision": revision, "path": model_path},
                     "dataset": {"repo": cfg["dataset"]["repo_id"], "revision": cfg["dataset"]["revision"]},
                     "partial": limit is not None or subjects is not None, "dry_run": dry_run,
-                    "limit": limit, "subjects": subjects or cfg["dataset"]["subjects"],
-                    "git": git_info(), "invocations": []}
+                    "limit": limit, "subjects": subjects,
+                    "git_first": current_git, "invocations": []}
     started = time.monotonic()
     invocation = {"started_at": utc_now(), "finished_at": None, "duration_seconds": None,
+                  "git": current_git,
                   "args": invocation_args or {"model_path": model_path, "revision": revision,
                                                  "data_root": data_root, "out": str(out),
                                                  "dry_run": dry_run, "limit": limit, "subjects": subjects}}
@@ -226,10 +241,10 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                     messages = build_messages(sample, cfg, images)
                     precomputed = counter.count(sample, prompt, messages, ordinal, cfg)
                     base = make_record(sample, cfg, synthetic=dry_run,
-                                       image_indices=sorted(images), precomputed_prompt_tokens=precomputed)
+                                       image_indices=sorted(sample.image_indices),
+                                       precomputed_prompt_tokens=precomputed)
                     if precomputed > max_input:
-                        prepared.append((base | {"status": "skip", "reason": "prompt_too_long",
-                                                 "image_indices": []}, None))
+                        prepared.append((base | {"status": "skip", "reason": "prompt_too_long"}, None))
                     else:
                         request = {"sample": sample, "ordinal": ordinal, "prompt": prompt,
                                    "messages": messages, "images": images, "precomputed": precomputed, "cfg": cfg}
@@ -272,7 +287,9 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
         invocation["finished_at"] = utc_now()
         invocation["duration_seconds"] = round(time.monotonic() - started, 3)
         write_env(env_path, env)
-    return print_summary(records, mismatches)
+    code_commits = list(dict.fromkeys(item.get("git", {}).get("commit", "unknown")
+                                      for item in env["invocations"]))
+    return print_summary(records, mismatches, code_commits)
 
 
 def main(argv: list[str] | None = None) -> int:
