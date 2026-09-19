@@ -1,0 +1,19 @@
+{
+  "source_export_sha256": "77a97690dcda256bc322dd8d3309fe33f5e9d4fad9f69416ff5f9b1cb630942f",
+  "items": 49,
+  "total_raw_characters": 193105,
+  "source_analysis_id": "8e481cefbf0d516355939773cc2191781de1bb500f2590a8d6ed398c2a87c8ea",
+  "human_confirmed": 2,
+  "files": {
+    "H1_49문항_검토자료.md": "ec1bf32a936c7f42cda361b580e7e74899b94828b6396f1994648e08e168cd2b",
+    "H1_결과반환양식.json": "f55459763482521d507cf6b0329756db71cf57aec820ba4697b8d9d25b57c767",
+    "README.md": "d4660819a7b117adddc530eff3db8699dfbf373ffcddd9731c4e775b9f558b05",
+    "source_export.json": "77a97690dcda256bc322dd8d3309fe33f5e9d4fad9f69416ff5f9b1cb630942f",
+    "새채팅_시작프롬프트.txt": "199a6920836be2e06ea196002dde1116a4b0df969696c72b4efd024ccf327722",
+    "분할본\\H1_01-10.md": "e76181b16ab41c2947d68b09ba587c388745824aeacf94d8fd1cc8502de65899",
+    "분할본\\H1_11-20.md": "e2d1d92ed9c9cd99495ebe131f87df5208ca36f4fab50e7d9c4e7769084fa2a0",
+    "분할본\\H1_21-30.md": "03287afd319c26e1418a5a4e701d1b138785758e9718084f5b126ab3b076a0fa",
+    "분할본\\H1_31-40.md": "4db62851fcd5369568c7e788795e743dc923d726f5ad2222577c93555e5da3f2",
+    "분할본\\H1_41-49.md": "fe6431365900d3849c58073999b41fb2b7da1057e345d7cb71f94be6b3bc1c34"
+  }
+}
