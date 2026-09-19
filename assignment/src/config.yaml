@@ -1,0 +1,53 @@
+model:
+  repo_id: Qwen/Qwen3-VL-4B-Instruct
+  revision: ebb281ec70b05090aa6165b016eac8ec08e71b17
+  dtype: bfloat16
+dataset:
+  repo_id: MMMU/MMMU
+  revision: 98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68
+  split: validation
+  expected_rows_per_subject: 30
+  expected_total_rows: 900
+  subjects:
+    - Accounting
+    - Agriculture
+    - Architecture_and_Engineering
+    - Art
+    - Art_Theory
+    - Basic_Medical_Science
+    - Biology
+    - Chemistry
+    - Clinical_Medicine
+    - Computer_Science
+    - Design
+    - Diagnostics_and_Laboratory_Medicine
+    - Economics
+    - Electronics
+    - Energy_and_Power
+    - Finance
+    - Geography
+    - History
+    - Literature
+    - Manage
+    - Marketing
+    - Materials
+    - Math
+    - Mechanical_Engineering
+    - Music
+    - Pharmacy
+    - Physics
+    - Psychology
+    - Public_Health
+    - Sociology
+environment:
+  expected_packages:
+    python: "3.12.3"
+    torch: "2.8.0+cu128"
+    vllm: "0.11.0"
+    transformers: "4.57.1"
+    tokenizers: "0.22.2"
+  min_driver_major: 580
+  env_vars:
+    VLLM_ENABLE_V1_MULTIPROCESSING: "0"
+    VLLM_WORKER_MULTIPROC_METHOD: "spawn"
+    TOKENIZERS_PARALLELISM: "false"
