@@ -288,7 +288,7 @@ def inspect_subject(dataset, subject):
     columns = list(dataset.column_names)
     image_columns = [name for name in columns if IMAGE_COLUMN.fullmatch(name)]
     option_types = Counter()
-    parse_results = Counter()
+    parse_counts = Counter()
     option_counts = Counter()
     question_types = Counter()
     answer_formats = {}
@@ -306,7 +306,7 @@ def inspect_subject(dataset, subject):
         option_types[type(raw_options).__name__] += 1
         options, parsed = parsed_options(raw_options)
         if parsed is not None:
-            parse_results["success" if parsed else "failure"] += 1
+            parse_counts["success" if parsed else "failure"] += 1
         if parsed and isinstance(options, (list, tuple, dict)):
             option_counts[len(options)] += 1
         kind = str(row.get("question_type", "unknown"))
@@ -343,7 +343,7 @@ def inspect_subject(dataset, subject):
         else:
             bucket["open_answer_examples"] = bucket.pop("examples")
     return {"rows": len(dataset), "columns": columns, "options_types": dict(option_types),
-            "options_literal_eval": dict(parse_results), "parsed_option_counts": dict(option_counts),
+            "options_literal_eval": dict(parse_counts), "parsed_option_counts": dict(option_counts),
             "question_types": dict(question_types), "answer_formats": answer_formats,
             "image_columns": image_columns, "non_null_image_counts": dict(nonnull_images),
             "marker_comparison": dict(comparisons), "marker_examples": comparison_examples,
@@ -383,13 +383,13 @@ def data_section(config, args):
 def run_sections(config, args, runners=None):
     runners = runners or {"system": system_section, "packages": packages_section, "vllm_import": vllm_import_section,
                           "gpu": gpu_section, "qwen_vl_utils": qwen_vl_utils_section, "model": model_section, "data": data_section}
-    results = {}
+    outcomes = {}
     for name in args.sections:
         try:
-            results[name] = runners[name](config, args)
+            outcomes[name] = runners[name](config, args)
         except Exception:
-            results[name] = [check("FAIL", "section_exception", traceback=traceback.format_exc())]
-    return results
+            outcomes[name] = [check("FAIL", "section_exception", traceback=traceback.format_exc())]
+    return outcomes
 
 
 def main(argv=None):
@@ -414,16 +414,16 @@ def main(argv=None):
     args.subjects = [part.strip() for part in args.subjects.split(",")] if args.subjects else None
     if args.subjects and set(args.subjects) - set(config["dataset"]["subjects"]):
         parser.error("unknown subjects: " + ", ".join(sorted(set(args.subjects) - set(config["dataset"]["subjects"]))))
-    results = run_sections(config, args)
-    counts = Counter(item["status"] for checks in results.values() for item in checks)
-    report = {"sections": results, "counts": dict(counts), "config": str(args.config),
+    outcomes = run_sections(config, args)
+    counts = Counter(item["status"] for checks in outcomes.values() for item in checks)
+    report = {"sections": outcomes, "counts": dict(counts), "config": str(args.config),
               "model_path": args.model_path, "revision": args.revision,
               "selected_subjects": args.subjects or config["dataset"]["subjects"]}
     args.out.mkdir(parents=True, exist_ok=True)
     destination = args.out / "env_check.json"
     destination.write_text(json.dumps(report, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     print(f"Report: {destination}")
-    for section, checks in results.items():
+    for section, checks in outcomes.items():
         summary = Counter(item["status"] for item in checks)
         print(f"{section}: " + ", ".join(f"{key}={summary[key]}" for key in ("PASS", "FAIL", "WARN", "INFO", "SKIP") if summary[key]))
     print("Total: " + ", ".join(f"{key}={counts[key]}" for key in ("PASS", "FAIL", "WARN", "INFO", "SKIP") if counts[key]))
