@@ -235,17 +235,17 @@ import sys
 import yaml
 from pathlib import Path
 sys.path.insert(0, sys.argv[2])
-import common, generate
+import common, generate, inputs, preflight
 cfg = yaml.safe_load(Path(sys.argv[3]).read_text())
 item = common.Sample('id', 'subject', None, None, None, 'open', 'Question', [], '[]', 'answer', [])
 generate.run_pipeline(cfg, b'config', Path(sys.argv[1]), [item], 'model', 'revision', None, True)
-assert 'vllm' not in sys.modules and 'torch' not in sys.modules and 'transformers' not in sys.modules
+assert all(name not in sys.modules for name in ('vllm', 'torch', 'transformers', 'qwen_vl_utils'))
 """
     source = Path(__file__).resolve().parents[1]
     completed = subprocess.run([sys.executable, "-c", script, str(tmp_path / "case"),
                                 str(source), str(source / "config.yaml")],
                                cwd=tmp_path, capture_output=True, text=True)
     assert completed.returncode == 0, completed.stderr
-    for name in ("check_env.py", "common.py", "generate.py"):
+    for name in ("check_env.py", "common.py", "generate.py", "inputs.py", "preflight.py"):
         code = (source / name).read_text()
         assert not any(piece in code for piece in ("assignment/", "results/", "runs/", "/workspace", "/home"))

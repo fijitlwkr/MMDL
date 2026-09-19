@@ -219,8 +219,18 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                                                  "dry_run": dry_run, "limit": limit, "subjects": subjects}}
     env["invocations"].append(invocation)
     write_env(env_path, env)
-    engine = engine or (FakeEngine() if dry_run else VLLMEngine(cfg, model_path, revision))
-    counter = counter or (FakeTokenCounter() if dry_run else TokenCounter())
+    if dry_run:
+        counter = counter or FakeTokenCounter()
+        engine = engine or FakeEngine()
+    else:
+        if counter is None:
+            if __package__:
+                from .inputs import HFTokenCounter, resolve_model_dir
+            else:
+                from inputs import HFTokenCounter, resolve_model_dir
+            model_path = str(resolve_model_dir(model_path, revision, weights=False))
+            counter = HFTokenCounter(Path(model_path), cfg)
+        engine = engine or VLLMEngine(cfg, model_path, revision)
     done = {record["id"] for record in records}
     pending = [(ordinal, sample) for ordinal, sample in enumerate(samples) if sample.id not in done]
     chunk_size = cfg["run"]["chunk_size"]
@@ -244,10 +254,14 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                                        image_indices=sorted(sample.image_indices),
                                        precomputed_prompt_tokens=precomputed)
                     if precomputed > max_input:
+                        if hasattr(counter, "pop_prepared"):
+                            counter.pop_prepared(sample.id)
                         prepared.append((base | {"status": "skip", "reason": "prompt_too_long"}, None))
                     else:
                         request = {"sample": sample, "ordinal": ordinal, "prompt": prompt,
                                    "messages": messages, "images": images, "precomputed": precomputed, "cfg": cfg}
+                        if hasattr(counter, "pop_prepared"):
+                            request["prepared"] = counter.pop_prepared(sample.id)
                         prepared.append((base, request))
                         requests.append(request)
                 outputs = engine.generate(requests) if requests else []
