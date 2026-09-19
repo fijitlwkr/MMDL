@@ -1,0 +1,40 @@
+{
+  "source_export_sha256": "756a79e5a1e8fc8acdc4fbf36d4d2de3f5d660aa2fd08d8d9290e2ea19cf404d",
+  "h1_return_sha256": "50bb5b02083cac10a691b58725f43b9a6cdf63b7112e7d73f8245c920b173965",
+  "analysis_id": "8e481cefbf0d516355939773cc2191781de1bb500f2590a8d6ed398c2a87c8ea",
+  "sample_n": 100,
+  "population_n": 305,
+  "sample_seed": 3407,
+  "original_generation_seed": 42,
+  "reused_h1": 10,
+  "pending": 90,
+  "all_raw_characters": 476600,
+  "pending_raw_characters": 384775,
+  "builder_sha256": "9f6a54f1004c112c71fd743609cd118f8ce7868930c70090aaa9fd8e7084c5ee",
+  "api_calls": 0,
+  "generation_runs": 0,
+  "checks": [
+    "fixed sample reproduces",
+    "100 unique IDs",
+    "all raw hashes match",
+    "10 overlap analysis/raw hashes and evidence match",
+    "no GT/parser outputs",
+    "90 raw responses unabridged"
+  ],
+  "files": {
+    "H2_90문항_검토자료.md": "5008a9864a4350b946e0ca8a077b1a1dc12a1a03a3493a0dc153a65675a5ab85",
+    "H2_결과반환양식.json": "06473cda3d8cce4705fd83421080c56f64e9505f15f1410ddc8383e8cda5a7c6",
+    "README.md": "3c05e1c51f1e19e153180753f2e0507b5a67e490b41e0a678ccd424c9485edfa",
+    "source_blind_100.json": "5c7f950b5e40f8258c36ae80b910b913ff8a99d648a5ac96e733b7af78027932",
+    "분할본\\H2_01-10.md": "1476a798dc7517fdf82197ca25036474c5a5d4fca7de1b1a31076b1e6274ee57",
+    "분할본\\H2_11-20.md": "e7197cbaf9e8295f0b783b21b99b952602e05104ebe4b05095420bf269521ebf",
+    "분할본\\H2_21-30.md": "cad41304d4a7bf47e419a36392f2c954be3b5286e8db43317d6c7c002ef9e61e",
+    "분할본\\H2_31-40.md": "135a319b3fcd2e79013cf1a899fb730fab0a99f797df087d98b4df33f5a0aace",
+    "분할본\\H2_41-50.md": "0ad934ed2231ea2b4059af10ff311a65b9c883b7a384be187f73bcf485b6393d",
+    "분할본\\H2_51-60.md": "359a62dcbd64c5e89657aaa83b37034e0623870708775ff6354be0345437a419",
+    "분할본\\H2_61-70.md": "7184c8d9184e00d78b561314d67ba97e4a4c309dc8b89e2fdbdf53f68e81c502",
+    "분할본\\H2_71-80.md": "1d0fe6993e1b4ed22cd1279d85d2fa93029343ef300046535af573146b20f5af",
+    "분할본\\H2_81-90.md": "04e72f061abbe6db9269078413c09fceb79e0f97f0559ab81b7fbf747b3005bc",
+    "새채팅_시작프롬프트.txt": "1dd83762aa0bf0b22675515c3be728d731530dbccb2187cccb766174c212ae40"
+  }
+}
