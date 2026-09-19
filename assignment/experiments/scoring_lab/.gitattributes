@@ -1,0 +1,2 @@
+# Preserve hashes of pinned sources, returned labels and frozen evidence on all platforms.
+* -text
