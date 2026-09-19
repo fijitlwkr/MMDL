@@ -1,4 +1,5 @@
 import importlib.util
+import json
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -68,3 +69,30 @@ def test_section_exception_does_not_stop_following_section():
     assert result["broken"][0]["status"] == "FAIL"
     assert "RuntimeError: intentional" in result["broken"][0]["traceback"]
     assert result["healthy"][0]["status"] == "PASS"
+
+
+def test_qwen_smart_resize_fallback_and_missing(monkeypatch):
+    def process_vision_info(messages, image_patch_size=None):
+        return messages
+
+    def smart_resize(height, width):
+        return height, width
+
+    module = SimpleNamespace(process_vision_info=process_vision_info)
+    vision = SimpleNamespace(smart_resize=smart_resize, IMAGE_TOKEN_SIZE=42)
+    monkeypatch.setattr(check_env, "installed_version", lambda name: "present")
+    monkeypatch.setattr(check_env.importlib, "import_module", lambda name: vision if name.endswith("vision_process") else module)
+    item = check_env.qwen_vl_utils_section({}, None)[0]
+    assert item["status"] == "PASS"
+    assert item["smart_resize"] == "(height, width)"
+    assert item["constants"]["IMAGE_TOKEN_SIZE"] == 42
+    del vision.smart_resize
+    item = check_env.qwen_vl_utils_section({}, None)[0]
+    assert item["status"] == "PASS" and item["smart_resize"] == "unknown"
+
+
+def test_snapshot_dtype_falls_back_to_text_config(tmp_path):
+    (tmp_path / "config.json").write_text(json.dumps({"text_config": {"dtype": "bfloat16"}}))
+    items = check_env.snapshot_details(tmp_path, {"model": {"dtype": "bfloat16"}})
+    assert items[0]["status"] == "PASS"
+    assert items[0]["dtype_source"] == "text_config.dtype"

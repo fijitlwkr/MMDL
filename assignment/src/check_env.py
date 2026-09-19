@@ -180,9 +180,12 @@ def qwen_vl_utils_section(config, args):
     vision = importlib.import_module("qwen_vl_utils.vision_process")
     process_signature = inspect.signature(module.process_vision_info)
     constants = {name: value for name, value in vars(vision).items()
-                 if type(value) is int and any(part in name for part in ("FACTOR", "PIXELS", "PATCH", "MERGE"))}
+                 if type(value) is int and any(part in name for part in
+                 ("FACTOR", "PIXELS", "PATCH", "MERGE", "TOKEN", "RATIO", "SIZE"))}
+    smart_resize = getattr(module, "smart_resize", None) or getattr(vision, "smart_resize", None)
     return [check("PASS" if "image_patch_size" in process_signature.parameters else "FAIL", "qwen_vl_utils",
-                  process_vision_info=str(process_signature), smart_resize=str(inspect.signature(module.smart_resize)),
+                  process_vision_info=str(process_signature),
+                  smart_resize=str(inspect.signature(smart_resize)) if smart_resize else "unknown",
                   constants=constants)]
 
 
@@ -194,9 +197,14 @@ def snapshot_details(path, config):
         data = json.loads(model_config.read_text(encoding="utf-8"))
         vision = data.get("vision_config") or {}
         text = data.get("text_config") or {}
-        dtype = data.get("torch_dtype") or data.get("dtype") or "unknown"
+        dtype_source = next((source for source, value in
+                             (("torch_dtype", data.get("torch_dtype")), ("dtype", data.get("dtype")),
+                              ("text_config.torch_dtype", text.get("torch_dtype")),
+                              ("text_config.dtype", text.get("dtype"))) if value is not None), "unknown")
+        dtype = data.get("torch_dtype") or data.get("dtype") or text.get("torch_dtype") or text.get("dtype") or "unknown"
         checks.append(check("PASS" if dtype == config["model"]["dtype"] else "FAIL", "model_config",
-                            dtype=dtype, max_position_embeddings=text.get("max_position_embeddings", "unknown"),
+                            dtype=dtype, dtype_source=dtype_source,
+                            max_position_embeddings=text.get("max_position_embeddings", "unknown"),
                             vision={key: vision[key] for key in vision if any(term in key for term in
                                     ("patch_size", "spatial_merge_size"))}))
     else:
