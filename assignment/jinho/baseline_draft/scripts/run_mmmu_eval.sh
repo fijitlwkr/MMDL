@@ -8,7 +8,7 @@ PROJECT_ROOT="$( dirname "$SCRIPT_DIR" )"
 # Default Arguments
 MODEL_PATH="Qwen/Qwen3-VL-4B-Instruct"
 DATA_ROOT="MMMU/MMMU"
-OUTPUT_DIR="$PROJECT_ROOT/results"
+OUTPUT_DIR="$PROJECT_ROOT/data"
 EXTRA_ARGS=()
 
 # Parse Command Line Arguments
