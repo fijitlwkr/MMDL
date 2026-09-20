@@ -68,6 +68,44 @@ def test_runner_failure_records_stage(tmp_path):
     assert failed.exists() and "stage=" in failed.read_text()
 
 
+def test_runner_missing_hf_exits_four(tmp_path):
+    result = subprocess.run([str(SOURCE / "run_generate.sh"), "--out", str(tmp_path / "no-hf")],
+                            env={key: value for key, value in __import__("os").environ.items() if key != "HF_HOME"},
+                            capture_output=True, text=True)
+    assert result.returncode == 4
+    assert "export HF_HOME=..." in result.stdout
+    assert "stage=environment export" in (tmp_path / "no-hf/logs/FAILED").read_text()
+
+
+def test_runner_missing_hf_directory_is_created(tmp_path):
+    cache = Path("/tmp/preflight-cache")
+    if not cache.exists():
+        pytest.skip("preflight cache unavailable")
+    hf = tmp_path / "new-hf"
+    out = tmp_path / "new-out"
+    result = subprocess.run([str(SOURCE / "run_generate.sh"), "--skip_env_gate", "--model_path",
+                             str(tmp_path / "missing-model"), "--data_root", str(cache), "--out", str(out),
+                             "--subjects", "Math", "--limit", "1"],
+                            env={**__import__("os").environ, "HF_HOME": str(hf),
+                                 "HF_HUB_OFFLINE": "1", "HF_DATASETS_OFFLINE": "1"},
+                            capture_output=True, text=True)
+    assert result.returncode != 0 and hf.is_dir()
+    assert "stage=generation" in (out / "logs/FAILED").read_text()
+
+
+def test_runner_disk_gate_exit_five(tmp_path):
+    config = yaml.safe_load((SOURCE / "config.yaml").read_text())
+    config["run"]["min_free_disk_gb"] = 999999
+    config_path = tmp_path / "high.yaml"
+    config_path.write_text(yaml.safe_dump(config, sort_keys=False))
+    hf = tmp_path / "hf"
+    result = subprocess.run([str(SOURCE / "run_generate.sh"), "--skip_env_gate", "--config",
+                             str(config_path), "--out", str(tmp_path / "disk")],
+                            env={**__import__("os").environ, "HF_HOME": str(hf)},
+                            capture_output=True, text=True)
+    assert result.returncode == 5 and "insufficient free disk space" in result.stdout
+
+
 def test_empty_requirements_install_fails(tmp_path):
     # The repository requirements file is nonempty; exercise the same branch with
     # an isolated temporary script directory and a copied empty requirements file.

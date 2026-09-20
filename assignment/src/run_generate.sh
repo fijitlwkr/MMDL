@@ -49,10 +49,10 @@ cleanup() {
   if (( STOP_POD )); then
     sync || true
     if command -v runpodctl >/dev/null 2>&1 && [[ -n "${RUNPOD_POD_ID:-}" ]]; then
-      echo "stop command: runpodctl stop pod $RUNPOD_POD_ID"
+      echo "stop command: runpodctl stop pod $RUNPOD_POD_ID" | tee -a "$OUT/logs/stop_pod.log"
       runpodctl stop pod "$RUNPOD_POD_ID" || true
     else
-      echo "automatic pod stop unavailable: runpodctl or RUNPOD_POD_ID is missing"
+      echo "automatic pod stop unavailable: runpodctl or RUNPOD_POD_ID is missing" | tee -a "$OUT/logs/stop_pod.log"
     fi
   fi
 }
@@ -84,13 +84,25 @@ if [[ -z "${HF_HOME:-}" ]]; then
   if (( SKIP_GATE )); then echo "WARNING: HF_HOME is unset; using process defaults" | tee -a "$OUT/logs/00_system.log"; else echo "HF_HOME is unset; export HF_HOME=... before running" | tee -a "$OUT/logs/00_system.log"; exit 4; fi
 else
   echo "HF_HOME=$HF_HOME" | tee -a "$OUT/logs/00_system.log"
+  mkdir -p "$HF_HOME"
 fi
+if [[ -n "$DATA_ROOT" ]]; then mkdir -p "$DATA_ROOT"; fi
 if python -c 'import hf_transfer' >/dev/null 2>&1; then export HF_HUB_ENABLE_HF_TRANSFER=1; echo "HF transfer: enabled" | tee -a "$OUT/logs/00_system.log"; else echo "HF transfer: unavailable" | tee -a "$OUT/logs/00_system.log"; fi
 MIN_FREE_GB=$(python -c 'import os,yaml; print(yaml.safe_load(open(os.environ["CONFIG_PATH"]))["run"]["min_free_disk_gb"])')
 for CHECK_PATH in "${HF_HOME:-.}" "$OUT"; do
-  FREE_KB=$(df -Pk "$CHECK_PATH" | awk 'NR==2 {print $4}')
+  DISK_PATH="$CHECK_PATH"
+  while [[ ! -e "$DISK_PATH" ]]; do
+    NEXT_PATH="$(dirname "$DISK_PATH")"
+    if [[ "$NEXT_PATH" == "$DISK_PATH" ]]; then echo "cannot determine free disk space: $CHECK_PATH"; exit 6; fi
+    DISK_PATH="$NEXT_PATH"
+  done
+  set +e
+  FREE_KB=$(df -Pk "$DISK_PATH" 2>/dev/null | awk 'NR==2 {print $4}')
+  DF_CODE=${PIPESTATUS[0]}
+  set -e
+  if (( DF_CODE != 0 )) || [[ ! "$FREE_KB" =~ ^[0-9]+$ ]]; then echo "cannot determine free disk space: $CHECK_PATH"; exit 6; fi
   FREE_GB=$((FREE_KB / 1024 / 1024))
-  echo "free_disk path=$CHECK_PATH gb=$FREE_GB required=$MIN_FREE_GB" | tee -a "$OUT/logs/00_system.log"
+  echo "free_disk path=$CHECK_PATH filesystem_path=$DISK_PATH gb=$FREE_GB required=$MIN_FREE_GB" | tee -a "$OUT/logs/00_system.log"
   if (( FREE_GB < MIN_FREE_GB )); then echo "insufficient free disk space"; exit 5; fi
 done
 if (( ! SKIP_GATE )); then
@@ -107,6 +119,9 @@ GEN_ARGS=(--config "$CONFIG" --out "$OUT")
 [[ -n "$MODEL_PATH" ]] && GEN_ARGS+=(--model_path "$MODEL_PATH"); [[ -n "$REVISION" ]] && GEN_ARGS+=(--revision "$REVISION"); [[ -n "$DATA_ROOT" ]] && GEN_ARGS+=(--data_root "$DATA_ROOT")
 [[ -f "$OUT/raw.jsonl" ]] && echo "Resume: existing raw.jsonl found"
 set +e; python "$SCRIPT_DIR/generate.py" "${GEN_ARGS[@]}" "${PASSTHROUGH[@]}" 2>&1 | tee "$OUT/logs/03_generate.log"; GEN_CODE=${PIPESTATUS[0]}; set -e
+if (( GEN_CODE != 0 )) && [[ ! -f "$OUT/raw.jsonl" ]]; then
+  FAILED=1; FAIL_CODE=$GEN_CODE; exit "$GEN_CODE"
+fi
 STAGE="raw validation"
 VALIDATE_ARGS=(--raw "$OUT/raw.jsonl" --config "$CONFIG")
 if [[ -n "${EXPECT_ROWS:-}" ]]; then
