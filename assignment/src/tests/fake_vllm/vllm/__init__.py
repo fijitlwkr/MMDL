@@ -49,6 +49,6 @@ class LLM:
             tokens = [int(digest[1])] * sampling_params.max_tokens if length else [int(digest[1])]
             completion = SimpleNamespace(text=f"fake:{digest.hex()[:12]}  ", token_ids=tokens,
                                          finish_reason="length" if length else "stop", stop_reason=None)
-            results.append(SimpleNamespace(prompt=entry["prompt"], prompt_token_ids=ids,
+            results.append(SimpleNamespace(prompt=f"<expanded>{entry['prompt']}</expanded>", prompt_token_ids=ids,
                                            outputs=[completion]))
         return results

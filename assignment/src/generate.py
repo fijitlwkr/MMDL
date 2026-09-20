@@ -363,6 +363,21 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                                              "num_prompt_tokens": measured}
                     validate_record(record)
                     chunk_records.append(record)
+                chunk_errors = [record for record in chunk_records if record["status"] == "error"]
+                for error_record in chunk_errors[:1]:
+                    error_text = error_record.get("error") or "unknown error"
+                    print(f"first chunk exception: {error_text}")
+                    output_index = next((index for index, item in enumerate(outputs)
+                                         if isinstance(item, Exception)), None)
+                    if output_index is not None and hasattr(outputs[output_index], "vllm_traceback"):
+                        print(outputs[output_index].vllm_traceback)
+                error_fraction = len(chunk_errors) / max(1, len(chunk_records))
+                threshold = cfg["run"].get("abort_error_fraction", 1.0)
+                if (chunk_number == 1 and record_start_count == 0 and chunk_errors) or error_fraction > threshold:
+                    examples = [record["error"] for record in chunk_errors[:3]]
+                    raise AssertionError(f"chunk {chunk_number} error gate: count={len(chunk_errors)}, "
+                                         f"fraction={error_fraction:.3f}, threshold={threshold}; "
+                                         f"examples={examples}")
                 if chunk_mismatches:
                     differences = [measured - expected for _, expected, measured in chunk_mismatches]
                     raise AssertionError(f"precomputed prompt token mismatch in chunk {chunk_number}: "
@@ -379,6 +394,7 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                       f"seconds={chunk_seconds:.3f} output_tokens/s="
                       f"{chunk_tokens / chunk_seconds:.2f} "
                       f"finish={dict(Counter(record['finish_reason'] for record in chunk_records if record['finish_reason']))} "
+                      f"errors={len(chunk_errors)} "
                       f"elapsed={time.monotonic() - started:.3f}")
                 if isinstance(engine, FakeEngine) and engine.stop_after_chunks == chunk_number:
                     raise RuntimeError(f"synthetic interruption after chunk {chunk_number}")

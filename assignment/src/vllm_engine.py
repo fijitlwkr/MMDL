@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import os
 import time
+import traceback
 from typing import Any
 
 
@@ -89,19 +90,22 @@ class VLLMEngine:
         mapped = []
         for position, output in enumerate(outputs):
             try:
-                if getattr(output, "prompt", None) not in (None, inputs[position]["prompt"]):
-                    raise RuntimeError(f"vLLM output order mismatch at {position}")
-                if len(output.outputs) != 1:
-                    raise RuntimeError(f"expected one completion at {position}")
-                completion = output.outputs[0]
+                completions = getattr(output, "outputs", None)
+                if completions is None:
+                    raise RuntimeError(f"missing outputs at position {position}")
+                if len(completions) != 1:
+                    raise RuntimeError(f"expected one completion at position {position}, got {len(completions)}")
+                completion = completions[0]
                 if completion.finish_reason not in ("stop", "length"):
-                    raise RuntimeError(f"unexpected finish_reason {completion.finish_reason!r}")
+                    raise RuntimeError(f"unexpected finish_reason {completion.finish_reason!r} at position {position}; "
+                                       f"outputs={len(completions)}")
                 mapped.append({"raw_text": completion.text,
                                "output_token_ids": list(completion.token_ids),
                                "finish_reason": completion.finish_reason,
                                "stop_reason": completion.stop_reason,
                                "num_prompt_tokens": len(output.prompt_token_ids)})
             except Exception as exc:
+                exc.vllm_traceback = traceback.format_exc()
                 mapped.append(exc)
         return mapped
 

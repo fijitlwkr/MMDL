@@ -112,6 +112,8 @@ def test_smoke_selection_deterministic():
 
 
 def run(cfg, out, items, engine=None, config_bytes=b"same", limit=None, subjects=None):
+    cfg["run"]["abort_error_fraction"] = 1.0
+    cfg["run"]["first_chunk_size"] = min(cfg["run"]["first_chunk_size"], 2)
     return generate.run_pipeline(cfg, config_bytes, out, items, "model", "revision", None, True,
                                  limit=limit, subjects=subjects,
                                  engine=engine, counter=generate.FakeTokenCounter())

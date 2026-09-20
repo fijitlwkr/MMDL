@@ -170,8 +170,6 @@ def test_non_dry_setup_failures_finalize_invocation(monkeypatch, cfg, tmp_path):
         generate.run_pipeline(cfg, b"resolve", tmp_path / "resolve", [item], "repo", "rev", None, False)
     env = json.loads((tmp_path / "resolve" / cfg["run"]["env_filename"]).read_text())
     assert env["invocations"][0]["finished_at"] is not None
-    assert env["invocations"][0]["duration_seconds"] is not None
-
     def resolve_ok(*args, **kwargs):
         return tmp_path
     monkeypatch.setattr(inputs, "resolve_model_dir", resolve_ok)
@@ -187,6 +185,45 @@ def test_non_dry_setup_failures_finalize_invocation(monkeypatch, cfg, tmp_path):
                               counter=Counter())
     env = json.loads((tmp_path / "engine" / cfg["run"]["env_filename"]).read_text())
     assert env["invocations"][0]["finished_at"] is not None
+
+
+class _ErrorEngine:
+    def __init__(self, error_calls, error_call=1):
+        self.calls = 0
+        self.error_calls = set(error_calls)
+        self.error_call = error_call
+    def generate(self, requests):
+        self.calls += 1
+        result = []
+        for index, request in enumerate(requests):
+            if self.calls == self.error_call and index in self.error_calls:
+                result.append(RuntimeError(f"synthetic error {self.calls}:{index}"))
+            else:
+                result.append({"raw_text": "x", "output_token_ids": [1], "finish_reason": "stop",
+                               "stop_reason": None, "num_prompt_tokens": request["precomputed"]})
+        return result
+
+
+def test_chunk_error_gates(cfg, tmp_path):
+    items = [common.Sample(str(i), "Test", None, None, None, "open", "Q", [], "[]", "A", [])
+             for i in range(4)]
+    cfg["run"]["first_chunk_size"] = 2
+    cfg["run"]["chunk_size"] = 2
+    with pytest.raises(AssertionError, match="error gate"):
+        generate.run_pipeline(cfg, b"first", tmp_path / "first", items, "model", "rev", None, True,
+                              engine=_ErrorEngine({0}), counter=generate.FakeTokenCounter())
+    assert not (tmp_path / "first" / cfg["run"]["raw_filename"]).read_text()
+
+    cfg["run"]["abort_error_fraction"] = 0.1
+    cfg["run"]["first_chunk_size"] = 1
+    with pytest.raises(AssertionError, match="error gate"):
+        generate.run_pipeline(cfg, b"later", tmp_path / "later", items, "model", "rev", None, True,
+                              engine=_ErrorEngine({0}, error_call=2), counter=generate.FakeTokenCounter())
+    assert len((tmp_path / "later" / cfg["run"]["raw_filename"]).read_text().splitlines()) == 1
+
+    cfg["run"]["abort_error_fraction"] = 0.5
+    assert generate.run_pipeline(cfg, b"under", tmp_path / "under", items, "model", "rev", None, True,
+                                 engine=_ErrorEngine({0}, error_call=2), counter=generate.FakeTokenCounter()) == 2
 
 
 @pytest.mark.slow

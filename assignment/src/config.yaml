@@ -98,6 +98,7 @@ run:
   chunk_size: 150
   vram_sample_interval_seconds: 1
   min_free_disk_gb: 20  # Resource gate threshold; not an output/reporting condition.
+  abort_error_fraction: 0.1  # 중단 기준이며 출력 조건이 아님.
   raw_filename: raw.jsonl
   env_filename: env.json
 schema:
