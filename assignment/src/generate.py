@@ -75,11 +75,6 @@ class FakeEngine(Engine):
         return outputs
 
 
-class VLLMEngine(Engine):
-    def __init__(self, cfg: dict, model_path: str, revision: str):
-        raise NotImplementedError("VLLMEngine is implemented in the next step")
-
-
 def git_info() -> dict:
     def run(*args):
         try:
@@ -157,7 +152,8 @@ def write_env(path: Path, env: dict) -> None:
     temporary.replace(path)
 
 
-def print_summary(records: list[dict], mismatches: int, code_commits: list[str]) -> int:
+def print_summary(records: list[dict], mismatches: int, code_commits: list[str],
+                  env: dict | None = None) -> int:
     statuses = Counter(record["status"] for record in records)
     finishes = Counter(record["finish_reason"] for record in records if record["finish_reason"] is not None)
     skips = Counter(record["reason"] for record in records if record["status"] == "skip")
@@ -177,14 +173,55 @@ def print_summary(records: list[dict], mismatches: int, code_commits: list[str])
     print("length ids:", dict(lengths))
     print("invariant violations:", violations, "token mismatches:", mismatches)
     print("code_commits:", code_commits)
+    if env is not None:
+        invocations = env.get("invocations", [])
+        elapsed = sum(item.get("duration_seconds") or 0 for item in invocations)
+        produced = sum(record["output_tokens"] or 0 for record in records)
+        print("total seconds:", round(elapsed, 3), "output tokens/s:",
+              round(produced / elapsed, 3) if elapsed else "unknown")
+        print("length percentage:", round(100 * finishes["length"] / max(1, statuses["ok"]), 2),
+              "length by subject:", {key: len(value) for key, value in lengths.items()})
+        last = next((item for item in reversed(invocations) if "engine" in item),
+                    invocations[-1] if invocations else {})
+        print("VRAM:", last.get("vram", "unknown"))
+        print("vLLM logs:", last.get("engine", {}).get("logs", "unknown"))
+        print("engine overrides:", env.get("engine_overrides", {}))
     return 2 if statuses["error"] or violations else 0
+
+
+def parse_engine_overrides(values: list[str] | None) -> dict:
+    if __package__:
+        from .vllm_engine import OVERRIDE_KEYS
+    else:
+        from vllm_engine import OVERRIDE_KEYS
+    overrides = {}
+    for value in values or []:
+        key, separator, encoded = value.partition("=")
+        if not separator or key not in OVERRIDE_KEYS or key in overrides:
+            raise ValueError(f"invalid engine override: {value!r}")
+        try:
+            overrides[key] = json.loads(encoded)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"invalid JSON for engine override {key!r}") from exc
+    return overrides
+
+
+def chunk_plan(pending: list, first_size: int, size: int) -> list[list]:
+    if first_size <= 0 or size <= 0:
+        raise ValueError("chunk sizes must be positive")
+    if not pending:
+        return []
+    chunks = [pending[:first_size]]
+    chunks.extend(pending[index:index + size] for index in range(first_size, len(pending), size))
+    return chunks
 
 
 def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                  model_path: str, revision: str, data_root: str | None, dry_run: bool,
                  limit: int | None = None, subjects: list[str] | None = None,
                  engine: Engine | None = None, counter: TokenCounter | None = None,
-                 invocation_args: dict | None = None) -> int:
+                 invocation_args: dict | None = None,
+                 engine_overrides: dict | None = None) -> int:
     if not dry_run and not cfg["prompt"]["verified"]:
         raise ValueError("prompt source is unverified")
     if limit is not None:
@@ -197,6 +234,11 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
     digest = hashlib.sha256(config_bytes).hexdigest()
     records = resume_state(raw_path, env_path, samples, digest, dry_run, limit, subjects)
     prior = json.loads(env_path.read_text(encoding="utf-8")) if env_path.exists() else None
+    engine_overrides = engine_overrides or {}
+    if prior and prior.get("engine_overrides", {}) != engine_overrides:
+        raise ValueError("engine_overrides mismatch")
+    if engine_overrides:
+        print("WARNING: engine overrides:", engine_overrides)
     current_git = git_info()
     if prior and prior.get("invocations"):
         previous_git = prior["invocations"][-1].get("git", {})
@@ -210,39 +252,60 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                     "dataset": {"repo": cfg["dataset"]["repo_id"], "revision": cfg["dataset"]["revision"]},
                     "partial": limit is not None or subjects is not None, "dry_run": dry_run,
                     "limit": limit, "subjects": subjects,
-                    "git_first": current_git, "invocations": []}
+                    "git_first": current_git, "engine_overrides": engine_overrides,
+                    "invocations": []}
     started = time.monotonic()
     invocation = {"started_at": utc_now(), "finished_at": None, "duration_seconds": None,
+                  "generate_seconds": 0,
                   "git": current_git,
                   "args": invocation_args or {"model_path": model_path, "revision": revision,
                                                  "data_root": data_root, "out": str(out),
                                                  "dry_run": dry_run, "limit": limit, "subjects": subjects}}
-    env["invocations"].append(invocation)
-    write_env(env_path, env)
+    sampler = None
+    resolved_path = None
+    record_start_count = len(records)
+    done = {record["id"] for record in records}
+    pending = [(ordinal, sample) for ordinal, sample in enumerate(samples) if sample.id not in done]
     if dry_run:
         counter = counter or FakeTokenCounter()
         engine = engine or FakeEngine()
-    else:
-        if counter is None:
+    elif pending:
+        if counter is None or engine is None:
             if __package__:
                 from .inputs import HFTokenCounter, resolve_model_dir
             else:
                 from inputs import HFTokenCounter, resolve_model_dir
-            model_path = str(resolve_model_dir(model_path, revision, weights=False))
-            counter = HFTokenCounter(Path(model_path), cfg)
-        engine = engine or VLLMEngine(cfg, model_path, revision)
-    done = {record["id"] for record in records}
-    pending = [(ordinal, sample) for ordinal, sample in enumerate(samples) if sample.id not in done]
-    chunk_size = cfg["run"]["chunk_size"]
-    if chunk_size <= 0:
-        raise ValueError("chunk_size must be positive")
+            resolved_path = Path(resolve_model_dir(model_path, revision, weights=True))
+            if counter is None:
+                counter = HFTokenCounter(resolved_path, cfg)
+        if resolved_path is not None:
+            env["model"]["path"] = str(resolved_path)
+        if __package__:
+            from .envinfo import NvidiaSmiSampler, environment_info, package_versions
+            from .vllm_engine import VLLMEngine
+        else:
+            from envinfo import NvidiaSmiSampler, environment_info, package_versions
+            from vllm_engine import VLLMEngine
+        if prior:
+            current_packages = package_versions()
+            if prior.get("environment", {}).get("packages") != current_packages:
+                print("WARNING: package versions changed since first invocation")
+        sampler = NvidiaSmiSampler(cfg["run"]["vram_sample_interval_seconds"])
+        sampler.start()
+        engine = engine or VLLMEngine(cfg, resolved_path or Path(model_path), engine_overrides)
+        if not prior and resolved_path is not None:
+            env["environment"] = environment_info(cfg, resolved_path)
+    env["invocations"].append(invocation)
+    write_env(env_path, env)
+    chunks = chunk_plan(pending, cfg["run"].get("first_chunk_size", cfg["run"]["chunk_size"]),
+                        cfg["run"]["chunk_size"])
     max_input = (cfg["budget"]["max_model_len"] - cfg["budget"]["max_new_tokens"]
                  - cfg["budget"]["prompt_safety_margin"])
     mismatches = 0
     try:
         with raw_path.open("a", encoding="utf-8") as stream:
-            for chunk_number, offset in enumerate(range(0, len(pending), chunk_size), 1):
-                chunk = pending[offset:offset + chunk_size]
+            for chunk_number, chunk in enumerate(chunks, 1):
+                chunk_started = time.monotonic()
                 prepared = []
                 requests = []
                 for ordinal, sample in chunk:
@@ -264,11 +327,15 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                             request["prepared"] = counter.pop_prepared(sample.id)
                         prepared.append((base, request))
                         requests.append(request)
+                generation_started = time.monotonic()
                 outputs = engine.generate(requests) if requests else []
+                invocation["generate_seconds"] = round(
+                    invocation.get("generate_seconds", 0) + time.monotonic() - generation_started, 3)
                 if len(outputs) != len(requests):
                     raise AssertionError("engine returned wrong number of outputs")
                 output_iter = iter(outputs)
                 chunk_records = []
+                chunk_mismatches = []
                 for base, request in prepared:
                     if request is None:
                         record = base
@@ -280,6 +347,8 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                             measured = output["num_prompt_tokens"]
                             if measured != request["precomputed"]:
                                 mismatches += 1
+                                chunk_mismatches.append((request["sample"].id,
+                                                         request["precomputed"], measured))
                             record = base | {"status": "ok", "raw_text": output["raw_text"],
                                              "output_token_ids": output["output_token_ids"],
                                              "output_tokens": len(output["output_token_ids"]),
@@ -288,22 +357,41 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                                              "num_prompt_tokens": measured}
                     validate_record(record)
                     chunk_records.append(record)
-                if mismatches:
-                    raise AssertionError(f"precomputed prompt token mismatch in chunk {chunk_number}")
+                if chunk_mismatches:
+                    differences = [measured - expected for _, expected, measured in chunk_mismatches]
+                    raise AssertionError(f"precomputed prompt token mismatch in chunk {chunk_number}: "
+                                         f"{chunk_mismatches[:20]}; difference min/max="
+                                         f"{min(differences)}/{max(differences)}")
                 for record in chunk_records:
                     stream.write(json.dumps(record, ensure_ascii=False, separators=(",", ":")) + "\n")
                 stream.flush()
                 os.fsync(stream.fileno())
                 records.extend(chunk_records)
+                chunk_seconds = time.monotonic() - chunk_started
+                chunk_tokens = sum(record["output_tokens"] or 0 for record in chunk_records)
+                print(f"chunk {chunk_number}/{len(chunks)} done={len(records)} "
+                      f"seconds={chunk_seconds:.3f} output_tokens/s="
+                      f"{chunk_tokens / chunk_seconds:.2f} "
+                      f"finish={dict(Counter(record['finish_reason'] for record in chunk_records if record['finish_reason']))} "
+                      f"elapsed={time.monotonic() - started:.3f}")
                 if isinstance(engine, FakeEngine) and engine.stop_after_chunks == chunk_number:
                     raise RuntimeError(f"synthetic interruption after chunk {chunk_number}")
     finally:
+        if sampler is not None:
+            invocation["vram"] = {"nvidia_smi": sampler.stop(),
+                                   "torch": engine.memory_report() if hasattr(engine, "memory_report") else "unknown"}
+        if hasattr(engine, "describe"):
+            invocation["engine"] = engine.describe()
+        invocation["prompt_tokens_total"] = sum(record["num_prompt_tokens"] or 0
+                                                for record in records[record_start_count:])
+        invocation["output_tokens_total"] = sum(record["output_tokens"] or 0
+                                                for record in records[record_start_count:])
         invocation["finished_at"] = utc_now()
         invocation["duration_seconds"] = round(time.monotonic() - started, 3)
         write_env(env_path, env)
     code_commits = list(dict.fromkeys(item.get("git", {}).get("commit", "unknown")
                                       for item in env["invocations"]))
-    return print_summary(records, mismatches, code_commits)
+    return print_summary(records, mismatches, code_commits, env)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -316,6 +404,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dry_run", action="store_true")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--subjects")
+    parser.add_argument("--engine_override", action="append")
     args = parser.parse_args(argv)
     if args.limit is not None and args.limit < 0:
         parser.error("limit must be nonnegative")
@@ -324,11 +413,16 @@ def main(argv: list[str] | None = None) -> int:
     model_path = args.model_path or cfg["model"]["repo_id"]
     revision = args.revision or cfg["model"]["revision"]
     subjects = [part.strip() for part in args.subjects.split(",")] if args.subjects else None
+    try:
+        engine_overrides = parse_engine_overrides(args.engine_override)
+    except ValueError as exc:
+        parser.error(str(exc))
     if not args.dry_run and not cfg["prompt"]["verified"]:
         parser.error("prompt source is unverified")
     samples = load_samples(cfg, args.data_root, subjects)
     return run_pipeline(cfg, config_bytes, args.out, samples, model_path, revision, args.data_root,
                         args.dry_run, args.limit, subjects,
+                        engine_overrides=engine_overrides,
                         invocation_args={key: str(value) if isinstance(value, Path) else value
                                          for key, value in vars(args).items()})
 

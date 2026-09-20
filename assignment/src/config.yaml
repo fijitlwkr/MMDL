@@ -51,6 +51,7 @@ environment:
     VLLM_ENABLE_V1_MULTIPROCESSING: "0"
     VLLM_WORKER_MULTIPROC_METHOD: "spawn"
     TOKENIZERS_PARALLELISM: "false"
+    VLLM_USE_FLASHINFER_SAMPLER: "0"
 prompt:
   verified: true
   source:
@@ -88,11 +89,18 @@ image:
 engine:
   gpu_memory_utilization: 0.9
   limit_mm_per_prompt: {image: 10, video: 0}
+  trust_remote_code: true
+  max_num_batched_tokens: 8192
+  max_num_seqs: 256
+  mm_processor_kwargs: null
 run:
-  chunk_size: 64
+  first_chunk_size: 16
+  chunk_size: 150
+  vram_sample_interval_seconds: 1
   raw_filename: raw.jsonl
   env_filename: env.json
 schema:
   version: "0"
 reproducibility_note: >
   seed를 고정해도 vLLM의 배치 구성, GPU, 라이브러리 버전에 따라 출력이 bit 단위로 재현되지는 않는다.
+  chunk_size, first_chunk_size, max_num_seqs, gpu_memory_utilization은 배치 구성을 바꿔 출력에 영향을 줄 수 있으므로 config 해시에 포함된다.

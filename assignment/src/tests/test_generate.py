@@ -124,6 +124,7 @@ def read_raw(out, cfg):
 def test_resume_interruption_matches_uninterrupted_and_skips_engine(tmp_path, cfg):
     cfg = copy.deepcopy(cfg)
     cfg["run"]["chunk_size"] = 2
+    cfg["run"]["first_chunk_size"] = 2
     items = [sample(index, images=[1, 3] if index == 2 else None) for index in range(6)]
     items[2].dataset = {0: {"image_1": "first image", "image_3": "third image"}}
     full = tmp_path / "full"
@@ -222,6 +223,7 @@ def test_git_info_uses_script_directory_and_ignores_untracked(monkeypatch):
 def test_token_mismatch_discards_whole_chunk(tmp_path, cfg):
     cfg = copy.deepcopy(cfg)
     cfg["run"]["chunk_size"] = 2
+    cfg["run"]["first_chunk_size"] = 2
     items = [sample(index) for index in range(6)]
     out = tmp_path / "case"
     with pytest.raises(AssertionError, match="mismatch"):
@@ -235,7 +237,7 @@ import sys
 import yaml
 from pathlib import Path
 sys.path.insert(0, sys.argv[2])
-import common, generate, inputs, preflight
+import common, generate, inputs, preflight, vllm_engine, envinfo
 cfg = yaml.safe_load(Path(sys.argv[3]).read_text())
 item = common.Sample('id', 'subject', None, None, None, 'open', 'Question', [], '[]', 'answer', [])
 generate.run_pipeline(cfg, b'config', Path(sys.argv[1]), [item], 'model', 'revision', None, True)
@@ -246,6 +248,7 @@ assert all(name not in sys.modules for name in ('vllm', 'torch', 'transformers',
                                 str(source), str(source / "config.yaml")],
                                cwd=tmp_path, capture_output=True, text=True)
     assert completed.returncode == 0, completed.stderr
-    for name in ("check_env.py", "common.py", "generate.py", "inputs.py", "preflight.py"):
+    for name in ("check_env.py", "common.py", "generate.py", "inputs.py", "preflight.py",
+                 "vllm_engine.py", "envinfo.py"):
         code = (source / name).read_text()
         assert not any(piece in code for piece in ("assignment/", "results/", "runs/", "/workspace", "/home"))
