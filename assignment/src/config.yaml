@@ -46,7 +46,7 @@ environment:
     vllm: "0.11.0"
     transformers: "4.57.1"
     tokenizers: "0.22.2"
-  min_driver_major: 580
+  min_driver_major: 570  # RunPod RTX 4090 파드(드라이버 570.211.01)에서 torch 2.8.0+cu128의 cuda.is_available()이 True였음; 환경 게이트 값이며 출력 조건이 아님
   env_vars:
     VLLM_ENABLE_V1_MULTIPROCESSING: "0"
     VLLM_WORKER_MULTIPROC_METHOD: "spawn"
