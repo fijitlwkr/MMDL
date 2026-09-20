@@ -39,6 +39,10 @@ while (($#)); do
 done
 [[ -n "$OUT" ]] || { echo "--out is required" >&2; usage >&2; exit 2; }
 mkdir -p "$OUT/logs"
+if [[ -f "$OUT/logs/FAILED" ]]; then
+  FAILED_STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+  mv "$OUT/logs/FAILED" "$OUT/logs/FAILED.$FAILED_STAMP"
+fi
 FAILED=0; FAIL_CODE=0
 cleanup() {
   local code=$?
@@ -75,6 +79,7 @@ if (( INSTALL )); then
     fi
   fi
 fi
+python -m pip freeze > "$OUT/logs/pip_freeze.txt"
 STAGE="environment export"
 export CONFIG_PATH="$CONFIG"
 while IFS='=' read -r key value; do
@@ -135,5 +140,10 @@ elif [[ -n "$SUBJECTS" ]]; then
 fi
 set +e; python "$SCRIPT_DIR/validate_raw.py" "${VALIDATE_ARGS[@]}" 2>&1 | tee "$OUT/logs/04_validate_raw.log"; VALIDATE_CODE=${PIPESTATUS[0]}; set -e
 { sha256sum "$OUT/raw.jsonl"; stat -c 'bytes=%s' "$OUT/raw.jsonl"; echo "started_utc=$STARTED"; echo "finished_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"; } | tee -a "$OUT/logs/04_validate_raw.log"
-if (( GEN_CODE != 0 || VALIDATE_CODE != 0 )); then FAILED=1; FAIL_CODE=$(( GEN_CODE != 0 ? GEN_CODE : VALIDATE_CODE )); exit "$FAIL_CODE"; fi
+if (( GEN_CODE != 0 || VALIDATE_CODE != 0 )); then
+  FAILED=1
+  FAIL_CODE=$(( GEN_CODE != 0 ? GEN_CODE : VALIDATE_CODE ))
+  (( GEN_CODE != 0 )) && STAGE="generation"
+  exit "$FAIL_CODE"
+fi
 STAGE="complete"; echo "SUCCESS: output=$OUT raw=$OUT/raw.jsonl logs=$OUT/logs"

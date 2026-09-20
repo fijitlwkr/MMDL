@@ -31,6 +31,8 @@ NETWORK_ERRORS = ("connection", "connecterror", "timeout", "offline", "network",
 
 
 def check(status, name, **details):
+    if "status" in details or "name" in details:
+        raise ValueError("check details cannot contain reserved keys: status/name")
     return {"status": status, "name": name, **details}
 
 
@@ -158,7 +160,7 @@ def gpu_section(config, args):
         except ValueError:
             major = None
         checks.append(check("FAIL" if major is not None and major < config["environment"]["min_driver_major"]
-                            else "WARN" if major is None else "PASS", "gpu_driver", name=fields[0],
+                            else "WARN" if major is None else "PASS", "gpu_driver", gpu_name=fields[0],
                             memory_total=fields[1], memory_used=fields[2], driver_version=fields[3],
                             min_driver_major=config["environment"]["min_driver_major"]))
     try:
