@@ -266,37 +266,43 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
     record_start_count = len(records)
     done = {record["id"] for record in records}
     pending = [(ordinal, sample) for ordinal, sample in enumerate(samples) if sample.id not in done]
-    if dry_run:
-        counter = counter or FakeTokenCounter()
-        engine = engine or FakeEngine()
-    elif pending:
-        if counter is None or engine is None:
-            if __package__:
-                from .inputs import HFTokenCounter, resolve_model_dir
-            else:
-                from inputs import HFTokenCounter, resolve_model_dir
-            resolved_path = Path(resolve_model_dir(model_path, revision, weights=True))
-            if counter is None:
-                counter = HFTokenCounter(resolved_path, cfg)
-        if resolved_path is not None:
-            env["model"]["path"] = str(resolved_path)
-        if __package__:
-            from .envinfo import NvidiaSmiSampler, environment_info, package_versions
-            from .vllm_engine import VLLMEngine
-        else:
-            from envinfo import NvidiaSmiSampler, environment_info, package_versions
-            from vllm_engine import VLLMEngine
-        if prior:
-            current_packages = package_versions()
-            if prior.get("environment", {}).get("packages") != current_packages:
-                print("WARNING: package versions changed since first invocation")
-        sampler = NvidiaSmiSampler(cfg["run"]["vram_sample_interval_seconds"])
-        sampler.start()
-        engine = engine or VLLMEngine(cfg, resolved_path or Path(model_path), engine_overrides)
-        if not prior and resolved_path is not None:
-            env["environment"] = environment_info(cfg, resolved_path)
     env["invocations"].append(invocation)
     write_env(env_path, env)
+    try:
+        if dry_run:
+            counter = counter or FakeTokenCounter()
+            engine = engine or FakeEngine()
+        elif pending:
+            if counter is None or engine is None:
+                if __package__:
+                    from .inputs import HFTokenCounter, resolve_model_dir
+                else:
+                    from inputs import HFTokenCounter, resolve_model_dir
+                resolved_path = Path(resolve_model_dir(model_path, revision, weights=True))
+                if counter is None:
+                    counter = HFTokenCounter(resolved_path, cfg)
+            if resolved_path is not None:
+                env["model"]["path"] = str(resolved_path)
+            if __package__:
+                from .envinfo import NvidiaSmiSampler, environment_info, package_versions
+                from .vllm_engine import VLLMEngine
+            else:
+                from envinfo import NvidiaSmiSampler, environment_info, package_versions
+                from vllm_engine import VLLMEngine
+            if prior:
+                current_packages = package_versions()
+                if prior.get("environment", {}).get("packages") != current_packages:
+                    print("WARNING: package versions changed since first invocation")
+            sampler = NvidiaSmiSampler(cfg["run"]["vram_sample_interval_seconds"])
+            sampler.start()
+            engine = engine or VLLMEngine(cfg, resolved_path or Path(model_path), engine_overrides)
+            if not prior and resolved_path is not None:
+                env["environment"] = environment_info(cfg, resolved_path)
+    except Exception:
+        invocation["finished_at"] = utc_now()
+        invocation["duration_seconds"] = round(time.monotonic() - started, 3)
+        write_env(env_path, env)
+        raise
     chunks = chunk_plan(pending, cfg["run"].get("first_chunk_size", cfg["run"]["chunk_size"]),
                         cfg["run"]["chunk_size"])
     max_input = (cfg["budget"]["max_model_len"] - cfg["budget"]["max_new_tokens"]

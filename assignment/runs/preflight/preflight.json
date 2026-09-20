@@ -5,7 +5,7 @@
     "qwen-vl-utils": "0.0.14",
     "torch": "2.8.0+cpu",
     "Pillow": "12.3.0",
-    "config_sha256": "bdfe155ca0edeb364a085e42580aa91bc71589aac5cfd5d7eec7fc39ea43f1fb",
+    "config_sha256": "01af1cadd17d0d4d7593766c666ba3b2764c834b70248936c28ca185d0e6fe01",
     "model_revision_dirname": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
     "max_input": 8064
   },

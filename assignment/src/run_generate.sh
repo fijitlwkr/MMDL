@@ -48,23 +48,51 @@ cleanup() {
   fi
   if (( STOP_POD )); then
     sync || true
-    if command -v runpodctl >/dev/null 2>&1 && [[ -n "${RUNPOD_POD_ID:-}" ]]; then runpodctl stop pod "$RUNPOD_POD_ID" || true; else echo "automatic pod stop unavailable: runpodctl or RUNPOD_POD_ID is missing"; fi
+    if command -v runpodctl >/dev/null 2>&1 && [[ -n "${RUNPOD_POD_ID:-}" ]]; then
+      echo "stop command: runpodctl stop pod $RUNPOD_POD_ID"
+      runpodctl stop pod "$RUNPOD_POD_ID" || true
+    else
+      echo "automatic pod stop unavailable: runpodctl or RUNPOD_POD_ID is missing"
+    fi
   fi
 }
 trap cleanup EXIT
 STAGE="system snapshot"
 { echo "started_utc=$STARTED"; nvidia-smi 2>&1 || true; df -h; free -g; python --version 2>&1; } >"$OUT/logs/00_system.log"
+if (( INSTALL )); then
+  STAGE="install"
+  if [[ ! -s "$SCRIPT_DIR/requirements.txt" ]]; then echo "requirements.txt is empty" | tee "$OUT/logs/01_install.log"; exit 3; fi
+  set +e
+  python -m pip install -r "$SCRIPT_DIR/requirements.txt" 2>&1 | tee "$OUT/logs/01_install.log"
+  INSTALL_CODE=${PIPESTATUS[0]}
+  set -e
+  if (( INSTALL_CODE != 0 )); then
+    if grep -qi "externally-managed-environment" "$OUT/logs/01_install.log"; then
+      echo "externally-managed-environment detected; retrying with --break-system-packages" | tee -a "$OUT/logs/01_install.log"
+      python -m pip install --break-system-packages -r "$SCRIPT_DIR/requirements.txt" 2>&1 | tee -a "$OUT/logs/01_install.log"
+    else
+      exit "$INSTALL_CODE"
+    fi
+  fi
+fi
 STAGE="environment export"
 export CONFIG_PATH="$CONFIG"
 while IFS='=' read -r key value; do
   [[ -n "$key" ]] && export "$key=$value"
 done < <(python -c 'import os,yaml; c=yaml.safe_load(open(os.environ["CONFIG_PATH"])); [print(k+"="+str(v)) for k,v in c["environment"]["env_vars"].items()]')
-if [[ -z "${HF_HOME:-}" ]]; then echo "WARNING: HF_HOME is unset; using process defaults"; fi
-if (( INSTALL )); then
-  STAGE="install"
-  if [[ ! -s "$SCRIPT_DIR/requirements.txt" ]]; then echo "requirements.txt is empty" | tee "$OUT/logs/01_install.log"; exit 3; fi
-  python -m pip install -r "$SCRIPT_DIR/requirements.txt" 2>&1 | tee "$OUT/logs/01_install.log"
+if [[ -z "${HF_HOME:-}" ]]; then
+  if (( SKIP_GATE )); then echo "WARNING: HF_HOME is unset; using process defaults" | tee -a "$OUT/logs/00_system.log"; else echo "HF_HOME is unset; export HF_HOME=... before running" | tee -a "$OUT/logs/00_system.log"; exit 4; fi
+else
+  echo "HF_HOME=$HF_HOME" | tee -a "$OUT/logs/00_system.log"
 fi
+if python -c 'import hf_transfer' >/dev/null 2>&1; then export HF_HUB_ENABLE_HF_TRANSFER=1; echo "HF transfer: enabled" | tee -a "$OUT/logs/00_system.log"; else echo "HF transfer: unavailable" | tee -a "$OUT/logs/00_system.log"; fi
+MIN_FREE_GB=$(python -c 'import os,yaml; print(yaml.safe_load(open(os.environ["CONFIG_PATH"]))["run"]["min_free_disk_gb"])')
+for CHECK_PATH in "${HF_HOME:-.}" "$OUT"; do
+  FREE_KB=$(df -Pk "$CHECK_PATH" | awk 'NR==2 {print $4}')
+  FREE_GB=$((FREE_KB / 1024 / 1024))
+  echo "free_disk path=$CHECK_PATH gb=$FREE_GB required=$MIN_FREE_GB" | tee -a "$OUT/logs/00_system.log"
+  if (( FREE_GB < MIN_FREE_GB )); then echo "insufficient free disk space"; exit 5; fi
+done
 if (( ! SKIP_GATE )); then
   STAGE="environment check"
   CHECK_ARGS=(--config "$CONFIG" --out "$OUT" --sections system,packages,vllm_import,gpu,qwen_vl_utils,model --download)

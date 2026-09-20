@@ -97,6 +97,7 @@ run:
   first_chunk_size: 16
   chunk_size: 150
   vram_sample_interval_seconds: 1
+  min_free_disk_gb: 20  # Resource gate threshold; not an output/reporting condition.
   raw_filename: raw.jsonl
   env_filename: env.json
 schema:

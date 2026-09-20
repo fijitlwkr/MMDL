@@ -160,6 +160,35 @@ def test_override_resume_rejected_and_mismatch_details(cfg, tmp_path):
     assert (tmp_path / "mismatch" / cfg["run"]["raw_filename"]).read_text() == ""
 
 
+def test_non_dry_setup_failures_finalize_invocation(monkeypatch, cfg, tmp_path):
+    item = common.Sample("one", "Test", None, None, None, "open", "Q", [], "[]", "A", [])
+    import inputs
+    def resolve_failure(*args, **kwargs):
+        raise RuntimeError("resolve failed")
+    monkeypatch.setattr(inputs, "resolve_model_dir", resolve_failure)
+    with pytest.raises(RuntimeError, match="resolve failed"):
+        generate.run_pipeline(cfg, b"resolve", tmp_path / "resolve", [item], "repo", "rev", None, False)
+    env = json.loads((tmp_path / "resolve" / cfg["run"]["env_filename"]).read_text())
+    assert env["invocations"][0]["finished_at"] is not None
+    assert env["invocations"][0]["duration_seconds"] is not None
+
+    def resolve_ok(*args, **kwargs):
+        return tmp_path
+    monkeypatch.setattr(inputs, "resolve_model_dir", resolve_ok)
+    import vllm_engine
+    class FailingEngine:
+        def __init__(self, *args, **kwargs):
+            raise RuntimeError("engine failed")
+    monkeypatch.setattr(vllm_engine, "VLLMEngine", FailingEngine)
+    class Counter:
+        pass
+    with pytest.raises(RuntimeError, match="engine failed"):
+        generate.run_pipeline(cfg, b"engine", tmp_path / "engine", [item], "repo", "rev", None, False,
+                              counter=Counter())
+    env = json.loads((tmp_path / "engine" / cfg["run"]["env_filename"]).read_text())
+    assert env["invocations"][0]["finished_at"] is not None
+
+
 @pytest.mark.slow
 def test_vllm_source_contract(cfg):
     root_text = os.environ.get("VLLM_SRC")

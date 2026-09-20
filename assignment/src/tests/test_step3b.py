@@ -82,3 +82,13 @@ def test_empty_requirements_install_fails(tmp_path):
                             capture_output=True, text=True)
     assert result.returncode == 3
     assert "requirements.txt is empty" in (tmp_path / "out/logs/01_install.log").read_text()
+
+
+def test_runner_hardening_contract():
+    source = (SOURCE / "run_generate.sh").read_text()
+    assert source.index('if (( INSTALL )); then') < source.index('STAGE="environment export"')
+    assert 'exit 4' in source and 'export HF_HOME=...' in source
+    assert 'externally-managed-environment' in source and '--break-system-packages' in source
+    assert 'import hf_transfer' in source and 'HF_HUB_ENABLE_HF_TRANSFER=1' in source
+    assert 'min_free_disk_gb' in source and 'exit 5' in source
+    assert 'stop command: runpodctl stop pod' in source
