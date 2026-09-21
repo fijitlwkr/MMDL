@@ -343,8 +343,8 @@ def build_run_metadata(out_dir: Path, cfg: dict, env: dict | None = None,
                 "skip_special_tokens": cfg["sampling"].get("skip_special_tokens", True),
             },
             "output_token_ids": {
-                "includes_stop_tokens": False,
-                "definition": "Generated token IDs returned by vLLM engine, excluding prompt tokens and stop token.",
+                "includes_stop_tokens": True,
+                "definition": "Generated token IDs returned by vLLM engine (CompletionOutput.token_ids), excluding prompt tokens. When finish_reason is 'stop', the sequence ends with the terminating EOS token (<|im_end|>, id 151645 for this model), which is counted in output_tokens; when finish_reason is 'length', no EOS token is present.",
             },
             "num_prompt_tokens": {
                 "measurement": "Engine input token count measured by vLLM, including expanded multimodal image tokens.",
