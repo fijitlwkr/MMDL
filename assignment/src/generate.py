@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import statistics
 import subprocess
+import sys
 import time
 from typing import Any
 
@@ -325,7 +326,8 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                     if precomputed > max_input:
                         if hasattr(counter, "pop_prepared"):
                             counter.pop_prepared(sample.id)
-                        prepared.append((base | {"status": "skip", "reason": "prompt_too_long"}, None))
+                        prepared.append((base | {"status": "skip", "reason": "prompt_too_long",
+                                                 "raw_text": "", "output_token_ids": [], "output_tokens": 0}, None))
                     else:
                         request = {"sample": sample, "ordinal": ordinal, "prompt": prompt,
                                    "messages": messages, "images": images, "precomputed": precomputed, "cfg": cfg}
@@ -348,7 +350,8 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
                     else:
                         output = next(output_iter)
                         if isinstance(output, Exception):
-                            record = base | {"status": "error", "error": repr(output)}
+                            record = base | {"status": "error", "error": repr(output),
+                                             "raw_text": "", "output_token_ids": [], "output_tokens": 0}
                         else:
                             measured = output["num_prompt_tokens"]
                             if measured != request["precomputed"]:
@@ -411,6 +414,18 @@ def run_pipeline(cfg: dict, config_bytes: bytes, out: Path, samples: list,
         invocation["finished_at"] = utc_now()
         invocation["duration_seconds"] = round(time.monotonic() - started, 3)
         write_env(env_path, env)
+        try:
+            if __package__:
+                from .metadata import write_run_metadata
+            else:
+                from metadata import write_run_metadata
+            cmd_line = " ".join(sys.argv) if hasattr(sys, "argv") else None
+            meta_path = write_run_metadata(out, cfg, records=records, env=env,
+                                           invocation_args=invocation_args,
+                                           command_line=cmd_line)
+            print(f"run_metadata: written to {meta_path}")
+        except Exception as meta_exc:
+            print(f"WARNING: failed to write run_metadata.json: {meta_exc}")
     code_commits = list(dict.fromkeys(item.get("git", {}).get("commit", "unknown")
                                       for item in env["invocations"]))
     return print_summary(records, mismatches, code_commits, env)

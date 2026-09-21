@@ -15,6 +15,11 @@ try:
 except ImportError:
     from common import check_invariants, validate_record
 
+try:
+    from .metadata import validate_run_metadata
+except ImportError:
+    from metadata import validate_run_metadata
+
 
 def read_records(path: Path) -> tuple[list[dict], list[str]]:
     records, errors = [], []
@@ -31,7 +36,7 @@ def read_records(path: Path) -> tuple[list[dict], list[str]]:
     return records, errors
 
 
-def validate(path: Path, config: dict, expected: int) -> tuple[int, dict]:
+def validate(path: Path, config: dict, expected: int, metadata_path: Path | None = None) -> tuple[int, dict]:
     records, errors = read_records(path)
     ids = [record.get("id") for record in records]
     if len(ids) != len(set(ids)):
@@ -54,6 +59,16 @@ def validate(path: Path, config: dict, expected: int) -> tuple[int, dict]:
         errors.append(f"invariant violations: {invariant_count}")
     if mismatch_count:
         errors.append(f"prompt token mismatches: {mismatch_count}")
+
+    # Validate run_metadata.json if present
+    meta_path = metadata_path or (path.parent / "run_metadata.json")
+    if meta_path.exists():
+        meta_code, meta_errors = validate_run_metadata(meta_path, raw_path=path)
+        if meta_errors:
+            errors.extend([f"metadata: {err}" for err in meta_errors])
+        else:
+            print(f"metadata check: OK ({meta_path.name})")
+
     statuses = Counter(record["status"] for record in records)
     summary = {"rows": len(records), "status": dict(statuses), "invariants": invariant_count,
                "prompt_token_mismatches": mismatch_count, "errors": errors,
@@ -74,10 +89,11 @@ def main(argv=None) -> int:
     parser.add_argument("--raw", required=True, type=Path)
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--expect", type=int)
+    parser.add_argument("--metadata", type=Path)
     args = parser.parse_args(argv)
     config = yaml.safe_load(args.config.read_text(encoding="utf-8"))
     expected = args.expect if args.expect is not None else config["dataset"]["expected_total_rows"]
-    code, _ = validate(args.raw, config, expected)
+    code, _ = validate(args.raw, config, expected, metadata_path=args.metadata)
     return code
 
 

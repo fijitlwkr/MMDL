@@ -139,11 +139,14 @@ elif [[ -n "$SUBJECTS" ]]; then
   VALIDATE_ARGS+=(--expect "$((SUBJECT_COUNT * ROWS_PER_SUBJECT))")
 fi
 set +e; python "$SCRIPT_DIR/validate_raw.py" "${VALIDATE_ARGS[@]}" 2>&1 | tee "$OUT/logs/04_validate_raw.log"; VALIDATE_CODE=${PIPESTATUS[0]}; set -e
-{ sha256sum "$OUT/raw.jsonl"; stat -c 'bytes=%s' "$OUT/raw.jsonl"; echo "started_utc=$STARTED"; echo "finished_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"; } | tee -a "$OUT/logs/04_validate_raw.log"
+{ sha256sum "$OUT/raw.jsonl"; stat -c 'bytes=%s' "$OUT/raw.jsonl" 2>/dev/null || stat -f 'bytes=%z' "$OUT/raw.jsonl" 2>/dev/null || true; echo "started_utc=$STARTED"; echo "finished_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"; } | tee -a "$OUT/logs/04_validate_raw.log"
+if [[ -f "$OUT/run_metadata.json" ]]; then
+  { sha256sum "$OUT/run_metadata.json"; } | tee -a "$OUT/logs/04_validate_raw.log"
+fi
 if (( GEN_CODE != 0 || VALIDATE_CODE != 0 )); then
   FAILED=1
   FAIL_CODE=$(( GEN_CODE != 0 ? GEN_CODE : VALIDATE_CODE ))
   (( GEN_CODE != 0 )) && STAGE="generation"
   exit "$FAIL_CODE"
 fi
-STAGE="complete"; echo "SUCCESS: output=$OUT raw=$OUT/raw.jsonl logs=$OUT/logs"
+STAGE="complete"; echo "SUCCESS: output=$OUT raw=$OUT/raw.jsonl metadata=$OUT/run_metadata.json logs=$OUT/logs"
