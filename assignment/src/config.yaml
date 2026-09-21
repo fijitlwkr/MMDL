@@ -106,3 +106,31 @@ schema:
 reproducibility_note: >
   seed를 고정해도 vLLM의 배치 구성, GPU, 라이브러리 버전에 따라 출력이 bit 단위로 재현되지는 않는다.
   chunk_size, first_chunk_size, max_num_seqs, gpu_memory_utilization은 배치 구성을 바꿔 출력에 영향을 줄 수 있으므로 config 해시에 포함된다.
+
+# Experiment-team evaluator settings; existing inference settings above are unchanged.
+# This snapshot describes scoring, not the historical generation config of each raw.
+scoring:
+  policy: hybrid100_mc_qwen_ab_open_length_gate_v1
+  judge:
+    model: gpt-4.1-mini-2025-04-14
+    temperature: 0
+    top_p: 1
+    seed: 3407
+    max_tokens: 8
+  # USD per million tokens, recorded 2026-09-21; estimates, not invoice totals.
+  # https://developers.openai.com/api/docs/models/gpt-4.1-mini
+  # https://developers.openai.com/api/docs/models/gpt-3.5-turbo
+  # https://developers.openai.com/api/docs/models/gpt-4o-mini
+  prices_usd_per_million:
+    gpt-4.1-mini-2025-04-14:
+      input: 0.4
+      cached_input: 0.1
+      output: 1.6
+    gpt-3.5-turbo-0125:
+      input: 0.5
+      cached_input: 0.5
+      output: 1.5
+    gpt-4o-mini-2024-07-18:
+      input: 0.15
+      cached_input: 0.075
+      output: 0.6
