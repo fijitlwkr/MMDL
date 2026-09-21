@@ -267,7 +267,7 @@
       "commit": "b629c13cc6274fc325951f96e84777067cab5c3f",
       "dirty": false
     },
-    "execution_command": "src/generate.py --config /workspace/baseline/src/config.yaml --out runs/new_output_run_max_new_tokens2048 --data_root /workspace/.cache/hf_datasets",
+    "execution_command": "src/generate.py --config /workspace/baseline/src/config.yaml --out runs/new_output_run_max_new_tokens8192 --data_root /workspace/.cache/hf_datasets",
     "config": {
       "relative_path": "src/config.yaml",
       "sha256": "ab088ac1349ffb4c92ce6213fc7ea165f3d6d08be979b87f584467f210f5811a",
