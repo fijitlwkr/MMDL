@@ -1,9 +1,11 @@
 # MMMU-val Baseline Evaluation Report — Qwen3-VL-4B-Instruct
 
-- **팀명**: _(기입)_
-- **팀원**: _(기입)_
-- **작성일**: _(기입)_
-- **재현 커맨드**: `(예: bash scripts/run_mmmu_eval.sh)`
+<!-- 1~3절 기준 최종 8192 전량 실행 폴더: assignment/runs/max_new_tokens8192_hakyung -->
+
+- **팀명**: Team4
+- **팀원**: 이하경, 채윤석, 트란트룽하우, 홍성준
+- **작성일**: 2026.09.25
+- **재현 커맨드**: `최종 파이프라인 완성 시 작성`
 
 ---
 
@@ -12,41 +14,31 @@
 | 항목 | 값 |
 |---|---|
 | 모델 checkpoint | `Qwen/Qwen3-VL-4B-Instruct` (ebb281ec70b05090aa6165b016eac8ec08e71b17) |
-| 추론 백엔드 | _(예: transformers / vLLM, 버전)_ |
-| 사용 GPU | _(모델명, VRAM)_ |
-| 실측 peak VRAM | _(GB)_ |
-| 총 소요 시간 | _(900문제 기준)_ |
-| 의존성 | _(requirements.txt / environment.yml 경로 링크)_ |
-| 실행 커맨드 | ```bash\n_(모델 checkpoint 위치와 MMMU 데이터 위치가 인자로 드러나야 함 — 예: --model_path <경로 또는 HF repo id> --data_root <MMMU 데이터 경로>. 하드코딩된 절대경로 대신 인자/환경변수로 받아서, 채점자가 자기 경로만 바꿔 끼우면 그대로 재현되게 작성)_\n``` |
+| 추론 백엔드 | `vllm==0.11.0`; `gpu_memory_utilization=0.9`, `max_model_len=16384`, `max_num_batched_tokens=8192`, `max_num_seqs=256`, `limit_mm_per_prompt={image: 10, video: 0}`, `trust_remote_code=true` (근거: `assignment/src/requirements.txt`, `assignment/src/config.yaml`, `assignment/runs/max_new_tokens8192_hakyung/run_metadata.json`) |
+| 사용 GPU | NVIDIA GeForce RTX 4090, 24564 MiB (근거: `assignment/runs/max_new_tokens8192_hakyung/env_check.json`의 `gpu` 섹션; driver 580.159.04, CUDA header 13.0) |
+| 실측 peak VRAM | nvidia-smi 최대 사용량 **22297 MiB** (env.json sampler); torch `max_allocated_gib` **19.8962 GiB**, `max_reserved_gib` **20.5977 GiB** (env.json) |
+| 총 소요 시간 | 총 57분 50초 (3469.539초), 생성 구간 55분 51초 (3351.217초), 900문항 (근거: assignment/runs/max_new_tokens8192_hakyung/env.json) |
+| 의존성 | [`assignment/src/requirements.txt`](../assignment/src/requirements.txt); 저장소에는 `assignment/sungjun/requirements.lock.txt`가 있으나 이 실행에서 사용했다는 근거는 문서에 없음 |
+| 실행 커맨드 | `최종 파이프라인 완성 시 작성` |
 
 ## 2. 프롬프트
 
 **실제 모델에 들어간 프롬프트 전문** (변수 부분은 `{}`로 표시):
 
 ```
-_(여기에 그대로)_
+Question: {question}
+Options:
+{options}
+Please select the correct answer from the options above.
 ```
 
-- **출처**: _(직접 설계 / 차용한 도구·저장소명 + 링크)_
-- **선택 이유**: _(왜 이 프롬프트를 골랐는지)_
-
-<details>
-<summary>작성 형식 예시 (내용은 예시일 뿐입니다. 본인이 실제 찾은/설계한 프롬프트로 교체)</summary>
+open 문항:
 
 ```
 Question: {question}
-Choices:
-A. {option_A}
-B. {option_B}
-C. {option_C}
-D. {option_D}
-Pick the single best choice from the list above.
 ```
-
-- **출처**: (예시) 오픈소스 평가 툴킷 XYZ의 프롬프트 생성 함수에서 차용, 문구 일부만 수정
-- **선택 이유**: (예시) 모델이 장황한 설명 없이 선택지 하나로 바로 답하도록 유도하기 위해 간결한 지시문 사용
-
-</details>
+- **출처**: `https://github.com/QwenLM/Qwen3-VL`, `evaluation/mmmu/run_mmmu.py`, commit `f8dca99056bb6352cf6ab36d4ea1848a09c54b5b`, Apache-2.0 (근거: `assignment/src/common.py` 헤더 주석)
+- **선택 이유**: HF validation schema를 사용하고 선택지 문자를 목록 위치에서 생성하며, hint가 없는 데이터에 맞춰 optional hint를 생략하고 image marker를 보존한다. CoT는 비활성화한다 (근거: `assignment/src/common.py` 헤더 주석).
 
 ## 3. 생성(Decoding) 설정
 
@@ -54,25 +46,24 @@ Pick the single best choice from the list above.
 
 | 파라미터 | 값 |
 |---|---|
-| `do_sample` | |
-| `temperature` | |
-| `top_p` | |
-| `top_k` | |
-| `repetition_penalty` | |
-| `presence_penalty` | |
-| `seed` | |
+| `do_sample` | `true` |
+| `temperature` | `0.7` |
+| `top_p` | `0.8` |
+| `top_k` | `20` |
+| `repetition_penalty` | `1.0` |
+| `presence_penalty` | `1.5` |
+| `seed` | `3407` |
 
-- **출처**: _(모델 제공사의 공식 recipe를 찾았다면 그 출처/링크. 못 찾았거나 다른 값(예: greedy)을 쓰기로
-  했다면 그 사실과 이유)_
+- **출처**: `sampling.seed=3407`은 README에 없는 팀 추가값이다. `engine_seed=3407`은 GitHub README의 `Evaluation Reproduction > Generation Hyperparameters > Instruct models` 값을 따른다. `temperature=0.7`, `top_p=0.8`, `top_k=20`, `presence_penalty=1.5`, `repetition_penalty=1.0`, `do_sample=true`, `stop_token_ids=[]`의 기준은 `assignment/src/config.yaml` 주석과 실행 설정이다.
 
 ### 3.2 생성 예산 / 이미지 해상도
 
 | 파라미터 | 값 |
 |---|---|
-| `max_new_tokens` | |
-| 이미지 해상도 처리 (`min_pixels`/`max_pixels` 등) | |
+| `max_new_tokens` | `8192` |
+| 이미지 해상도 처리 (`min_pixels`/`max_pixels` 등) | `min_pixels = 1280*28*28 = 1,003,520`, `max_pixels = 5120*28*28 = 4,014,080` |
 
-**선택 근거** (본인이 사용한 인프라 제약과 어떻게 연결되는지 — 속도/VRAM/응답 잘림 등 trade-off): _(적절히)_
+**선택 근거**: `max_new_tokens=8192`는 RunPod RTX 4090 1회 실행 비용을 2달러 이하로 맞추려는 팀 결정이다 (근거: `assignment/src/config.yaml` 주석). 8192 대 2048의 정확도·95% CI·비용 비교 수치는 정확도-비용 비교 실험(별첨/부록 참조)에서 확인한다; 구체 수치는 이 절에서 비워 둔다.
 
 ## 4. 채점(파싱) 방식
 
