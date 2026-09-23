@@ -2,6 +2,8 @@
 
 저장된 추론 결과를 동일한 규칙과 Judge 설정으로 평가한다. 모델 재추론은 하지 않는다. `prepare`, `summarize`, `compare`는 오프라인이며, `run`만 OpenAI API를 호출한다. 실행자는 본인 API 키를 사용한다.
 
+이미 완료된 최신 900문항의 과제 보고서용 결과·실험 근거와 **API 없는 재현 명령**은 [제출 결과 묶음](../submission_20260923/README.md)에 있다.
+
 2026-09-23부터 `hybrid100_mc_qwen_ab_open_no_length_gate_v2`를 사용한다. 추론의 `finish_reason=length`만으로 Judge에 보내는 게이트를 제거했다. 기존 v1 결과 폴더는 그대로 보관하고 아래처럼 새 폴더에서 `prepare`한다. v1 결과의 재집계는 당시 코드(commit `518c12c916cdd194712e5db0340688b48042d62d`)로 수행한다. v2에서 v1 결과를 재개하거나 manifest를 수동 수정하지 않는다.
 
 저장소 루트에서 Python 3.10 이상으로 실행한다.
