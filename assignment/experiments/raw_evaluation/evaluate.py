@@ -22,7 +22,7 @@ import warnings
 
 ROOT = Path(__file__).resolve().parent
 ENDPOINT = "https://api.openai.com/v1/chat/completions"
-POLICY = "hybrid100_mc_qwen_ab_open_length_gate_v1"
+POLICY = "hybrid100_mc_qwen_ab_open_no_length_gate_v2"
 DEFAULT_MODEL = "gpt-4.1-mini-2025-04-14"
 SUPPORTED_MODELS = (DEFAULT_MODEL, "gpt-3.5-turbo-0125", "gpt-4o-mini-2024-07-18")
 
@@ -195,7 +195,7 @@ def derive_item(row, parsers):
         marker_answer = parsers.marker(row["raw_text"], choices)["answer"]
         conflict = bool(answer and marker_answer and answer != marker_answer)
         answer = None if conflict else (answer or marker_answer)
-    route = "judge_length" if row["finish_reason"] == "length" else "judge_conflict" if conflict else "auto" if answer is not None else "judge_rule_failure"
+    route = "judge_conflict" if conflict else "auto" if answer is not None else "judge_rule_failure"
     return {**{key: row[key] for key in ("id", "subject", "question_type", "finish_reason", "output_tokens")},
             "choices": choices, "gt": "A" if is_open else row["gold"], "route": route,
             "auto_answer": answer if route == "auto" else None,
@@ -277,7 +277,7 @@ def prepare(raw, out, config, judge_model=None):
                     "items_sha256": sha((out / "items.jsonl").read_bytes()), "requests_sha256": sha((out / "requests.jsonl").read_bytes()),
                     "code_sha256": code_hashes(), "max_new_tokens_values": sorted({row["max_new_tokens"] for row in rows}),
                     "reproducibility_metadata": {"model_revision": "not_attested_by_raw", "dataset_revision": "not_attested_by_raw", "generation_seed": "not_attested_by_raw", "inference_code_commit": "not_attested_by_raw"},
-                    "policy_notes": ["MC gold hidden from Judge; open A contains verbatim gold and B is Other Answers.", "All length responses go to Judge; no random fallback or retries of completed Z.", "Pinned prompt lists A-D/Z; parsing permits all actual option labels.", "Raw snapshot is byte-identical; original input was not modified."]}
+                    "policy_notes": ["MC gold hidden from Judge; open A contains verbatim gold and B is Other Answers.", "Only rule failures and MC rule conflicts go to Judge, regardless of backbone finish_reason; no random fallback or retries of completed Z.", "Pinned prompt lists A-D/Z; parsing permits all actual option labels.", "Raw snapshot is byte-identical; original input was not modified."]}
         write_json(out / "manifest.json", manifest)
         write_json(out / "mmmu_summary.json", {"source_sha256": source_hash, **diagnostic})
         write_rows(out / "mmmu_results.jsonl", diagnostic_rows)
@@ -415,7 +415,7 @@ def scoring_report(s):
               f"100만 토큰당 입력 ${prices['input']:g}, 캐시 입력 ${prices['cached_input']:g}, 출력 ${prices['output']:g}. 미반환 실패 요청의 청구는 포함하지 않는다.", "",
               "- MC는 Qwen + 기존 Final Answer 보완, open은 A=참조답 원문/B=Other Answers다. Final Answer 문자 보완은 MC에만 적용한다.",
               "- Final Answer 100자는 마지막 marker 끝부터 응답 끝까지의 문자 수다. 모델 출력 길이 제한이나 프롬프트 변경 지시가 아니다.",
-              "- 모든 추론 length, 규칙 미추출, MC 규칙 충돌은 Judge 대상이다. MC Judge에는 정답을 따로 주지 않으며 open Judge에는 참조답을 준다.",
+              "- 추론 종료 사유와 관계없이 규칙 추출 성공은 자동 처리하며, 규칙 미추출·MC 규칙 충돌만 Judge 대상이다. MC Judge에는 정답을 따로 주지 않으며 open Judge에는 참조답을 준다.",
               "- Judge stop 응답만 고정 Qwen 파서로 읽는다. Z·유효 답 없음·Judge non-stop은 완료된 추출 실패로 오답, API 미완료는 pending이다. 완료된 Z를 재호출하지 않는다.",
               f"- 고정 Judge 프롬프트는 A–D/Z를 열거한다. 실제 선택지가 5개 이상인 Judge MC {s['judge_mc_more_than_four_choices']}건도 실제 선택지 전체를 유효하게 처리한다.",
               "- 출력 점수는 채점 정책의 판정이며 사람이 검증한 원문 추출 정확도가 아니다. 높은 점수만으로 원문 답 추출의 충실도를 판단하지 않는다.",

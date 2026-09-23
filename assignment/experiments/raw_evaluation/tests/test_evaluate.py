@@ -92,6 +92,22 @@ class EvaluationTests(unittest.TestCase):
         self.assertEqual(ev.summarize(moved)["overall"], summary["overall"])
         self.blocked.assert_not_called()
 
+    def test_length_uses_the_same_routing_as_stop(self):
+        parsers = ev.load_parsers()
+        cases = [
+            (self.rows[2], "A", "auto", "A"),
+            (self.rows[-1], "reference", "auto", "A"),
+            (self.rows[2], "A and B considered; first option. Final Answer: B", "judge_conflict", None),
+            (self.rows[2], "unfinished reasoning", "judge_rule_failure", None),
+            (self.rows[-1], "unfinished reasoning", "judge_rule_failure", None),
+        ]
+        for template, text, route, answer in cases:
+            for finish in ("stop", "length"):
+                with self.subTest(text=text, finish=finish):
+                    row = dict(template, raw_text=text, finish_reason=finish)
+                    item = ev.derive_item(row, parsers)
+                    self.assertEqual((item["route"], item["auto_answer"]), (route, answer))
+
     def test_z_is_completed_and_resume_sends_only_remaining(self):
         self.prepare()
         with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \

@@ -14,4 +14,4 @@ VLMEvalKit: `can_infer_option`, `can_infer_text`, `can_infer` 및 `_VERBOSE_ANSW
 
 Final Answer 100자 규칙은 우리 과거 실험의 사용자 정의 규칙이다. 원본 정규식과 조건을 보존했다. Qwen/MMMU 공식 규칙이라고 부르지 않는다. 예컨대 `Final Answer: A or B`도 A로 채택할 수 있는 약점이 있어 검증 대상이다.
 
-이 도구는 Qwen 공식 evaluator 전체 재현물이 아니다. API 중첩 재시도와 랜덤 폴백을 실행하지 않고, length gate와 hybrid routing은 별도 실험 변수로 적용한다. 결과에 “공식 채점 그대로”라고 쓰지 않는다.
+이 도구는 Qwen 공식 evaluator 전체 재현물이 아니다. API 중첩 재시도와 랜덤 폴백을 실행하지 않고, hybrid routing은 별도 실험 정책으로 적용한다. 현재 v2는 length gate를 적용하지 않는다. `parsers.py`의 `analyze`는 과거 게이트 비교용 함수를 보존한 것이며 현재 실행기는 호출하지 않는다. 결과에 “공식 채점 그대로”라고 쓰지 않는다.

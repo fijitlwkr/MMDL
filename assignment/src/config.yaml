@@ -110,7 +110,7 @@ reproducibility_note: >
 # Experiment-team evaluator settings; existing inference settings above are unchanged.
 # This snapshot describes scoring, not the historical generation config of each raw.
 scoring:
-  policy: hybrid100_mc_qwen_ab_open_length_gate_v1
+  policy: hybrid100_mc_qwen_ab_open_no_length_gate_v2
   judge:
     model: gpt-4.1-mini-2025-04-14
     temperature: 0
