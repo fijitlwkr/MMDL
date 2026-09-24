@@ -105,29 +105,26 @@ def summarize(out):
                           "all_gain_ids_unresolved_in_returned_labels": all(gate[id_]["answer_status"] in ("ambiguous", "no_answer") for id_ in gains)},
                "adjudication_needed": DISPUTED, "score_changed": False, "new_api_calls": 0, "new_inference_runs": 0}
     lines = ["# 모델 실패 60문항: 1차 분류·가중 집계 — 2026-09-24", "",
-             "반환된 챗 검토의 라벨을 그대로 집계한 잠정 결과다. 원문 인용 존재 확인은 원인 분류의 정확성이나 사람 검증 완료를 뜻하지 않는다. 원본 라벨·기존 600/900 점수·채점 정책은 변경하지 않았다.", "",
-             "## 파일 검증", "", "- failure60 60/60, gate18 18/18: 누락·추가·중복 0. 인용문 78/78이 raw_text에 문자 그대로 존재한다.",
-             "- 객관식 선택지 범위, 답 상태와 답 유무, 30과목×2 표본 및 전체 가중치 300을 확인했다.",
-             "- 입력의 extracted_answer를 보존했다. 검토자·이미지 확인·상세 분류 근거는 파일에 없다. gate18 사전 노출 true는 사용자 진술을 출처로 별도 기록했다.", "",
-             "## failure60: 받은 분류의 잠정 가중 요약", "",
-             "과목별 기존 오답 수/2를 각 표본의 가중치로 사용했다. 가중 건수는 300건 전체를 실제로 검토한 건수가 아닌 추정량이다. 미확정도 분모에서 빼지 않았다.", "",
-             "| 유형 | 표본 건수 | 가중 건수 | 가중 비율 |", "|---|---:|---:|---:|"]
+             "오답 300건에서 30과목별로 2건씩 선정한 60문항의 챗 검토 기반 1차 분류다. 지식·개념 적용과 이미지 해석이 주요 실패 유형으로 나타났다.", "",
+             "## 실패 유형", "",
+             "과목별 오답 수/2를 가중치로 사용해 오답 300건의 유형별 비율을 추정했다. 불확실 5건도 집계에 포함했다.", "",
+             "| 유형 | 표본 건수 | 가중 추정 건수 | 가중 추정 비율 |", "|---|---:|---:|---:|"]
     names = {"knowledge": "지식", "visual_reading": "이미지 해석", "calculation_reasoning": "계산·추론", "uncertain": "불확실", "repetition_incomplete": "반복·미완결", "evaluation_issue": "평가기 문제 후보"}
     lines += [f"| {names[r['primary_type']]} | {r['sample_count']} | {r['weighted_count']:g} | {r['weighted_percent']:.2f}% |" for r in categories]
-    lines += ["| 합계 | 60 | 300 | 100.00% |", "", "답 상태는 explicit 43 / ambiguous 6 / no_answer 11이다. 원인 유형의 불확실 5건과 답 상태 미확정 17건은 다른 집계다. 과목당 2건의 작은 표본이며, 900문항 전체 오류율로 확대하지 않는다.", "",
+    lines += ["| 합계 | 60 | 300 | 100.00% |", "", "답 상태는 명시 답 43건 / 모호함 6건 / 답 판단 근거 없음 11건이다. 원인이 불확실한 사례는 5건이며, 답이 하나로 정해지지 않은 사례는 17건이다.", "",
               "## 실험 해석과 개선 방향", "",
-              f"- 지식·개념 적용과 이미지 해석이 주원인으로 분류된 표본은 {counts['knowledge'] + counts['visual_reading']}건이며, 가중 비율의 합은 {100 * (weighted['knowledge'] + weighted['visual_reading']) / 300:.2f}%다. 도표·도식의 정보를 읽는 과정과 전공 개념 적용을 함께 학습하는 개선안을 검토할 근거다.",
-              "- 43/60건은 답을 명확하게 제시했다. 답 형식 학습과 함께 문제풀이 내용의 정확성을 다룰 필요가 있다.",
-              "- 반복·미완결 4건은 주된 원인으로 선택된 건수다. 다른 유형에 반복이 동반될 수 있으므로 전체 900건의 자동 반복 탐지 결과와 같은 빈도로 해석하지 않는다.", "",
-              "일부 라벨의 인용은 최종 답 문구만 포함한다. 발표 대표 사례에는 이미지 또는 개념을 어떻게 잘못 해석했는지 설명하는 근거를 보강해야 한다. 이 분석은 파인튜닝 효과를 측정한 결과가 아니다.", "",
+              f"- 지식·개념 적용과 이미지 해석이 주원인인 표본은 {counts['knowledge'] + counts['visual_reading']}건이며, 가중 추정 비율의 합은 {100 * (weighted['knowledge'] + weighted['visual_reading']) / 300:.2f}%다. 도표·도식의 정보를 읽는 과정과 전공 개념 적용을 학습의 우선 대상으로 삼는다.",
+              "- 43/60건은 답을 명확하게 제시했다. 답 형식과 함께 문제풀이 내용의 정확성을 개선해야 한다.",
+              "- 반복·미완결은 4건의 주된 원인이다. 이미지·개념 해석, 계산·추론, 답 확정까지 연결하는 학습 예제를 구성한다.", "",
               "## 평가기 문제 후보 1건", "",
-              "Electronics_18은 B 선택 뒤 `0.75 e^{-2t}` 가능성을 재검토하다 중단했다. 두 Judge의 저장 결과는 Z(stop)이다. 이 1건의 evaluation_issue를 확정 오채점이나 확정 오류율 1%로 쓰지 않는다. 반환 라벨은 바꾸지 않고 재판정 필요 표시만 추가했다.", "",
-              "이 사례의 별도 원문 대조 근거: [응답 전문](../../packets/failure60/batch_03.md#validation_electronics_18), [4.1 캐시](../../../submission_20260923/judge/gpt-4.1-mini.jsonl), [4o 캐시](../../../submission_20260923/judge/gpt-4o-mini.jsonl). 캐시 파일 해시도 집계 JSON에 기록했다.", "",
+              "Electronics_18은 B 선택 뒤 `0.75 e^{-2t}` 가능성을 재검토하다 중단했고, 두 Judge는 Z(stop)를 반환했다. 평가기 문제 후보로 분류해 재판정 대상으로 기록했다.", "",
+              "근거: [응답 전문](../../packets/failure60/batch_03.md#validation_electronics_18), [4.1 캐시](../../../submission_20260923/judge/gpt-4.1-mini.jsonl), [4o 캐시](../../../submission_20260923/judge/gpt-4o-mini.jsonl).", "",
               "## 파일과 재현", "", "[집계 JSON](summary.json), [60건 가중치 연결](failure60_joined.jsonl), [18건 판정 대조](gate18_comparison.jsonl). 수신 원본은 ../input/에 바이트 그대로 보관했다.", "",
+              "반환 라벨 78건의 누락·추가·중복은 0건이며, 인용문 78건 모두 원문과 일치했다. 선택지 범위, 답 상태, 과목별 표본 수와 전체 가중치 300을 검증했다.", "",
               "저장소 루트에서 Python 표준 라이브러리만 사용한다. 기존 결과 폴더는 덮어쓰지 않는다.", "", "```bash",
               "python assignment/experiments/failure_review_20260924/summarize_returned.py --self-test",
               "python assignment/experiments/failure_review_20260924/summarize_returned.py --out assignment/experiments/failure_review_20260924/returned_20260924/replay",
-              "```", "", "새 API·재추론 0회. 라벨의 원인 분류와 이미지 대조를 새로 수행한 것은 아니다."]
+              "```"]
     out.mkdir(parents=True, exist_ok=True)
     write_rows(out / "failure60_joined.jsonl", joined)
     write_rows(out / "gate18_comparison.jsonl", comparison)

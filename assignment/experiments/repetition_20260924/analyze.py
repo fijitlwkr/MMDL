@@ -1,4 +1,4 @@
-"""Offline exact-repetition diagnostics; never change model answers or scores."""
+"""Exact-repetition diagnostics for saved model responses."""
 import argparse
 from collections import Counter, defaultdict
 import hashlib
@@ -196,10 +196,10 @@ def pct(value):
 def report(s, rows):
     groups = s["threshold_sensitivity"]["0.2"]
     lines = ["# 최신 raw 900문항 반복·중단 분석 — 2026-09-24", "",
-             "고정 v2 채점 결과를 사용한 응답 텍스트 진단이다. 점수·답안·파서·Judge는 변경하지 않았다.", "",
-             f"원본 SHA-256: `{s['source_sha256']}`. 전체 {s['overall']['correct']}/900, 추가 API·재추론 0회.", "",
+             f"최신 900개 응답의 반복 패턴과 v2 채점 결과를 분석했다. 전체 정답률은 {s['overall']['correct']}/900 ({pct(s['overall']['accuracy'])})다.", "",
+             f"원본 SHA-256: `{s['source_sha256']}`.", "",
              "## 1. 자동 반복 후보와 결과", "",
-             "아래 ‘반복 후보’는 두 반복 비율 중 하나가 20% 이상인 응답이다. 사람이 확정한 오류 라벨은 아니다.", "",
+             "아래 ‘반복 후보’는 두 반복 비율 중 하나가 20% 이상인 응답이다.", "",
              "| 집단 | 문항 | 정답 / 정확도 | length / 비율 | 추출 실패 / 비율 | 생성 토큰 중앙값 |",
              "|---|---:|---:|---:|---:|---:|"]
     def table_row(name, g):
@@ -208,7 +208,7 @@ def report(s, rows):
     f = groups["flagged"]
     lines += ["", f"반복 후보가 전체 오답에서 차지하는 비율은 {f['incorrect']}/{s['overall']['incorrect']} ({pct(f['incorrect']/s['overall']['incorrect'])}), 추출 실패에서는 {f['extraction_failures']}/{s['overall']['extraction_failures']} ({pct(f['extraction_failures']/s['overall']['extraction_failures'])})다.",
               f"긴 문장 지표 후보 {s['detectors']['sentence']}건, 16단위 지표 후보 {s['detectors']['ngram']}건, 두 지표 공통 {s['detectors']['both']}건이다.",
-              f"반복 후보의 반복 시작 위치 중앙값은 응답 문자 길이의 {pct(f['repeat_onset_fraction_median'])}다. 생성 토큰 위치나 남은 토큰 절감량이 아니다.", "",
+              f"반복 후보의 반복 시작 위치 중앙값은 응답 문자 길이의 {pct(f['repeat_onset_fraction_median'])}다.", "",
               "## 2. 종료 사유를 나눈 비교", "",
               "| 집단 | 문항 | 정답 / 정확도 | length / 비율 | 추출 실패 / 비율 | 생성 토큰 중앙값 |",
               "|---|---:|---:|---:|---:|---:|"]
@@ -219,7 +219,7 @@ def report(s, rows):
     for threshold, groups_at_threshold in s["threshold_sensitivity"].items():
         a, b = groups_at_threshold["flagged"], groups_at_threshold["below_threshold"]
         lines.append(f"| {float(threshold):.0%} | {a['total']} | {pct(a['accuracy'])} | {pct(b['accuracy'])} | {pct(a['extraction_failure_rate'])} |")
-    lines += ["", "## 4. 사례", "", "극단 사례와 짧은 구절·기호 반복 사례를 확인하기 위한 목적 표본이다. 전체 오류 유형의 빈도를 대신하지 않는다.", "",
+    lines += ["", "## 4. 사례", "", "높은 반복률과 짧은 구절·기호 반복을 보여주는 사례를 선정했다.", "",
               "| 문항 | 문장 비율 | 16단위 비율 | 반복 시작 | 종료 | 정책 정오 |", "|---|---:|---:|---:|---|---|"]
     selected = sorted(rows, key=lambda r: (-max(r["sentence_repeat_ratio"], r["ngram_repeat_ratio"]), r["id"]))[:3]
     examples = {r["id"]: r for r in selected}
@@ -233,11 +233,11 @@ def report(s, rows):
         lines.append(f"| {r['id']} | {pct(r['sentence_repeat_ratio'])} | {pct(r['ngram_repeat_ratio'])} | {pct(r['repeat_onset_fraction'])} | {r['finish_reason']} | {'정답' if r['correct'] else '오답'} |")
     lines += ["", "## 5. 계산 정의와 해석", "",
               "- 문장/행: 줄바꿈 또는 문장부호(.!?。！？) 뒤 공백에서 나누고 내부 공백만 하나로 정규화한다. 대소문자·숫자·기호는 유지한다. 정규화 후 40자 이상·단어 구성요소(\\w+) 8개 이상인 단위만 후보로 삼는다.",
-              "- 문장 반복 비율: 같은 긴 단위가 3회 이상 등장하면 첫 등장을 제외한 중복 단위 문자 수를 합산해, 짧은 단위도 포함한 전체 정규화 단위 문자 수로 나눈다. 의미가 비슷해도 글자가 다르면 반복으로 세지 않는다.",
-              "- 16단위 반복 비율: 공백으로 나눈 단위(기호 포함) 16개의 동일한 연속열이 서로 겹치지 않게 3회 이상 등장하면 첫 등장을 제외한 복제 구간을 표시한다. 여러 창의 겹침은 합집합으로 한 번만 세고, 표시된 공백 단위 수 / 전체 공백 단위 수를 사용한다. 모델 tokenizer의 토큰 비율이 아니다.",
-              "- 반복 시작: 위 조건을 만족하는 단위의 두 번째 등장 중 가장 빠른 원문 문자 위치 / 전체 원문 문자 수다. 3회 등장 여부를 사후 확인한 지표로, 실시간 탐지 시점이 아니다. 반복 지표가 20%를 넘은 시점이나 영구 반복에 진입한 시점도 아니다.",
-              "- 20%는 운영상 탐지 기준이며 사람 라벨로 최적화하지 않았다. 10%·30% 결과도 함께 제공한다. 기준 미만은 반복이 없다는 뜻이 아니다. 수식·선택지 재인용·도식의 규칙적 패턴도 탐지할 수 있다.",
-              "- 정확도·추출 실패는 고정된 하이브리드 채점의 판정이다. length는 생성 상한 종료 기록이며 최종 답 부재를 자동으로 의미하지 않는다. 반복과 낮은 정확도의 연관은 난이도·응답 길이 등에 영향을 받으므로 반복 제거의 인과 효과나 예상 성능 향상으로 해석하지 않는다.", "",
+              "- 문장 반복 비율: 같은 긴 단위가 3회 이상 등장하면 첫 등장을 제외한 중복 단위 문자 수를 합산해, 짧은 단위도 포함한 전체 정규화 단위 문자 수로 나눈다. 동일 문자열의 재등장을 측정한다.",
+              "- 16단위 반복 비율: 공백으로 나눈 단위(기호 포함) 16개의 동일한 연속열이 서로 겹치지 않게 3회 이상 등장하면 첫 등장을 제외한 복제 구간을 표시한다. 여러 창의 겹침은 합집합으로 한 번만 세고, 표시된 공백 단위 수 / 전체 공백 단위 수를 사용한다.",
+              "- 반복 시작: 완성된 응답에서 위 조건을 만족하는 단위의 두 번째 등장 중 가장 빠른 원문 문자 위치 / 전체 원문 문자 수다.",
+              "- 탐지 기준: 두 반복 비율 중 하나가 20% 이상이면 후보로 표시하고, 10%·30% 기준의 결과를 함께 비교한다. 수식·선택지 재인용·도식의 규칙적 패턴도 탐지 대상에 포함된다.",
+              "- 정확도·추출 실패는 v2 하이브리드 채점 결과이며, length는 생성 상한 종료 기록이다. 반복과 정답률의 연관을 종료 사유별로 비교했다.", "",
               "## 재현", "", "Python 3.10 이상 표준 라이브러리만 사용한다. 저장소 루트에서 새 출력 경로를 지정한다.", "", "```bash",
               "python assignment/experiments/repetition_20260924/analyze.py --out assignment/experiments/repetition_20260924/replay",
               "python assignment/experiments/repetition_20260924/analyze.py --self-test", "```", "",

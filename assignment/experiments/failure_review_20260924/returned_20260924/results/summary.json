@@ -11,7 +11,7 @@
     "failure60": "9071f1961c6ff90ff18cad21ee5a05222dc46b0366eef6da75a3f858aa2fcd36",
     "gate18": "de251f805f435f588f033213ebeb5d46b8d0504735568290c998ffbd8bd917d8"
   },
-  "script_sha256_lf": "cde5d725a6c8c986d0818426bcbc7ef764f696647ed0a88aac2f5e4118f436e2",
+  "script_sha256_lf": "d94f41d3f0f815bcb4add086340846dd3876e330e1020225c61638d353a094e7",
   "validation": {
     "failure60_count": 60,
     "gate18_count": 18,

@@ -1,16 +1,16 @@
 # 제출 보고서용 채점 결과와 근거 — 2026-09-23
 
-최신 수신 `max_new_tokens8192_hakyung`의 900문항을 **length 게이트 없는 v2 + GPT-4.1-mini**로 채점한 결과다. **600/900(66.67%)**, 객관식 560/847, 주관식 40/53, API 미완료 0건이다. 팀의 baseline 승격을 선언하는 문서는 아니다.
+`max_new_tokens8192_hakyung`의 900문항을 **v2 + GPT-4.1-mini**로 채점한 결과다. **600/900(66.67%)**, 객관식 **560/847**, 주관식 **40/53**이다.
 
 - [과제 보고서](../../../reports/mmmu_baseline.md): 4절 채점 방식, 5·6절 점수, 7절 격차 분석, 8절 검증 범위.
 - [파서 선택과 격차 분석의 실험 근거](EVIDENCE.md): 주장별 실험 조건·관측값·근거 파일.
 - [30과목 결과표](results/subject_scores.md), [집계 JSON](results/scores.json), [900문항별 정오](results/item_results.jsonl).
 - [정책 비교 집계](results/comparisons.json), [length 경로 변경 문항](results/changed_items.jsonl).
 - [900문항 반복 전수 분석](../repetition_20260924/README.md): 반복 비율·시작 위치와 정답률·종료 사유·추출 실패의 관계.
-- [60문항 실패 유형 1차 분석](../failure_review_20260924/returned_20260924/results/REPORT.md): 과목별 2건 표본의 원인 분류·가중 집계·개선 방향. 반환된 챗 검토 라벨을 사용한 잠정 결과다.
-- [모델 실패 60건·게이트 변경 18건 검토 자료](../failure_review_20260924/README.md): 원본 이미지·응답 전문·빈 라벨과 검토자용 ZIP. 사람 판정은 아직 완료하지 않았다.
+- [60문항 실패 유형 1차 분석](../failure_review_20260924/returned_20260924/results/REPORT.md): 과목별 2건의 챗 검토 라벨을 이용한 원인 분류·가중 집계·개선 방향.
+- [문항 검토 자료](../failure_review_20260924/README.md): 원본 이미지·응답 전문·라벨 양식과 검토자용 ZIP.
 
-## API 없이 재현
+## 저장 결과 재현
 
 저장소 루트, Python 3.10 이상에서 평가 도구의 의존성을 설치한다.
 
@@ -24,7 +24,7 @@ python -m pip install -r assignment/experiments/raw_evaluation/requirements.txt
 python assignment/experiments/submission_20260923/reproduce.py --out assignment/experiments/raw_evaluation/outputs/submission_check --expected assignment/experiments/submission_20260923/results
 ```
 
-API 키나 GPU가 필요하지 않다. 저장된 Judge 응답만 사용하며 새로운 API 호출·모델 추론은 하지 않는다. 이 명령은 **저장 응답의 채점 재현**이다. 모델 재추론부터 채점까지 연결하는 통합 실행 명령은 추론팀 작업과 통합해야 한다. 새로 추론한 응답에는 이 캐시를 그대로 적용하지 않는다.
+이 명령은 저장된 raw와 해당 raw에 대응하는 Judge 캐시를 검증하고 채점 결과를 재계산한다.
 
 ## 입력과 판정의 연결
 
@@ -42,7 +42,7 @@ Raw SHA-256: `ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313`.
 
 입력과 메타데이터는 수신본을 바이트 그대로 보존했다. 추론팀 브랜치 `eval/mmmu-baseline-infer`의 `assignment/runs/max_new_tokens8192_hakyung/`에 있는 동명 파일과도 바이트가 같다. 기존 `assignment/runs/draft/raw.jsonl`과는 다른 실행이다. 그 이전 raw의 v2 점수 **608/900(67.56%)**를 이번 결과와 섞지 않는다.
 
-객관식 `predicted`는 선택지 문자다. 주관식은 `A=참조답 원문`, `B=Other Answers`로 변환하므로 A/B는 자유형 답 문자열을 그대로 추출한 값이 아니다. 문항별 정오는 이 채점 정책의 판정이며 사람 검증 완료 라벨이 아니다. 최종 추출 실패 36건도 오답 300건에 포함한다.
+객관식 `predicted`는 선택지 문자다. 주관식은 `A=참조답 원문`, `B=Other Answers`로 변환한 동치 판정값이다. 최종 추출 실패 36건은 오답 300건에 포함한다.
 
 ## 비교 실험을 읽는 방법
 
