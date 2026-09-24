@@ -87,7 +87,7 @@ Pick the single best choice from the list above.
 
 규칙 단독 비교에는 [MMMU `eval_utils.py`](https://github.com/MMMU-Benchmark/MMMU/blob/51ce7f3e829c16bb44bc5445782686b4c3508794/eval/eval_utils.py)(commit `51ce7f3e829c16bb44bc5445782686b4c3508794`)를 사용했다. 랜덤 폴백을 제거하고 파싱 실패를 오답 처리했다. 주관식의 문자열로 저장된 복수 허용 답 3건은 목록으로 변환했다.
 
-재현·근거: [제출 자료 안내](../assignment/experiments/submission_20260923/README.md), [선택 이유와 실험 증거](../assignment/experiments/submission_20260923/EVIDENCE.md), [오프라인 재현 스크립트](../assignment/experiments/submission_20260923/reproduce.py), [원본 raw](../assignment/experiments/submission_20260923/input/raw.jsonl), [실행 메타데이터](../assignment/experiments/submission_20260923/input/run_metadata.json), [집계](../assignment/experiments/submission_20260923/results/scores.json), [동일 입력 비교](../assignment/experiments/submission_20260923/results/comparisons.json).
+재현·근거: [채점 결과·선택 근거](../assignment/experiments/submission_20260923/README.md), [오프라인 재현 스크립트](../assignment/experiments/submission_20260923/reproduce.py), [원본 raw](../assignment/experiments/submission_20260923/input/raw.jsonl), [실행 메타데이터](../assignment/experiments/submission_20260923/input/run_metadata.json), [집계](../assignment/experiments/submission_20260923/results/scores.json), [동일 입력 비교](../assignment/experiments/submission_20260923/results/comparisons.json).
 
 ## 5. 결과
 

@@ -65,6 +65,38 @@ python assignment/experiments/raw_evaluation/evaluate.py compare --left assignme
 python -m unittest discover -s assignment/experiments/raw_evaluation/tests -v
 ```
 
-테스트는 실제 API를 호출하지 않는다.
+9개 테스트가 통과했다. 입력·해시 검증, 종료 사유별 동일 규칙 처리, Judge 비정상 종료, 캐시 재개·중복 호출 방지, 미완료 비교를 검사한다. HTTP 요청은 모의 응답을 사용한다.
 
-실제 두 raw의 준비 결과와 기존 세 Judge 응답의 재집계 확인은 [VALIDATION.md](VALIDATION.md)에 기록했다.
+## 검증 결과
+
+### 현재 v2 — 2026-09-23
+
+고정 GPT-4.1-mini 응답을 재사용해 세 입력의 요청 payload·request hash·raw text hash와 900행 원본을 검증했다.
+
+| 입력 | 자동: v1 → v2 | Judge: v1 → v2 | 하이브리드 정답: v1 → v2 | MMMU 규칙 단독 |
+|---|---:|---:|---|---:|
+| `runs/draft/raw.jsonl` (8192) | 565 → 582 | 335 → 318 | 609 → **608/900 (67.56%)** | 450/900 (50.00%) |
+| `runs/run_max_new_tokens2048/raw.jsonl` | 491 → 523 | 409 → 377 | **미완료: v2 Judge 377건** | 390/900 (43.33%) |
+| [최신 제출 raw](../submission_20260923/input/raw.jsonl) (8192) | 537 → 555 | 363 → 345 | 594 → **600/900 (66.67%)** | 452/900 (50.22%) |
+
+두 8192 입력은 서로 다른 실행이다. 최신 raw와 대응 Judge 캐시·재현 결과는 [제출 묶음](../submission_20260923/README.md)에 있다. 완료된 입력은 반복 집계 결과가 바이트 단위로 일치했고, 2048은 최종 정확도와 정확도 차이를 `null`로 유지했다.
+
+| 입력 | SHA-256 |
+|---|---|
+| 저장소 8192 | `003d09dabceae4167c9158c3b028b5c89671060d72182f4514a51dd0ad617c69` |
+| 저장소 2048 | `6371cffb954125393eed87a508ea42b35045ac96b6932a31c9565c05cfb7cc81` |
+| 최신 제출 8192 | `ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313` |
+
+### 과거 v1 비교 — 2026-09-21
+
+당시 저장소 commit은 `aa11a7488e397dfb06699a9d6be71d7128420d88`이다. `runs/draft`와 `runs/run_max_new_tokens2048`은 각각 900문항(객관식 847·주관식 53)이며, ID별 질문·정답·선택지·이미지 정보·prompt token 수가 일치했다. stop/length 구성은 각각 **792/108**, **666/234**였다.
+
+`runs/draft`의 Judge 대상 335건은 기존 요청 payload와 request hash가 일치했다. 동일 저장 응답을 v1으로 재집계한 결과는 다음과 같다.
+
+| Judge snapshot | 정답 수 | 저장 usage 기반 비용 추정 |
+|---|---:|---:|
+| gpt-4.1-mini-2025-04-14 | 609/900 | $0.487914 |
+| gpt-3.5-turbo-0125 | 577/900 | $0.6130075 |
+| gpt-4o-mini-2024-07-18 | 581/900 | $0.18296355 |
+
+세 실행의 `summary.json`, `final_results.jsonl`, `REPORT.md`는 반복 집계 시 바이트가 일치했다. 당시 자동 테스트는 8개를 통과했다.
