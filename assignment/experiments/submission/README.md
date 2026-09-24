@@ -6,9 +6,9 @@
 - [파서 선택과 격차 분석의 실험 근거](#채점-선택-실험): 주장별 실험 조건·관측값·근거 파일.
 - [30과목 결과표](results/subject_scores.md), [집계 JSON](results/scores.json), [900문항별 정오](results/item_results.jsonl).
 - [정책 비교 집계](results/comparisons.json), [length 경로 변경 문항](results/changed_items.jsonl).
-- [900문항 반복 전수 분석](../repetition_20260924/README.md): 반복 비율·시작 위치와 정답률·종료 사유·추출 실패의 관계.
-- [60문항 실패 유형 1차 분석](../failure_review_20260924/returned_20260924/results/REPORT.md): 과목별 2건의 챗 검토 라벨을 이용한 원인 분류·가중 집계·개선 방향.
-- [문항 검토 자료](../failure_review_20260924/README.md): 원본 이미지·응답 전문·라벨 양식과 검토자용 ZIP.
+- [900문항 반복 전수 분석](../repetition/README.md): 반복 비율·시작 위치와 정답률·종료 사유·추출 실패의 관계.
+- [60문항 실패 유형 1차 분석](../failure_review/returned/results/REPORT.md): 과목별 2건의 챗 검토 라벨을 이용한 원인 분류·가중 집계·개선 방향.
+- [문항 검토 자료](../failure_review/README.md): 원본 이미지·응답 전문·라벨 양식과 검토자용 ZIP.
 
 ## 채점 선택 실험
 
@@ -66,7 +66,7 @@ python -m pip install -r assignment/experiments/raw_evaluation/requirements.txt
 아래 **한 명령**으로 원본·캐시를 검증하고 900문항 채점, 과목별 표, 비교 실험을 재계산해 제출 결과와 대조한다. 출력 폴더는 새 빈 경로를 사용한다.
 
 ```bash
-python assignment/experiments/submission_20260923/reproduce.py --out assignment/experiments/raw_evaluation/outputs/submission_check --expected assignment/experiments/submission_20260923/results
+python assignment/experiments/submission/reproduce.py --out assignment/experiments/raw_evaluation/outputs/submission_check --expected assignment/experiments/submission/results
 ```
 
 이 명령은 저장된 raw와 해당 raw에 대응하는 Judge 캐시를 검증하고 채점 결과를 재계산한다.

@@ -2,7 +2,7 @@
 
 최신 raw의 **검토 자료와 챗 검토 기반 1차 분류**다. v2 채점 점수는 600/900이다.
 
-오답 300건에서 과목별 2건씩 뽑은 [60문항의 실패 유형을 집계](returned_20260924/results/REPORT.md)했다. 가중 추정 비율은 **지식 36.33%·이미지 해석 31.00%·계산 및 추론 14.50%**다. 원인이 불확실한 사례는 5건, 평가기 문제 후보는 1건이며, 입력 라벨과 검토 템플릿을 함께 제공한다.
+오답 300건에서 과목별 2건씩 뽑은 [60문항의 실패 유형을 집계](returned/results/REPORT.md)했다. 가중 추정 비율은 **지식 36.33%·이미지 해석 31.00%·계산 및 추론 14.50%**다. 원인이 불확실한 사례는 5건, 평가기 문제 후보는 1건이며, 입력 라벨과 검토 템플릿을 함께 제공한다.
 
 | 검토 | 선정 | 구성 | 배치 |
 |---|---|---|---|
@@ -32,15 +32,15 @@
 
 원본 raw SHA-256: `ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313`.
 
-문항별 정오는 [최신 제출 결과](../submission_20260923/results/item_results.jsonl), 18건 선정은 [게이트 변경 결과](../submission_20260923/results/changed_items.jsonl)를 사용한다. 원본 이미지 81개는 `MMMU/MMMU` validation, 고정 revision `98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68`에서 받아 **raw.image_indices에 기록된 순서와 슬롯**을 연결했다. 이미지의 출처·파일 해시·크기는 [image_manifest.json](image_manifest.json)에 기록했다.
+문항별 정오는 [최신 제출 결과](../submission/results/item_results.jsonl), 18건 선정은 [게이트 변경 결과](../submission/results/changed_items.jsonl)를 사용한다. 원본 이미지 81개는 `MMMU/MMMU` validation, 고정 revision `98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68`에서 받아 **raw.image_indices에 기록된 순서와 슬롯**을 연결했다. 이미지의 출처·파일 해시·크기는 [image_manifest.json](image_manifest.json)에 기록했다.
 
 ## 배포용 ZIP 생성·재현
 
 Python 3.10 이상에서 저장소 루트를 기준으로 실행한다. 출력 폴더는 새 폴더를 지정한다.
 
 ```bash
-python assignment/experiments/failure_review_20260924/prepare.py --self-test
-python assignment/experiments/failure_review_20260924/prepare.py --out assignment/experiments/failure_review_20260924/packets_export
+python assignment/experiments/failure_review/prepare.py --self-test
+python assignment/experiments/failure_review/prepare.py --out assignment/experiments/failure_review/packets_export
 ```
 
 `packets_export/`에 검토 문서·빈 라벨과 `failure60_review.zip`, `gate18_review.zip`이 생성된다. 각 ZIP에는 해당 문항의 원본 이미지가 포함된다. 검토자는 ZIP을 풀고 첫 `README.md`부터 읽으면 된다.

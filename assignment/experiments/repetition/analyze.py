@@ -8,7 +8,7 @@ import re
 from statistics import median
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_SOURCE = ROOT.parent / "submission_20260923"
+DEFAULT_SOURCE = ROOT.parent / "submission"
 THRESHOLDS = (0.10, 0.20, 0.30)
 MIN_CHARS, MIN_WORDS, NGRAM = 40, 8, 16
 
@@ -239,8 +239,8 @@ def report(s, rows):
               "- 탐지 기준: 두 반복 비율 중 하나가 20% 이상이면 후보로 표시하고, 10%·30% 기준의 결과를 함께 비교한다. 수식·선택지 재인용·도식의 규칙적 패턴도 탐지 대상에 포함된다.",
               "- 정확도·추출 실패는 v2 하이브리드 채점 결과이며, length는 생성 상한 종료 기록이다. 반복과 정답률의 연관을 종료 사유별로 비교했다.", "",
               "## 재현", "", "Python 3.10 이상 표준 라이브러리만 사용한다. 저장소 루트에서 새 출력 경로를 지정한다.", "", "```bash",
-              "python assignment/experiments/repetition_20260924/analyze.py --out assignment/experiments/repetition_20260924/replay",
-              "python assignment/experiments/repetition_20260924/analyze.py --self-test", "```", "",
+              "python assignment/experiments/repetition/analyze.py --out assignment/experiments/repetition/replay",
+              "python assignment/experiments/repetition/analyze.py --self-test", "```", "",
               "다른 실행에는 같은 구조의 검증된 제출 묶음을 `--source`로 지정한다. 이번 코드는 동일 900문항 평가용이다.",
               "입력 해시·설정·30과목/문항 유형별 집계는 [summary.json](summary.json), 원문 위치·대표 반복 문장·900건 지표는 [per_item.jsonl](per_item.jsonl)에 있다."]
     return "\n".join(lines) + "\n"

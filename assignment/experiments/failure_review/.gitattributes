@@ -2,4 +2,4 @@
 image_manifest.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 images/* -text
 packets/** -text -whitespace
-returned_20260924/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+returned/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

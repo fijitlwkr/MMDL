@@ -3,7 +3,7 @@
   "input_sha256": {
     "raw": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
     "item_results": "4f1e89265fe5f1199e91bbddf360b6d682888909e2964832ac38632b9bb11609",
-    "selection_manifest": "ec2be428c1d38c633ed93d27b932e5f57043c984479a50629ffffbe54df844f9",
+    "selection_manifest": "531b4f32736ed56efb85e2b87a8ad4fbd99680c821f9cbc59c5f8471c93b415e",
     "failure_key": "610897e5f99078ca1ac16d83b358467aa0846eeffd86ba3fd1505d2fa63e9441",
     "gate_key": "a889f97dcb4c2b9fd9169717f4f9b86ddaf8f1a99c3bc4190530ef29c6442dc7",
     "judge_4_1": "cc752fd8424e736acc018ebb137801200feeb519b00b39e785a8a6243e709035",
@@ -11,7 +11,7 @@
     "failure60": "9071f1961c6ff90ff18cad21ee5a05222dc46b0366eef6da75a3f858aa2fcd36",
     "gate18": "de251f805f435f588f033213ebeb5d46b8d0504735568290c998ffbd8bd917d8"
   },
-  "script_sha256_lf": "d94f41d3f0f815bcb4add086340846dd3876e330e1020225c61638d353a094e7",
+  "script_sha256_lf": "c8799e9824eddfeb1823d0ec334b23c58ee23cbac907579b21b38fb77004470c",
   "validation": {
     "failure60_count": 60,
     "gate18_count": 18,

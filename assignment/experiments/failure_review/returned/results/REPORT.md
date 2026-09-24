@@ -28,7 +28,7 @@
 
 Electronics_18은 B 선택 뒤 `0.75 e^{-2t}` 가능성을 재검토하다 중단했고, 두 Judge는 Z(stop)를 반환했다. 평가기 문제 후보로 분류해 재판정 대상으로 기록했다.
 
-근거: [응답 전문](../../packets/failure60/batch_03.md#validation_electronics_18), [4.1 캐시](../../../submission_20260923/judge/gpt-4.1-mini.jsonl), [4o 캐시](../../../submission_20260923/judge/gpt-4o-mini.jsonl).
+근거: [응답 전문](../../packets/failure60/batch_03.md#validation_electronics_18), [4.1 캐시](../../../submission/judge/gpt-4.1-mini.jsonl), [4o 캐시](../../../submission/judge/gpt-4o-mini.jsonl).
 
 ## 파일과 재현
 
@@ -39,6 +39,6 @@ Electronics_18은 B 선택 뒤 `0.75 e^{-2t}` 가능성을 재검토하다 중�
 저장소 루트에서 Python 표준 라이브러리만 사용한다. 기존 결과 폴더는 덮어쓰지 않는다.
 
 ```bash
-python assignment/experiments/failure_review_20260924/summarize_returned.py --self-test
-python assignment/experiments/failure_review_20260924/summarize_returned.py --out assignment/experiments/failure_review_20260924/returned_20260924/replay
+python assignment/experiments/failure_review/summarize_returned.py --self-test
+python assignment/experiments/failure_review/summarize_returned.py --out assignment/experiments/failure_review/returned/replay
 ```

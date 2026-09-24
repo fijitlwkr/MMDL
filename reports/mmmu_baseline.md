@@ -87,7 +87,7 @@ Pick the single best choice from the list above.
 
 규칙 단독 비교에는 [MMMU `eval_utils.py`](https://github.com/MMMU-Benchmark/MMMU/blob/51ce7f3e829c16bb44bc5445782686b4c3508794/eval/eval_utils.py)(commit `51ce7f3e829c16bb44bc5445782686b4c3508794`)를 사용했다. 랜덤 폴백을 제거하고 파싱 실패를 오답 처리했다. 주관식의 문자열로 저장된 복수 허용 답 3건은 목록으로 변환했다.
 
-재현·근거: [채점 결과·선택 근거](../assignment/experiments/submission_20260923/README.md), [오프라인 재현 스크립트](../assignment/experiments/submission_20260923/reproduce.py), [원본 raw](../assignment/experiments/submission_20260923/input/raw.jsonl), [실행 메타데이터](../assignment/experiments/submission_20260923/input/run_metadata.json), [집계](../assignment/experiments/submission_20260923/results/scores.json), [동일 입력 비교](../assignment/experiments/submission_20260923/results/comparisons.json).
+재현·근거: [채점 결과·선택 근거](../assignment/experiments/submission/README.md), [오프라인 재현 스크립트](../assignment/experiments/submission/reproduce.py), [원본 raw](../assignment/experiments/submission/input/raw.jsonl), [실행 메타데이터](../assignment/experiments/submission/input/run_metadata.json), [집계](../assignment/experiments/submission/results/scores.json), [동일 입력 비교](../assignment/experiments/submission/results/comparisons.json).
 
 ## 5. 결과
 
@@ -129,7 +129,7 @@ Pick the single best choice from the list above.
 
 `Subject accuracy = Correct / 30 × 100`, `Overall = mean(30개 과목 accuracy)`로 계산했다. 과목별 값을 반올림하기 전에 평균을 구했으며, 과목당 30문항이므로 `600 / 900 × 100 = 66.666…%`와 일치한다. 표시는 소수 둘째 자리로 반올림했다.
 
-객관식 **560/847(66.12%)**, 주관식 **40/53(75.47%)**다. 자동 처리 555건·Judge 처리 345건이며 미완료는 0건이다. 오답 300건에는 추출 실패 36건이 포함된다. [과목별 결과 파일](../assignment/experiments/submission_20260923/results/subject_scores.md)과 [900문항별 정오·처리 경로](../assignment/experiments/submission_20260923/results/item_results.jsonl)에서 근거를 확인할 수 있다.
+객관식 **560/847(66.12%)**, 주관식 **40/53(75.47%)**다. 자동 처리 555건·Judge 처리 345건이며 미완료는 0건이다. 오답 300건에는 추출 실패 36건이 포함된다. [과목별 결과 파일](../assignment/experiments/submission/results/subject_scores.md)과 [900문항별 정오·처리 경로](../assignment/experiments/submission/results/item_results.jsonl)에서 근거를 확인할 수 있다.
 
 ## 6. 공식 수치와의 비교
 
@@ -147,7 +147,7 @@ Pick the single best choice from the list above.
 
 **응답의 반복·중단:** 생성 상한 8,192토큰에 도달한 128건의 정확도는 35.94%로 정상 종료 772건의 71.76%보다 낮았다. 상한 도달 응답은 전체의 14.22%지만, 전체 오답의 27.33%(82/300)와 답 추출 실패의 69.44%(25/36)를 차지했다. 실제 `validation_Accounting_5`는 같은 해석을 85회 반복하다 문장 중간에서 종료됐고, 답 추출도 실패했다.
 
-**채점 방식:** 동일 응답·자동 처리 537건·Judge 대상 363건을 고정하고 Judge만 GPT-4.1-mini에서 GPT-4o-mini로 바꾸자 66.00%→63.00%로 낮아졌다. 답은 83건에서 달랐고 정답 증가 5건·감소 32건으로 **27문항·3.00%p** 차이가 발생했다. 동일 응답의 채점 모델 비교에서 공식 참조값과의 격차 0.73%p보다 큰 점수 차이가 관찰됐다. [집계·비교 결과](../assignment/experiments/submission_20260923/results/comparisons.json)
+**채점 방식:** 동일 응답·자동 처리 537건·Judge 대상 363건을 고정하고 Judge만 GPT-4.1-mini에서 GPT-4o-mini로 바꾸자 66.00%→63.00%로 낮아졌다. 답은 83건에서 달랐고 정답 증가 5건·감소 32건으로 **27문항·3.00%p** 차이가 발생했다. 동일 응답의 채점 모델 비교에서 공식 참조값과의 격차 0.73%p보다 큰 점수 차이가 관찰됐다. [집계·비교 결과](../assignment/experiments/submission/results/comparisons.json)
 
 ## 8. 기타 특이사항 / 한계 (Optional)
 

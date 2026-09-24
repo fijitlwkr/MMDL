@@ -7,7 +7,7 @@ from pathlib import Path
 
 from prepare import ROOT, SOURCE, RAW_SHA, ANSWER_STATES, ERROR_TYPES, read_rows, require, sha, write_json, write_rows
 
-RETURNED = ROOT / "returned_20260924"
+RETURNED = ROOT / "returned"
 POLICIES = ("no_gate_4_1", "gate_on_4_1", "gate_on_4o")
 DISPUTED = {
     "validation_Electronics_18": "B 선택 후 다른 수치를 재검토하다 종료; 확정 평가기 오류 여부 재판정",
@@ -33,7 +33,7 @@ def validate_labels(rows, ids, raw, failure):
 
 def summarize(out):
     require(not out.exists() or not any(out.iterdir()), "Use a new empty output directory")
-    require(out.parent == RETURNED, "Output must be a direct child of returned_20260924")
+    require(out.parent == RETURNED, "Output must be a direct child of returned")
     paths = {kind: RETURNED / "input" / f"{kind}_labels_existing.jsonl" for kind in ("failure60", "gate18")}
     coordinator = ROOT / "packets/coordinator"
     source_paths = {"raw": SOURCE / "input/raw.jsonl", "item_results": SOURCE / "results/item_results.jsonl",
@@ -118,12 +118,12 @@ def summarize(out):
               "- 반복·미완결은 4건의 주된 원인이다. 이미지·개념 해석, 계산·추론, 답 확정까지 연결하는 학습 예제를 구성한다.", "",
               "## 평가기 문제 후보 1건", "",
               "Electronics_18은 B 선택 뒤 `0.75 e^{-2t}` 가능성을 재검토하다 중단했고, 두 Judge는 Z(stop)를 반환했다. 평가기 문제 후보로 분류해 재판정 대상으로 기록했다.", "",
-              "근거: [응답 전문](../../packets/failure60/batch_03.md#validation_electronics_18), [4.1 캐시](../../../submission_20260923/judge/gpt-4.1-mini.jsonl), [4o 캐시](../../../submission_20260923/judge/gpt-4o-mini.jsonl).", "",
+              "근거: [응답 전문](../../packets/failure60/batch_03.md#validation_electronics_18), [4.1 캐시](../../../submission/judge/gpt-4.1-mini.jsonl), [4o 캐시](../../../submission/judge/gpt-4o-mini.jsonl).", "",
               "## 파일과 재현", "", "[집계 JSON](summary.json), [60건 가중치 연결](failure60_joined.jsonl), [18건 판정 대조](gate18_comparison.jsonl). 수신 원본은 ../input/에 바이트 그대로 보관했다.", "",
               "반환 라벨 78건의 누락·추가·중복은 0건이며, 인용문 78건 모두 원문과 일치했다. 선택지 범위, 답 상태, 과목별 표본 수와 전체 가중치 300을 검증했다.", "",
               "저장소 루트에서 Python 표준 라이브러리만 사용한다. 기존 결과 폴더는 덮어쓰지 않는다.", "", "```bash",
-              "python assignment/experiments/failure_review_20260924/summarize_returned.py --self-test",
-              "python assignment/experiments/failure_review_20260924/summarize_returned.py --out assignment/experiments/failure_review_20260924/returned_20260924/replay",
+              "python assignment/experiments/failure_review/summarize_returned.py --self-test",
+              "python assignment/experiments/failure_review/summarize_returned.py --out assignment/experiments/failure_review/returned/replay",
               "```"]
     out.mkdir(parents=True, exist_ok=True)
     write_rows(out / "failure60_joined.jsonl", joined)

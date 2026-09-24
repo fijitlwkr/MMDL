@@ -10,8 +10,8 @@ import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-SOURCE = ROOT.parent / "submission_20260923"
-sys.path.insert(0, str(ROOT.parent / "repetition_20260924"))
+SOURCE = ROOT.parent / "submission"
+sys.path.insert(0, str(ROOT.parent / "repetition"))
 from analyze import read_rows, require, sha
 
 SEED = 3407

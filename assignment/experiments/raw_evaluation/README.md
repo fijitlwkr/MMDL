@@ -2,7 +2,7 @@
 
 저장된 추론 결과를 동일한 규칙과 Judge 설정으로 평가한다. 모델 재추론은 하지 않는다. `prepare`, `summarize`, `compare`는 오프라인이며, `run`만 OpenAI API를 호출한다. 실행자는 본인 API 키를 사용한다.
 
-이미 완료된 최신 900문항의 과제 보고서용 결과·실험 근거와 **API 없는 재현 명령**은 [제출 결과 묶음](../submission_20260923/README.md)에 있다.
+이미 완료된 최신 900문항의 과제 보고서용 결과·실험 근거와 **API 없는 재현 명령**은 [제출 결과 묶음](../submission/README.md)에 있다.
 
 2026-09-23부터 `hybrid100_mc_qwen_ab_open_no_length_gate_v2`를 사용한다. 추론의 `finish_reason=length`만으로 Judge에 보내는 게이트를 제거했다. 기존 v1 결과 폴더는 그대로 보관하고 아래처럼 새 폴더에서 `prepare`한다. v1 결과의 재집계는 당시 코드(commit `518c12c916cdd194712e5db0340688b48042d62d`)로 수행한다. v2에서 v1 결과를 재개하거나 manifest를 수동 수정하지 않는다.
 
@@ -77,9 +77,9 @@ python -m unittest discover -s assignment/experiments/raw_evaluation/tests -v
 |---|---:|---:|---|---:|
 | `runs/draft/raw.jsonl` (8192) | 565 → 582 | 335 → 318 | 609 → **608/900 (67.56%)** | 450/900 (50.00%) |
 | `runs/run_max_new_tokens2048/raw.jsonl` | 491 → 523 | 409 → 377 | **미완료: v2 Judge 377건** | 390/900 (43.33%) |
-| [최신 제출 raw](../submission_20260923/input/raw.jsonl) (8192) | 537 → 555 | 363 → 345 | 594 → **600/900 (66.67%)** | 452/900 (50.22%) |
+| [최신 제출 raw](../submission/input/raw.jsonl) (8192) | 537 → 555 | 363 → 345 | 594 → **600/900 (66.67%)** | 452/900 (50.22%) |
 
-두 8192 입력은 서로 다른 실행이다. 최신 raw와 대응 Judge 캐시·재현 결과는 [제출 묶음](../submission_20260923/README.md)에 있다. 완료된 입력은 반복 집계 결과가 바이트 단위로 일치했고, 2048은 최종 정확도와 정확도 차이를 `null`로 유지했다.
+두 8192 입력은 서로 다른 실행이다. 최신 raw와 대응 Judge 캐시·재현 결과는 [제출 묶음](../submission/README.md)에 있다. 완료된 입력은 반복 집계 결과가 바이트 단위로 일치했고, 2048은 최종 정확도와 정확도 차이를 `null`로 유지했다.
 
 | 입력 | SHA-256 |
 |---|---|

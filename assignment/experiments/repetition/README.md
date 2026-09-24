@@ -28,7 +28,7 @@
 
 ## 입력과 출처
 
-[제출 묶음](../submission_20260923/README.md)의 [raw.jsonl](../submission_20260923/input/raw.jsonl), [run_metadata.json](../submission_20260923/input/run_metadata.json), [scores.json](../submission_20260923/results/scores.json), [item_results.jsonl](../submission_20260923/results/item_results.jsonl)을 읽는다. 입력 해시·900개 ID·문항 메타데이터·집계가 일치해야 실행된다.
+[제출 묶음](../submission/README.md)의 [raw.jsonl](../submission/input/raw.jsonl), [run_metadata.json](../submission/input/run_metadata.json), [scores.json](../submission/results/scores.json), [item_results.jsonl](../submission/results/item_results.jsonl)을 읽는다. 입력 해시·900개 ID·문항 메타데이터·집계가 일치해야 실행된다.
 
 원본 SHA-256: `ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313`.
 채점 정책은 `hybrid100_mc_qwen_ab_open_no_length_gate_v2`, Judge는 `gpt-4.1-mini-2025-04-14`이며 전체 점수는 **600/900(66.67%)**다.
@@ -38,8 +38,8 @@
 저장소 루트에서 새 빈 출력 경로를 지정한다.
 
 ```bash
-python assignment/experiments/repetition_20260924/analyze.py --self-test
-python assignment/experiments/repetition_20260924/analyze.py --out assignment/experiments/raw_evaluation/outputs/repetition_check
+python assignment/experiments/repetition/analyze.py --self-test
+python assignment/experiments/repetition/analyze.py --out assignment/experiments/raw_evaluation/outputs/repetition_check
 ```
 
 `REPORT.md`, `per_item.jsonl`, `summary.json` 3개가 생성된다. 다른 입력 묶음은 `--source`로 지정하되 동일한 900문항 구조가 필요하다. 저장된 결과는 `.gitattributes`로 원래 바이트를 보존한다. 스크립트 해시는 줄바꿈을 LF로 정규화한 값(`script_sha256_lf`)이며, 다른 운영체제에서 재생성한 파일을 비교할 때도 줄바꿈 차이를 정규화한다.

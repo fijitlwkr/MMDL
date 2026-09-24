@@ -63,8 +63,8 @@
 Python 3.10 이상 표준 라이브러리만 사용한다. 저장소 루트에서 새 출력 경로를 지정한다.
 
 ```bash
-python assignment/experiments/repetition_20260924/analyze.py --out assignment/experiments/repetition_20260924/replay
-python assignment/experiments/repetition_20260924/analyze.py --self-test
+python assignment/experiments/repetition/analyze.py --out assignment/experiments/repetition/replay
+python assignment/experiments/repetition/analyze.py --self-test
 ```
 
 다른 실행에는 같은 구조의 검증된 제출 묶음을 `--source`로 지정한다. 이번 코드는 동일 900문항 평가용이다.
