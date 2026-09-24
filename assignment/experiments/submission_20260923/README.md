@@ -7,6 +7,7 @@
 - [30과목 결과표](results/subject_scores.md), [집계 JSON](results/scores.json), [900문항별 정오](results/item_results.jsonl).
 - [정책 비교 집계](results/comparisons.json), [length 경로 변경 문항](results/changed_items.jsonl).
 - [900문항 반복 전수 분석](../repetition_20260924/README.md): 반복 비율·시작 위치와 정답률·종료 사유·추출 실패의 관계.
+- [60문항 실패 유형 1차 분석](../failure_review_20260924/returned_20260924/results/REPORT.md): 과목별 2건 표본의 원인 분류·가중 집계·개선 방향. 반환된 챗 검토 라벨을 사용한 잠정 결과다.
 - [모델 실패 60건·게이트 변경 18건 검토 자료](../failure_review_20260924/README.md): 원본 이미지·응답 전문·빈 라벨과 검토자용 ZIP. 사람 판정은 아직 완료하지 않았다.
 
 ## API 없이 재현

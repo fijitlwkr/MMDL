@@ -1,0 +1,125 @@
+{
+  "status": "provisional_returned_labels_not_adjudicated",
+  "input_sha256": {
+    "raw": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
+    "item_results": "4f1e89265fe5f1199e91bbddf360b6d682888909e2964832ac38632b9bb11609",
+    "selection_manifest": "ec2be428c1d38c633ed93d27b932e5f57043c984479a50629ffffbe54df844f9",
+    "failure_key": "610897e5f99078ca1ac16d83b358467aa0846eeffd86ba3fd1505d2fa63e9441",
+    "gate_key": "a889f97dcb4c2b9fd9169717f4f9b86ddaf8f1a99c3bc4190530ef29c6442dc7",
+    "judge_4_1": "cc752fd8424e736acc018ebb137801200feeb519b00b39e785a8a6243e709035",
+    "judge_4o": "29ff7f4d9480f7fe5636c96817d19486977bf0152a7477a63a35b7f40646a37e",
+    "failure60": "9071f1961c6ff90ff18cad21ee5a05222dc46b0366eef6da75a3f858aa2fcd36",
+    "gate18": "de251f805f435f588f033213ebeb5d46b8d0504735568290c998ffbd8bd917d8"
+  },
+  "script_sha256_lf": "cde5d725a6c8c986d0818426bcbc7ef764f696647ed0a88aac2f5e4118f436e2",
+  "validation": {
+    "failure60_count": 60,
+    "gate18_count": 18,
+    "duplicate_missing_extra_ids": 0,
+    "verbatim_quotes": 78
+  },
+  "failure60": {
+    "categories": [
+      {
+        "primary_type": "knowledge",
+        "sample_count": 25,
+        "weighted_count": 109.0,
+        "weighted_percent": 36.333333333333336
+      },
+      {
+        "primary_type": "visual_reading",
+        "sample_count": 17,
+        "weighted_count": 93.0,
+        "weighted_percent": 31.0
+      },
+      {
+        "primary_type": "calculation_reasoning",
+        "sample_count": 8,
+        "weighted_count": 43.5,
+        "weighted_percent": 14.5
+      },
+      {
+        "primary_type": "uncertain",
+        "sample_count": 5,
+        "weighted_count": 27.5,
+        "weighted_percent": 9.166666666666666
+      },
+      {
+        "primary_type": "repetition_incomplete",
+        "sample_count": 4,
+        "weighted_count": 24.0,
+        "weighted_percent": 8.0
+      },
+      {
+        "primary_type": "evaluation_issue",
+        "sample_count": 1,
+        "weighted_count": 3.0,
+        "weighted_percent": 1.0
+      }
+    ],
+    "answer_states": {
+      "explicit": 43,
+      "no_answer": 11,
+      "ambiguous": 6
+    },
+    "weight_total": 300,
+    "estimand": "original 300 policy-scored errors; returned labels unchanged"
+  },
+  "gate18": {
+    "answer_states": {
+      "explicit": 5,
+      "inferable": 0,
+      "ambiguous": 5,
+      "no_answer": 8
+    },
+    "policies": {
+      "no_gate_4_1": {
+        "explicit_matched": 4,
+        "explicit_total": 5,
+        "unresolved_assigned": 13,
+        "unresolved_scored_correct": 10,
+        "unresolved_total": 13,
+        "policy_correct_in_gate18": 12
+      },
+      "gate_on_4_1": {
+        "explicit_matched": 5,
+        "explicit_total": 5,
+        "unresolved_assigned": 9,
+        "unresolved_scored_correct": 3,
+        "unresolved_total": 13,
+        "policy_correct_in_gate18": 6
+      },
+      "gate_on_4o": {
+        "explicit_matched": 3,
+        "explicit_total": 5,
+        "unresolved_assigned": 2,
+        "unresolved_scored_correct": 1,
+        "unresolved_total": 13,
+        "policy_correct_in_gate18": 4
+      }
+    },
+    "gate_removal_gain_ids": [
+      "validation_Architecture_and_Engineering_17",
+      "validation_Electronics_16",
+      "validation_Energy_and_Power_25",
+      "validation_Materials_3",
+      "validation_Materials_11",
+      "validation_Materials_27",
+      "validation_Math_2",
+      "validation_Pharmacy_19"
+    ],
+    "gate_removal_loss_ids": [
+      "validation_Biology_2",
+      "validation_Math_13"
+    ],
+    "all_gain_ids_unresolved_in_returned_labels": true
+  },
+  "adjudication_needed": {
+    "validation_Electronics_18": "B 선택 후 다른 수치를 재검토하다 종료; 확정 평가기 오류 여부 재판정",
+    "validation_Math_13": "E 선택 후 재검토하지만 명시 철회 없음; 답 확정 기준 재판정",
+    "validation_Energy_and_Power_14": "의도된 선택 B·2.37m와 계산 답 2.14m를 병기; 답 확정 기준 재판정"
+  },
+  "score_changed": false,
+  "new_api_calls": 0,
+  "new_inference_runs": 0
+}
