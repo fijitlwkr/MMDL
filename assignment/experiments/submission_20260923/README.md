@@ -6,6 +6,8 @@
 - [파서 선택과 격차 분석의 실험 근거](EVIDENCE.md): 주장별 실험 조건·관측값·근거 파일.
 - [30과목 결과표](results/subject_scores.md), [집계 JSON](results/scores.json), [900문항별 정오](results/item_results.jsonl).
 - [정책 비교 집계](results/comparisons.json), [length 경로 변경 문항](results/changed_items.jsonl).
+- [900문항 반복 전수 분석](../repetition_20260924/README.md): 반복 비율·시작 위치와 정답률·종료 사유·추출 실패의 관계.
+- [모델 실패 60건·게이트 변경 18건 검토 자료](../failure_review_20260924/README.md): 원본 이미지·응답 전문·빈 라벨과 검토자용 ZIP. 사람 판정은 아직 완료하지 않았다.
 
 ## API 없이 재현
 
