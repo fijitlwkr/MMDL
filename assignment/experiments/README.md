@@ -22,6 +22,7 @@ experiments/
 | [최신 채점 결과·실험 근거](submission/README.md) | 파서 선택·채점 비교·원본 raw·저장 결과 재현 |
 | [반복 분석](repetition/README.md) | 900응답의 반복 비율·정답률·생성 토큰 분석 |
 | [실패 유형 60문항 분석](failure_review/returned/results/REPORT.md) | 챗 검토 기반 1차 분류·가중 집계·개선 방향 |
+| [주관식 Qwen·MMMU 비교](submission/README.md#주관식-qwen-ab와-mmmu-비교) | 동일 53문항의 채점 방식·점수·문항별 판정 비교 |
 
 ## 실행과 검토
 

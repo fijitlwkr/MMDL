@@ -8,15 +8,16 @@
 - [정책 비교 집계](results/comparisons.json), [length 경로 변경 문항](results/changed_items.jsonl).
 - [900문항 반복 전수 분석](../repetition/README.md): 반복 비율·시작 위치와 정답률·종료 사유·추출 실패의 관계.
 - [60문항 실패 유형 1차 분석](../failure_review/returned/results/REPORT.md): 과목별 2건의 챗 검토 라벨을 이용한 원인 분류·가중 집계·개선 방향.
+- [주관식 Qwen·MMMU 비교](#주관식-qwen-ab와-mmmu-비교): 동일 53문항의 채점 방식·점수·문항별 판정 비교.
 - [문항 검토 자료](../failure_review/README.md): 원본 이미지·응답 전문·라벨 양식과 검토자용 ZIP.
 
 ## 채점 선택 실험
 
-### Qwen 기본 파서와 Final Answer 보완
+### 객관식 Qwen 기본 파서와 Final Answer 보완
 
 | 결정 | 관측 결과 | 근거 |
 |---|---|---|
-| Qwen 규칙을 기본으로 사용 | H1의 파서 불일치 49건에서 검토 답과 Qwen 47건, MMMU 2건 일치 | [H1 보고서](../scoring_lab/legacy_pilot/h1/REPORT.md), [문항별 답 추출 비교](../scoring_lab/legacy_pilot/h1/parser_comparison.jsonl) |
+| 객관식에 Qwen 규칙을 기본으로 사용 | H1의 파서 불일치 49건에서 검토 답과 Qwen 47건, MMMU 2건 일치 | [H1 보고서](../scoring_lab/legacy_pilot/h1/REPORT.md), [문항별 답 추출 비교](../scoring_lab/legacy_pilot/h1/parser_comparison.jsonl) |
 | 객관식 Final Answer 100자 보완 | H2 고정 표본에서 검토 답과 100/100 일치. Qwen 미추출을 보완한 59건도 59/59 일치 | [H2 보고서](../scoring_lab/legacy_pilot/h2/REPORT.md), [문항별 비교](../scoring_lab/legacy_pilot/h2/parser_comparison.jsonl). 정상 종료 객관식의 보완 자동 채택군에 대한 검토 |
 | 두 규칙이 충돌하면 Judge로 이동 | 보완 규칙이 답을 제시해도 Qwen과 다른 경우 자동으로 덮어쓰지 않음 | [실제 처리 코드](../raw_evaluation/evaluate.py). 미추출도 Judge로 이동 |
 
@@ -54,6 +55,29 @@ H1·H2는 **과거 899문항 pilot**(생성 seed 42, cap 9048)의 표본 검토�
 최신 raw에서 MMMU 규칙 단독은 **452/900(50.22%)**, 최종 하이브리드는 **600/900(66.67%)**로 **148문항·16.44%p** 차이가 났다. 두 설정은 객관식 파서, Final Answer 보완, 주관식 처리, Judge 사용 여부가 다르다. MMMU 비교에서는 파싱 실패 시 무작위 선택을 끄고 실패를 오답 처리했다. [집계](results/scores.json), [문항별 비교](results/policy_comparison.jsonl)
 
 객관식 Judge에는 선택지와 모델 응답을 제공하며 gold는 별도로 전달하지 않는다. 주관식은 Qwen 방식인 `A=참조답, B=Other Answers`를 사용한 **참조답 동치 판정**이다. [평가 도구 설명](../raw_evaluation/README.md)
+
+### 주관식 Qwen A/B와 MMMU 비교
+
+최신 raw의 **동일한 주관식 응답 53건**에 두 채점 절차를 적용했다.
+
+| 항목 | Qwen A/B + GPT-4.1-mini | MMMU 규칙 |
+|---|---|---|
+| 처리 방식 | `A=참조답 원문`, `B=Other Answers`로 구성한 `can_infer` | `parse_open_response` → `eval_open` |
+| Judge 사용 | 규칙 미추출 시 사용 | 사용하지 않음 |
+| 처리 수 | 자동 22건·Judge 31건 | 규칙 53건 |
+| 정답 처리 | **40/53 (75.47%)** | **20/53 (37.74%)** |
+
+Qwen A/B + Judge의 정답 처리 수는 MMMU보다 **20건 많고**, 정답률 차이는 **37.74%p**다. 같은 추론 응답을 사용하고 주관식 처리 규칙과 Judge 사용 여부를 달리한 비교다.
+
+| 문항별 판정 조합 | 건수 |
+|---|---:|
+| 두 방식 모두 정답 | 19 |
+| 두 방식 모두 오답 | 12 |
+| Qwen A/B만 정답 | 21 |
+| MMMU만 정답 | 1 |
+| **합계** | **53** |
+
+판정이 같은 문항은 **31건**, 다른 문항은 **22건**이다. [문항별 비교](results/policy_comparison.jsonl)의 `question_type=open` 행에서 현재 Qwen A/B 결과는 `no_gate_4_1`, MMMU 결과는 `mmmu_rule`로 확인한다. [집계 결과](results/scores.json)의 `final.by_type.open`과 `mmmu_rule.by_type.open`에 각 점수가 기록되어 있다.
 
 ## 저장 결과 재현
 
