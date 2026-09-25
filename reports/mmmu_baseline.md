@@ -81,7 +81,7 @@ Pick the single best choice from the list above.
 **출처와 선택 근거:** 기본 규칙과 Judge 프롬프트는 [Qwen3-VL `eval_utils.py`](https://github.com/QwenLM/Qwen3-VL/blob/96588727e44c78b25ba03ea03b8e12f7e64fd0da/evaluation/mmmu/eval_utils.py)의 `can_infer_option`, `can_infer_text`, `can_infer`, `build_prompt`를 사용한다(commit `96588727e44c78b25ba03ea03b8e12f7e64fd0da`). 선택지 문자 추출 뒤 선택지 텍스트 매칭을 시도한다. H1 파서 불일치 49건에서 Qwen은 검토 답과 47건 일치했고, H2의 Final Answer 보완 표본은 100/100건 일치해 이 조합을 채택했다. 표본 조건은 8절, 고정 함수와 라이선스는 [출처 목록](../assignment/experiments/raw_evaluation/frozen/THIRD_PARTY.md)에 정리했다.
 
 1. **객관식:** Qwen 규칙과 사용자 정의 Final Answer 규칙을 적용한다. Final Answer 정규식의 유효 답 표기들이 모두 같고 마지막 매치의 답 문자 끝부터 응답 끝까지 **100자 이하**일 때 보완 후보를 인정한다. 이는 생성 길이 제한이 아니다. 두 규칙이 충돌하면 Judge, 충돌이 없으면 Qwen 답을 우선 사용하고 Qwen 미추출일 때 보완 답을 사용한다.
-2. **주관식:** 참조답 원형을 `A`, `Other Answers`를 `B`로 두고 같은 Qwen 규칙을 적용한다. Final Answer 문자 보완은 적용하지 않는다. 이 방식은 참조답을 사용하는 동치 판정이다.
+2. **주관식:** 참조답 원형을 `A`, `Other Answers`를 `B`로 두고 같은 Qwen 규칙을 적용한다. Final Answer 문자 보완은 적용하지 않는다. 이 방식은 참조답을 사용하는 동치 판정이다. 동일한 주관식 53문항의 채점 방식·점수 비교는 [Qwen A/B와 MMMU 비교](../assignment/experiments/submission/README.md#주관식-qwen-ab와-mmmu-비교)에 정리했다.
 3. **Judge 전송:** 추론 종료 사유에 관계없이 규칙 추출 성공은 자동 처리하며, 미추출·규칙 충돌만 Judge로 보낸다. 객관식 Judge에는 질문·선택지·응답을 전달하고 gold는 별도로 보여주지 않는다. 주관식 Judge에는 A에 참조답이 들어간다. 고정 프롬프트는 응답과 가장 비슷한 선택지를 찾도록 한다.
 4. **Judge 설정:** `gpt-4.1-mini-2025-04-14`, `temperature=0`, `top_p=1`, `seed=3407`, `max_tokens=8`. Judge 응답이 `stop`일 때 고정 Qwen 규칙으로 유효 선택지를 읽는다. `Z`·유효 답 없음·Judge 자체의 비정상 종료는 추출 실패로 오답 처리한다. API 오류·미응답은 `pending`으로 분리하며 모든 요청 완료 후 정확도를 집계한다. 랜덤 답과 완료된 Z 재호출은 사용하지 않는다.
 
