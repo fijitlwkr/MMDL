@@ -1,0 +1,474 @@
+{
+  "source_sha256": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
+  "input_sha256": {
+    "raw": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
+    "item_results": "4f1e89265fe5f1199e91bbddf360b6d682888909e2964832ac38632b9bb11609",
+    "changed_items": "74bfa46e2a159c206f503904f591ce5ca4608e93719b8c6bc3c6a56133be85fa",
+    "image_manifest": "86c90300bca40da6392c32b697a4f40b80b3e1447177fdf067e1979a94098e6c"
+  },
+  "dataset_revision": "98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+  "script_sha256_lf": "344587ac2714171d253d1ad74f681ef042954f92f3d4f00846a1b06cd2c47b68",
+  "sampling": {
+    "seed": 3407,
+    "method": "random.Random(seed); sorted subjects; sorted policy-error IDs; sample 2 per subject",
+    "target_population": "300 policy-scored errors, not all 900 responses",
+    "strata": [
+      {
+        "subject": "Accounting",
+        "policy_error_population": 8,
+        "sample_size": 2,
+        "inclusion_probability": 0.25,
+        "population_weight_per_item": 4.0
+      },
+      {
+        "subject": "Agriculture",
+        "policy_error_population": 16,
+        "sample_size": 2,
+        "inclusion_probability": 0.125,
+        "population_weight_per_item": 8.0
+      },
+      {
+        "subject": "Architecture_and_Engineering",
+        "policy_error_population": 14,
+        "sample_size": 2,
+        "inclusion_probability": 0.14285714285714285,
+        "population_weight_per_item": 7.0
+      },
+      {
+        "subject": "Art",
+        "policy_error_population": 12,
+        "sample_size": 2,
+        "inclusion_probability": 0.16666666666666666,
+        "population_weight_per_item": 6.0
+      },
+      {
+        "subject": "Art_Theory",
+        "policy_error_population": 6,
+        "sample_size": 2,
+        "inclusion_probability": 0.3333333333333333,
+        "population_weight_per_item": 3.0
+      },
+      {
+        "subject": "Basic_Medical_Science",
+        "policy_error_population": 7,
+        "sample_size": 2,
+        "inclusion_probability": 0.2857142857142857,
+        "population_weight_per_item": 3.5
+      },
+      {
+        "subject": "Biology",
+        "policy_error_population": 15,
+        "sample_size": 2,
+        "inclusion_probability": 0.13333333333333333,
+        "population_weight_per_item": 7.5
+      },
+      {
+        "subject": "Chemistry",
+        "policy_error_population": 13,
+        "sample_size": 2,
+        "inclusion_probability": 0.15384615384615385,
+        "population_weight_per_item": 6.5
+      },
+      {
+        "subject": "Clinical_Medicine",
+        "policy_error_population": 6,
+        "sample_size": 2,
+        "inclusion_probability": 0.3333333333333333,
+        "population_weight_per_item": 3.0
+      },
+      {
+        "subject": "Computer_Science",
+        "policy_error_population": 11,
+        "sample_size": 2,
+        "inclusion_probability": 0.18181818181818182,
+        "population_weight_per_item": 5.5
+      },
+      {
+        "subject": "Design",
+        "policy_error_population": 5,
+        "sample_size": 2,
+        "inclusion_probability": 0.4,
+        "population_weight_per_item": 2.5
+      },
+      {
+        "subject": "Diagnostics_and_Laboratory_Medicine",
+        "policy_error_population": 20,
+        "sample_size": 2,
+        "inclusion_probability": 0.1,
+        "population_weight_per_item": 10.0
+      },
+      {
+        "subject": "Economics",
+        "policy_error_population": 5,
+        "sample_size": 2,
+        "inclusion_probability": 0.4,
+        "population_weight_per_item": 2.5
+      },
+      {
+        "subject": "Electronics",
+        "policy_error_population": 6,
+        "sample_size": 2,
+        "inclusion_probability": 0.3333333333333333,
+        "population_weight_per_item": 3.0
+      },
+      {
+        "subject": "Energy_and_Power",
+        "policy_error_population": 11,
+        "sample_size": 2,
+        "inclusion_probability": 0.18181818181818182,
+        "population_weight_per_item": 5.5
+      },
+      {
+        "subject": "Finance",
+        "policy_error_population": 9,
+        "sample_size": 2,
+        "inclusion_probability": 0.2222222222222222,
+        "population_weight_per_item": 4.5
+      },
+      {
+        "subject": "Geography",
+        "policy_error_population": 11,
+        "sample_size": 2,
+        "inclusion_probability": 0.18181818181818182,
+        "population_weight_per_item": 5.5
+      },
+      {
+        "subject": "History",
+        "policy_error_population": 9,
+        "sample_size": 2,
+        "inclusion_probability": 0.2222222222222222,
+        "population_weight_per_item": 4.5
+      },
+      {
+        "subject": "Literature",
+        "policy_error_population": 6,
+        "sample_size": 2,
+        "inclusion_probability": 0.3333333333333333,
+        "population_weight_per_item": 3.0
+      },
+      {
+        "subject": "Manage",
+        "policy_error_population": 9,
+        "sample_size": 2,
+        "inclusion_probability": 0.2222222222222222,
+        "population_weight_per_item": 4.5
+      },
+      {
+        "subject": "Marketing",
+        "policy_error_population": 5,
+        "sample_size": 2,
+        "inclusion_probability": 0.4,
+        "population_weight_per_item": 2.5
+      },
+      {
+        "subject": "Materials",
+        "policy_error_population": 9,
+        "sample_size": 2,
+        "inclusion_probability": 0.2222222222222222,
+        "population_weight_per_item": 4.5
+      },
+      {
+        "subject": "Math",
+        "policy_error_population": 11,
+        "sample_size": 2,
+        "inclusion_probability": 0.18181818181818182,
+        "population_weight_per_item": 5.5
+      },
+      {
+        "subject": "Mechanical_Engineering",
+        "policy_error_population": 18,
+        "sample_size": 2,
+        "inclusion_probability": 0.1111111111111111,
+        "population_weight_per_item": 9.0
+      },
+      {
+        "subject": "Music",
+        "policy_error_population": 23,
+        "sample_size": 2,
+        "inclusion_probability": 0.08695652173913043,
+        "population_weight_per_item": 11.5
+      },
+      {
+        "subject": "Pharmacy",
+        "policy_error_population": 7,
+        "sample_size": 2,
+        "inclusion_probability": 0.2857142857142857,
+        "population_weight_per_item": 3.5
+      },
+      {
+        "subject": "Physics",
+        "policy_error_population": 7,
+        "sample_size": 2,
+        "inclusion_probability": 0.2857142857142857,
+        "population_weight_per_item": 3.5
+      },
+      {
+        "subject": "Psychology",
+        "policy_error_population": 8,
+        "sample_size": 2,
+        "inclusion_probability": 0.25,
+        "population_weight_per_item": 4.0
+      },
+      {
+        "subject": "Public_Health",
+        "policy_error_population": 2,
+        "sample_size": 2,
+        "inclusion_probability": 1.0,
+        "population_weight_per_item": 1.0
+      },
+      {
+        "subject": "Sociology",
+        "policy_error_population": 11,
+        "sample_size": 2,
+        "inclusion_probability": 0.18181818181818182,
+        "population_weight_per_item": 5.5
+      }
+    ]
+  },
+  "failure60_ids": [
+    "validation_Accounting_1",
+    "validation_Accounting_20",
+    "validation_Agriculture_17",
+    "validation_Agriculture_2",
+    "validation_Architecture_and_Engineering_15",
+    "validation_Architecture_and_Engineering_20",
+    "validation_Art_15",
+    "validation_Art_23",
+    "validation_Art_Theory_14",
+    "validation_Art_Theory_17",
+    "validation_Basic_Medical_Science_22",
+    "validation_Basic_Medical_Science_6",
+    "validation_Biology_27",
+    "validation_Biology_4",
+    "validation_Chemistry_28",
+    "validation_Chemistry_7",
+    "validation_Clinical_Medicine_2",
+    "validation_Clinical_Medicine_7",
+    "validation_Computer_Science_11",
+    "validation_Computer_Science_18",
+    "validation_Design_13",
+    "validation_Design_14",
+    "validation_Diagnostics_and_Laboratory_Medicine_20",
+    "validation_Diagnostics_and_Laboratory_Medicine_7",
+    "validation_Economics_1",
+    "validation_Economics_30",
+    "validation_Electronics_18",
+    "validation_Electronics_29",
+    "validation_Energy_and_Power_1",
+    "validation_Energy_and_Power_18",
+    "validation_Finance_14",
+    "validation_Finance_21",
+    "validation_Geography_1",
+    "validation_Geography_6",
+    "validation_History_10",
+    "validation_History_2",
+    "validation_Literature_18",
+    "validation_Literature_26",
+    "validation_Manage_24",
+    "validation_Manage_6",
+    "validation_Marketing_14",
+    "validation_Marketing_8",
+    "validation_Materials_16",
+    "validation_Materials_6",
+    "validation_Math_7",
+    "validation_Math_9",
+    "validation_Mechanical_Engineering_1",
+    "validation_Mechanical_Engineering_4",
+    "validation_Music_24",
+    "validation_Music_28",
+    "validation_Pharmacy_17",
+    "validation_Pharmacy_23",
+    "validation_Physics_15",
+    "validation_Physics_20",
+    "validation_Psychology_20",
+    "validation_Psychology_9",
+    "validation_Public_Health_1",
+    "validation_Public_Health_24",
+    "validation_Sociology_1",
+    "validation_Sociology_10"
+  ],
+  "gate18_ids": [
+    "validation_Architecture_and_Engineering_17",
+    "validation_Art_Theory_19",
+    "validation_Basic_Medical_Science_10",
+    "validation_Biology_14",
+    "validation_Biology_2",
+    "validation_Chemistry_17",
+    "validation_Chemistry_24",
+    "validation_Electronics_16",
+    "validation_Energy_and_Power_14",
+    "validation_Energy_and_Power_25",
+    "validation_Energy_and_Power_3",
+    "validation_Materials_11",
+    "validation_Materials_27",
+    "validation_Materials_3",
+    "validation_Math_13",
+    "validation_Math_2",
+    "validation_Music_10",
+    "validation_Pharmacy_19"
+  ],
+  "overlap_ids": [],
+  "failure60_types": {
+    "multiple-choice": 58,
+    "open": 2
+  },
+  "failure60_finish": {
+    "stop": 40,
+    "length": 20
+  },
+  "batches": {
+    "failure60": [
+      {
+        "file": "batch_01.md",
+        "ids": [
+          "validation_Accounting_1",
+          "validation_Accounting_20",
+          "validation_Agriculture_17",
+          "validation_Agriculture_2",
+          "validation_Architecture_and_Engineering_15",
+          "validation_Architecture_and_Engineering_20",
+          "validation_Art_15",
+          "validation_Art_23",
+          "validation_Art_Theory_14",
+          "validation_Art_Theory_17"
+        ],
+        "count": 10
+      },
+      {
+        "file": "batch_02.md",
+        "ids": [
+          "validation_Basic_Medical_Science_22",
+          "validation_Basic_Medical_Science_6",
+          "validation_Biology_27",
+          "validation_Biology_4",
+          "validation_Chemistry_28",
+          "validation_Chemistry_7",
+          "validation_Clinical_Medicine_2",
+          "validation_Clinical_Medicine_7",
+          "validation_Computer_Science_11",
+          "validation_Computer_Science_18"
+        ],
+        "count": 10
+      },
+      {
+        "file": "batch_03.md",
+        "ids": [
+          "validation_Design_13",
+          "validation_Design_14",
+          "validation_Diagnostics_and_Laboratory_Medicine_20",
+          "validation_Diagnostics_and_Laboratory_Medicine_7",
+          "validation_Economics_1",
+          "validation_Economics_30",
+          "validation_Electronics_18",
+          "validation_Electronics_29",
+          "validation_Energy_and_Power_1",
+          "validation_Energy_and_Power_18"
+        ],
+        "count": 10
+      },
+      {
+        "file": "batch_04.md",
+        "ids": [
+          "validation_Finance_14",
+          "validation_Finance_21",
+          "validation_Geography_1",
+          "validation_Geography_6",
+          "validation_History_10",
+          "validation_History_2",
+          "validation_Literature_18",
+          "validation_Literature_26",
+          "validation_Manage_24",
+          "validation_Manage_6"
+        ],
+        "count": 10
+      },
+      {
+        "file": "batch_05.md",
+        "ids": [
+          "validation_Marketing_14",
+          "validation_Marketing_8",
+          "validation_Materials_16",
+          "validation_Materials_6",
+          "validation_Math_7",
+          "validation_Math_9",
+          "validation_Mechanical_Engineering_1",
+          "validation_Mechanical_Engineering_4",
+          "validation_Music_24",
+          "validation_Music_28"
+        ],
+        "count": 10
+      },
+      {
+        "file": "batch_06.md",
+        "ids": [
+          "validation_Pharmacy_17",
+          "validation_Pharmacy_23",
+          "validation_Physics_15",
+          "validation_Physics_20",
+          "validation_Psychology_20",
+          "validation_Psychology_9",
+          "validation_Public_Health_1",
+          "validation_Public_Health_24",
+          "validation_Sociology_1",
+          "validation_Sociology_10"
+        ],
+        "count": 10
+      }
+    ],
+    "gate18": [
+      {
+        "file": "batch_01.md",
+        "ids": [
+          "validation_Architecture_and_Engineering_17",
+          "validation_Art_Theory_19",
+          "validation_Basic_Medical_Science_10",
+          "validation_Biology_14",
+          "validation_Biology_2",
+          "validation_Chemistry_17"
+        ],
+        "count": 6
+      },
+      {
+        "file": "batch_02.md",
+        "ids": [
+          "validation_Chemistry_24",
+          "validation_Electronics_16",
+          "validation_Energy_and_Power_14",
+          "validation_Energy_and_Power_25",
+          "validation_Energy_and_Power_3",
+          "validation_Materials_11"
+        ],
+        "count": 6
+      },
+      {
+        "file": "batch_03.md",
+        "ids": [
+          "validation_Materials_27",
+          "validation_Materials_3",
+          "validation_Math_13",
+          "validation_Math_2",
+          "validation_Music_10",
+          "validation_Pharmacy_19"
+        ],
+        "count": 6
+      }
+    ]
+  },
+  "human_reviews_completed": 0,
+  "new_api_calls": 0,
+  "new_inference_runs": 0,
+  "answer_status_values": [
+    "explicit",
+    "inferable",
+    "ambiguous",
+    "no_answer"
+  ],
+  "primary_error_type_values": [
+    "visual_reading",
+    "knowledge",
+    "calculation_reasoning",
+    "repetition_incomplete",
+    "evaluation_issue",
+    "uncertain"
+  ]
+}

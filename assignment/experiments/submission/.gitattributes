@@ -1,0 +1,6 @@
+# Preserve raw input, response cache and submitted results byte-for-byte.
+input/* -text
+input/scoring_config.yaml whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+judge/* -text
+results/* -text
+manifest.json -text

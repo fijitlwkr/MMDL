@@ -76,61 +76,79 @@ Pick the single best choice from the list above.
 
 ## 4. 채점(파싱) 방식
 
-- 사용한 파서/로직: _(자체 구현 / 차용 도구명 + 링크)_
-- 동작 방식 요약: _(예: 어떤 순서로 규칙을 적용하는지, 실패 시 fallback은 무엇인지)_
+채점 정책은 `hybrid100_mc_qwen_ab_open_no_length_gate_v2`다. [평가 실행기](../assignment/experiments/raw_evaluation/evaluate.py)와 [설정](../assignment/src/config.yaml)에 구현했다.
+
+**출처와 선택 근거:** 기본 규칙과 Judge 프롬프트는 [Qwen3-VL `eval_utils.py`](https://github.com/QwenLM/Qwen3-VL/blob/96588727e44c78b25ba03ea03b8e12f7e64fd0da/evaluation/mmmu/eval_utils.py)의 `can_infer_option`, `can_infer_text`, `can_infer`, `build_prompt`를 사용한다(commit `96588727e44c78b25ba03ea03b8e12f7e64fd0da`). 선택지 문자 추출 뒤 선택지 텍스트 매칭을 시도한다. H1 파서 불일치 49건에서 Qwen은 검토 답과 47건 일치했고, H2의 Final Answer 보완 표본은 100/100건 일치해 이 조합을 채택했다. 표본 조건은 8절, 고정 함수와 라이선스는 [출처 목록](../assignment/experiments/raw_evaluation/frozen/THIRD_PARTY.md)에 정리했다.
+
+1. **객관식:** Qwen 규칙과 사용자 정의 Final Answer 규칙을 적용한다. Final Answer 정규식의 유효 답 표기들이 모두 같고 마지막 매치의 답 문자 끝부터 응답 끝까지 **100자 이하**일 때 보완 후보를 인정한다. 이는 생성 길이 제한이 아니다. 두 규칙이 충돌하면 Judge, 충돌이 없으면 Qwen 답을 우선 사용하고 Qwen 미추출일 때 보완 답을 사용한다.
+2. **주관식:** 참조답 원형을 `A`, `Other Answers`를 `B`로 두고 같은 Qwen 규칙을 적용한다. Final Answer 문자 보완은 적용하지 않는다. 이 방식은 참조답을 사용하는 동치 판정이다. 동일한 주관식 53문항의 채점 방식·점수 비교는 [Qwen A/B와 MMMU 비교](../assignment/experiments/submission/README.md#주관식-qwen-ab와-mmmu-비교)에 정리했다.
+3. **Judge 전송:** 추론 종료 사유에 관계없이 규칙 추출 성공은 자동 처리하며, 미추출·규칙 충돌만 Judge로 보낸다. 객관식 Judge에는 질문·선택지·응답을 전달하고 gold는 별도로 보여주지 않는다. 주관식 Judge에는 A에 참조답이 들어간다. 고정 프롬프트는 응답과 가장 비슷한 선택지를 찾도록 한다.
+4. **Judge 설정:** `gpt-4.1-mini-2025-04-14`, `temperature=0`, `top_p=1`, `seed=3407`, `max_tokens=8`. Judge 응답이 `stop`일 때 고정 Qwen 규칙으로 유효 선택지를 읽는다. `Z`·유효 답 없음·Judge 자체의 비정상 종료는 추출 실패로 오답 처리한다. API 오류·미응답은 `pending`으로 분리하며 모든 요청 완료 후 정확도를 집계한다. 랜덤 답과 완료된 Z 재호출은 사용하지 않는다.
+
+규칙 단독 비교에는 [MMMU `eval_utils.py`](https://github.com/MMMU-Benchmark/MMMU/blob/51ce7f3e829c16bb44bc5445782686b4c3508794/eval/eval_utils.py)(commit `51ce7f3e829c16bb44bc5445782686b4c3508794`)를 사용했다. 랜덤 폴백을 제거하고 파싱 실패를 오답 처리했다. 주관식의 문자열로 저장된 복수 허용 답 3건은 목록으로 변환했다.
+
+재현·근거: [채점 결과·선택 근거](../assignment/experiments/submission/README.md), [오프라인 재현 스크립트](../assignment/experiments/submission/reproduce.py), [원본 raw](../assignment/experiments/submission/input/raw.jsonl), [실행 메타데이터](../assignment/experiments/submission/input/run_metadata.json), [집계](../assignment/experiments/submission/results/scores.json), [동일 입력 비교](../assignment/experiments/submission/results/comparisons.json).
 
 ## 5. 결과
 
-| No. | Subject | Data Num | Acc |
-|---|---|---|---|
-| 1 | Accounting | 30 | |
-| 2 | Agriculture | 30 | |
-| 3 | Architecture_and_Engineering | 30 | |
-| 4 | Art | 30 | |
-| 5 | Art_Theory | 30 | |
-| 6 | Basic_Medical_Science | 30 | |
-| 7 | Biology | 30 | |
-| 8 | Chemistry | 30 | |
-| 9 | Clinical_Medicine | 30 | |
-| 10 | Computer_Science | 30 | |
-| 11 | Design | 30 | |
-| 12 | Diagnostics_and_Laboratory_Medicine | 30 | |
-| 13 | Economics | 30 | |
-| 14 | Electronics | 30 | |
-| 15 | Energy_and_Power | 30 | |
-| 16 | Finance | 30 | |
-| 17 | Geography | 30 | |
-| 18 | History | 30 | |
-| 19 | Literature | 30 | |
-| 20 | Manage | 30 | |
-| 21 | Marketing | 30 | |
-| 22 | Materials | 30 | |
-| 23 | Math | 30 | |
-| 24 | Mechanical_Engineering | 30 | |
-| 25 | Music | 30 | |
-| 26 | Pharmacy | 30 | |
-| 27 | Physics | 30 | |
-| 28 | Psychology | 30 | |
-| 29 | Public_Health | 30 | |
-| 30 | Sociology | 30 | |
-| | **Overall (macro avg)** | **900** | |
+최신 raw의 900개 고유 ID를 모두 평가했다. 원본 SHA-256은 `ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313`이며, 아래 표는 **v2 + GPT-4.1-mini** 결과다.
 
-계산식: `Overall = mean(30개 과목 accuracy)` _(다른 방식을 썼다면 명시)_
+| No. | Subject | Data Num | Correct | Wrong | Accuracy |
+|---:|---|---:|---:|---:|---:|
+| 1 | Accounting | 30 | 22 | 8 | 73.33% |
+| 2 | Agriculture | 30 | 14 | 16 | 46.67% |
+| 3 | Architecture_and_Engineering | 30 | 16 | 14 | 53.33% |
+| 4 | Art | 30 | 18 | 12 | 60.00% |
+| 5 | Art_Theory | 30 | 24 | 6 | 80.00% |
+| 6 | Basic_Medical_Science | 30 | 23 | 7 | 76.67% |
+| 7 | Biology | 30 | 15 | 15 | 50.00% |
+| 8 | Chemistry | 30 | 17 | 13 | 56.67% |
+| 9 | Clinical_Medicine | 30 | 24 | 6 | 80.00% |
+| 10 | Computer_Science | 30 | 19 | 11 | 63.33% |
+| 11 | Design | 30 | 25 | 5 | 83.33% |
+| 12 | Diagnostics_and_Laboratory_Medicine | 30 | 10 | 20 | 33.33% |
+| 13 | Economics | 30 | 25 | 5 | 83.33% |
+| 14 | Electronics | 30 | 24 | 6 | 80.00% |
+| 15 | Energy_and_Power | 30 | 19 | 11 | 63.33% |
+| 16 | Finance | 30 | 21 | 9 | 70.00% |
+| 17 | Geography | 30 | 19 | 11 | 63.33% |
+| 18 | History | 30 | 21 | 9 | 70.00% |
+| 19 | Literature | 30 | 24 | 6 | 80.00% |
+| 20 | Manage | 30 | 21 | 9 | 70.00% |
+| 21 | Marketing | 30 | 25 | 5 | 83.33% |
+| 22 | Materials | 30 | 21 | 9 | 70.00% |
+| 23 | Math | 30 | 19 | 11 | 63.33% |
+| 24 | Mechanical_Engineering | 30 | 12 | 18 | 40.00% |
+| 25 | Music | 30 | 7 | 23 | 23.33% |
+| 26 | Pharmacy | 30 | 23 | 7 | 76.67% |
+| 27 | Physics | 30 | 23 | 7 | 76.67% |
+| 28 | Psychology | 30 | 22 | 8 | 73.33% |
+| 29 | Public_Health | 30 | 28 | 2 | 93.33% |
+| 30 | Sociology | 30 | 19 | 11 | 63.33% |
+| | **Overall (macro avg)** | **900** | **600** | **300** | **66.67%** |
+
+`Subject accuracy = Correct / 30 × 100`, `Overall = mean(30개 과목 accuracy)`로 계산했다. 과목별 값을 반올림하기 전에 평균을 구했으며, 과목당 30문항이므로 `600 / 900 × 100 = 66.666…%`와 일치한다. 표시는 소수 둘째 자리로 반올림했다.
+
+객관식 **560/847(66.12%)**, 주관식 **40/53(75.47%)**다. 자동 처리 555건·Judge 처리 345건이며 미완료는 0건이다. 오답 300건에는 추출 실패 36건이 포함된다. [과목별 결과 파일](../assignment/experiments/submission/results/subject_scores.md)과 [900문항별 정오·처리 경로](../assignment/experiments/submission/results/item_results.jsonl)에서 근거를 확인할 수 있다.
 
 ## 6. 공식 수치와의 비교
 
-| | Overall (MMMU val) |
-|---|---|
-| 공식 (Qwen3-VL Technical Report) | 67.4 |
-| 우리 재현 결과 | |
-| 차이 (Δ) | |
+| 구분 | Overall (MMMU validation) |
+|---|---:|
+| 과제에서 제시한 공식 참조값(Qwen3-VL Technical Report 기준) | 67.40% |
+| 우리 결과: 최신 raw·v2·GPT-4.1-mini | 66.67% |
+| 차이: 우리 결과 − 공식 참조값 | **−0.73%p** |
+
+차이는 반올림 전 값으로 `600 / 900 × 100 − 67.4 = −0.7333…%p`다. 공식 참조값은 과제 지시문의 67.4%를 사용했다.
 
 ## 7. 격차 분석
 
-_(1000 char 이내로 작성 - Official 성능과 차이가 발생하는지, 그렇다면 그 이유를 서술. 길게 쓴다고 credit이 느는 게
-아니라, 근거의 질이 핵심입니다. 레포트는 짧을수록 좋습니다.)_
+재현 점수는 66.67%(600/900)로 공식 참조값 67.40%보다 0.73%p 낮았다. **응답의 반복·중단과 채점 방식에 따른 점수 차이**를 분석했다.
 
+**응답의 반복·중단:** 생성 상한 8,192토큰에 도달한 128건의 정확도는 35.94%로 정상 종료 772건의 71.76%보다 낮았다. 상한 도달 응답은 전체의 14.22%지만, 전체 오답의 27.33%(82/300)와 답 추출 실패의 69.44%(25/36)를 차지했다. 실제 `validation_Accounting_5`는 같은 해석을 85회 반복하다 문장 중간에서 종료됐고, 답 추출도 실패했다.
+
+**채점 방식:** 동일 응답·자동 처리 537건·Judge 대상 363건을 고정하고 Judge만 GPT-4.1-mini에서 GPT-4o-mini로 바꾸자 66.00%→63.00%로 낮아졌다. 답은 83건에서 달랐고 정답 증가 5건·감소 32건으로 **27문항·3.00%p** 차이가 발생했다. 동일 응답의 채점 모델 비교에서 공식 참조값과의 격차 0.73%p보다 큰 점수 차이가 관찰됐다. [집계·비교 결과](../assignment/experiments/submission/results/comparisons.json)
 
 ## 8. 기타 특이사항 / 한계 (Optional)
 
-_(재현 중 겪은 문제, 시간 관계상 못 해본 것, 다음에 시도해보고 싶은 것 등. 자유롭게)_
+- 파서 검토 [H1](../assignment/experiments/scoring_lab/legacy_pilot/h1/REPORT.md)·[H2](../assignment/experiments/scoring_lab/legacy_pilot/h2/REPORT.md)는 과거 899문항 pilot(생성 seed 42, cap 9048)에서 선정한 고유 139문항을 검토자 1명이 확인한 결과다.

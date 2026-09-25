@@ -4,6 +4,11 @@
 
 ---
 
+## 결과와 실험 자료
+
+- [과제 제출 보고서](reports/mmmu_baseline.md)
+- [실험 결과·재현 도구 목차](assignment/experiments/README.md)
+
 ## Directory Structure
 
 ```

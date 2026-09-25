@@ -1,0 +1,5 @@
+*.py text eol=lf
+image_manifest.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+images/* -text
+packets/** -text -whitespace
+returned/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
