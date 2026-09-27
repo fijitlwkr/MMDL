@@ -106,7 +106,7 @@ Question: {question}
 
 - **출처**: Qwen3-VL [README](https://github.com/QwenLM/Qwen3-VL/blob/f8dca99056bb6352cf6ab36d4ea1848a09c54b5b/README.md)의 `Evaluation Reproduction > Generation Hyperparameters > Instruct models`(`greedy='false'`, `seed=3407`, `top_p=0.8`, `top_k=20`, `temperature=0.7`, `repetition_penalty=1.0`, `presence_penalty=1.5`).
 - **Seed**: 공식 README의 Instruct 재현 설정인 seed 3407을 따르고, engine seed와 요청별 SamplingParams.seed를 모두 3407로 설정했다.
-- **presence_penalty**: 개인 탐색 실험(초기 2048/9048 config, 200문항 부분집합)에서 `0`/`0.5`/`1.5`를 비교한 결과 `1.5`가 정확도(51.00%)와 파싱 실패율(8.00%) 모두 가장 나았다([근거](../assignment/archive/hakyung/experiments/expC_presence_penalty/outputs/comparison.md)).
+- **presence_penalty**: 공식 recipe 값 `1.5`를 그대로 사용했으며, 평가 데이터로 값을 고르지 않았다. 초기 설정(2048/9048 config, 200문항 부분집합)에서 `0`/`0.5`/`1.5`를 확인차 비교했을 때도 `1.5`가 정확도(51.00%)는 가장 높고 파싱 실패율(8.00%)은 가장 낮았다. 따라서 공식값을 바꿀 이유가 없었다([근거](../assignment/archive/hakyung/experiments/expC_presence_penalty/outputs/comparison.md)).
 
 ### 3.2 생성 예산 / 이미지 해상도
 
@@ -115,7 +115,11 @@ Question: {question}
 | `max_new_tokens` | `8192` (`max_model_len=16384`, 입력 안전 여유 128토큰) |
 | 이미지 해상도 처리 | `min_pixels=1,003,520` (1280×28×28), `max_pixels=4,014,080` (5120×28×28) |
 
-**선택 근거:** 초기 강의 자료는 RTX 4090 기준 `max_new_tokens=2048`(`max_model_length=9048`)을 참고값으로 제시했다. Qwen 공식 출력 예산은 README·스크립트 32768, 고정 revision 모델 카드 16384다. 팀 공식 예산을 RTX 4090 1장에서 한 번 실행할 때 비용 $2 이내로 설정했으므로 `max_model_len=16384`로 제한했다. 이 한도에서 `8192`를 출력에 쓰면 입력 한도는 8,064토큰이며, 최종 raw의 최대 입력 5,627토큰을 잘림 없이 수용한다. `max_new_tokens=2048` 사전 실행에서는 234/900이 길이 제한으로 종료됐고 MMMU 규칙 단독 점수는 43.33%였다. 비교 대상 8192 실행(이전 실행)은 108/900, 50.00%였다([8192·2048 비교](../code/scoring/README.md#검증-결과)). 두 수치 모두 Judge를 사용하지 않은 MMMU 규칙 단독 점수이며, 5절의 하이브리드 점수와 채점 조건이 다르다. 이와 별개로 개인 탐색 단계에서 budget 외 설정을 고정하고(초기 2048/9048 vs 8192/16384) 230문항 부분집합으로 비교한 결과, 정확도가 23.91%에서 38.26%로 유의미하게 높아졌다(McNemar p=0.0001)([근거](../assignment/archive/hakyung/experiments/expB_budget_increase/outputs/comparison.md)). 최종 실행에서도 128/900이 상한에 도달했으므로 응답 잘림은 남아 있다(7·8절).
+**선택 근거:** 초기 강의 자료는 RTX 4090 기준 `max_new_tokens=2048`(`max_model_length=9048`)을 참고값으로 제시했다. Qwen 공식 출력 예산은 README·스크립트 32768, 고정 revision 모델 카드 16384다. 팀은 RTX 4090 1장에서 한 번 실행하는 비용을 $2 이내로 잡았다(RunPod 기준 $<시간당 요금>/h).
+
+제약 요인은 VRAM이 아니라 생성 시간이다. peak VRAM 22,297 MiB는 vLLM이 `gpu_memory_utilization=0.9`(≈22,108 MiB)만큼 미리 할당한 결과라 예산과 무관하다. 반면 8192 실행에서 상한에 도달한 128건(14%)이 전체 출력 토큰 1,813,255개 중 57.8%를 차지했다. 상한을 32768로 올리면 이 문항들만으로 출력 토큰이 최대 약 4.96M(2.7배)까지 늘 수 있어, 57분 50초였던 실행이 비용 목표를 넘을 위험이 크다고 판단해 `max_model_len=16384`로 제한했다.
+
+이 한도에서 `8192`를 출력에 쓰면 입력 한도는 8,064토큰이며, 최종 raw의 최대 입력 5,627토큰을 잘림 없이 수용한다. `max_new_tokens=2048` 사전 실행에서는 234/900이 길이 제한으로 종료됐고 MMMU 규칙 단독 점수는 43.33%였다. 비교 대상 8192 실행(이전 실행)은 108/900, 50.00%였다([8192·2048 비교](../code/scoring/README.md#검증-결과)). 두 수치 모두 Judge를 사용하지 않은 MMMU 규칙 단독 점수이며, 5절의 하이브리드 점수와 채점 조건이 다르다. 이와 별개로 개인 탐색 단계에서 budget 외 설정을 고정하고(초기 2048/9048 vs 8192/16384) 230문항 부분집합으로 비교한 결과, 정확도가 23.91%에서 38.26%로 유의미하게 높아졌다(McNemar p=0.0001)([근거](../assignment/archive/hakyung/experiments/expB_budget_increase/outputs/comparison.md)). 최종 실행에서도 128/900이 상한에 도달했으므로 응답 잘림은 남아 있다(7·8절).
 
 이미지 pixel 범위는 `run_mmmu.py`의 `MIN_PIXELS`/`MAX_PIXELS`와 같은 값이다.
 
