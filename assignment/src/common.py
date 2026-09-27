@@ -145,8 +145,8 @@ RAW_FIELDS = {
     "gold": str,
     "options": list,
     "options_raw": str,
-    "image_indices": list,  # Image numbers owned by the question, ascending; also retained for skips.
-    "prompt": str,
+    "image_indices": (list, type(None)),  # Image numbers owned by the question, ascending; also retained for skips.
+    "prompt": (str, type(None)),
     "status": str,
     "reason": (str, type(None)),
     "error": (str, type(None)),
@@ -167,7 +167,8 @@ def make_record(sample: Sample, cfg: dict, **values) -> dict:
                 subject=sample.subject, subfield=sample.subfield, topic_difficulty=sample.topic_difficulty,
                 img_type=sample.img_type, question_type=sample.question_type, gold=sample.answer,
                 options=sample.options, options_raw=sample.options_raw, image_indices=sorted(sample.image_indices),
-                prompt=build_prompt(sample, cfg), status="error", max_new_tokens=cfg["budget"]["max_new_tokens"])
+                prompt=build_prompt(sample, cfg), status="error", max_new_tokens=cfg["budget"]["max_new_tokens"],
+                raw_text="", output_token_ids=[], output_tokens=0)
     if set(values) - set(RAW_FIELDS):
         raise ValueError(f"unknown record fields: {sorted(set(values) - set(RAW_FIELDS))}")
     base.update(values)
@@ -207,7 +208,7 @@ def check_invariants(record: dict) -> list[str]:
     if record["finish_reason"] == "length" and record["output_tokens"] != record["max_new_tokens"]:
         violations.append("length_token_count")
     if status == "skip":
-        if any(record[name] is not None for name in
+        if any(record[name] not in (None, "", [], 0) for name in
                ("raw_text", "output_token_ids", "output_tokens", "finish_reason", "stop_reason", "num_prompt_tokens")):
             violations.append("skip_output_not_null")
         if record["reason"] is None:
