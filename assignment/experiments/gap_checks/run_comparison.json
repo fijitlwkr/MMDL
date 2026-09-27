@@ -1,0 +1,103 @@
+{
+  "scorer": "MMMU rule only (no Judge), identical for both runs",
+  "inputs": {
+    "assignment/runs/draft/raw.jsonl": "cd1c4ff32b26c06d511b2eb98b0178b973e4b572ef3aa1ebae479031ff5a40a5",
+    "results/mmmu_team_baseline/raw.jsonl": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313"
+  },
+  "total_correct": {
+    "a": 450,
+    "b": 452
+  },
+  "item_correctness_flips": 164,
+  "subjects_changed": 25,
+  "max_subject_change_items": 5,
+  "subject_correct_diff_b_minus_a": {
+    "Accounting": -1,
+    "Agriculture": -1,
+    "Architecture_and_Engineering": 5,
+    "Art": 2,
+    "Art_Theory": -1,
+    "Basic_Medical_Science": 3,
+    "Biology": 4,
+    "Chemistry": -1,
+    "Clinical_Medicine": 0,
+    "Computer_Science": 1,
+    "Design": -2,
+    "Diagnostics_and_Laboratory_Medicine": 0,
+    "Economics": -1,
+    "Electronics": -3,
+    "Energy_and_Power": -4,
+    "Finance": -2,
+    "Geography": 0,
+    "History": -2,
+    "Literature": 1,
+    "Manage": 3,
+    "Marketing": 0,
+    "Materials": 4,
+    "Math": 0,
+    "Mechanical_Engineering": -3,
+    "Music": 1,
+    "Pharmacy": -4,
+    "Physics": -3,
+    "Psychology": 5,
+    "Public_Health": -1,
+    "Sociology": 2
+  },
+  "category_accuracy_pct": {
+    "Art & Design": {
+      "a": 43.3,
+      "b": 43.3
+    },
+    "Business": {
+      "a": 70.0,
+      "b": 69.3
+    },
+    "Science": {
+      "a": 48.7,
+      "b": 48.7
+    },
+    "Health & Medicine": {
+      "a": 54.0,
+      "b": 52.7
+    },
+    "Humanities & Social Science": {
+      "a": 50.0,
+      "b": 55.0
+    },
+    "Tech & Engineering": {
+      "a": 37.6,
+      "b": 37.1
+    }
+  },
+  "category_token_share_pct": {
+    "Art & Design": {
+      "a": 8.8,
+      "b": 9.9
+    },
+    "Business": {
+      "a": 14.2,
+      "b": 14.1
+    },
+    "Science": {
+      "a": 16.4,
+      "b": 16.4
+    },
+    "Health & Medicine": {
+      "a": 8.3,
+      "b": 7.6
+    },
+    "Humanities & Social Science": {
+      "a": 4.2,
+      "b": 2.8
+    },
+    "Tech & Engineering": {
+      "a": 48.1,
+      "b": 49.2
+    }
+  },
+  "max_token_share_gap_pp": 1.4,
+  "generate_seconds": {
+    "a": 6026.256,
+    "b": 3351.217
+  }
+}

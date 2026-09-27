@@ -1,0 +1,261 @@
+{
+  "method": "generate_seconds x (group output tokens / all output tokens); prefill not modelled",
+  "inputs": {
+    "results/mmmu_team_baseline/raw.jsonl": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
+    "results/mmmu_team_baseline/env.json": "fd862281787a92ac5f8a378ef919a4806cea3dee9ac848dabd4b1e055227eed8"
+  },
+  "generate_seconds": 3351.217,
+  "duration_seconds": 3469.539,
+  "invocations": 1,
+  "output_tokens_total": 1813255,
+  "by_category": {
+    "Art & Design": {
+      "output_tokens": 179329,
+      "share_pct": 9.9,
+      "estimated_seconds": 331,
+      "estimated_minutes": 5.5
+    },
+    "Business": {
+      "output_tokens": 255768,
+      "share_pct": 14.1,
+      "estimated_seconds": 473,
+      "estimated_minutes": 7.9
+    },
+    "Science": {
+      "output_tokens": 297574,
+      "share_pct": 16.4,
+      "estimated_seconds": 550,
+      "estimated_minutes": 9.2
+    },
+    "Health & Medicine": {
+      "output_tokens": 137503,
+      "share_pct": 7.6,
+      "estimated_seconds": 254,
+      "estimated_minutes": 4.2
+    },
+    "Humanities & Social Science": {
+      "output_tokens": 50806,
+      "share_pct": 2.8,
+      "estimated_seconds": 94,
+      "estimated_minutes": 1.6
+    },
+    "Tech & Engineering": {
+      "output_tokens": 892275,
+      "share_pct": 49.2,
+      "estimated_seconds": 1649,
+      "estimated_minutes": 27.5
+    }
+  },
+  "by_subject": {
+    "Accounting": {
+      "output_tokens": 88467,
+      "share_pct": 4.9,
+      "estimated_seconds": 164,
+      "estimated_minutes": 2.7,
+      "category": "Business"
+    },
+    "Agriculture": {
+      "output_tokens": 4986,
+      "share_pct": 0.3,
+      "estimated_seconds": 9,
+      "estimated_minutes": 0.2,
+      "category": "Tech & Engineering"
+    },
+    "Architecture_and_Engineering": {
+      "output_tokens": 188090,
+      "share_pct": 10.4,
+      "estimated_seconds": 348,
+      "estimated_minutes": 5.8,
+      "category": "Tech & Engineering"
+    },
+    "Art": {
+      "output_tokens": 21213,
+      "share_pct": 1.2,
+      "estimated_seconds": 39,
+      "estimated_minutes": 0.7,
+      "category": "Art & Design"
+    },
+    "Art_Theory": {
+      "output_tokens": 17004,
+      "share_pct": 0.9,
+      "estimated_seconds": 31,
+      "estimated_minutes": 0.5,
+      "category": "Art & Design"
+    },
+    "Basic_Medical_Science": {
+      "output_tokens": 16630,
+      "share_pct": 0.9,
+      "estimated_seconds": 31,
+      "estimated_minutes": 0.5,
+      "category": "Health & Medicine"
+    },
+    "Biology": {
+      "output_tokens": 40853,
+      "share_pct": 2.3,
+      "estimated_seconds": 76,
+      "estimated_minutes": 1.3,
+      "category": "Science"
+    },
+    "Chemistry": {
+      "output_tokens": 87228,
+      "share_pct": 4.8,
+      "estimated_seconds": 161,
+      "estimated_minutes": 2.7,
+      "category": "Science"
+    },
+    "Clinical_Medicine": {
+      "output_tokens": 16110,
+      "share_pct": 0.9,
+      "estimated_seconds": 30,
+      "estimated_minutes": 0.5,
+      "category": "Health & Medicine"
+    },
+    "Computer_Science": {
+      "output_tokens": 64824,
+      "share_pct": 3.6,
+      "estimated_seconds": 120,
+      "estimated_minutes": 2.0,
+      "category": "Tech & Engineering"
+    },
+    "Design": {
+      "output_tokens": 5607,
+      "share_pct": 0.3,
+      "estimated_seconds": 10,
+      "estimated_minutes": 0.2,
+      "category": "Art & Design"
+    },
+    "Diagnostics_and_Laboratory_Medicine": {
+      "output_tokens": 32720,
+      "share_pct": 1.8,
+      "estimated_seconds": 60,
+      "estimated_minutes": 1.0,
+      "category": "Health & Medicine"
+    },
+    "Economics": {
+      "output_tokens": 23985,
+      "share_pct": 1.3,
+      "estimated_seconds": 44,
+      "estimated_minutes": 0.7,
+      "category": "Business"
+    },
+    "Electronics": {
+      "output_tokens": 138388,
+      "share_pct": 7.6,
+      "estimated_seconds": 256,
+      "estimated_minutes": 4.3,
+      "category": "Tech & Engineering"
+    },
+    "Energy_and_Power": {
+      "output_tokens": 171037,
+      "share_pct": 9.4,
+      "estimated_seconds": 316,
+      "estimated_minutes": 5.3,
+      "category": "Tech & Engineering"
+    },
+    "Finance": {
+      "output_tokens": 74432,
+      "share_pct": 4.1,
+      "estimated_seconds": 138,
+      "estimated_minutes": 2.3,
+      "category": "Business"
+    },
+    "Geography": {
+      "output_tokens": 41091,
+      "share_pct": 2.3,
+      "estimated_seconds": 76,
+      "estimated_minutes": 1.3,
+      "category": "Science"
+    },
+    "History": {
+      "output_tokens": 20137,
+      "share_pct": 1.1,
+      "estimated_seconds": 37,
+      "estimated_minutes": 0.6,
+      "category": "Humanities & Social Science"
+    },
+    "Literature": {
+      "output_tokens": 5416,
+      "share_pct": 0.3,
+      "estimated_seconds": 10,
+      "estimated_minutes": 0.2,
+      "category": "Humanities & Social Science"
+    },
+    "Manage": {
+      "output_tokens": 36851,
+      "share_pct": 2.0,
+      "estimated_seconds": 68,
+      "estimated_minutes": 1.1,
+      "category": "Business"
+    },
+    "Marketing": {
+      "output_tokens": 32033,
+      "share_pct": 1.8,
+      "estimated_seconds": 59,
+      "estimated_minutes": 1.0,
+      "category": "Business"
+    },
+    "Materials": {
+      "output_tokens": 156461,
+      "share_pct": 8.6,
+      "estimated_seconds": 289,
+      "estimated_minutes": 4.8,
+      "category": "Tech & Engineering"
+    },
+    "Math": {
+      "output_tokens": 83446,
+      "share_pct": 4.6,
+      "estimated_seconds": 154,
+      "estimated_minutes": 2.6,
+      "category": "Science"
+    },
+    "Mechanical_Engineering": {
+      "output_tokens": 168489,
+      "share_pct": 9.3,
+      "estimated_seconds": 311,
+      "estimated_minutes": 5.2,
+      "category": "Tech & Engineering"
+    },
+    "Music": {
+      "output_tokens": 135505,
+      "share_pct": 7.5,
+      "estimated_seconds": 250,
+      "estimated_minutes": 4.2,
+      "category": "Art & Design"
+    },
+    "Pharmacy": {
+      "output_tokens": 38336,
+      "share_pct": 2.1,
+      "estimated_seconds": 71,
+      "estimated_minutes": 1.2,
+      "category": "Health & Medicine"
+    },
+    "Physics": {
+      "output_tokens": 44956,
+      "share_pct": 2.5,
+      "estimated_seconds": 83,
+      "estimated_minutes": 1.4,
+      "category": "Science"
+    },
+    "Psychology": {
+      "output_tokens": 16224,
+      "share_pct": 0.9,
+      "estimated_seconds": 30,
+      "estimated_minutes": 0.5,
+      "category": "Humanities & Social Science"
+    },
+    "Public_Health": {
+      "output_tokens": 33707,
+      "share_pct": 1.9,
+      "estimated_seconds": 62,
+      "estimated_minutes": 1.0,
+      "category": "Health & Medicine"
+    },
+    "Sociology": {
+      "output_tokens": 9029,
+      "share_pct": 0.5,
+      "estimated_seconds": 17,
+      "estimated_minutes": 0.3,
+      "category": "Humanities & Social Science"
+    }
+  }
+}

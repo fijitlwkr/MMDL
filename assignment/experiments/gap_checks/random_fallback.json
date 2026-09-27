@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "results/mmmu_team_baseline/raw.jsonl": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
+    "results/mmmu_team_baseline/scores/item_results.jsonl": "4f1e89265fe5f1199e91bbddf360b6d682888909e2964832ac38632b9bb11609"
+  },
+  "current_correct": 600,
+  "current_accuracy_pct": 66.67,
+  "extraction_failures": {
+    "total": 36,
+    "multiple_choice": 24,
+    "open": 12
+  },
+  "expected_extra_correct_with_random_fallback": 8.95,
+  "expected_accuracy_pct_with_random_fallback": 67.66,
+  "expected_delta_pp": 0.99
+}

@@ -28,7 +28,7 @@ Qwen3-VL-4B-Instruct의 MMMU validation 900문항 baseline 결과다. 이후 fin
 생성부터 채점까지 한 커맨드로 실행한다. Judge 호출에는 `OPENAI_API_KEY`가 필요하다.
 
 ```bash
-bash code/run_mmmu_eval.sh --install --out <OUT_DIR> --data_root <HF_DATASETS_DIR>
+HF_HOME=<HF_CACHE_DIR> bash code/run_mmmu_eval.sh --install --out <OUT_DIR> --data_root <HF_DATASETS_DIR>
 ```
 
 API 없이 이 폴더의 점수만 재계산하고 제출본과 바이트 대조하려면 다음을 실행한다(저장소 루트, Python 3.10+).
