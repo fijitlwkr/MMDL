@@ -53,6 +53,10 @@ def sanitize_path(path_val: Any) -> Any:
         repo_owner, repo_name, revision = match.groups()
         return f"{repo_owner}/{repo_name}@{revision}"
 
+    # Match repository paths (promoted layout: <repo>/code/...)
+    code_match = re.search(r"(?:^|/)code/(.+)$", p)
+    if code_match:
+        return "code/" + code_match.group(1)
     # Match repository paths
     for marker in ("baseline/src/", "assignment/src/", "repo/assignment/src/"):
         if marker in p:

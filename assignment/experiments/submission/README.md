@@ -19,7 +19,7 @@
 |---|---|---|
 | 객관식에 Qwen 규칙을 기본으로 사용 | H1의 파서 불일치 49건에서 검토 답과 Qwen 47건, MMMU 2건 일치 | [H1 보고서](../scoring_lab/legacy_pilot/h1/REPORT.md), [문항별 답 추출 비교](../scoring_lab/legacy_pilot/h1/parser_comparison.jsonl) |
 | 객관식 Final Answer 100자 보완 | H2 고정 표본에서 검토 답과 100/100 일치. Qwen 미추출을 보완한 59건도 59/59 일치 | [H2 보고서](../scoring_lab/legacy_pilot/h2/REPORT.md), [문항별 비교](../scoring_lab/legacy_pilot/h2/parser_comparison.jsonl). 정상 종료 객관식의 보완 자동 채택군에 대한 검토 |
-| 두 규칙이 충돌하면 Judge로 이동 | 보완 규칙이 답을 제시해도 Qwen과 다른 경우 자동으로 덮어쓰지 않음 | [실제 처리 코드](../raw_evaluation/evaluate.py). 미추출도 Judge로 이동 |
+| 두 규칙이 충돌하면 Judge로 이동 | 보완 규칙이 답을 제시해도 Qwen과 다른 경우 자동으로 덮어쓰지 않음 | [실제 처리 코드](../../../code/scoring/evaluate.py). 미추출도 Judge로 이동 |
 
 H1·H2는 **과거 899문항 pilot**(생성 seed 42, cap 9048)의 표본 검토다. 검토자 1명이 H1 49건과 H2 100건을 확인했으며, 중복 10건을 제외한 고유 문항은 **139건**이다. H2 표본 선정 seed는 3407이다.
 
@@ -32,7 +32,7 @@ H1·H2는 **과거 899문항 pilot**(생성 seed 42, cap 9048)의 표본 검토�
 | 최신 수신 raw | 594/900 (66.00%) | 600/900 (66.67%) | +6문항 |
 | 이전 9/21 raw | 609/900 (67.67%) | 608/900 (67.56%) | −1문항 |
 
-현재 정책은 **추출 성공·충돌 여부로 처리 경로를 정한다.** 최신 raw에서는 18건이 Judge에서 자동 처리로 바뀌었고 정답 증가 8건·감소 2건이었다. 규칙 미추출·충돌은 Judge로 보내며 유효 답을 얻지 못하면 오답 처리한다. [변경 문항](results/changed_items.jsonl), [비교 집계](results/comparisons.json), [이전 raw 검증 기록](../raw_evaluation/README.md#검증-결과)
+현재 정책은 **추출 성공·충돌 여부로 처리 경로를 정한다.** 최신 raw에서는 18건이 Judge에서 자동 처리로 바뀌었고 정답 증가 8건·감소 2건이었다. 규칙 미추출·충돌은 Judge로 보내며 유효 답을 얻지 못하면 오답 처리한다. [변경 문항](results/changed_items.jsonl), [비교 집계](results/comparisons.json), [이전 raw 검증 기록](../../../code/scoring/README.md#검증-결과)
 
 ### Judge 모델 비교
 
@@ -54,7 +54,7 @@ H1·H2는 **과거 899문항 pilot**(생성 seed 42, cap 9048)의 표본 검토�
 
 최신 raw에서 MMMU 규칙 단독은 **452/900(50.22%)**, 최종 하이브리드는 **600/900(66.67%)**로 **148문항·16.44%p** 차이가 났다. 두 설정은 객관식 파서, Final Answer 보완, 주관식 처리, Judge 사용 여부가 다르다. MMMU 비교에서는 파싱 실패 시 무작위 선택을 끄고 실패를 오답 처리했다. [집계](results/scores.json), [문항별 비교](results/policy_comparison.jsonl)
 
-객관식 Judge에는 선택지와 모델 응답을 제공하며 gold는 별도로 전달하지 않는다. 주관식은 Qwen 방식인 `A=참조답, B=Other Answers`를 사용한 **참조답 동치 판정**이다. [평가 도구 설명](../raw_evaluation/README.md)
+객관식 Judge에는 선택지와 모델 응답을 제공하며 gold는 별도로 전달하지 않는다. 주관식은 Qwen 방식인 `A=참조답, B=Other Answers`를 사용한 **참조답 동치 판정**이다. [평가 도구 설명](../../../code/scoring/README.md)
 
 ### 주관식 Qwen A/B와 MMMU 비교
 
@@ -84,13 +84,13 @@ Qwen A/B + Judge의 정답 처리 수는 MMMU보다 **20건 많고**, 정답률 
 저장소 루트, Python 3.10 이상에서 평가 도구의 의존성을 설치한다.
 
 ```bash
-python -m pip install -r assignment/experiments/raw_evaluation/requirements.txt
+python -m pip install -r code/scoring/requirements.txt
 ```
 
 아래 **한 명령**으로 원본·캐시를 검증하고 900문항 채점, 과목별 표, 비교 실험을 재계산해 제출 결과와 대조한다. 출력 폴더는 새 빈 경로를 사용한다.
 
 ```bash
-python assignment/experiments/submission/reproduce.py --out assignment/experiments/raw_evaluation/outputs/submission_check --expected assignment/experiments/submission/results
+python assignment/experiments/submission/reproduce.py --evaluator code/scoring/evaluate.py --judge-cache results/mmmu_team_baseline/judge_cache/gpt-4.1-mini.jsonl --out code/scoring/outputs/submission_check --expected assignment/experiments/submission/results
 ```
 
 이 명령은 저장된 raw와 해당 raw에 대응하는 Judge 캐시를 검증하고 채점 결과를 재계산한다.
@@ -102,14 +102,14 @@ python assignment/experiments/submission/reproduce.py --out assignment/experimen
 | `input/raw.jsonl` | 실제 추론 900문항 원본. 문제 ID·prompt·선택지·gold·생성 텍스트·토큰·종료 사유 포함 |
 | `input/run_metadata.json` | 수신 당시 모델·데이터 revision, 생성·이미지·환경 설정 및 raw 해시 |
 | `input/scoring_config.yaml` | 이번 채점에 고정한 v2 정책과 Judge 모델·파라미터. 과거 추론 설정의 증거는 run_metadata를 사용 |
-| `judge/gpt-4.1-mini.jsonl` | 같은 raw의 기존 Judge 응답 363개. v2에서 345개를 사용하고 나머지 18개는 게이트 비교에 사용 |
+| [`results/mmmu_team_baseline/judge_cache/gpt-4.1-mini.jsonl`](../../../results/mmmu_team_baseline/judge_cache/gpt-4.1-mini.jsonl) | (승격 시 이동) 같은 raw의 기존 Judge 응답 363개. v2에서 345개를 사용하고 나머지 18개는 게이트 비교에 사용 |
 | `judge/gpt-4o-mini.jsonl` | 같은 raw·게이트 적용 정책의 비교 Judge 응답 363개 |
 | `results/` | 재계산 가능한 과목별·문항별 결과와 통제 비교 |
 | `reproduce.py` | 기존 평가 도구를 사용해 원본과 요청 해시를 검증하고 저장 응답으로 재집계 |
 
 Raw SHA-256: `ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313`.
 
-입력과 메타데이터는 수신본을 바이트 그대로 보존했다. 추론팀 브랜치 `eval/mmmu-baseline-infer`의 `assignment/runs/max_new_tokens8192_hakyung/`에 있는 동명 파일과도 바이트가 같다. 기존 `assignment/runs/draft/raw.jsonl`과는 다른 실행이다. 그 이전 raw의 v2 점수 **608/900(67.56%)**를 이번 결과와 섞지 않는다.
+입력과 메타데이터는 수신본을 바이트 그대로 보존했다. 추론팀 브랜치 `eval/mmmu-baseline-infer`의 `results/mmmu_team_baseline/`에 있는 동명 파일과도 바이트가 같다. 기존 `assignment/runs/draft/raw.jsonl`과는 다른 실행이다. 그 이전 raw의 v2 점수 **608/900(67.56%)**를 이번 결과와 섞지 않는다.
 
 객관식 `predicted`는 선택지 문자다. 주관식은 `A=참조답 원문`, `B=Other Answers`로 변환한 동치 판정값이다. 최종 추출 실패 36건은 오답 300건에 포함한다.
 

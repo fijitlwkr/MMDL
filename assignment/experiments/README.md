@@ -28,7 +28,7 @@ experiments/
 
 | 자료 | 용도 |
 |---|---|
-| [평가 도구](raw_evaluation/README.md) | 새 raw 채점·결과 비교·기존 입력 검증 기록 |
+| [평가 도구](../../code/scoring/README.md) | 새 raw 채점·결과 비교·기존 입력 검증 기록 |
 | [문항 검토 자료](failure_review/README.md) | 원본 이미지·배치 문서·반환 라벨·배포 ZIP 생성 |
 | [과거 H1·H2 실험](scoring_lab/README.md) | 899문항 pilot의 파서 검토 근거와 고정 재현 묶음 |
 

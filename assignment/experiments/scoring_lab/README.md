@@ -53,7 +53,7 @@ python -m unittest discover -s . -p 'test*.py' -v
 
 현재 보존한 실험 코드는 open 응답 일부를 참조답 A / Other Answers B로 바꾸는 과거 정책도 포함합니다. 팀에서 정한 `parse_open_response + eval_open`만으로 처리하는 최종 파이프라인과 완전히 같지 않습니다. 정상 종료 파싱 실패의 fallback 범위, 주관식 length, Final Answer 후보 채택, Judge 비교 여부는 [PROTOCOL.md](PROTOCOL.md)의 팀 반영 항목을 확인하세요.
 
-`assignment/runs/*/raw.jsonl`은 읽기만 합니다. 실험 산출물은 이 폴더 아래 별도 run 경로에 보관하고, 추론팀 `assignment/src/`에서 이 폴더를 import하지 않습니다. 승인 후 채택한 평가 구현만 추론팀에 전달합니다.
+`assignment/runs/*/raw.jsonl`은 읽기만 합니다. 실험 산출물은 이 폴더 아래 별도 run 경로에 보관하고, 추론팀 `code/`에서 이 폴더를 import하지 않습니다. 승인 후 채택한 평가 구현만 추론팀에 전달합니다.
 
 ## 확인된 한계
 

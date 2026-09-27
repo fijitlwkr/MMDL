@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("portable_evaluate", ROOT / "evaluate.py")
 ev = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ev)
-CONFIG = ROOT.parents[1] / "src" / "config.yaml"
+CONFIG = ROOT.parent / "config.yaml"
 
 
 def fixture_rows():

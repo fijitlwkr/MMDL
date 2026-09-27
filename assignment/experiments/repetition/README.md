@@ -39,7 +39,7 @@
 
 ```bash
 python assignment/experiments/repetition/analyze.py --self-test
-python assignment/experiments/repetition/analyze.py --out assignment/experiments/raw_evaluation/outputs/repetition_check
+python assignment/experiments/repetition/analyze.py --out code/scoring/outputs/repetition_check
 ```
 
 `REPORT.md`, `per_item.jsonl`, `summary.json` 3개가 생성된다. 다른 입력 묶음은 `--source`로 지정하되 동일한 900문항 구조가 필요하다. 저장된 결과는 `.gitattributes`로 원래 바이트를 보존한다. 스크립트 해시는 줄바꿈을 LF로 정규화한 값(`script_sha256_lf`)이며, 다른 운영체제에서 재생성한 파일을 비교할 때도 줄바꿈 차이를 정규화한다.

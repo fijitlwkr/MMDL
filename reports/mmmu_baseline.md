@@ -1,11 +1,11 @@
 # MMMU-val Baseline Evaluation Report — Qwen3-VL-4B-Instruct
 
-<!-- 1~3절 기준 최종 8192 전량 실행 폴더: assignment/runs/max_new_tokens8192_hakyung -->
+<!-- 1~3절 기준 최종 8192 전량 실행 폴더: results/mmmu_team_baseline -->
 
 - **팀명**: Team4
 - **팀원**: 이하경, 채윤석, 트란트룽하우, 홍성준
 - **작성일**: 2026.09.25
-- **재현 커맨드**: `최종 파이프라인 완성 시 작성`
+- **재현 커맨드**: `bash code/run_mmmu_eval.sh --install --out <OUT_DIR> --data_root <MMMU_DATA_DIR>`
 
 ---
 
@@ -14,12 +14,12 @@
 | 항목 | 값 |
 |---|---|
 | 모델 checkpoint | `Qwen/Qwen3-VL-4B-Instruct` (ebb281ec70b05090aa6165b016eac8ec08e71b17) |
-| 추론 백엔드 | `vllm==0.11.0`; `gpu_memory_utilization=0.9`, `max_model_len=16384`, `max_num_batched_tokens=8192`, `max_num_seqs=256`, `limit_mm_per_prompt={image: 10, video: 0}`, `trust_remote_code=true` (근거: `assignment/src/requirements.txt`, `assignment/src/config.yaml`, `assignment/runs/max_new_tokens8192_hakyung/run_metadata.json`) |
-| 사용 GPU | NVIDIA GeForce RTX 4090, 24564 MiB (근거: `assignment/runs/max_new_tokens8192_hakyung/env_check.json`의 `gpu` 섹션; driver 580.159.04, CUDA header 13.0) |
+| 추론 백엔드 | `vllm==0.11.0`; `gpu_memory_utilization=0.9`, `max_model_len=16384`, `max_num_batched_tokens=8192`, `max_num_seqs=256`, `limit_mm_per_prompt={image: 10, video: 0}`, `trust_remote_code=true` (근거: `code/requirements.txt`, `code/config.yaml`, `results/mmmu_team_baseline/run_metadata.json`) |
+| 사용 GPU | NVIDIA GeForce RTX 4090, 24564 MiB (근거: `results/mmmu_team_baseline/env_check.json`의 `gpu` 섹션; driver 580.159.04, CUDA header 13.0) |
 | 실측 peak VRAM | nvidia-smi 최대 사용량 **22297 MiB** (env.json sampler); torch `max_allocated_gib` **19.8962 GiB**, `max_reserved_gib` **20.5977 GiB** (env.json) |
-| 총 소요 시간 | 총 57분 50초 (3469.539초), 생성 구간 55분 51초 (3351.217초), 900문항 (근거: assignment/runs/max_new_tokens8192_hakyung/env.json) |
-| 의존성 | [`assignment/src/requirements.txt`](../assignment/src/requirements.txt); 저장소에는 `assignment/sungjun/requirements.lock.txt`가 있으나 이 실행에서 사용했다는 근거는 문서에 없음 |
-| 실행 커맨드 | `최종 파이프라인 완성 시 작성` |
+| 총 소요 시간 | 총 57분 50초 (3469.539초), 생성 구간 55분 51초 (3351.217초), 900문항 (근거: results/mmmu_team_baseline/env.json) |
+| 의존성 | [`code/requirements.txt`](../code/requirements.txt); 저장소에는 `assignment/archive/sungjun/requirements.lock.txt`가 있으나 이 실행에서 사용했다는 근거는 문서에 없음 |
+| 실행 커맨드 | `bash code/run_mmmu_eval.sh --install --model_path Qwen/Qwen3-VL-4B-Instruct --revision ebb281ec70b05090aa6165b016eac8ec08e71b17 --out <OUT_DIR> --data_root <MMMU_DATA_DIR>` (`--model_path`/`--revision` 생략 시 `code/config.yaml` 값 사용. Judge 채점에 `OPENAI_API_KEY` 필요. baseline의 실제 실행 명령은 [`run_metadata.supplement.json`](../results/mmmu_team_baseline/run_metadata.supplement.json)) |
 
 ## 2. 프롬프트
 
@@ -37,8 +37,8 @@ open 문항:
 ```
 Question: {question}
 ```
-- **출처**: `https://github.com/QwenLM/Qwen3-VL`, `evaluation/mmmu/run_mmmu.py`, commit `f8dca99056bb6352cf6ab36d4ea1848a09c54b5b`, Apache-2.0 (근거: `assignment/src/common.py` 헤더 주석)
-- **선택 이유**: HF validation schema를 사용하고 선택지 문자를 목록 위치에서 생성하며, hint가 없는 데이터에 맞춰 optional hint를 생략하고 image marker를 보존한다. CoT는 비활성화한다 (근거: `assignment/src/common.py` 헤더 주석).
+- **출처**: `https://github.com/QwenLM/Qwen3-VL`, `evaluation/mmmu/run_mmmu.py`, commit `f8dca99056bb6352cf6ab36d4ea1848a09c54b5b`, Apache-2.0 (근거: `code/common.py` 헤더 주석)
+- **선택 이유**: HF validation schema를 사용하고 선택지 문자를 목록 위치에서 생성하며, hint가 없는 데이터에 맞춰 optional hint를 생략하고 image marker를 보존한다. CoT는 비활성화한다 (근거: `code/common.py` 헤더 주석).
 
 ## 3. 생성(Decoding) 설정
 
@@ -54,7 +54,7 @@ Question: {question}
 | `presence_penalty` | `1.5` |
 | `seed` | `3407` |
 
-- **출처**: `sampling.seed=3407`은 README에 없는 팀 추가값이다. `engine_seed=3407`은 GitHub README의 `Evaluation Reproduction > Generation Hyperparameters > Instruct models` 값을 따른다. `temperature=0.7`, `top_p=0.8`, `top_k=20`, `presence_penalty=1.5`, `repetition_penalty=1.0`, `do_sample=true`, `stop_token_ids=[]`의 기준은 `assignment/src/config.yaml` 주석과 실행 설정이다.
+- **출처**: `sampling.seed=3407`은 README에 없는 팀 추가값이다. `engine_seed=3407`은 GitHub README의 `Evaluation Reproduction > Generation Hyperparameters > Instruct models` 값을 따른다. `temperature=0.7`, `top_p=0.8`, `top_k=20`, `presence_penalty=1.5`, `repetition_penalty=1.0`, `do_sample=true`, `stop_token_ids=[]`의 기준은 `code/config.yaml` 주석과 실행 설정이다.
 
 ### 3.2 생성 예산 / 이미지 해상도
 
@@ -63,13 +63,13 @@ Question: {question}
 | `max_new_tokens` | `8192` |
 | 이미지 해상도 처리 (`min_pixels`/`max_pixels` 등) | `min_pixels = 1280*28*28 = 1,003,520`, `max_pixels = 5120*28*28 = 4,014,080` |
 
-**선택 근거**: `max_new_tokens=8192`는 RunPod RTX 4090 1회 실행 비용을 2달러 이하로 맞추려는 팀 결정이다 (근거: `assignment/src/config.yaml` 주석). 8192 대 2048의 정확도·95% CI·비용 비교 수치는 정확도-비용 비교 실험(별첨/부록 참조)에서 확인한다; 구체 수치는 이 절에서 비워 둔다.
+**선택 근거**: `max_new_tokens=8192`는 RunPod RTX 4090 1회 실행 비용을 2달러 이하로 맞추려는 팀 결정이다 (근거: `code/config.yaml` 주석). 8192 대 2048의 정확도·95% CI·비용 비교 수치는 정확도-비용 비교 실험(별첨/부록 참조)에서 확인한다; 구체 수치는 이 절에서 비워 둔다.
 
 ## 4. 채점(파싱) 방식
 
-채점 정책은 `hybrid100_mc_qwen_ab_open_no_length_gate_v2`다. [평가 실행기](../assignment/experiments/raw_evaluation/evaluate.py)와 [설정](../assignment/src/config.yaml)에 구현했다.
+채점 정책은 `hybrid100_mc_qwen_ab_open_no_length_gate_v2`다. [평가 실행기](../code/scoring/evaluate.py)와 [설정](../code/config.yaml)에 구현했다.
 
-**출처와 선택 근거:** 기본 규칙과 Judge 프롬프트는 [Qwen3-VL `eval_utils.py`](https://github.com/QwenLM/Qwen3-VL/blob/96588727e44c78b25ba03ea03b8e12f7e64fd0da/evaluation/mmmu/eval_utils.py)의 `can_infer_option`, `can_infer_text`, `can_infer`, `build_prompt`를 사용한다(commit `96588727e44c78b25ba03ea03b8e12f7e64fd0da`). 선택지 문자 추출 뒤 선택지 텍스트 매칭을 시도한다. H1 파서 불일치 49건에서 Qwen은 검토 답과 47건 일치했고, H2의 Final Answer 보완 표본은 100/100건 일치해 이 조합을 채택했다. 표본 조건은 8절, 고정 함수와 라이선스는 [출처 목록](../assignment/experiments/raw_evaluation/frozen/THIRD_PARTY.md)에 정리했다.
+**출처와 선택 근거:** 기본 규칙과 Judge 프롬프트는 [Qwen3-VL `eval_utils.py`](https://github.com/QwenLM/Qwen3-VL/blob/96588727e44c78b25ba03ea03b8e12f7e64fd0da/evaluation/mmmu/eval_utils.py)의 `can_infer_option`, `can_infer_text`, `can_infer`, `build_prompt`를 사용한다(commit `96588727e44c78b25ba03ea03b8e12f7e64fd0da`). 선택지 문자 추출 뒤 선택지 텍스트 매칭을 시도한다. H1 파서 불일치 49건에서 Qwen은 검토 답과 47건 일치했고, H2의 Final Answer 보완 표본은 100/100건 일치해 이 조합을 채택했다. 표본 조건은 8절, 고정 함수와 라이선스는 [출처 목록](../code/scoring/frozen/THIRD_PARTY.md)에 정리했다.
 
 1. **객관식:** Qwen 규칙과 사용자 정의 Final Answer 규칙을 적용한다. Final Answer 정규식의 유효 답 표기들이 모두 같고 마지막 매치의 답 문자 끝부터 응답 끝까지 **100자 이하**일 때 보완 후보를 인정한다. 이는 생성 길이 제한이 아니다. 두 규칙이 충돌하면 Judge, 충돌이 없으면 Qwen 답을 우선 사용하고 Qwen 미추출일 때 보완 답을 사용한다.
 2. **주관식:** 참조답 원형을 `A`, `Other Answers`를 `B`로 두고 같은 Qwen 규칙을 적용한다. Final Answer 문자 보완은 적용하지 않는다. 이 방식은 참조답을 사용하는 동치 판정이다. 동일한 주관식 53문항의 채점 방식·점수 비교는 [Qwen A/B와 MMMU 비교](../assignment/experiments/submission/README.md#주관식-qwen-ab와-mmmu-비교)에 정리했다.

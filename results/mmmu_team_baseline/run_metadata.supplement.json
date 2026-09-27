@@ -1,0 +1,35 @@
+{
+  "purpose": "Supplement to run_metadata.json. The original file is kept byte-identical because scoring hashed it; this file only adds facts that the original does not record.",
+  "applies_to": {
+    "file": "run_metadata.json",
+    "sha256": "b286490940d1926e989e4884591ef76ada80f32b85eaa41f89392cf4f2f317bb",
+    "raw_sha256": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313"
+  },
+  "location_history": {
+    "run_id_in_metadata": "max_new_tokens8192_hakyung",
+    "written_to": "assignment/runs/assignment/runs/max_new_tokens8192_hakyung",
+    "moved_after_run_to": "assignment/runs/max_new_tokens8192_hakyung",
+    "promoted_to": "results/mmmu_team_baseline",
+    "note": "Folder name and run_id differ on purpose; run_id is left as recorded."
+  },
+  "execution": {
+    "working_directory": "/baseline",
+    "outer_command": "bash assignment/src/run_generate.sh --install --config assignment/src/config.yaml --out assignment/runs/assignment/runs/max_new_tokens8192_hakyung --data_root /workspace/.cache/hf_datasets",
+    "outer_command_source": "operator shell transcript, 2026-09-21; not machine-recorded",
+    "recorded_execution_command": "src/generate.py --config assignment/src/config.yaml --out assignment/runs/assignment/runs/max_new_tokens8192_hakyung --data_root /workspace/.cache/hf_datasets",
+    "recorded_execution_command_status": "accurate: the inner generate.py call made by run_generate.sh; the duplicated --out path is the real output path at run time",
+    "HF_HOME": "/workspace/.cache/huggingface",
+    "HF_HOME_source": "env.json"
+  },
+  "code": {
+    "commit": "a19f7b8bb45e5ed42069ba349f8c4f5af52a9510",
+    "path_at_run_time": "assignment/src/",
+    "path_after_promotion": "code/"
+  },
+  "config_after_promotion": {
+    "path": "code/config.yaml",
+    "recorded_config_sha256": "ab088ac1349ffb4c92ce6213fc7ea165f3d6d08be979b87f584467f210f5811a",
+    "difference": "code/config.yaml adds the top-level 'scoring' section (experiment-team evaluator settings). All sections recorded in run_metadata.json are identical, so the file hash differs while generation settings do not."
+  },
+  "equivalent_command_after_promotion": "bash code/run_mmmu_eval.sh --install --out <OUT_DIR> --data_root <HF_DATASETS_DIR>"
+}

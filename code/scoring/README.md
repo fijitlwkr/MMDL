@@ -2,32 +2,32 @@
 
 저장된 추론 결과를 동일한 규칙과 Judge 설정으로 평가한다. 모델 재추론은 하지 않는다. `prepare`, `summarize`, `compare`는 오프라인이며, `run`만 OpenAI API를 호출한다. 실행자는 본인 API 키를 사용한다.
 
-이미 완료된 최신 900문항의 과제 보고서용 결과·실험 근거와 **API 없는 재현 명령**은 [제출 결과 묶음](../submission/README.md)에 있다.
+이미 완료된 최신 900문항의 과제 보고서용 결과·실험 근거와 **API 없는 재현 명령**은 [제출 결과 묶음](../../assignment/experiments/submission/README.md)에 있다.
 
 2026-09-23부터 `hybrid100_mc_qwen_ab_open_no_length_gate_v2`를 사용한다. 추론의 `finish_reason=length`만으로 Judge에 보내는 게이트를 제거했다. 기존 v1 결과 폴더는 그대로 보관하고 아래처럼 새 폴더에서 `prepare`한다. v1 결과의 재집계는 당시 코드(commit `518c12c916cdd194712e5db0340688b48042d62d`)로 수행한다. v2에서 v1 결과를 재개하거나 manifest를 수동 수정하지 않는다.
 
 저장소 루트에서 Python 3.10 이상으로 실행한다.
 
 ```bash
-python -m pip install -r assignment/experiments/raw_evaluation/requirements.txt
+python -m pip install -r code/scoring/requirements.txt
 ```
 
 ## 1. 입력 검증 및 요청 준비 — API 호출 없음
 
 ```bash
-python assignment/experiments/raw_evaluation/evaluate.py prepare --config assignment/src/config.yaml --raw assignment/runs/draft/raw.jsonl --out assignment/experiments/raw_evaluation/outputs/8192_no_length_v2
-python assignment/experiments/raw_evaluation/evaluate.py prepare --config assignment/src/config.yaml --raw assignment/runs/run_max_new_tokens2048/raw.jsonl --out assignment/experiments/raw_evaluation/outputs/2048_no_length_v2
+python code/scoring/evaluate.py prepare --config code/config.yaml --raw assignment/runs/draft/raw.jsonl --out code/scoring/outputs/8192_no_length_v2
+python code/scoring/evaluate.py prepare --config code/config.yaml --raw assignment/runs/run_max_new_tokens2048/raw.jsonl --out code/scoring/outputs/2048_no_length_v2
 ```
 
 900개 고유 ID, 30과목 × 30문항, 객관식 847개·주관식 53개, 생성 상태와 토큰 개수를 검증한다. 누락·오류 입력은 유효 문항만 골라 점수를 내지 않고 중단한다. 입력은 결과 폴더의 `input/raw.jsonl`에 그대로 복사하고 해시를 기록한다. 원본 `runs/*/raw.jsonl`은 수정하지 않는다.
 
-Judge 대상 수는 각 입력에서 다시 계산한다. 8192 실행의 대상 수를 2048 실행에 고정하지 않는다. `assignment/src/config.yaml`의 `scoring` 설정을 사용하며, 기존 `budget.max_new_tokens`를 현재 raw의 생성 한도로 덮어씌우지 않는다. 입력 검증은 이 과제의 고정 MMMU validation 900문항과 현재 24필드 raw 형식을 대상으로 한다.
+Judge 대상 수는 각 입력에서 다시 계산한다. 8192 실행의 대상 수를 2048 실행에 고정하지 않는다. `code/config.yaml`의 `scoring` 설정을 사용하며, 기존 `budget.max_new_tokens`를 현재 raw의 생성 한도로 덮어씌우지 않는다. 입력 검증은 이 과제의 고정 MMMU validation 900문항과 현재 24필드 raw 형식을 대상으로 한다.
 
 ## 2. 본인 키로 Judge 실행
 
 ```bash
-python assignment/experiments/raw_evaluation/evaluate.py run --out assignment/experiments/raw_evaluation/outputs/8192_no_length_v2 --ask-key
-python assignment/experiments/raw_evaluation/evaluate.py run --out assignment/experiments/raw_evaluation/outputs/2048_no_length_v2 --ask-key
+python code/scoring/evaluate.py run --out code/scoring/outputs/8192_no_length_v2 --ask-key
+python code/scoring/evaluate.py run --out code/scoring/outputs/2048_no_length_v2 --ask-key
 ```
 
 터미널의 숨김 입력에 API 키를 붙여 넣는다. 숨김 입력을 지원하지 않는 환경에서는 입력을 받지 않고 중단하므로 대화형 터미널을 사용한다. 키는 프로세스 메모리에서만 사용하며 파일에 저장하지 않는다. 이미 `OPENAI_API_KEY` 환경 변수가 있으면 `--ask-key`를 생략할 수 있다. 키를 코드·JSON·채팅·Git에 넣지 않는다.
@@ -37,9 +37,9 @@ python assignment/experiments/raw_evaluation/evaluate.py run --out assignment/ex
 ## 3. 오프라인 재집계 및 비교
 
 ```bash
-python assignment/experiments/raw_evaluation/evaluate.py summarize --out assignment/experiments/raw_evaluation/outputs/8192_no_length_v2
-python assignment/experiments/raw_evaluation/evaluate.py summarize --out assignment/experiments/raw_evaluation/outputs/2048_no_length_v2
-python assignment/experiments/raw_evaluation/evaluate.py compare --left assignment/experiments/raw_evaluation/outputs/8192_no_length_v2 --right assignment/experiments/raw_evaluation/outputs/2048_no_length_v2 --out assignment/experiments/raw_evaluation/outputs/comparison_no_length_v2
+python code/scoring/evaluate.py summarize --out code/scoring/outputs/8192_no_length_v2
+python code/scoring/evaluate.py summarize --out code/scoring/outputs/2048_no_length_v2
+python code/scoring/evaluate.py compare --left code/scoring/outputs/8192_no_length_v2 --right code/scoring/outputs/2048_no_length_v2 --out code/scoring/outputs/comparison_no_length_v2
 ```
 
 전체·문항 유형·종료 사유·과목별 점수, 추출 실패, Judge 사용 토큰과 추정 비용을 집계한다. API 미완료 문항이 있으면 최종 정확도는 `null`이며 오답으로 합치지 않는다. MMMU 규칙 점수는 API와 독립적으로 확인할 수 있다.
@@ -62,7 +62,7 @@ python assignment/experiments/raw_evaluation/evaluate.py compare --left assignme
 ## 오프라인 검증
 
 ```bash
-python -m unittest discover -s assignment/experiments/raw_evaluation/tests -v
+python -m unittest discover -s code/scoring/tests -v
 ```
 
 9개 테스트가 통과했다. 입력·해시 검증, 종료 사유별 동일 규칙 처리, Judge 비정상 종료, 캐시 재개·중복 호출 방지, 미완료 비교를 검사한다. HTTP 요청은 모의 응답을 사용한다.
@@ -77,9 +77,9 @@ python -m unittest discover -s assignment/experiments/raw_evaluation/tests -v
 |---|---:|---:|---|---:|
 | `runs/draft/raw.jsonl` (8192) | 565 → 582 | 335 → 318 | 609 → **608/900 (67.56%)** | 450/900 (50.00%) |
 | `runs/run_max_new_tokens2048/raw.jsonl` | 491 → 523 | 409 → 377 | **미완료: v2 Judge 377건** | 390/900 (43.33%) |
-| [최신 제출 raw](../submission/input/raw.jsonl) (8192) | 537 → 555 | 363 → 345 | 594 → **600/900 (66.67%)** | 452/900 (50.22%) |
+| [최신 제출 raw](../../assignment/experiments/submission/input/raw.jsonl) (8192) | 537 → 555 | 363 → 345 | 594 → **600/900 (66.67%)** | 452/900 (50.22%) |
 
-두 8192 입력은 서로 다른 실행이다. 최신 raw와 대응 Judge 캐시·재현 결과는 [제출 묶음](../submission/README.md)에 있다. 완료된 입력은 반복 집계 결과가 바이트 단위로 일치했고, 2048은 최종 정확도와 정확도 차이를 `null`로 유지했다.
+두 8192 입력은 서로 다른 실행이다. 최신 raw와 대응 Judge 캐시·재현 결과는 [제출 묶음](../../assignment/experiments/submission/README.md)에 있다. 완료된 입력은 반복 집계 결과가 바이트 단위로 일치했고, 2048은 최종 정확도와 정확도 차이를 `null`로 유지했다.
 
 | 입력 | SHA-256 |
 |---|---|

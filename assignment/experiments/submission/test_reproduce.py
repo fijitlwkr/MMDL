@@ -13,9 +13,9 @@ import reproduce as r
 class SubmissionReplayTest(unittest.TestCase):
     def test_offline_scores_and_corrupt_cache_rejection(self):
         root = r.ROOT
-        args = argparse.Namespace(evaluator=root.parent / "raw_evaluation/evaluate.py", input=root / "input/raw.jsonl",
+        args = argparse.Namespace(evaluator=root.parents[2] / "code/scoring/evaluate.py", input=root / "input/raw.jsonl",
                                   metadata=root / "input/run_metadata.json", config=root / "input/scoring_config.yaml",
-                                  judge_cache=root / "judge/gpt-4.1-mini.jsonl", comparison_cache=root / "judge/gpt-4o-mini.jsonl",
+                                  judge_cache=root.parents[2] / "results/mmmu_team_baseline/judge_cache/gpt-4.1-mini.jsonl", comparison_cache=root / "judge/gpt-4o-mini.jsonl",
                                   expected=None)
         with tempfile.TemporaryDirectory(prefix="mmmu-replay-test-") as temporary, \
                 patch.object(socket.socket, "connect", side_effect=AssertionError("network forbidden")), \
