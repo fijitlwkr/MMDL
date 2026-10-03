@@ -10,20 +10,22 @@ KEEP_SCORING = ["summary.json", "manifest.json", "REPORT.md"]
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--work", type=Path, required=True); ap.add_argument("--dest", type=Path, required=True)
+    ap.add_argument("--raw_only", action="store_true", help="skip scoring files (pod-side packing)")
     a = ap.parse_args()
     for d in sorted(p for p in a.work.iterdir() if p.is_dir() and ".partial." not in p.name and p.name != a.dest.name):
         fr = d / "scoring" / "final_results.jsonl"
         if not (d / "raw.jsonl").exists():
             continue
         t = a.dest / d.name; t.mkdir(parents=True, exist_ok=True)
-        with open(d / "raw.jsonl", "rb") as s, gzip.open(t / "raw.jsonl.gz", "wb") as g:
-            shutil.copyfileobj(s, g)
+        if not (d / "NO_RAW").exists():   # runs whose raw already lives in the repo are not duplicated
+            with open(d / "raw.jsonl", "rb") as s, gzip.open(t / "raw.jsonl.gz", "wb") as g:
+                shutil.copyfileobj(s, g)
         for f in KEEP:
             if (d / f).exists(): shutil.copy2(d / f, t / f)
         (t / "logs").mkdir(exist_ok=True)
         for f in KEEP_LOGS:
             if (d / "logs" / f).exists(): shutil.copy2(d / "logs" / f, t / "logs" / f)
-        if fr.exists():
+        if fr.exists() and not a.raw_only:
             for f in KEEP_SCORING:
                 if (d / "scoring" / f).exists(): shutil.copy2(d / "scoring" / f, t / f"scoring_{f}")
             with open(fr, encoding="utf-8") as s, open(t / "item_results.jsonl", "w", encoding="utf-8") as o:
