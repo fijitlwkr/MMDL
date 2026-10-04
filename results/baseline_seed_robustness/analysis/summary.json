@@ -1,0 +1,200 @@
+{
+ "excluded_unscored": [],
+ "runs": [
+  {
+   "arm": "baseline_seed_3407",
+   "group": "baseline",
+   "accuracy": 66.66666666666667,
+   "correct": 600,
+   "mc": 66.11570247933884,
+   "open": 75.47169811320755,
+   "length_finish": 128,
+   "acc_on_length": 35.9375
+  },
+  {
+   "arm": "rep_draft",
+   "group": "repeat",
+   "accuracy": 67.44444444444444,
+   "correct": 607,
+   "mc": 66.82408500590319,
+   "open": 77.35849056603773,
+   "length_finish": 108,
+   "acc_on_length": 35.18518518518518
+  },
+  {
+   "arm": "rep_new_output",
+   "group": "repeat",
+   "accuracy": 67.55555555555556,
+   "correct": 608,
+   "mc": 66.94214876033058,
+   "open": 77.35849056603773,
+   "length_finish": 114,
+   "acc_on_length": 39.473684210526315
+  },
+  {
+   "arm": "rescore_baseline",
+   "group": "judge",
+   "accuracy": 66.22222222222223,
+   "correct": 596,
+   "mc": 65.76151121605668,
+   "open": 73.58490566037736,
+   "length_finish": 128,
+   "acc_on_length": 33.59375
+  },
+  {
+   "arm": "seed_1234",
+   "group": "seed",
+   "accuracy": 65.88888888888889,
+   "correct": 593,
+   "mc": 65.52538370720188,
+   "open": 71.69811320754717,
+   "length_finish": 128,
+   "acc_on_length": 35.9375
+  },
+  {
+   "arm": "seed_2026",
+   "group": "seed",
+   "accuracy": 66.88888888888889,
+   "correct": 602,
+   "mc": 66.58795749704841,
+   "open": 71.69811320754717,
+   "length_finish": 113,
+   "acc_on_length": 36.283185840707965
+  },
+  {
+   "arm": "seed_42",
+   "group": "seed",
+   "accuracy": 66.22222222222223,
+   "correct": 596,
+   "mc": 65.64344746162928,
+   "open": 75.47169811320755,
+   "length_finish": 121,
+   "acc_on_length": 38.01652892561984
+  }
+ ],
+ "paired_vs_baseline": {
+  "rep_draft": {
+   "gains": 52,
+   "losses": 45,
+   "flips": 97,
+   "flip_pct": 10.777777777777779,
+   "diff_pp": 0.7777777777777778,
+   "ci95_pp": [
+    -1.3664825661395765,
+    2.922038121695132
+   ],
+   "mcnemar_p": 0.5426101580458746
+  },
+  "rep_new_output": {
+   "gains": 61,
+   "losses": 53,
+   "flips": 114,
+   "flip_pct": 12.666666666666666,
+   "diff_pp": 0.8888888888888888,
+   "ci95_pp": [
+    -1.4356161548175637,
+    3.2133939325953413
+   ],
+   "mcnemar_p": 0.5122548722298448
+  },
+  "rescore_baseline": {
+   "gains": 0,
+   "losses": 4,
+   "flips": 4,
+   "flip_pct": 0.4444444444444444,
+   "diff_pp": -0.4444444444444444,
+   "ci95_pp": [
+    -0.879031020923077,
+    -0.009857867965811784
+   ],
+   "mcnemar_p": 0.125
+  },
+  "seed_1234": {
+   "gains": 69,
+   "losses": 76,
+   "flips": 145,
+   "flip_pct": 16.11111111111111,
+   "diff_pp": -0.7777777777777778,
+   "ci95_pp": [
+    -3.3996771134122095,
+    1.844121557856654
+   ],
+   "mcnemar_p": 0.618445466038815
+  },
+  "seed_2026": {
+   "gains": 56,
+   "losses": 54,
+   "flips": 110,
+   "flip_pct": 12.222222222222221,
+   "diff_pp": 0.2222222222222222,
+   "ci95_pp": [
+    -2.0618042371124794,
+    2.506248681556924
+   ],
+   "mcnemar_p": 0.9240973917982829
+  },
+  "seed_42": {
+   "gains": 63,
+   "losses": 67,
+   "flips": 130,
+   "flip_pct": 14.444444444444445,
+   "diff_pp": -0.4444444444444444,
+   "ci95_pp": [
+    -2.927323361080864,
+    2.038434472191975
+   ],
+   "mcnemar_p": 0.7925825227940952
+  }
+ },
+ "baseline_vs_seeds": {
+  "k": 3,
+  "seed_mean": 66.33333333333333,
+  "seed_sd": 0.5091750772173145,
+  "seed_min": 65.88888888888889,
+  "seed_max": 66.88888888888889,
+  "baseline": 66.66666666666667,
+  "baseline_minus_mean_pp": 0.3333333333333428,
+  "z": 0.6546536707079972,
+  "pi95": [
+   63.80340713521979,
+   68.86325953144686
+  ],
+  "inside_pi": true,
+  "n_seeds_ge_baseline": 1
+ },
+ "all_seed_runs_incl_baseline": {
+  "n": 4,
+  "mean": 66.41666666666667,
+  "sd": 0.4479032082388084,
+  "range": [
+   65.88888888888889,
+   66.88888888888889
+  ]
+ },
+ "item_consistency": {
+  "runs": 4,
+  "always_correct": 477,
+  "always_wrong": 192,
+  "mixed": 231,
+  "mixed_pct": 25.666666666666668
+ },
+ "triggers": {
+  "tier2_run_it": false,
+  "tier2_reasons": [],
+  "tier3_run_it": false
+ },
+ "same_seed_repeats_incl_baseline": {
+  "n": 3,
+  "mean": 67.22222222222223,
+  "sd": 0.4843221048378501,
+  "range": [
+   66.66666666666667,
+   67.55555555555556
+  ]
+ },
+ "mean_flip_pct_vs_baseline": {
+  "seed": 14.25925925925926,
+  "repeat": 11.722222222222221,
+  "judge": 0.4444444444444444
+ }
+}

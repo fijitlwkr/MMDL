@@ -11,6 +11,7 @@
 | `make_seed_config.py` | `code/config.yaml`에서 **seed 두 줄만** 바꾼 config 생성 + 변경 키가 seed뿐임을 diff로 검증 |
 | `run_all.sh` | **GPU Pod 전용, 생성만 수행.** arm 순차 실행, arm별 소요시간·ETA 출력. 이어받기 금지 |
 | `score_runs.sh` | **Pod 밖(CPU)에서 채점.** arm마다 독립 실행, 기존 3개 실행 재채점 옵션 포함 |
+| `retry_failed_judge.py` | Judge 일시 오류 후 미해결 요청만 정리하는 복구 도구 (dry-run 기본, 백업·기록 남김) |
 | `pack_runs.py` | raw(≈15MB)를 gzip(≈3MB)하고 문항별 결과만 추려 커밋 가능한 크기로 축소 |
 | `analyze.py` | 의존성 없는 집계·검정, 사전 등록된 trigger 판정 → `REPORT.md`, `summary.json` |
 | `CODE_FREEZE.sha256` | `code/`(tests 제외) 해시. 기준 main 커밋 `016b3cf` |
@@ -271,7 +272,8 @@ git push -u origin exp/baseline-seed-robustness
 
 - 키 없이 파일 검증만 하려면 `--no_judge`를 붙인다 (오프라인, MMMU 규칙 점수만).
 - 실측 기준: Judge 호출은 한 번에 하나씩, 호출당 약 1.5초, arm당 약 345회 ≈ **9분, 약 $0.5**. 터미널을 나눠 병렬로 돌리면 시간이 줄지만 API rate limit은 확인하지 못했다.
-- **Judge 호출이 한 번 실패하면 자동 재시도가 없다.** `evaluate.py`가 "unresolved attempt"로 막으므로 `<stage>/<arm>/scoring/errors.jsonl`과 `api_attempts.jsonl`을 먼저 확인한다 (기본 stage 폴더는 `/tmp/seed_scoring_stage`). `score_runs.sh`는 실패한 arm만 건너뛰고 나머지를 계속하며 끝에 실패 목록을 출력한다. 공식 복구 절차는 레포 문서에서 찾지 못했다.
+- **Judge 호출이 한 번 실패하면 자동 재시도가 없다.** 약 345회 순차 호출 중 한 번만 타임아웃·429·5xx가 나도 `evaluate.py`가 "unresolved attempt"로 막는다. `score_runs.sh`는 실패한 arm만 건너뛰고 나머지를 계속 채점하며, 로그(`<stage>/<arm>/score.log`)를 남기고 복구 명령을 출력한다. 채점 stage 기본 위치는 `~/.cache/seed_scoring_stage`다(`/tmp`는 재부팅 시 지워져 유료 Judge 응답이 사라질 수 있어 쓰지 않는다. `STAGE_DIR`로 변경 가능).
+- **복구 (일시적 오류일 때만)**: `python experiments/<이 폴더>/retry_failed_judge.py --scoring_dir <stage>/<arm>/scoring`(dry-run, 미해결 요청 id와 오류 종류만 표시) → 일시적 오류로 판단되면 `--apply`(백업 후 해당 요청의 started/failed 기록만 삭제, `RECOVERY_LOG.txt`에 기록) → `score_runs.sh`를 다시 실행하면 캐시된 응답은 재사용하고 그 요청만 다시 보낸다. 이것은 채점 코드의 "inspect first" 규칙에서 **의도적으로 벗어나는 절차**이므로 보고서에 "일시적 API 오류 N건을 재시도했다"고 적는다. 401/403(키 문제)이나 400(요청 문제)이면 `--apply`하지 말고 원인부터 해결한다.
 - 채점되지 않은 항목이 남은 arm은 `analyze.py`가 자동 제외하고 경고한다. 같은 명령을 다시 실행하면 완료된 arm은 건너뛰고 중단된 arm은 `run`부터 이어간다 (캐시된 응답 재사용).
 
 ---

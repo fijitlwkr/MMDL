@@ -1,0 +1,420 @@
+{
+  "source_path": "input/raw.jsonl",
+  "source_sha256": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
+  "policy_id": "hybrid100_mc_qwen_ab_open_no_length_gate_v2",
+  "judge_settings": {
+    "model": "gpt-4.1-mini-2025-04-14",
+    "temperature": 0,
+    "top_p": 1,
+    "seed": 3407,
+    "max_tokens": 8
+  },
+  "overall": {
+    "total": 900,
+    "complete": 900,
+    "pending": 0,
+    "correct": 596,
+    "incorrect": 304,
+    "extraction_failures": 46,
+    "accuracy": 0.6622222222222223
+  },
+  "by_subject": {
+    "Accounting": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 22,
+      "incorrect": 8,
+      "extraction_failures": 4,
+      "accuracy": 0.7333333333333333
+    },
+    "Agriculture": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 14,
+      "incorrect": 16,
+      "extraction_failures": 0,
+      "accuracy": 0.4666666666666667
+    },
+    "Architecture_and_Engineering": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 16,
+      "incorrect": 14,
+      "extraction_failures": 3,
+      "accuracy": 0.5333333333333333
+    },
+    "Art": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 18,
+      "incorrect": 12,
+      "extraction_failures": 1,
+      "accuracy": 0.6
+    },
+    "Art_Theory": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 24,
+      "incorrect": 6,
+      "extraction_failures": 0,
+      "accuracy": 0.8
+    },
+    "Basic_Medical_Science": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 23,
+      "incorrect": 7,
+      "extraction_failures": 0,
+      "accuracy": 0.7666666666666667
+    },
+    "Biology": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 15,
+      "incorrect": 15,
+      "extraction_failures": 0,
+      "accuracy": 0.5
+    },
+    "Chemistry": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 17,
+      "incorrect": 13,
+      "extraction_failures": 3,
+      "accuracy": 0.5666666666666667
+    },
+    "Clinical_Medicine": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 24,
+      "incorrect": 6,
+      "extraction_failures": 0,
+      "accuracy": 0.8
+    },
+    "Computer_Science": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 18,
+      "incorrect": 12,
+      "extraction_failures": 2,
+      "accuracy": 0.6
+    },
+    "Design": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 25,
+      "incorrect": 5,
+      "extraction_failures": 0,
+      "accuracy": 0.8333333333333334
+    },
+    "Diagnostics_and_Laboratory_Medicine": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 10,
+      "incorrect": 20,
+      "extraction_failures": 0,
+      "accuracy": 0.3333333333333333
+    },
+    "Economics": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 25,
+      "incorrect": 5,
+      "extraction_failures": 1,
+      "accuracy": 0.8333333333333334
+    },
+    "Electronics": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 24,
+      "incorrect": 6,
+      "extraction_failures": 6,
+      "accuracy": 0.8
+    },
+    "Energy_and_Power": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 18,
+      "incorrect": 12,
+      "extraction_failures": 1,
+      "accuracy": 0.6
+    },
+    "Finance": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 21,
+      "incorrect": 9,
+      "extraction_failures": 6,
+      "accuracy": 0.7
+    },
+    "Geography": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 18,
+      "incorrect": 12,
+      "extraction_failures": 1,
+      "accuracy": 0.6
+    },
+    "History": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 21,
+      "incorrect": 9,
+      "extraction_failures": 1,
+      "accuracy": 0.7
+    },
+    "Literature": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 24,
+      "incorrect": 6,
+      "extraction_failures": 0,
+      "accuracy": 0.8
+    },
+    "Manage": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 20,
+      "incorrect": 10,
+      "extraction_failures": 3,
+      "accuracy": 0.6666666666666666
+    },
+    "Marketing": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 25,
+      "incorrect": 5,
+      "extraction_failures": 1,
+      "accuracy": 0.8333333333333334
+    },
+    "Materials": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 21,
+      "incorrect": 9,
+      "extraction_failures": 1,
+      "accuracy": 0.7
+    },
+    "Math": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 19,
+      "incorrect": 11,
+      "extraction_failures": 0,
+      "accuracy": 0.6333333333333333
+    },
+    "Mechanical_Engineering": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 12,
+      "incorrect": 18,
+      "extraction_failures": 2,
+      "accuracy": 0.4
+    },
+    "Music": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 7,
+      "incorrect": 23,
+      "extraction_failures": 8,
+      "accuracy": 0.23333333333333334
+    },
+    "Pharmacy": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 23,
+      "incorrect": 7,
+      "extraction_failures": 0,
+      "accuracy": 0.7666666666666667
+    },
+    "Physics": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 23,
+      "incorrect": 7,
+      "extraction_failures": 0,
+      "accuracy": 0.7666666666666667
+    },
+    "Psychology": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 22,
+      "incorrect": 8,
+      "extraction_failures": 1,
+      "accuracy": 0.7333333333333333
+    },
+    "Public_Health": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 28,
+      "incorrect": 2,
+      "extraction_failures": 1,
+      "accuracy": 0.9333333333333333
+    },
+    "Sociology": {
+      "total": 30,
+      "complete": 30,
+      "pending": 0,
+      "correct": 19,
+      "incorrect": 11,
+      "extraction_failures": 0,
+      "accuracy": 0.6333333333333333
+    }
+  },
+  "by_type": {
+    "multiple-choice": {
+      "total": 847,
+      "complete": 847,
+      "pending": 0,
+      "correct": 557,
+      "incorrect": 290,
+      "extraction_failures": 33,
+      "accuracy": 0.6576151121605667
+    },
+    "open": {
+      "total": 53,
+      "complete": 53,
+      "pending": 0,
+      "correct": 39,
+      "incorrect": 14,
+      "extraction_failures": 13,
+      "accuracy": 0.7358490566037735
+    }
+  },
+  "by_finish": {
+    "length": {
+      "total": 128,
+      "complete": 128,
+      "pending": 0,
+      "correct": 43,
+      "incorrect": 85,
+      "extraction_failures": 32,
+      "accuracy": 0.3359375
+    },
+    "stop": {
+      "total": 772,
+      "complete": 772,
+      "pending": 0,
+      "correct": 553,
+      "incorrect": 219,
+      "extraction_failures": 14,
+      "accuracy": 0.716321243523316
+    }
+  },
+  "by_route": {
+    "auto": {
+      "total": 555,
+      "complete": 555,
+      "pending": 0,
+      "correct": 408,
+      "incorrect": 147,
+      "extraction_failures": 0,
+      "accuracy": 0.7351351351351352
+    },
+    "judge_conflict": {
+      "total": 4,
+      "complete": 4,
+      "pending": 0,
+      "correct": 4,
+      "incorrect": 0,
+      "extraction_failures": 0,
+      "accuracy": 1.0
+    },
+    "judge_rule_failure": {
+      "total": 341,
+      "complete": 341,
+      "pending": 0,
+      "correct": 184,
+      "incorrect": 157,
+      "extraction_failures": 46,
+      "accuracy": 0.5395894428152492
+    }
+  },
+  "macro_accuracy": 0.6622222222222223,
+  "automatic_count": 555,
+  "judge_count": 345,
+  "response_count": 345,
+  "judge_usage": {
+    "prompt_tokens": 1235536,
+    "completion_tokens": 345,
+    "total_tokens": 1235881,
+    "cached_tokens": 1152,
+    "uncached_prompt_tokens": 1234384
+  },
+  "price_per_million_usd": {
+    "input": 0.4,
+    "cached_input": 0.1,
+    "output": 1.6
+  },
+  "estimated_recorded_response_cost_usd": 0.4944208,
+  "judge_raw_outputs": {
+    "B": 59,
+    "A": 135,
+    "Z": 46,
+    "C": 62,
+    "D": 39,
+    "E": 4
+  },
+  "raw_z_outputs": 46,
+  "judge_response_finish_reasons": {
+    "stop": 345
+  },
+  "api_attempt_events": {
+    "started": 345,
+    "received": 345
+  },
+  "max_new_tokens_values": [
+    8192
+  ],
+  "judge_mc_more_than_four_choices": 31,
+  "input_file_sha256": {
+    "manifest.json": "5754cb6162d8d1d22f9788c1b5d7ce17940ccda91c23555a76ac604591ee57b4",
+    "items.jsonl": "3d8e155e019355b1edb6ceef20da5a337077b10bfab9b170280382a3c110ba73",
+    "requests.jsonl": "3f979fd0ecb149fd755c2f289af41e7246f0aaab3ddfd1dd706c34f6b00f9e28",
+    "responses.jsonl": "54afab5965ce0ac752f14f0232d202c9e3e542ebc3386e0b13ee29c53a5a5804",
+    "api_attempts.jsonl": "7e0f0c5a1dfd1e80e6736c0eec64fdefd1bd2fe80e79cea8034e0fc724e37670"
+  },
+  "mmmu_diagnostic": {
+    "overall": {
+      "total": 900,
+      "complete": 900,
+      "pending": 0,
+      "correct": 452,
+      "incorrect": 448,
+      "extraction_failures": 69,
+      "accuracy": 0.5022222222222222
+    },
+    "policy": "MMMU rules; random fallback disabled; failures incorrect; no Judge; no length gate"
+  },
+  "aggregation_api_calls": 0,
+  "raw_unchanged": true
+}

@@ -11,7 +11,7 @@
 #                     and rescore_baseline (same raw as the submission, fresh Judge calls = Judge-noise control).
 # --no_judge          offline "prepare" only (validates raw, MMMU-rule score; hybrid score stays pending).
 set -uo pipefail
-REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"; EXP="$REPO/experiments/baseline_seed_robustness"
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"; EXP="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SRC=""; DEST="$REPO/results/baseline_seed_robustness"; EXISTING=0; JUDGE=1
 while (($#)); do case "$1" in
   --src) SRC="$2"; shift 2;; --dest) DEST="$2"; shift 2;;
@@ -19,7 +19,8 @@ while (($#)); do case "$1" in
   *) echo "unknown arg $1" >&2; exit 2;; esac; done
 [[ -n "$SRC" || $EXISTING -eq 1 ]] || { echo "need --src and/or --include_existing" >&2; exit 2; }
 (( JUDGE )) && [[ -z "${OPENAI_API_KEY:-}" ]] && { echo "OPENAI_API_KEY not set (or use --no_judge)" >&2; exit 2; }
-cd "$REPO"; STAGE="${STAGE_DIR:-/tmp/seed_scoring_stage}"; mkdir -p "$STAGE"
+# stage lives in ~/.cache, NOT /tmp: a reboot wipes /tmp and the paid Judge responses would be lost
+cd "$REPO"; STAGE="${STAGE_DIR:-$HOME/.cache/seed_scoring_stage}"; mkdir -p "$STAGE"
 # staging area = arms to score (copied raw, never touches repo files)
 [[ -n "$SRC" ]] && for d in "$SRC"/*/; do n="$(basename "$d")"; [[ -f "$d/raw.jsonl" || -f "$d/raw.jsonl.gz" ]] || continue
   mkdir -p "$STAGE/$n"; cp -r "$d"/. "$STAGE/$n/"; [[ -f "$STAGE/$n/raw.jsonl.gz" && ! -f "$STAGE/$n/raw.jsonl" ]] && gunzip -k "$STAGE/$n/raw.jsonl.gz"
@@ -33,13 +34,16 @@ fi
 FAILED=()
 for d in "$STAGE"/*/; do n="$(basename "$d")"; [[ -f "$d/raw.jsonl" ]] || continue
   [[ -f "$d/scoring/FINAL_OK" ]] && { echo "[skip] $n scored"; continue; }
-  echo "=== SCORE $n $(date -u +%FT%TZ) ==="
+  echo "=== SCORE $n $(date -u +%FT%TZ) (stage: $STAGE) ==="
   # prepare refuses a non-empty --out, so only run it the first time; later runs resume with `run` (cached responses are reused).
   if [[ ! -f "$d/scoring/manifest.json" ]]; then
     python code/scoring/evaluate.py prepare --raw "$d/raw.jsonl" --config "$d/config_used.yaml" --out "$d/scoring" >/dev/null || { FAILED+=("$n:prepare"); continue; }
   fi
   if (( JUDGE )); then
-    python code/scoring/evaluate.py run --out "$d/scoring" || { FAILED+=("$n:judge"); echo "!! $n judge failed: inspect $d/scoring/errors.jsonl, DO NOT blindly re-run (see header)"; continue; }
+    python code/scoring/evaluate.py run --out "$d/scoring" 2>&1 | tee -a "$d/score.log"; rc=${PIPESTATUS[0]}
+    if (( rc != 0 )); then FAILED+=("$n:judge"); echo "!! $n judge failed (log: $d/score.log). If it was a transient API error, recover with:"
+      echo "   python $EXP/retry_failed_judge.py --scoring_dir $d/scoring            # dry-run, shows the error"
+      echo "   python $EXP/retry_failed_judge.py --scoring_dir $d/scoring --apply    # then re-run this script"; continue; fi
     python code/scoring/evaluate.py summarize --out "$d/scoring" >/dev/null && touch "$d/scoring/FINAL_OK"
   fi
 done
