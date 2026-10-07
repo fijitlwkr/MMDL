@@ -1,38 +1,38 @@
-id,primary_type,confidence,evidence_quote,reason,images_checked,self_check,label_by
-validation_Accounting_20,,,,,,,A
-validation_Agriculture_12,,,,,,,A
-validation_Agriculture_21,,,,,,,A
-validation_Agriculture_8,,,,,,,A
-validation_Architecture_and_Engineering_22,,,,,,,A
-validation_Art_14,,,,,,,A
-validation_Art_16,,,,,,,A
-validation_Art_20,,,,,,,A
-validation_Art_Theory_14,,,,,,,A
-validation_Basic_Medical_Science_18,,,,,,,A
-validation_Basic_Medical_Science_22,,,,,,,A
-validation_Biology_17,,,,,,,A
-validation_Chemistry_12,,,,,,,A
-validation_Chemistry_9,,,,,,,A
-validation_Clinical_Medicine_14,,,,,,,A
-validation_Clinical_Medicine_2,,,,,,,A
-validation_Clinical_Medicine_24,,,,,,,A
-validation_Design_14,,,,,,,A
-validation_Diagnostics_and_Laboratory_Medicine_10,,,,,,,A
-validation_Diagnostics_and_Laboratory_Medicine_16,,,,,,,A
-validation_Diagnostics_and_Laboratory_Medicine_18,,,,,,,A
-validation_Diagnostics_and_Laboratory_Medicine_7,,,,,,,A
-validation_Economics_15,,,,,,,A
-validation_Finance_17,,,,,,,A
-validation_Geography_11,,,,,,,A
-validation_Geography_8,,,,,,,A
-validation_History_5,,,,,,,A
-validation_Literature_21,,,,,,,A
-validation_Literature_28,,,,,,,A
-validation_Materials_12,,,,,,,A
-validation_Math_3,,,,,,,A
-validation_Math_9,,,,,,,A
-validation_Music_11,,,,,,,A
-validation_Music_15,,,,,,,A
-validation_Music_19,,,,,,,A
-validation_Psychology_12,,,,,,,A
-validation_Sociology_15,,,,,,,A
+﻿id,primary_type,confidence,evidence_quote,reason,images_checked,self_check,label_by
+validation_Accounting_20,question_defect,3,But hold on — we are not given the betas of the stock! We are only given the betas for portfolios A and B.,이미지 자료가 문제와 안 맞음. 개별 주식인데 포트폴리오 2개 제시됨,yes,yes,A
+validation_Agriculture_12,question_defect,3,"However, none of the given options — A. Cholera, B. Emulsification, C. Anthrax, D. Peristalsis — refer to sphincters.",이미지 자료가 문제와 안 맞음. 근육을 물어봤는데 병원균 사진,yes,yes,A
+validation_Agriculture_21,knowledge,3,"But here, no such evidence is visible — so abiotic is correct.",지식 부족으로 증상이 있음에도 이를 직접적인 병원체가 없다는 이유로 오답을 고름,yes,yes,A
+validation_Agriculture_8,knowledge,3,"While bacterial infections can also cause leaf damage, fungal infections are more common in this context for such symptoms.",세균성 병변임에도 곰팡이가 흔하다며 오답 선택,yes,yes,A
+validation_Architecture_and_Engineering_22,question_defect,1,"None of the options sum to 540° — so perhaps the question is asking for the **angles turned**, i.e., the **exterior angles** — but that doesn't make sense because the options are large.",내각을 물었지만 보기는 외각값을 제시함,yes,yes,A
+validation_Art_14,knowledge,3,"Spencer Gore (1865–1943) was an English artist and writer, known for his portraits and his association with the Bloomsbury Group.",그림 서술은 맞고 인물 식별과 화가 정보가 틀림,yes,yes,A
+validation_Art_16,knowledge,1,A. True,작품의 제목과 그 작품을 상징하는 그림 속 문구를 제목으로 혼용한 걸로 추정,yes,yes,A
+validation_Art_20,knowledge,3,"This portrait was painted by **George Romney**, a celebrated British portrait painter of the late 18th century, known for his elegant and expressive style, particularly in portraiture of intellectuals and the upper classes.",해당 초상화의 작가를 다른 인물로 설명,yes,yes,A
+validation_Art_Theory_14,knowledge,3,"While Raphael would later become a master of the **High Renaissance** (e.g., *The School of Athens*, *The Sistine Madonna*), this particular painting was completed during his formative years — around 1504–1506 — when he was still developing his style.",작품을 다른 작가의 작품으로 착각하여 시기도 잘못 설명,yes,yes,A
+validation_Basic_Medical_Science_18,visual_reading,3,**A** points to the **superior vena cava** entering the right atrium — this is not the SA node.,상대정맥 입구 옆 결절을 가리키는 A를 상대정맥 자체로 읽고 B를 동방결절로 고름,yes,yes,A
+validation_Basic_Medical_Science_22,question_defect,3,"The pedigree matches the pattern of **X-linked recessive inheritance**, such as **colorblindness**.",계보는 X연관 열성과 모순이 없는데 골든이 False라 정답이 문제 조건과 맞지 않음,yes,yes,A
+validation_Biology_17,visual_reading,3,"In the diagram, the structure labeled 204 is located at the **temporal region**, near the ear and above the mandible, which corresponds to the **articular fossa** (also called the mandibular fossa).",어금니 뒤 날개판 부위를 가리키는 204를 귀 근처 측두부로 읽어 관절와를 고름,yes,yes,A
+validation_Chemistry_12,visual_reading,3,"Option (b) has top: H, bottom: Et, left: Me, right: OH — different group.",입체중심 세 개가 쌓인 피셔 투영을 탄소 하나짜리 구조로 읽고 보기를 비교함,yes,yes,A
+validation_Chemistry_9,knowledge,3,"In this case, **Br adds to the less substituted carbon** — so it’s **non-Markovnikov** for the bromine.",마르코프니코프 방향인데 이를 부분만 해석해 비마르코프니코프로 판단,yes,yes,A
+validation_Clinical_Medicine_14,visual_reading,3,"The image here is upright, not lateral decubitus.",공기-조영제 경계가 세로선이라 측와위인데 직립으로 서술,yes,yes,A
+validation_Clinical_Medicine_2,knowledge,2,"**D. Atrial flutter**: Would show sawtooth pattern, not present here.",규칙적 심방파는 맞게 읽었으나 조동을 2도 2형 차단으로 해석,yes,yes,A
+validation_Clinical_Medicine_24,visual_reading,3,"**Localized ileus** (D) implies a specific area of dysfunction, but the image shows widespread distension — not localized.",국소적인 장 팽창을 광범위한 팽창으로 해석,yes,yes,A
+validation_Design_14,knowledge,3,"While some earlier icons exist (e.g., 6th–7th centuries), the specific style, materials, and iconographic elements seen here are more typical of the **tenth or eleventh century**.",6~7세기 작품을 양식만 보고 10~11세기 작품으로 시기를 잘못 판단함,yes,yes,A
+validation_Diagnostics_and_Laboratory_Medicine_10,visual_reading,1,"The image shows a histopathological section stained with H&E, displaying **multiple nodular lesions** with **purulent or granulomatous appearance**, consistent with **meningitis** — likely **tuberculous meningitis**.",조직의 병변을 잘못 해석해 결핵성 수막염을 선택 그로 인해 잘못된 소견으로 추정,yes,yes,A
+validation_Diagnostics_and_Laboratory_Medicine_16,uncertain,1,"**C. Glioblastoma**: Highly malignant, usually occurs in adults or older children. Not typical in 2-year-olds; also tends to be more aggressive and infiltrative.",제공 자료만으로 명확히 판단하기 어려움이 있음 문제 오류일지 난이도 문제일지는 불명,yes,yes,A
+validation_Diagnostics_and_Laboratory_Medicine_18,visual_reading,3,"Huntington’s disease primarily affects the **basal ganglia**, including the caudate nucleus, but the image does not show caudate involvement; instead, it shows widespread cortical atrophy.",꼬리핵이 변형되었는데 꼬리핵 변화가 없다며 피질 위축으로 서술함,yes,yes,A
+validation_Diagnostics_and_Laboratory_Medicine_7,knowledge,3,"In remote lesions, macrophages are usually absent or sparse; if present, they may suggest ongoing inflammation or a subacute phase.","오래된 병변에도 대식세포가 남을 수 있는데, 그 존재를 아급성 병변과 구별하는 데 사용",yes,yes,A
+validation_Economics_15,calculation_reasoning,3,"However, **a positive supply shock** often implies **increased productivity** or **improved efficiency** in production — this can lead to **more jobs being created** or **better matching of labor to productive opportunities**.",공급 증가가 일자리 매칭까지 개선한다고 확장함 이로 인한 오답 선택,yes,yes,A
+validation_Finance_17,evaluation_issue,3,✅ **Answer: $\boxed{1000}$**,모델은 정답을 출력했지만 채점기가 잘못 추출,yes,yes,A
+validation_Geography_11,knowledge,3,"They would be found *on* the glacier surface or at its margins, not as separate ridges on the mountain slope like the ones indicated.",빙하가 후퇴한 뒤에도 측퇴석이 산비탈의 능선으로 남을 수 있다는 점을 놓침,yes,yes,A
+validation_Geography_8,knowledge,3,So the **head at point G** is the **pressure head** at that point relative to the downstream base.,위치수두 11.5m를 빼지 않고 전수두 전체를 압력수두로 써서 간극수압을 과대 계산함,yes,yes,A
+validation_History_5,question_defect,3,✅ Final Answer: **B. Control of those countries by the Soviet Union until the end of the Cold War**,"동유럽의 EU 가입 지연을 묻는데, 골든 해설은 EU 설립 목적과 현재 보기에 없는 내용을 설명",yes,yes,A
+validation_Literature_21,knowledge,3,**Computer** is the hardware device that runs software.,일러스트 기법 분류의 Computer를 하드웨어로만 해석해 Software를 고름,yes,yes,A
+validation_Literature_28,question_defect,3,✅ Final Answer: **D. Shared-book Experience**,질문이 묻는 질문과 골든의 답이 어긋남,yes,yes,A
+validation_Materials_12,knowledge,3,"Where \( A \) is the cross-sectional area perpendicular to the shear force. Since the force is horizontal and the block is fixed vertically, the shear is occurring across the vertical cross-section.",전단 면적을 윗면이 아닌 세로 단면으로 잡고 변형률을 길이로 나눠 전단계수를 틀림,yes,yes,A
+validation_Math_3,visual_reading,3,"Example: Vertex a is connected to b, d, h, and g → 4 edges.","꼭짓점 a 연결을 잘못 읽음, 그래프 가운데 교차점을 꼭짓점으로 읽음",yes,yes,A
+validation_Math_9,uncertain,1,A. Yes,응답이 A. Yes 한 줄뿐이라 그래프 판독 오류인지 개념 오류인지 근거를 댈 수 없음,yes,yes,A
+validation_Music_11,visual_reading,3,the bracketed figure shows a curved line over two notes with a dot above the second note,괄호 안 C–B–C 32분음표 세 개를 곡선으로 이은 두 음으로 읽어 턴으로 판단함,yes,yes,A
+validation_Music_15,visual_reading,3,The image shows a **bass clef** (F clef) with the note **“B”** written on the **third line** from the bottom.,음표 위치 잘못 읽음 없는 글자도 읽음,yes,yes,A
+validation_Music_19,visual_reading,3,Shows **two quarter notes (♩)** followed by a **rest (𝄗)**,보기 C의 8분음표 네 개를 4분음표 두 개와 쉼표로 읽어 음표 구성을 잘못 서술함,yes,yes,A
+validation_Psychology_12,calculation_reasoning,3,"If they *needed* a better system later, the theory suggests their language would evolve to accommodate it — implying that linguistic structure influences cognitive capacity.",필요에 따른 언어의 발전을 언어가 발전을 이끈다고 잘못 확장함,yes,yes,A
+validation_Sociology_15,question_defect,3,"While other options like ""self-definition"" or ""lack of power"" may be associated with minority groups, the text explicitly defines them by their **numerical status** — not enough people to be protected from discrimination.","이미지는 수 부족으로 정의하나 골든은 권력 부족, 교재 정의를 의도함",yes,yes,A
