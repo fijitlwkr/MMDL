@@ -1,37 +1,65 @@
 id,primary_type,confidence,evidence_quote,reason,images_checked,self_check,label_by
-validation_Accounting_30,,,,,,,C
-validation_Agriculture_13,,,,,,,C
-validation_Agriculture_15,,,,,,,C
-validation_Agriculture_20,,,,,,,C
-validation_Agriculture_27,,,,,,,C
-validation_Agriculture_4,,,,,,,C
-validation_Agriculture_9,,,,,,,C
-validation_Art_23,,,,,,,C
-validation_Art_Theory_25,,,,,,,C
-validation_Art_Theory_5,,,,,,,C
-validation_Basic_Medical_Science_11,,,,,,,C
-validation_Basic_Medical_Science_23,,,,,,,C
-validation_Biology_9,,,,,,,C
-validation_Chemistry_21,,,,,,,C
-validation_Chemistry_5,,,,,,,C
-validation_Clinical_Medicine_18,,,,,,,C
-validation_Computer_Science_18,,,,,,,C
-validation_Computer_Science_2,,,,,,,C
-validation_Design_1,,,,,,,C
-validation_Diagnostics_and_Laboratory_Medicine_14,,,,,,,C
-validation_Diagnostics_and_Laboratory_Medicine_2,,,,,,,C
-validation_Diagnostics_and_Laboratory_Medicine_8,,,,,,,C
-validation_Economics_23,,,,,,,C
-validation_Economics_28,,,,,,,C
-validation_Geography_17,,,,,,,C
-validation_History_23,,,,,,,C
-validation_History_8,,,,,,,C
-validation_Literature_18,,,,,,,C
-validation_Literature_26,,,,,,,C
-validation_Manage_7,,,,,,,C
-validation_Marketing_8,,,,,,,C
-validation_Mechanical_Engineering_15,,,,,,,C
-validation_Mechanical_Engineering_30,,,,,,,C
-validation_Physics_20,,,,,,,C
-validation_Psychology_6,,,,,,,C
-validation_Sociology_10,,,,,,,C
+validation_Accounting_30,question_defect,3,✅ Correct Answer: **B. No**,"MMMU 해설에서는 Reject라고 하는데 정답 라벨은 A(Yes)라 모순, 추가로 계산 오류가 있으나 결론에는 영향이 없었음",yes,yes,C
+validation_Agriculture_13,knowledge,2,"If the disease is confined to weeds and poses no threat to crops, it may be left to die off naturally or managed through cultural practices.","전파 가능성도 고려해야 하지만, 잡초 자체의 경쟁 피해가 크기 때문에 제거한다는 지식이 부족하다. 풀이 시 이미지는 필요 없었다.",yes,yes,C
+validation_Agriculture_15,knowledge,3,"**D. Virus**
+
+✅ Final Answer: **D. Virus**",솜곰팡이병에 대한 지식 부족. 풀이 시 이미지는 필요 없었다.,yes,yes,C
+validation_Agriculture_20,visual_reading,1,C. Fungal dieback ('ash dieback'),모델 응답이 너무 짧아서 확신도 낮음. 이미지와 MMMU 정답을 확인했을 때 나무 건강 진단의 이미지 분석이 어려운 것으로 판단,yes,yes,C
+validation_Agriculture_27,knowledge,3,"However, **not all** sooty mould fungi can be cultivated in pure culture — especially those that are highly dependent on specific host insects or environmental conditions to thrive.",그을음 곰팡이의 핵심 특짐을 몰랐고 이에 대한 환각 발생. 풀이 시 이미지는 필요 없었다.,yes,yes,C
+validation_Agriculture_4,visual_reading,3,"*(Note: If this were a pot-bound tree, we’d see severely cramped, circling roots. Here, the roots look relatively healthy and spread out, even if somewhat tangled.)*",이미지의 주뿌리가 꺾이고 건강하지 않은 것을 발견하지 못함.,yes,yes,C
+validation_Agriculture_9,knowledge,3,"Downy mildew, caused by pathogens like *Plasmopara viticola* (in grapevines), requires a specific set of conditions to develop and spread.",문제 텍스트에 명시된 질병과 다른 질병으로 풀이함. 풀이 시 이미지는 필요 없었다.,yes,yes,C
+validation_Art_23,knowledge,3,"Margaret Gere’s *<image 1>* (likely referring to her painting “The Pig” or similar pastoral scene) was created using **oil paint**. This is supported by the visible texture, rich color depth, and layered brushwork typical of oil paintings from the early 20th century, especially those associated with British artists like Gere who worked in this medium.","그림의 특징을 제대로 파악하지 못했고, 그림 제목도 틀렸다",yes,yes,C
+validation_Art_Theory_25,calculation_reasoning,3,"But wait — there’s a well-known painting by **Hugo van der Goes** called **“The Adoration of the Shepherds”** — but that’s not this one.
+
+Looking at the composition: the central figure is the Virgin Mary, kneeling with the Christ Child, surrounded by figures including the Three Kings (Magi), angels, and other saints. The architectural background, the detailed rendering of clothing and textures, and the presence of a large column with a lion head — these are all hallmarks of **Jan van Eyck’s** style.","제목과 화가를 잘 추론하다가, 잘못된 추론을 시작하며 그림 묘사도 맘대로 지어냄",yes,yes,C
+validation_Art_Theory_5,knowledge,3,"This is a carpentry technique used in wooden structures, not stone. Stonehenge is made of megaliths (large stones), not timber. So this is incorrect.","추론도 잘 했으나, 잘못된 개념 하나로 문제를 틀림",yes,yes,C
+validation_Basic_Medical_Science_11,visual_reading,2,B. Skeletal muscle,"모델 응답이 짧아서 원인을 확신하진 못하지만, 골격근과 구분되는 심장근의 특징을 알아채지 못한 것으로 보임",yes,yes,C
+validation_Basic_Medical_Science_23,visual_reading,3,"The image shows a large, round cell with a prominent, darkly stained nucleus that appears to have a “kidney-shaped” or “indented” appearance — which is characteristic of a **monocyte**. Monocytes are the largest type of white blood cell and are typically found in the bloodstream as immature cells (progenitors) or as mature monocytes that can differentiate into macrophages or dendritic cells.",이미지에서 호중구의 특징을 발견하지 못함,yes,yes,C
+validation_Biology_9,knowledge,3,"However, the **transmembrane domain itself** is primarily hydrophobic — it’s the *helical segment* that spans the membrane. The pore is usually formed by *loops* or *residues outside the helix*, not the helix core.
+",채널 단백질에 대한 지식 부족으로 못풂,yes,yes,C
+validation_Chemistry_21,calculation_reasoning,2,"### Option B: *Both C atoms and both O atoms lie in the same plane.*
+
+- The **left C** (CH₃–) is sp³, so its bonds are not planar.
+- The **right C** (carbonyl C) is sp² (double bond to O), so it’s planar.
+- The **two O atoms**: one is carbonyl oxygen (double bond, sp²), the other is hydroxyl oxygen (single bond, sp³), so it’s not planar.
+
+Since the methyl carbon is tetrahedral and not planar, and the hydroxyl oxygen is also sp³, **they cannot all lie in the same plane**.
+
+→ **False**",기하 개념을 잘못 적용한 추론 오류가 가능성이 높다.,yes,yes,C
+validation_Chemistry_5,knowledge,1,"In the diagram, H is on the right — likely a **dash** (into the plane).
+","화학 구조를 해석하는 지식이 부족한지, 추론이 부족한지 애매하나 지식의 부족이 더 크다고 판단",yes,yes,C
+validation_Clinical_Medicine_18,visual_reading,3,"- However, there are **prominent, wide, upright QRS complexes** that appear **isolated from the normal P wave pattern** — these are **premature ventricular contractions (PVCs)**.",이미지에 PVC가 없는데 있다고 함(환각),yes,yes,C
+validation_Computer_Science_18,visual_reading,3,"Let’s extract the adjacency list:
+
+- From **V1**: → V5, V2
+- From **V2**: → V3
+- From **V3**: → / (no outgoing edges)
+- From **V4**: → V7
+- From **V5**: → V4
+- From **V6**: → / (no outgoing edges)
+- From **V7**: → V6",이미지의 인접리스트 그림을 잘못 읽었다,yes,yes,C
+validation_Computer_Science_2,calculation_reasoning,3,"So we must evaluate whether the given statements are **true** based on the **original tree**, **before deletion**.",추론 중 heap에서 삭제해야 하는 조건을 이전에 언급했음에도 잊고 넘어갔다.,yes,yes,C
+validation_Design_1,visual_reading,3,"The object shown is a **Bamana “kou”** (also known as a *kou* or *kou kou*), a traditional West African artifact from the **Bambara people of Mali**. ",이미지를 다른 유물로 착각해서 틀렸다,yes,yes,C
+validation_Diagnostics_and_Laboratory_Medicine_14,knowledge,2,"The image shows a cross-section of spinal cord tissue with a distinct **cystic cavity** running along the midline, dividing the cord into two halves. This is characteristic of **syringomyelia**, which is a condition involving the formation of a fluid-filled cyst (syrinx) within the spinal cord.","전제 의학 지식이 틀렸다. 이미지 인식 오류일 수도 있으나, 지식 오류가 더 크다고 판단",yes,yes,C
+validation_Diagnostics_and_Laboratory_Medicine_2,visual_reading,2,"However, the key clue here is that this is likely depicting **Mucinous Carcinoma** — specifically, **Mucinous Carcinoma of the Breast**, which is a subtype of breast carcinoma known for its abundant mucin production.",처음 이미지 해석부터 잘못했다. 이후 설명에서도 지식 오류가 존재한다.,yes,yes,C
+validation_Diagnostics_and_Laboratory_Medicine_8,visual_reading,2,"The image shows a histological section of brain tissue with areas of **necrosis** (white, necrotic regions) surrounded by **pink-stained normal or reactive tissue**, consistent with **periventricular leukomalacia (PVL)** or **cerebral white matter injury**.",처음 이미지 해석을 잘못된 병으로 오진단하였다. 이후 추론에서도 올바르지 않은 것도 있었다.,yes,yes,C
+validation_Economics_23,knowledge,3,"So, the **total change in M1** is the **total amount of new money created** through the lending process.",money multiplier와 M1의 정의를 혼동하였다.,yes,yes,C
+validation_Economics_28,visual_reading,3,"In this case, the worker chooses point **b**, which lies on **IC 2**, and is the point of tangency between the budget line and IC 2.",그래프에서 점과 방향을 잘 해석하지 못함,yes,yes,C
+validation_Geography_17,knowledge,3,"the minimum center distance for precast concrete piles is generally **not less than 3.0D**,",pile group의 중심 간격에 대한 지식에서 오류가 있었다,yes,yes,C
+validation_History_23,calculation_reasoning,2,*attacks on unions were so well concealed that the government did not know where to begin its investigations.*,그림의 풍자적 의미를 해석할 때 추론 오류 나타남. 이미지 인식보다는 그 의미를 잘못 추론한 원인이 더 크다고 판단,yes,yes,C
+validation_History_8,calculation_reasoning,2,"**C. European nations began to look outward for economic opportunities**
+
+❌ Too broad. While true in general, the map focuses specifically on **Portuguese** activity in the late 15th century — it doesn’t show other European nations or their broader economic motivations. “Began to look outward” is vague and not directly supported by the specific map.
+",가장 직접적으로 뒷받힘하는 답을 고르지 못했으므로 추론 오류라고 판단,yes,yes,C
+validation_Literature_18,calculation_reasoning,3,"✅ Therefore, **D. Reference Books** is the most accurate term.",문제에서 묻는 범위를 제대로 파악하지 못했으므로 추론 오류로 판단,yes,yes,C
+validation_Literature_26,calculation_reasoning,3,The correct answer is: **D. Legends**,문제 정의보다 모델 지기 지식을 더 우선시해서 생긴 해석 오류이므로 추론 오류로 판단,yes,yes,C
+validation_Manage_7,knowledge,2,"- **Sustaining innovation** (the steeper, upward-sloping line) improves existing products to meet the **performance demands at the high end of the market** — meaning it enhances features, performance, or quality for established, high-end customers.
+- **Disruptive innovation** (the flatter, lower-sloping line) starts at the low end of the market and improves performance in ways that are initially simpler or cheaper, eventually moving up to challenge the incumbents.
+",그림의 점선/실선의 구분을 오독했지만 풀이 과정에서 그림이 아니라 모델 이름에서 떠올린 일반 지식에 의존했고 그 지식도 오류가 있었다.,yes,yes,C
+validation_Marketing_8,calculation_reasoning,3,"→ So, **the means are likely different** — graph (b)’s mean is probably higher than graph (a)’s.",히스토그램 모양만 보고 평균을 과하게 추정하였다.,yes,yes,C
+validation_Mechanical_Engineering_15,calculation_reasoning,2,"But the problem doesn’t specify if they are stacked or placed together. However, in such puzzles, typically, the two shapes are **combined to form a 3D object**, and then you’re to find what the **left-side projection** would look like.","문제 유형을 파악하지 못하고, 평면도를 3차원으로 복원할 생각을 하지 못함. 문제 방향을 찾았음에도 그 방향을 포기함",yes,yes,C
+validation_Mechanical_Engineering_30,calculation_reasoning,2,"ut more importantly, the **bottom figure** shows a **semicircle at the bottom**, suggesting the object has a **curved side** — meaning when viewed from the **left**, we should see **curved surfaces**.","평면 이미지에서 요소는 잘 인식한 듯 보이나, 그 요소로 3차원을 재구성하는 공간 추론에 실패한 것으로 판단",yes,yes,C
+validation_Physics_20,calculation_reasoning,2,"Wait — that gives us approximately **1.65 eV**, which is not among the options. But let's check if we’re using the correct value for \( h \) or perhaps misreading the graph.",처음에 올바른 계산을 했음에도 선택지에 없다고 추론 방향을 바꿈. 그에 따라 그래프 해석도 맞춰서 잘못 판독함,yes,yes,C
+validation_Psychology_6,knowledge,3,"- **A**: A straight, steep line — this suggests **fixed ratio** (reinforcement after a set number of responses), because the reinforcement is delivered at regular intervals.",이미지는 제대로 봤지만 그림 속 개념의 대응 관계를 잘못 알고 있었다,yes,yes,C
+validation_Sociology_10,calculation_reasoning,2,"However, there is no visual evidence — such as research equipment, notebooks, or overtly academic behavior — to suggest she is a sociologist conducting fieldwork. Her posture and actions are consistent with someone performing her job, not observing or studying.
+",모델이 잘 모르겠는데 추정으로 답을 고름. 다만 문제 자체가 애매한 경향이 있는듯하다. 질문 자체가 그 애매함을 의도적으로 묻는지 모르겠다.,yes,yes,C
