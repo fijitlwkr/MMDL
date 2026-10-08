@@ -1,38 +1,38 @@
 id,primary_type,confidence,evidence_quote,reason,images_checked,self_check,label_by
-validation_Agriculture_17,,,,,,,D
-validation_Agriculture_3,,,,,,,D
-validation_Art_19,,,,,,,D
-validation_Art_26,,,,,,,D
-validation_Art_Theory_17,,,,,,,D
-validation_Basic_Medical_Science_25,,,,,,,D
-validation_Biology_1,,,,,,,D
-validation_Biology_3,,,,,,,D
-validation_Chemistry_14,,,,,,,D
-validation_Computer_Science_25,,,,,,,D
-validation_Design_29,,,,,,,D
-validation_Diagnostics_and_Laboratory_Medicine_1,,,,,,,D
-validation_Diagnostics_and_Laboratory_Medicine_21,,,,,,,D
-validation_Diagnostics_and_Laboratory_Medicine_30,,,,,,,D
-validation_Economics_30,,,,,,,D
-validation_Geography_24,,,,,,,D
-validation_Geography_5,,,,,,,D
-validation_Geography_9,,,,,,,D
-validation_History_2,,,,,,,D
-validation_History_7,,,,,,,D
-validation_Literature_24,,,,,,,D
-validation_Manage_18,,,,,,,D
-validation_Manage_19,,,,,,,D
-validation_Manage_24,,,,,,,D
-validation_Marketing_14,,,,,,,D
-validation_Math_26,,,,,,,D
-validation_Mechanical_Engineering_2,,,,,,,D
-validation_Music_16,,,,,,,D
-validation_Music_20,,,,,,,D
-validation_Music_29,,,,,,,D
-validation_Pharmacy_17,,,,,,,D
-validation_Pharmacy_23,,,,,,,D
-validation_Psychology_30,,,,,,,D
-validation_Public_Health_1,,,,,,,D
-validation_Sociology_25,,,,,,,D
-validation_Sociology_3,,,,,,,D
-validation_Sociology_9,,,,,,,D
+validation_Agriculture_17,visual_reading,2,C. Unidentified fungal infection,이미지의 붉은 반점을 보고 포자분산 흰가루병 대신 미확인 곰팡이로 오인함,yes,yes,D
+validation_Agriculture_3,visual_reading,2,C. Powdery mildew,잎 표면의 녹색 물질을 보고 흰가루병으로 잘못 식별함(실제는 조류),yes,yes,D
+validation_Art_19,visual_reading,3,"Between these, **Photo 1** most clearly uses negative space to isolate and emphasize the human figures",Photo 3의 하늘 배경 넓은 여백을 간과하고 Photo 1의 인물 실루엣을 강한 여백 사용으로 잘못 선택함,yes,yes,D
+validation_Art_26,knowledge,3,"The painting shown is **""Minaret at Algiers""** by **Sir Edward Pritchett Leighton**",레이턴의 다마스쿠스 풍경화를 알제리 작품으로 잘못 귀속시킴(제목 혼동),yes,yes,D
+validation_Art_Theory_17,knowledge,3,"""less is more"" — a phrase often attributed to him, though sometimes associated with Mies van der Rohe",르코르뷔지에의 대표 철학 ""집은 살기 위한 기계""를 ""less is more""(미스 판 데어 로에 귀속)로 혼동함,yes,yes,D
+validation_Basic_Medical_Science_25,knowledge,3,"The image shows a histological section of the **nucleus ambiguus**, which is located in the medulla oblongata. This nucleus contains the cell bodies of **parasympathetic neurons** that innervate the **muscles of the pharynx and larynx**","핵모호(nucleus ambiguus)의 축삭 종착점을 인두·후두근(A)으로 서술했으나, 실제는 절후 부교감신경 세포체(B)임",yes,yes,D
+validation_Biology_1,visual_reading,2,"Label **170** is pointing to the **most superficial muscle** in the anterior compartment — which, in standard human anatomy, is the **tibialis anterior**",단면도에서 표지 170이 가리키는 외측구획 비골근 장근을 전방구획 전경골근으로 잘못 읽음,yes,yes,D
+validation_Biology_3,knowledge,3,a drop in pH (increased H⁺) can protonate these groups altering their charge and potentially changing their conformation or binding affinity — often reducing transport efficiency,세포 밖 pH 감소 시 H⁺ 구동형 아미노산 공동수송체가 활성화돼 수송 증가하나 모델은 반대로 감소라고 판단,yes,yes,D
+validation_Chemistry_14,knowledge,3,"According to standard organic chemistry references: Morphine has three chiral centers","모르핀 카이랄 중심을 3개(실제 5개)로 파악하고 옵션에 없는 3 대신 4를 선택함; 실제 5개를 놓친 지식 오류",yes,yes,D
+validation_Computer_Science_25,visual_reading,3,"The clusters are not linearly separable — there is no straight line that can separate all the red triangles from all the purple circles without crossing some points.",그래프의 두 군집이 직선으로 분리 가능함에도 곡선 분리가 필요하다고 잘못 해석함,yes,yes,D
+validation_Design_29,knowledge,3,The most historically documented use of such abstract geometric lattices in Micronesia is for marking clan territory and social boundaries,미크로네시아 스틱차트의 기능(해류·섬 위치 기록)을 씨족 경계 표시로 잘못 설명함,yes,yes,D
+validation_Diagnostics_and_Laboratory_Medicine_1,visual_reading,2,"Meningoangiomatosis is a **benign tumor** composed of **mature, well-differentiated glial and vascular elements**","H&E 절편의 혈관 증식 패턴을 meningoangiomatosis로 오독; 실제는 GBM(교모세포종)의 미세혈관 증식 소견",yes,yes,D
+validation_Diagnostics_and_Laboratory_Medicine_21,visual_reading,2,"The histology shown is consistent with **medulloblastoma**, especially in a 3-year-old male","이방성(heterogeneous) 세포 패턴을 보고 수모세포종으로 판단했으나 실제 조직 소견은 상의세포종(ependymoma)에 해당",yes,yes,D
+validation_Diagnostics_and_Laboratory_Medicine_30,visual_reading,2,"this pattern is classic for **subacute cerebral infarcts**, often following embolic events","전이암 이차 경색의 종양 세포 구조물을 아급성 뇌경색 소견으로 잘못 해석; 전이암 조직상 특징을 인식하지 못함",yes,yes,D
+validation_Economics_30,calculation_reasoning,3,"So the **external cost** might be interpreted as the **amount of the tax** — **$1** — since it's an external burden","외부비용 계산 오류: WTP 표에서 3번째 단위($3)가 비용($1.50)과 세금($1)=$2.50을 초과해 외부비용=3임을 놓침",no,yes,D
+validation_Geography_24,knowledge,3,"The **Standard Penetration Test (SPT)** is a widely used field testing method... to evaluate the **uniformity and compactness** of granular soils, including **crushed stone fill**","쇄석 다짐의 균질성·다짐도 평가에 중동력관입시험(C)이 적합한데 표준관입시험(D)을 선택한 지식 오류",yes,yes,D
+validation_Geography_5,calculation_reasoning,3,"i₁ + i₂ = 2.5A → i₁ + 1.5A = 2.5A → i₁ = 1.0A","KCL 적용 오류: 정답은 i1=2.5A i2=0A인데, 전류원과 병렬 저항 구조를 잘못 분석해 i1=1A i2=1.5A로 계산함",yes,yes,D
+validation_Geography_9,visual_reading,3,"Kyrgyzstan has experienced significant demographic changes. In recent decades... Kyrgyzstan's population pyramid for the period 1911–2021 matches the shape shown","인구 피라미드 그래프의 특징(소규모 섬나라 Kiribati 패턴)을 Kyrgyzstan의 것으로 잘못 해석함",yes,yes,D
+validation_History_2,knowledge,3,"The cartoon implies that the government... is dominated by white men who exploit their power to maintain control and suppress Black rights. This sentiment directly contributed to: **B. The rise of the Ku Klux Klan**","1868년 나스트 만화는 흑인 참정권 지지 여론을 조성해 15차 수정헌법(D) 통과에 기여했으나, 모델은 KKK 부상을 선택함",yes,yes,D
+validation_History_7,visual_reading,3,"This cartoon is a critique of **appeasement**","1936년 만화는 미국의 전쟁 불참을 권고하는 고립주의(A)를 표현하나, 모델은 그림 속 해골 초대를 宥和정책 비판(B)으로 잘못 해석함",yes,yes,D
+validation_Literature_24,knowledge,3,"this image includes **siblings** (Meg and Chris) as well as a pet, making it a broader family unit. Thus, the best term describing the dynamics shown is **D. Extended Family**","Griffin 가족(부모+자녀+형제)은 핵가족(Nuclear Family)의 전형인데, 형제 존재를 확대가족으로 잘못 분류함",yes,yes,D
+validation_Manage_18,knowledge,3,"the mismatch is between **abstract, theoretical planning** (the diagram) and the **real, messy, physical reality** of combat","패센달 전투 은유에서 추상 사고 대 실제 지형(B)이 핵심인데, 경험 차이(D)로 축소 해석함",yes,yes,D
+validation_Manage_19,knowledge,3,"**C. Create synergy** is not one of Ansoff's four identified strategies","Ansoff의 4요소(사업 범위/성장 벡터/경쟁 우위/시너지) 중 시너지는 포함되며 D(제품 혁신 집중)가 비전략 항목임을 몰랐음",yes,yes,D
+validation_Manage_24,visual_reading,3,"There is **one point** near **(12, 12)** — it lies **exactly** on the dashed line y = x. There is **another point** near **(15, 15)**","산점도에서 y=x 선상의 점을 2개로 잘못 계산; 실제 정확히 1개만 선상에 위치",yes,yes,D
+validation_Marketing_14,visual_reading,3,"Yellow: 2 sections","색바퀴에서 노란 섹션을 2개로 잘못 읽음; 실제 1개→P(Y)=1/8=0.125",yes,yes,D
+validation_Math_26,calculation_reasoning,3,"the area between the curves $f(x)$ and $g(x)$ from $x=0$ to $x=a$, and the $y=b$ line is just there to indicate the upper limit","그늘 영역의 경계선을 잘못 파악해 y=b 기준 ∫[b-g(x)+f(x)]dx(D)를 선택해야 하나 ∫[g(x)-f(x)]dx(A)를 선택함",yes,yes,D
+validation_Mechanical_Engineering_2,visual_reading,3,"the **correct answer is A** — because it is the **most standard** representation","단면도 선택 문제에서 모델이 대칭성만 보고 A를 선택했으나 실제 정답인 D의 파형선 패턴을 구분하지 못함",yes,yes,D
+validation_Music_16,visual_reading,2,"**Image 4** is the only one without any dot — so it certainly does not have a dotted duration","이미지 2(복부점 음표 포함 안 함)를 B로 지정해야 하나, 이미지 4의 단순 쉼표를 정답으로 잘못 읽음",yes,yes,D
+validation_Music_20,visual_reading,2,"Time signature shown: **6/8** ✅ **A is compound meter** ... **2/4** ❌ ... **3/4** ❌ ... **4/4** ❌","악보 이미지에서 B C D의 박자 기호를 6/8 9/8 12/8(복합박자)로 읽지 못하고 단순박자로 오독해 AB만 고름",yes,yes,D
+validation_Music_29,visual_reading,1,C. box3,모델 응답이 5토큰으로 극히 짧아 분석 없이 박스 3을 선택; 이미지 판독 근거 부재,yes,yes,D
+validation_Pharmacy_17,knowledge,3,"The structure shown is **bleomycin**","이미지의 구조가 다중 아미노당을 포함한 Dactinomycin(B)인데 Bleomycin(D)으로 잘못 식별함",yes,yes,D
+validation_Pharmacy_23,knowledge,3,"this is a classic **6-endo-trig** cyclization","Baldwin 규칙 적용 오류: tet(사면체 탄소 공격) 고리화를 trig(삼각형 탄소 공격)로 혼동함",yes,yes,D
+validation_Psychology_30,visual_reading,2,"the relationship between arousal and performance on a **challenging task** is best described by the **inverted U-shaped curve**, which is shown in **Graph A**","어려운 과제의 각성-수행 곡선(E: 역U형 오른쪽 치우침)을 일반 역U형(A)으로 잘못 읽음",yes,yes,D
+validation_Public_Health_1,knowledge,3,"The slope depends on both r and the ratio of standard deviations. Therefore, **r ≠ b**","상관계수 t통계량(tr)과 회귀계수 t통계량(tb)는 동일함을 몰라 tr≠tb(D)로 잘못 답함; 실제 tr=tb(C)",yes,yes,D
+validation_Sociology_25,visual_reading,2,"B is a **policy fact** — it describes what happened without assigning blame or making moral claims. This aligns with value-neutrality.","이미지 속 개념(value-neutrality)을 정확히 읽었으나 해당 개념에 부합하는 보기를 잘못 선택함",yes,yes,D
+validation_Sociology_3,knowledge,3,Sociology examines how societies function including the roles and interactions of institutions such as government. **Option A** captures the broader sociological focus on how power is exercised,"사회학의 정치·정부 관계 연구를 권력 행사(A)로 좁게 해석; 실제는 행동 방향 전략(B)이 더 포괄적 정의",yes,yes,D
+validation_Sociology_9,knowledge,3,"The Occupy Wall Street movement (2011) was centered on critiquing economic inequality... core tenets of **conflict theory**","연구자가 텐트촌 구성원 상호작용을 연구한다는 미시적 접근(symbolic interactionism)을 거시 계급이론(conflict theory)으로 잘못 분류함",yes,yes,D
