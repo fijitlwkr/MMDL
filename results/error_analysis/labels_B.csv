@@ -1,38 +1,40 @@
 id,primary_type,confidence,evidence_quote,reason,images_checked,self_check,label_by
-validation_Agriculture_22,,,,,,,B
-validation_Agriculture_23,,,,,,,B
-validation_Agriculture_5,,,,,,,B
-validation_Art_11,,,,,,,B
-validation_Art_15,,,,,,,B
-validation_Art_9,,,,,,,B
-validation_Biology_23,,,,,,,B
-validation_Biology_7,,,,,,,B
-validation_Chemistry_22,,,,,,,B
-validation_Clinical_Medicine_7,,,,,,,B
-validation_Computer_Science_1,,,,,,,B
-validation_Computer_Science_12,,,,,,,B
-validation_Design_13,,,,,,,B
-validation_Design_2,,,,,,,B
-validation_Diagnostics_and_Laboratory_Medicine_13,,,,,,,B
-validation_Diagnostics_and_Laboratory_Medicine_17,,,,,,,B
-validation_Diagnostics_and_Laboratory_Medicine_19,,,,,,,B
-validation_Diagnostics_and_Laboratory_Medicine_20,,,,,,,B
-validation_Diagnostics_and_Laboratory_Medicine_6,,,,,,,B
-validation_History_10,,,,,,,B
-validation_History_13,,,,,,,B
-validation_History_6,,,,,,,B
-validation_Manage_12,,,,,,,B
-validation_Manage_27,,,,,,,B
-validation_Manage_6,,,,,,,B
-validation_Marketing_4,,,,,,,B
-validation_Math_20,,,,,,,B
-validation_Mechanical_Engineering_26,,,,,,,B
-validation_Music_2,,,,,,,B
-validation_Music_9,,,,,,,B
-validation_Pharmacy_21,,,,,,,B
-validation_Psychology_24,,,,,,,B
-validation_Psychology_9,,,,,,,B
-validation_Sociology_1,,,,,,,B
-validation_Sociology_12,,,,,,,B
-validation_Sociology_21,,,,,,,B
-validation_Sociology_27,,,,,,,B
+validation_Agriculture_22,knowledge,3,"These growths are characteristic of **ash dieback**, caused by the fungus *Hymenoscyphus fraxineus","모델은 곰팡이성 마름병이 코르크 혹을 만든다고 했는데, 실제로는 그렇지 않다. 코르크 혹은 세균성 궤양의 특징이다.",yes,yes,B
+validation_Agriculture_23,knowledge,3,"- **D. Phytoplasma** — Can cause similar symptoms, but phytoplasmas usually affect entire populations or show more specific patterns like stunting or flower deformities; not necessarily localized to single branches unless highly specific.","모델은 파이토플라스마가 가지 하나에 국한되지 않는다고 했다. 실제로는 그렇지 않다. 또한, 작은 잎이 많은 것은 파이토플라스마의 대표적인 증상이다.",yes,yes,B
+validation_Agriculture_5,uncertain,3,D. Organic,풀이가 없고 답만 있다. 모델이 어떻게 저런 답을 냈는지를 모르겠어서 uncertain으로 분류했다.,yes,yes,B
+validation_Art_11,knowledge,3,"- **C. GEORGES SEURAT** — Also a leading Pointillist, but his work is more focused on social scenes and “A Sunday Afternoon on the Island of La Grande Jatte,” not typically cliffside coastals like this one.",GEORGES SEURAT가 절벽 해안을 잘 그리지 않았다는 주장은 잘못되었다. GEORGES SEURAT는 노르망디 해안 풍경을 많이 그렸다.,yes,yes,B
+validation_Art_15,knowledge,3,"The painting shown is **“The Fall of the Rebel Angels”** (also known as “The Temptation of St. Anthony” or “The Devil’s Triumph”), created by **Lucas Cranach the Elder**.","장면 묘사는 맞았다. 모델은 그림의 구도를 보고 화가를 판단했는데, 같은 구도의 크라나흐 판화가 있어서 그것과 헷갈린 것 같다. 실제로는 미켈란젤로의 작품이다.",yes,yes,B
+validation_Art_9,knowledge,3,"The painting in question is **“The Death of Giotto”** (1876), by Frederic Leighton.",모델은 이미지의 그림을 The Death of Giotto(1876)으로 착각했다. 그런 작품은 확인되지 않는다. 실제로는 〈브루넬레스키의 죽음〉(1852)이다.,yes,yes,B
+validation_Biology_23,visual_reading,3,The structure labeled **112** in the posterior abdominal diagram is the **Duodenum**.,"모델은 112번을 113번으로 잘못읽은것같다. C자 혹은 J자로 되어있다고 했는데, 그건 112가 아니라 113번이다. 112번이 가리키는 것은 결장의 간굽이(C선지)이다.",yes,yes,B
+validation_Biology_7,visual_reading,3,"In the diagram, **arrow C** points to the **large ribosomal subunit**, which is the larger, more complex part of the ribosome (often depicted as the “egg” or “bowl” shape on the right side of the diagram).",화살표가 가리키는 대상을 잘못 판독해서 오류를 냈다.,yes,yes,B
+validation_Chemistry_22,visual_reading,3,There are **two curves** meeting at an intersection point.,"모델은 'There are **two curves** meeting at an intersection point.'라고 했는데, 그림에서는 가운데 교차점에서 선이 세 개 만난다",yes,yes,B
+validation_Clinical_Medicine_7,calculation_reasoning,3,"- **E. Abruptio placentae**: Presents with **pelvic pain and vaginal bleeding**, but typically **with signs of fetal distress** — however, **rupture of membranes** is *not* mentioned.",문제 상황과 맞게 써놓고도 사실과 관련없는 풀이로 오답을 냈다.,yes,yes,B
+validation_Computer_Science_1,visual_reading,3,"- **From P₃ → R₄** → P₃ is holding R₄
+- **From R₄ → P₁** → P₁ is requesting R₄",그림의 R4에는 화살표가 없는데 R4에 연결된 화살표가 있다고 대답했다.,yes,yes,B
+validation_Computer_Science_12,visual_reading,3,So e has no incoming edge,모델은 e로 꽂히는 화살표가 없다고 했는데 실제로는 존재한다.,yes,yes,B
+validation_Design_13,calculation_reasoning,3,"The use of such a large number of small tiles enabled the artist to render this complex, disordered battle scene with incredible detail and realism, creating a sense of overwhelming action that draws the viewer into the chaos.
+","모델은 해부학적 정확성이 있다고 써 놓고도, 주목적이 자연주의가 아니라는 이유로 틀린 답을 골랐다.",yes,yes,B
+validation_Design_2,uncertain,2,"While option D describes the *appearance* of his style (small dots), it doesn’t capture the *goal* behind the technique.",오류가 어디에서 난건지 짚을 수가 없다. 근거와 선택이 서로 모순되지 않는다.,yes,yes,B
+validation_Diagnostics_and_Laboratory_Medicine_13,knowledge,3,- **Alpha-synuclein** stains Lewy bodies (Parkinson’s disease) — also not typically eosinophilic.,"모델은 루이 소체가 호산성이 아니라고 했지만, 루이 소체는 대표적인 호산성 봉입체이고(검색으로 확인함) 알파-시누클레인·유비퀴틴 둘 다 염색된다.",yes,yes,B
+validation_Diagnostics_and_Laboratory_Medicine_17,visual_reading,3,- **Symmetrical atrophy** of the cerebral hemispheres.,뇌간 절편 이미지를 대뇌 반구로 잘못 봤다.,yes,yes,B
+validation_Diagnostics_and_Laboratory_Medicine_19,visual_reading,3,"displaying **diffuse, widespread necrotic changes** with **vacuolation**, **loss of normal architecture**, and **focal areas of hemorrhage or small vessel involvement**","모델은 그림이 미만성 괴사이고 다발성 병변이 없다고 했지만, 실제로는 둥글고 하얀 얼룩 여러 개가 따로 흩어져 있다. 이미지를 잘못 읽은것같다.",yes,yes,B
+validation_Diagnostics_and_Laboratory_Medicine_20,visual_reading,3,"a large, round, purple-stained lesion (likely a cyst or granuloma), surrounded by inflammatory infiltrate and adjacent to a region with branching, worm-like structures","모델은 오른쪽 큰 둥근 덩어리를 낭종으로, 가지 친 구조를 벌레로 봤지만, 실제로는 뇌간 단면과 소뇌 주름이다. 검은 원 안의 수막 병변은 언급하지 않았다.",yes,yes,B
+validation_Diagnostics_and_Laboratory_Medicine_6,visual_reading,3,- The **esophagus appears dilated and air-filled** (as it’s not emptying properly).,사진에서 기관은 보이지만 공기로 부푼 관 모양 식도는 뚜렷하지 않다.,yes,yes,B
+validation_History_10,visual_reading,3,"Option C mentions Russia and Austria, which aren’t even shown in the cartoon",좌측위에 Russia가 보이는데 없다고 대답했다.,yes,yes,B
+validation_History_13,calculation_reasoning,3,"- **A. The capital of West Germany was located in East Germany** — **FALSE**, but this is not what the question asks for.",이미지를 맞게 읽고 A를 FALSE로 판단하고도 'but this is not what the question asks for'라고했다.,yes,yes,B
+validation_History_6,question_defect,2,"→ Marx did not argue for a peaceful approach — he was focused on class struggle, revolution, and the abolition of private property.","정답 B가 문제 조건과 모순된다. 질문은 민족주의 열정을 묻는데 B는 군사주의 얘기이고, 마르크스는 공산당 선언에서 강제적 전복을 주장했다. 모델의 답 A가 더 맞다.",yes,yes,B
+validation_Manage_12,calculation_reasoning,3,"In fact, if they were *more appealing* to whites than to minorities, then their positions likely *did* appeal to minorities — just less so.","모델은 후보가 백인에게 더 호소했다고 맞게 읽고도, 덜 호소한 것을 호소한 것으로 바꿔 읽고 B를 골랐다. 그래프에서 흑인 유권자의 지지는 약 6%뿐이다.",yes,yes,B
+validation_Manage_27,question_defect,3,"- **C. Emotional** → ✅ This is synonymous with *pathos*, so it’s included","보기가 중복된다. B와 C가 같은 뜻인데(검색해보니 pathos는 감정이라느 뜻이다), 정답은 C가 포함되지 않는다고 한다. 모델은 이 중복을 짚고 A를 골랐다.",yes,yes,B
+validation_Manage_6,knowledge,3,"Since the question is based on an image that does not contain relevant data, and assuming the question intends to test knowledge of animal cognition or brain function (which is not illustrated), we must note that **none of the options are supported by the image**.","모델은 실제 동물의 뇌 문제로 판단하고 답이 없다고 했다. 토끼 두뇌는 분석적, 거북 마음은 종합적이라는 사고방식 비유를 몰랐던 것 같다.",yes,yes,B
+validation_Marketing_4,knowledge,3,"The tail is longer on the **right** side — the highest bar is at 7, and the frequencies rise steeply toward the right.","모델은 막대 높이를 맞게 읽었지만, tail을 가장 높은 막대가 있는 쪽이라고 잘못 알고 있다.",yes,yes,B
+validation_Math_20,visual_reading,3,"- (2,7): 3",그림에는 2-7 간선이 없는데 모델은 있다고 했다.,yes,yes,B
+validation_Mechanical_Engineering_26,visual_reading,3,"- **b)** Shows a vertical line with an arrow pointing to the **thread flank**, which is standard for indicating thread pitch or diameter.",b에는 화살표가 없다. 모델은 arrow가 있는것으로 잘못 읽었다.,yes,yes,B
+validation_Music_2,uncertain,3,B. False,응답이 B. False 한 줄뿐이라 악보를 어떻게 읽었는지 알 수가 없다.,yes,yes,B
+validation_Music_9,visual_reading,3,"- **Option A**: Shows three notes: **E, G, B** — all in the bass clef, so likely **E–G–B** — which is a **C major triad** (if we’re thinking of root position).","모델은 A 칸 음표를 세 개(E,G,B)로, 음자리표를 낮은음자리표로 읽었지만, 실제로는 네 개이고 C음자리표다.",yes,yes,B
+validation_Pharmacy_21,knowledge,2,"✅ **True.** While cisplatin mainly targets guanine, the distortion caused by the intrastrand cross-links affects the overall DNA structure, including disrupting base pairing.","모델은 A-T 염기쌍 방해를 참으로 봤지만, 시스플라틴은 주로 구아닌끼리 잇는다. D의 금속화제도 백금을 DNA에 붙인다는 뜻이라 참에 가깝다.",yes,yes,B
+validation_Psychology_24,question_defect,3,"The blue region in the image points to the **pons**, which is a part of the brainstem located between the cerebrum and the medulla oblongata.","정답이 그림과 안 맞는다. 검색해보니 파란 영역은 ""연수""라고 하는 부위이다. 추가로, 모델이 고른 A(뇌교)도 정답이 아니다.",yes,yes,B
+validation_Psychology_9,calculation_reasoning,3,"Wait — none of the options seem to directly say “type of authority” — but option **D. Response to authority** is the closest, though technically it’s the dependent variable.",모델은 D가 종속변인이라고 스스로 판단하고도 D를 골랐다.,yes,yes,B
+validation_Sociology_1,knowledge,3,"- **B. Conflict crime**: Crimes arising from conflict between groups (e.g., gang violence, civil unrest).","모델은 갈등 범죄를 집단 간 충돌로 잘못 알고있다. 사회학에서 conflict crime이란, 불법이지만 심각성에 대한 합의가 없는 행위를 말한다고한다.",yes,yes,B
+validation_Sociology_12,visual_reading,3,"The image shows **Theodore Roosevelt**, the 26th President of the United States.",이미지속 인물은 막스 베버다. 루스벨트가 아님.,yes,yes,B
+validation_Sociology_21,question_defect,3,"- **B. Knowledge gap** – This is related but broader; it refers to the gap in knowledge that arises from unequal access to information, which *is* a consequence of the digital divide, but not the same thing.","빈칸에는 디지털 격차 때문에 생기는 결과가 들어가야 해서 B(지식 격차)가 맞다. 정답(C)이 틀렸다. 추가로, 모델이 고른 A도 정답이 아니다.",yes,yes,B
+validation_Sociology_27,knowledge,3,"- **C. A white person who originated in Africa and now lives in Canada** — ❌ False. Viola Desmond was Black, not white.",아프리카계 캐나다인이라는 말은 아프리카 출신 백인도 포함하는데 모델이 그걸 몰랐던것같다.,yes,yes,B
