@@ -1,0 +1,21 @@
+id,review_type,label_by,review_by,blind_label,quote_supports,order_ok,image_ok,reason_specific,agree,final_label,change_note
+validation_Math_3,random,A,D,visual_reading,Y,Y,Y,Y,Y,visual_reading,
+validation_Art_20,random,A,D,knowledge,Y,Y,Y,Y,Y,knowledge,
+validation_Agriculture_21,random,A,D,knowledge,Y,Y,Y,Y,Y,knowledge,
+validation_Chemistry_9,random,A,D,knowledge,N,Y,Y,Y,N,calculation_reasoning,모델은 Markovnikov 규칙을 알고 있으나 Br/OH 위치에 잘못 적용함; 지식 부재가 아닌 추론 단계 오류.
+validation_Chemistry_12,random,A,D,visual_reading,Y,Y,Y,Y,Y,visual_reading,
+validation_Psychology_12,random,A,D,calculation_reasoning,Y,Y,na,Y,Y,calculation_reasoning,
+validation_Art_Theory_14,random,A,D,knowledge,Y,Y,Y,Y,Y,knowledge,
+validation_Music_19,random,A,D,visual_reading,Y,Y,Y,Y,Y,visual_reading,
+validation_Accounting_20,high_risk,A,D,question_defect,Y,Y,na,Y,Y,question_defect,
+validation_Agriculture_12,high_risk,A,D,question_defect,Y,Y,Y,Y,Y,question_defect,
+validation_Architecture_and_Engineering_22,high_risk,A,D,question_defect,Y,Y,Y,Y,Y,question_defect,
+validation_Art_16,high_risk,A,D,knowledge,Y,Y,Y,Y,Y,knowledge,
+validation_Basic_Medical_Science_22,high_risk,A,D,question_defect,Y,Y,Y,Y,Y,question_defect,
+validation_Diagnostics_and_Laboratory_Medicine_10,high_risk,A,D,visual_reading,Y,Y,Y,Y,Y,visual_reading,
+validation_Diagnostics_and_Laboratory_Medicine_16,high_risk,A,D,uncertain,Y,Y,Y,Y,Y,uncertain,
+validation_Finance_17,high_risk,A,D,evaluation_issue,Y,Y,na,Y,Y,evaluation_issue,
+validation_History_5,high_risk,A,D,question_defect,Y,Y,Y,Y,Y,question_defect,
+validation_Literature_28,high_risk,A,D,question_defect,Y,Y,Y,Y,Y,question_defect,
+validation_Math_9,high_risk,A,D,uncertain,Y,Y,na,Y,Y,uncertain,
+validation_Sociology_15,high_risk,A,D,question_defect,N,Y,Y,Y,N,question_defect,이미지 텍스트는 B(numerical minority)를 지지하나 정답 키는 C(lack of power)로 되어 있어 문제 자료와 정답이 불일치함.
