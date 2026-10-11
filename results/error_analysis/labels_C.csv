@@ -4,12 +4,12 @@ validation_Agriculture_13,knowledge,2,"If the disease is confined to weeds and p
 validation_Agriculture_15,knowledge,3,"**D. Virus**
 
 ✅ Final Answer: **D. Virus**",솜곰팡이병에 대한 지식 부족. 풀이 시 이미지는 필요 없었다.,yes,yes,C
-validation_Agriculture_20,visual_reading,1,C. Fungal dieback ('ash dieback'),모델 응답이 너무 짧아서 확신도 낮음. 이미지와 MMMU 정답을 확인했을 때 나무 건강 진단의 이미지 분석이 어려운 것으로 판단,yes,yes,C
+validation_Agriculture_20,uncertain,1,C. Fungal dieback ('ash dieback'),모델 응답이 너무 짧아서 확신도 낮음. 이미지와 MMMU 정답을 확인했을 때 나무 건강 진단의 이미지 분석이 어려운 것으로 판단,yes,yes,C
 validation_Agriculture_27,knowledge,3,"However, **not all** sooty mould fungi can be cultivated in pure culture — especially those that are highly dependent on specific host insects or environmental conditions to thrive.",그을음 곰팡이의 핵심 특짐을 몰랐고 이에 대한 환각 발생. 풀이 시 이미지는 필요 없었다.,yes,yes,C
 validation_Agriculture_4,visual_reading,3,"*(Note: If this were a pot-bound tree, we’d see severely cramped, circling roots. Here, the roots look relatively healthy and spread out, even if somewhat tangled.)*",이미지의 주뿌리가 꺾이고 건강하지 않은 것을 발견하지 못함.,yes,yes,C
 validation_Agriculture_9,knowledge,3,"Downy mildew, caused by pathogens like *Plasmopara viticola* (in grapevines), requires a specific set of conditions to develop and spread.",문제 텍스트에 명시된 질병과 다른 질병으로 풀이함. 풀이 시 이미지는 필요 없었다.,yes,yes,C
 validation_Art_23,knowledge,3,"Margaret Gere’s *<image 1>* (likely referring to her painting “The Pig” or similar pastoral scene) was created using **oil paint**. This is supported by the visible texture, rich color depth, and layered brushwork typical of oil paintings from the early 20th century, especially those associated with British artists like Gere who worked in this medium.","그림의 특징을 제대로 파악하지 못했고, 그림 제목도 틀렸다",yes,yes,C
-validation_Art_Theory_25,calculation_reasoning,3,"But wait — there’s a well-known painting by **Hugo van der Goes** called **“The Adoration of the Shepherds”** — but that’s not this one.
+validation_Art_Theory_25,visual_reading,3,"But wait — there’s a well-known painting by **Hugo van der Goes** called **“The Adoration of the Shepherds”** — but that’s not this one.
 
 Looking at the composition: the central figure is the Virgin Mary, kneeling with the Christ Child, surrounded by figures including the Three Kings (Magi), angels, and other saints. The architectural background, the detailed rendering of clothing and textures, and the presence of a large column with a lion head — these are all hallmarks of **Jan van Eyck’s** style.","제목과 화가를 잘 추론하다가, 잘못된 추론을 시작하며 그림 묘사도 맘대로 지어냄",yes,yes,C
 validation_Art_Theory_5,knowledge,3,"This is a carpentry technique used in wooden structures, not stone. Stonehenge is made of megaliths (large stones), not timber. So this is incorrect.","추론도 잘 했으나, 잘못된 개념 하나로 문제를 틀림",yes,yes,C
@@ -39,7 +39,7 @@ validation_Computer_Science_18,visual_reading,3,"Let’s extract the adjacency l
 - From **V6**: → / (no outgoing edges)
 - From **V7**: → V6",이미지의 인접리스트 그림을 잘못 읽었다,yes,yes,C
 validation_Computer_Science_2,calculation_reasoning,3,"So we must evaluate whether the given statements are **true** based on the **original tree**, **before deletion**.",추론 중 heap에서 삭제해야 하는 조건을 이전에 언급했음에도 잊고 넘어갔다.,yes,yes,C
-validation_Design_1,visual_reading,3,"The object shown is a **Bamana “kou”** (also known as a *kou* or *kou kou*), a traditional West African artifact from the **Bambara people of Mali**. ",이미지를 다른 유물로 착각해서 틀렸다,yes,yes,C
+validation_Design_1,knowledge,3,"The object shown is a **Bamana “kou”** (also known as a *kou* or *kou kou*), a traditional West African artifact from the **Bambara people of Mali**. ",이미지를 다른 유물로 착각해서 틀렸다,yes,yes,C
 validation_Diagnostics_and_Laboratory_Medicine_14,knowledge,2,"The image shows a cross-section of spinal cord tissue with a distinct **cystic cavity** running along the midline, dividing the cord into two halves. This is characteristic of **syringomyelia**, which is a condition involving the formation of a fluid-filled cyst (syrinx) within the spinal cord.","전제 의학 지식이 틀렸다. 이미지 인식 오류일 수도 있으나, 지식 오류가 더 크다고 판단",yes,yes,C
 validation_Diagnostics_and_Laboratory_Medicine_2,visual_reading,2,"However, the key clue here is that this is likely depicting **Mucinous Carcinoma** — specifically, **Mucinous Carcinoma of the Breast**, which is a subtype of breast carcinoma known for its abundant mucin production.",처음 이미지 해석부터 잘못했다. 이후 설명에서도 지식 오류가 존재한다.,yes,yes,C
 validation_Diagnostics_and_Laboratory_Medicine_8,visual_reading,2,"The image shows a histological section of brain tissue with areas of **necrosis** (white, necrotic regions) surrounded by **pink-stained normal or reactive tissue**, consistent with **periventricular leukomalacia (PVL)** or **cerebral white matter injury**.",처음 이미지 해석을 잘못된 병으로 오진단하였다. 이후 추론에서도 올바르지 않은 것도 있었다.,yes,yes,C
