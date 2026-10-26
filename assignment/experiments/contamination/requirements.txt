@@ -1,0 +1,13 @@
+# 로컬(CPU): 후보 뽑기, pHash, MMMU 중복 검사, 형식 변환. 괄호 안은 확인한 버전
+pyarrow>=11        # 11.0.0
+huggingface_hub>=0.15  # 0.15.1
+Pillow>=9.4        # 9.4.0
+numpy>=1.24        # 1.24.3
+scipy>=1.10        # 1.10.1 (imagehash 가 없을 때 phash_utils 가 같은 pHash 를 계산)
+imagehash>=4.3     # 4.3.2 (선택)
+tokenizers>=0.13   # 0.13.2 (make_upload.py 의 response_tokens)
+
+# GPU(RunPod RTX 4090): text_only_filter.py 는 별도 환경에서 아래만 설치한다
+#   pip install vllm==0.11.0 pyyaml
+#   pip install transformers==4.57.1 tokenizers==0.22.2 huggingface-hub==0.35.3
+#   (vllm 설치 시 transformers 5.x 가 같이 깔리면 토크나이저 에러가 나므로 두 번째 줄로 팀 고정 버전을 다시 깐다)
