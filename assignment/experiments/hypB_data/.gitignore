@@ -1,0 +1,22 @@
+# 데이터·이미지·중간 결과는 레포에 두지 않는다 (HF MMDL-team4/hypB-train-data)
+*.jsonl
+*.sqlite
+*.sqlite3
+*.parquet
+*.zip
+images/
+cache/
+ref_check/
+.deps*/
+__pycache__/
+*.log
+!lists/*.csv
+
+# 오염 검사 출력 (MMMU·MMMU-Pro 참조 이미지·문항 포함)
+ref_images/
+image_near_pairs.csv
+text_top_matches.csv
+stats.json
+contamination_*.json
+reference_*.json
+new_image_manifest.csv

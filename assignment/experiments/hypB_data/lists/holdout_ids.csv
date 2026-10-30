@@ -1,0 +1,300 @@
+selection_order,source,id,mmfr_row,discipline,subject,pass_rate,is_flowchart
+,FineVision-visualwebinstruct(filtered),84147,160065,Business,Economics,0.0,False
+,FineVision-visualwebinstruct(filtered),139803,1312967,Business,Accounting,1.0,False
+,MMR1,668264,400139,Health & Medicine,Clinical_Medicine,1.0,False
+,MMR1,503501,1039081,Tech & Engineering,Computer_Science,0.25,False
+,FineVision-visualwebinstruct(filtered),122103,674245,Business,Accounting,1.0,False
+,FineVision-visualwebinstruct(filtered),146183,1266500,Business,Economics,1.0,False
+,MMR1,108739,951155,Health & Medicine,Clinical_Medicine,1.0,False
+,FineVision-visualwebinstruct(filtered),69317,1118466,Business,Finance,1.0,False
+,MMR1,158136,770505,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,1492775,1484782,Science,Math,0.5,False
+,MMR1,725016,1608178,Science,Math,1.0,False
+,MMR1,409569,1277783,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,332946,821663,Science,Math,0.25,False
+,MMR1,576781,854226,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,704091,700019,Science,Math,0.5,False
+,MMR1,1201874,321552,Business,Marketing,0.5,False
+,BMMR,21863,948204,Health & Medicine,Basic_Medical_Science,1.0,False
+,BMMR,18044,603631,Business,Economics,1.0,False
+,MMR1,1580121,998994,Tech & Engineering,Computer_Science,0.25,False
+,MMR1,1272057,1784584,Science,Math,0.75,False
+,mmopenr1-8k,3456,332833,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,ViRL39K,19469,354722,Business,Economics,1.0,False
+,MMR1,24984,698815,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,1097023,1048600,Science,Math,0.25,False
+,MMR1,1609474,96168,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,863778,330515,Science,Biology,1.0,False
+,MMR1,211680,868527,Tech & Engineering,Computer_Science,0.25,False
+,MMR1,977666,1741869,Science,Math,0.75,False
+,ViRL39K,26339,123230,Tech & Engineering,Computer_Science,0.0,False
+,FineVision-visualwebinstruct(filtered),170137,90125,Business,Economics,0.0,False
+,MMR1,532717,503819,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,90778,1757015,Health & Medicine,Pharmacy,1.0,False
+,FineVision-visualwebinstruct(filtered),40175,743723,Health & Medicine,Basic_Medical_Science,1.0,False
+,FineVision-visualwebinstruct(filtered),258986,1522097,Business,Economics,1.0,False
+,MMR1,864022,1724730,Science,Math,0.5,False
+,MMR1,1468707,918949,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,1601166,1667542,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),237327,415413,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),28071,670216,Business,Accounting,1.0,False
+,FineVision-visualwebinstruct(filtered),102189,1553111,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),40441,1807769,Business,Economics,1.0,False
+,MMR1,135278,1765126,Science,Math,0.25,False
+,MMR1,254902,1457568,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,MMR1,873433,69677,Science,Math,0.0,False
+,MMR1,950082,1201975,Science,Math,0.5,False
+,BMMR,21389,1480313,Science,Math,0.75,False
+,MMR1,885578,790439,Business,Economics,1.0,False
+,MMR1,1218295,1057889,Tech & Engineering,Computer_Science,0.75,False
+,FineVision-visualwebinstruct(filtered),156898,241408,Business,Economics,1.0,False
+,MMR1,243362,765612,Tech & Engineering,Computer_Science,0.75,False
+,LLaVA-CoT,15486,1300530,Health & Medicine,Public_Health,1.0,False
+,FineVision-visualwebinstruct(filtered),203594,359730,Business,Economics,1.0,False
+,MMR1,1588674,51805,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,273072,242396,Science,Math,0.75,False
+,BMMR,3328,106777,Science,Chemistry,0.0,False
+,MMR1,363096,937183,Tech & Engineering,Computer_Science,0.75,False
+,BMMR,50995,495089,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,395938,541017,Tech & Engineering,Computer_Science,0.25,False
+,BMMR,33042,735019,Health & Medicine,Clinical_Medicine,1.0,False
+,MMR1,1257349,834163,Business,Accounting,1.0,False
+,ViRL39K,6022,1587298,Tech & Engineering,Materials,0.25,False
+,MMR1,179732,94687,Tech & Engineering,Computer_Science,0.0,False
+,FineVision-visualwebinstruct(filtered),138569,291096,Business,Economics,1.0,False
+,MMR1,132189,1763694,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,MMR1,781417,46224,Science,Math,0.0,False
+,FineVision-visualwebinstruct(filtered),223092,56692,Science,Physics,0.0,False
+,ViRL39K,25992,223592,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,1010035,1473490,Science,Math,0.75,False
+,LLaVA-CoT,52498,513822,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,MMR1,1271478,632993,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,475852,1074886,Science,Math,1.0,False
+,MMR1,1067031,1280700,Health & Medicine,Clinical_Medicine,1.0,False
+,MMR1,1533512,445743,Health & Medicine,Basic_Medical_Science,1.0,False
+,FineVision-visualwebinstruct(filtered),103939,555614,Business,Economics,1.0,False
+,MMR1,1084940,1118857,Science,Math,0.25,False
+,LLaVA-CoT,30520,223081,Health & Medicine,Public_Health,1.0,False
+,MMR1,579999,327749,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,458158,364163,Tech & Engineering,Agriculture,0.5,False
+,WaltonColdStart,42603,1239326,Health & Medicine,Basic_Medical_Science,1.0,False
+,ViRL39K,8497,1529476,Science,Math,0.5,False
+,MMR1,1232811,200201,Business,Finance,1.0,False
+,BMMR,2418,44720,Science,Math,0.0,False
+,ViRL39K,22445,321833,Business,Marketing,1.0,False
+,FineVision-visualwebinstruct(filtered),188092,1245079,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),105338,1529903,Business,Economics,1.0,False
+,FineVision-scienceqa,3756,695476,Business,Economics,1.0,False
+,MMR1,89446,909317,Business,Accounting,1.0,False
+,MMR1,568406,749051,Science,Math,0.75,False
+,MMR1,10267,1448405,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,1506686,1201818,Science,Math,0.25,False
+,LLaVA-CoT,25787,733270,Business,Marketing,1.0,False
+,MMR1,520467,984209,Science,Math,1.0,False
+,FineVision-visualwebinstruct(filtered),78669,186963,Business,Economics,1.0,False
+,MMR1,145006,1510654,Science,Physics,0.25,False
+,MMR1,1421630,565751,Tech & Engineering,Computer_Science,0.25,False
+,Euclid30K,20410,154446,Science,Math,0.0,False
+,MMR1,662992,1701213,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,LLaVA-CoT,64004,1245308,Health & Medicine,Public_Health,1.0,False
+,LLaVA-CoT,40981,1177029,Health & Medicine,Public_Health,1.0,False
+,MMR1,1039558,744430,Tech & Engineering,Computer_Science,0.75,False
+,FineVision-tqa,3555,1043227,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,1475605,588119,Science,Math,1.0,False
+,FineVision-visualwebinstruct(filtered),190518,1472033,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),118438,357227,Business,Economics,1.0,False
+,MMK12,12539,1548285,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,423054,1220679,Tech & Engineering,Computer_Science,0.25,False
+,FineVision-visualwebinstruct(filtered),71866,1252908,Business,Accounting,1.0,False
+,MMR1,453278,1697442,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,686110,162882,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,1130745,973163,Science,Math,0.5,False
+,MMR1,1507821,41159,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,1590033,770468,Science,Math,0.75,False
+,MMR1,275254,811510,Tech & Engineering,Computer_Science,0.5,False
+,LLaVA-CoT,21706,1431649,Business,Marketing,1.0,False
+,FineVision-visualwebinstruct(filtered),123186,1470268,Business,Economics,1.0,False
+,MMR1,1474556,1622572,Science,Math,0.5,False
+,MMR1,615938,1604789,Tech & Engineering,Computer_Science,0.5,False
+,BMMR,74654,1418312,Tech & Engineering,Computer_Science,0.25,False
+,LLaVA-CoT,57554,816845,Business,Finance,1.0,False
+,MMR1,1521334,855731,Business,Economics,1.0,False
+,MMR1,311030,1232142,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,1330440,938172,Tech & Engineering,Computer_Science,0.25,False
+,MMR1,333564,328093,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,FineVision-visualwebinstruct(filtered),93371,189899,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),38318,889488,Business,Finance,1.0,False
+,MMR1,1022864,1668405,Health & Medicine,Pharmacy,1.0,False
+,MMR1,903535,339858,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),15592,1349246,Business,Economics,1.0,False
+,MMR1,745700,1423186,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,170785,1465114,Science,Math,1.0,False
+,MMR1,1425187,895737,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,MMR1,208488,102155,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,345940,1782992,Science,Math,0.75,False
+,ViRL39K,20350,1600228,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,797638,1651027,Business,Economics,1.0,False
+,mmopenr1-8k,7677,913302,Health & Medicine,Basic_Medical_Science,1.0,False
+,LLaVA-CoT,2599,262856,Business,Economics,1.0,False
+,ViRL39K,33735,888855,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,1196641,946289,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,97595,1774426,Business,Accounting,1.0,False
+,WaltonColdStart,41767,785572,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,606200,1072632,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),251721,782800,Health & Medicine,Clinical_Medicine,1.0,False
+,MMR1,54039,1611622,Tech & Engineering,Architecture_and_Engineering,0.5,False
+,MMR1,1500731,1794505,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,MMR1,89341,1132819,Business,Marketing,1.0,False
+,MMR1,145495,718430,Business,Marketing,1.0,False
+,MMR1,957456,1632769,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,467699,861240,Business,Marketing,1.0,False
+,MMR1,919890,1537299,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),222465,1415742,Business,Economics,1.0,False
+,MMR1,239114,1229264,Science,Math,1.0,False
+,FineVision-visualwebinstruct(filtered),245956,1714288,Business,Finance,1.0,False
+,MMR1,1033986,1420653,Health & Medicine,Basic_Medical_Science,1.0,False
+,FineVision-visualwebinstruct(filtered),160797,219676,Business,Economics,1.0,False
+,FineVision-tqa,4452,361531,Health & Medicine,Basic_Medical_Science,1.0,False
+,FineVision-ai2d_merged,9372,394141,Health & Medicine,Basic_Medical_Science,1.0,False
+,FineVision-visualwebinstruct(filtered),172703,1124485,Tech & Engineering,Computer_Science,1.0,False
+,FineVision-visualwebinstruct(filtered),161768,1800459,Business,Economics,0.5,False
+,FineVision-visualwebinstruct(filtered),172108,749554,Business,Economics,1.0,False
+,MMR1,1255289,177499,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,1262713,957742,Science,Math,0.75,False
+,MMR1,1345351,416938,Tech & Engineering,Computer_Science,0.75,False
+,FineVision-visualwebinstruct(filtered),40536,843426,Business,Economics,1.0,False
+,MMR1,1282152,1664276,Tech & Engineering,Computer_Science,0.25,False
+,BMMR,49126,803927,Business,Finance,1.0,False
+,MMR1,485983,1524748,Health & Medicine,Clinical_Medicine,1.0,False
+,MMR1,1005923,1559616,Science,Math,0.5,False
+,MMR1,91456,1238822,Health & Medicine,Public_Health,1.0,False
+,BMMR,27444,222232,Science,Math,0.25,False
+,FineVision-visualwebinstruct(filtered),65051,1409695,Business,Accounting,1.0,False
+,MMR1,577460,1029252,Tech & Engineering,Computer_Science,0.5,False
+,FineVision-visualwebinstruct(filtered),259485,1370607,Business,Economics,0.5,False
+,MMR1,748055,82390,Tech & Engineering,Computer_Science,0.0,False
+,FineVision-scienceqa,5290,1168794,Business,Economics,1.0,False
+,MMR1,1089013,900530,Tech & Engineering,Computer_Science,0.5,False
+,FineVision-visualwebinstruct(filtered),262696,305163,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),149338,915955,Business,Finance,1.0,False
+,MMR1,697584,856584,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),77234,459725,Business,Economics,1.0,False
+,WaltonColdStart,45221,1278140,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),201094,1558730,Business,Economics,1.0,False
+,MMR1,976841,1288535,Science,Math,0.75,False
+,MMR1,54312,409083,Business,Marketing,1.0,False
+,MMR1,89294,327429,Business,Accounting,1.0,False
+,LLaVA-CoT,48260,446234,Business,Economics,1.0,False
+,ViRL39K,1646,106409,Science,Math,0.0,False
+,MMR1,1285223,1159963,Health & Medicine,Public_Health,1.0,False
+,WaltonColdStart,21134,441785,Science,Math,0.75,False
+,FineVision-visualwebinstruct(filtered),109314,1395824,Business,Economics,1.0,False
+,MMR1,293506,1706156,Health & Medicine,Public_Health,1.0,False
+,FineVision-visualwebinstruct(filtered),262881,985325,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),132723,67624,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,848036,284036,Tech & Engineering,Computer_Science,0.75,False
+,WaltonColdStart,32208,601794,Business,Economics,1.0,False
+,MMR1,676675,413001,Tech & Engineering,Computer_Science,0.75,False
+,FineVision-visualwebinstruct(filtered),73734,1059123,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),156431,1804390,Business,Finance,1.0,False
+,MMR1,1007336,1291911,Science,Math,0.75,False
+,MMR1,109545,124257,Tech & Engineering,Agriculture,0.0,False
+,FineVision-visualwebinstruct(filtered),22523,1312943,Business,Finance,1.0,False
+,MMR1,891650,1768740,Business,Finance,0.75,False
+,FineVision-visualwebinstruct(filtered),245132,713216,Business,Economics,1.0,False
+,MMR1,643496,688285,Business,Marketing,1.0,False
+,FineVision-visualwebinstruct(filtered),128951,832473,Business,Economics,1.0,False
+,BMMR,55705,1439675,Science,Biology,0.25,False
+,MMR1,1293325,234533,Science,Math,0.5,False
+,MMR1,1572378,334925,Science,Math,0.5,False
+,MMR1,664651,1279357,Science,Math,1.0,False
+,FineVision-visualwebinstruct(filtered),50207,1453962,Business,Economics,1.0,False
+,MMR1,1394226,1261604,Business,Marketing,1.0,False
+,FineVision-visualwebinstruct(filtered),20476,1457569,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),63845,1374822,Business,Economics,1.0,False
+,MMR1,1241359,52020,Science,Math,0.0,False
+,MMR1,978882,817093,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,1006602,1528522,Science,Math,0.5,False
+,MMR1,359180,921018,Business,Marketing,1.0,False
+,FineVision-visualwebinstruct(filtered),136123,1251726,Tech & Engineering,Computer_Science,1.0,False
+,MMR1,669306,118197,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,736,738053,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,1233539,1702342,Science,Math,0.5,False
+,MMR1,675287,1479687,Health & Medicine,Basic_Medical_Science,1.0,False
+,FineVision-tqa,4943,871882,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,246877,1580646,Tech & Engineering,Computer_Science,0.25,False
+,MMR1,89535,200945,Business,Accounting,1.0,False
+,MMR1,259438,304128,Science,Math,1.0,False
+,MMR1,660637,247919,Science,Math,0.5,False
+,MMR1,1171686,1634116,Business,Marketing,1.0,False
+,FineVision-visualwebinstruct(filtered),8278,628092,Business,Economics,1.0,False
+,MMR1,1201247,1153612,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),38469,648983,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),139494,844925,Business,Economics,1.0,False
+,MMR1,1293092,222680,Science,Math,0.75,False
+,ViRL39K,34509,443727,Science,Physics,0.75,False
+,MMR1,1188296,1738650,Tech & Engineering,Computer_Science,0.25,False
+,MMR1,933928,1054531,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,293120,1325599,Science,Math,0.75,False
+,MMR1,10962,1645284,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,1083166,1613891,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,275833,1015031,Science,Math,1.0,False
+,MMR1,1332612,151154,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,1339358,778573,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,170464,86687,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,365026,919408,Science,Math,0.75,False
+,FineVision-visualwebinstruct(filtered),224649,944314,Business,Economics,1.0,False
+,MMR1,727022,492493,Tech & Engineering,Computer_Science,0.75,False
+,FineVision-visualwebinstruct(filtered),229272,295766,Business,Economics,0.75,False
+,FineVision-visualwebinstruct(filtered),91764,1253378,Business,Accounting,1.0,False
+,FineVision-scienceqa,4597,178486,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),135299,753590,Business,Economics,1.0,False
+,MMR1,650379,154228,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,1217141,767088,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,977443,487441,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,MMR1,1055714,972206,Tech & Engineering,Computer_Science,0.75,False
+,MMR1,26639,839560,Tech & Engineering,Computer_Science,0.25,False
+,MMR1,560154,106162,Science,Math,0.0,False
+,BMMR,29461,1517056,Business,Economics,1.0,False
+,MMR1,146896,691470,Science,Math,1.0,False
+,MMR1,399206,720916,Health & Medicine,Clinical_Medicine,1.0,False
+,WaltonColdStart,30599,530378,Business,Economics,1.0,False
+,LLaVA-CoT,8591,1092695,Business,Economics,1.0,False
+,MMR1,303825,1358238,Tech & Engineering,Computer_Science,0.25,False
+,FineVision-visualwebinstruct(filtered),236734,1687252,Business,Economics,1.0,False
+,MMR1,1038484,1181857,Health & Medicine,Pharmacy,1.0,False
+,LLaVA-CoT,29951,525794,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),2859,1738437,Business,Economics,1.0,False
+,MMR1,932040,1660608,Tech & Engineering,Computer_Science,0.75,False
+,BMMR,38198,230896,Business,Economics,1.0,False
+,MMR1,66659,48850,Science,Math,0.0,False
+,WaltonColdStart,8052,429103,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,957700,876336,Tech & Engineering,Computer_Science,0.5,False
+,MMR1,743314,849234,Science,Math,0.75,False
+,MMR1,1357245,907967,Science,Math,0.75,False
+,FineVision-ai2d_merged,1011,1729213,Health & Medicine,Basic_Medical_Science,1.0,False
+,FineVision-visualwebinstruct(filtered),139811,90648,Business,Economics,0.0,False
+,FineVision-scienceqa,5201,1736656,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),129662,513927,Science,Math,0.25,False
+,MMR1,1481983,154124,Tech & Engineering,Computer_Science,0.0,False
+,ViRL39K,30474,567469,Science,Math,0.75,False
+,FineVision-visualwebinstruct(filtered),206536,891656,Business,Economics,0.5,False
+,FineVision-visualwebinstruct(filtered),76501,1087143,Business,Economics,1.0,False
+,MMR1,167685,838715,Tech & Engineering,Computer_Science,0.25,False
+,MMR1,369675,1346756,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,1044857,282176,Science,Math,0.5,False
+,FineVision-visualwebinstruct(filtered),97458,1322411,Science,Math,0.25,False
+,LLaVA-CoT,34937,1339226,Business,Economics,1.0,False
+,FineVision-visualwebinstruct(filtered),222154,1026333,Business,Economics,0.5,False
+,MMR1,647586,43815,Tech & Engineering,Computer_Science,0.0,False
+,FineVision-visualwebinstruct(filtered),95181,1372148,Business,Economics,1.0,False
+,FineVision-geo170k(qa),9524,324160,Science,Math,0.25,False
+,MMR1,786963,1642693,Tech & Engineering,Computer_Science,0.25,False
+,MMR1,1237982,100572,Tech & Engineering,Computer_Science,0.0,False
+,MMR1,749695,1681748,Health & Medicine,Basic_Medical_Science,1.0,False
+,MMR1,235199,901483,Health & Medicine,Diagnostics_and_Laboratory_Medicine,1.0,False
+,FineVision-visualwebinstruct(filtered),255662,858260,Business,Economics,1.0,False
+,BMMR,13068,1246097,Business,Economics,1.0,False
+,MMR1,85375,842454,Health & Medicine,Pharmacy,1.0,False
+,MMR1,1552732,1592765,Science,Math,0.25,False
+,MMR1,1206207,1654251,Science,Math,0.5,False

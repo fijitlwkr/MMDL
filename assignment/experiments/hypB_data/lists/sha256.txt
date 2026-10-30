@@ -1,0 +1,14 @@
+# 가설 B 학습 데이터 고정 기록
+
+HF dataset: MMDL-team4/hypB-train-data
+  v1.0 (원본 messages 형식): 80f1afcba863db39fe4fb3631c28e874e1f8b48c
+  v1.1 (+ ms-swift 형식):   e9fe258b9d044e0693441a4c54138054d19130ab
+MMFR source: OpenDataArena/MMFineReason-1.8M-Qwen3-VL-235B-Thinking @ 7c93f724791d01246f5425e1182b14ec8d013847
+
+# SHA-256
+99608a3508b580e49b5e44f94ba9027de115fb025437f6fc8d9102e96b214320  E1_train.jsonl
+417100cf637df7bd12936de163233f34b2d0bf15755cf7159e684c35c84bbaa9  E2_train.jsonl
+5457064389c50a062246095d22e71851f47b906139bba99c7590dead2fc880f3  holdout_300.jsonl
+a8405759de84c93904dab137c16106b657e5b05682a0fd755b955c2f707941ab  E1_train_swift.jsonl
+f4f20537d5a77133c7f86c998bb270a383e6db52b1f134a17d786addcbcecf39  E2_train_swift.jsonl
+8a68baafb77c0da00b656fe0def4dff34e1baffabd75b919eaf4510ac902d70e  holdout_300_swift.jsonl

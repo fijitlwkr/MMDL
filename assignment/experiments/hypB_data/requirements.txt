@@ -1,0 +1,8 @@
+# 실행 당시 버전 (CPU)
+# scripts/contamination
+pyarrow==21.0.0
+fsspec[http]
+numpy>=2.0
+Pillow
+scipy
+# scripts/convert 는 표준 라이브러리 + 팀 평가 코드의 프롬프트 함수만 사용
