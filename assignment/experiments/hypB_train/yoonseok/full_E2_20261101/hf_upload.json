@@ -1,0 +1,32 @@
+{
+  "repo": "MMDL-team4/hypB-e2-answer-3k",
+  "branch": "run-yoonseok",
+  "commit": "72e45c1bb07eb79179739fae949ccf80f21e891b",
+  "parent": "f06491326a9a42cebeb863c844ab7f23bb0852bf",
+  "main_before": "f06491326a9a42cebeb863c844ab7f23bb0852bf",
+  "main_after": "f06491326a9a42cebeb863c844ab7f23bb0852bf",
+  "files": [
+    "README.md",
+    "adapter_config.json",
+    "adapter_model.safetensors",
+    "packages_eval.txt",
+    "packages_train.txt",
+    "summary.json",
+    "train_args.json",
+    "train_config.json",
+    "train_log.txt",
+    "trainer_state.json",
+    "training_history.json"
+  ],
+  "adapter_sha256": "85c31efe97fa05a80e8b19db98a9cb0de749e7b7be47bbd933879f3349d167fb",
+  "package_versions": {
+    "ms-swift": "3.12.3",
+    "transformers": "4.57.1",
+    "torch": "2.8.0",
+    "peft": "0.17.1",
+    "datasets": "3.6.0",
+    "qwen-vl-utils": "0.0.14"
+  },
+  "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+  "base_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17"
+}

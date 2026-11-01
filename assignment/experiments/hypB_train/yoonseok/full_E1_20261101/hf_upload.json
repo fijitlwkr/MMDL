@@ -1,0 +1,32 @@
+{
+  "repo": "MMDL-team4/hypB-e1-structured-3k",
+  "branch": "run-yoonseok",
+  "commit": "0de38ff61af238608dc7be53358f1dac23788995",
+  "parent": "9d0ee26bfd775dc57600eafabd35ef888c84d306",
+  "main_before": "9d0ee26bfd775dc57600eafabd35ef888c84d306",
+  "main_after": "9d0ee26bfd775dc57600eafabd35ef888c84d306",
+  "files": [
+    "README.md",
+    "adapter_config.json",
+    "adapter_model.safetensors",
+    "packages_eval.txt",
+    "packages_train.txt",
+    "summary.json",
+    "train_args.json",
+    "train_config.json",
+    "train_log.txt",
+    "trainer_state.json",
+    "training_history.json"
+  ],
+  "adapter_sha256": "7785950a5d6aea4121d842b9136d537e13555d2b4f68c5a6222924c9bb89507e",
+  "package_versions": {
+    "ms-swift": "3.12.3",
+    "transformers": "4.57.1",
+    "torch": "2.8.0",
+    "peft": "0.17.1",
+    "datasets": "3.6.0",
+    "qwen-vl-utils": "0.0.14"
+  },
+  "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+  "base_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17"
+}

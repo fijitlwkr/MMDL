@@ -1,0 +1,114 @@
+{
+  "run": "E2",
+  "steps": 188,
+  "epoch": 1,
+  "code_commit": "b54e00d2ae9e91cc5a93641b4d2da0551cfa93dd",
+  "model": "Qwen/Qwen3-VL-4B-Instruct",
+  "model_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "adapters": [],
+  "resume_from_checkpoint": null,
+  "train_runtime_seconds": 2414.8641,
+  "end_to_end_seconds": 2460.0,
+  "train_loss": 0.4771662177716164,
+  "last_step_loss": 0.11738076061010361,
+  "final_holdout_step": 188,
+  "final_holdout_loss": 0.79168916,
+  "evals": [
+    {
+      "event": "eval",
+      "step": 60,
+      "metrics": {
+        "eval_loss": 0.79335374,
+        "eval_runtime": 86.1685,
+        "eval_samples_per_second": 3.47,
+        "eval_steps_per_second": 3.47,
+        "eval_token_acc": 0.80602818,
+        "epoch": 0.32,
+        "global_step/max_steps": "60/188",
+        "percentage": "31.91%",
+        "elapsed_time": "12m 27s",
+        "remaining_time": "26m 34s",
+        "memory(GiB)": 34.02,
+        "train_speed(iter/s)": 0.080266
+      }
+    },
+    {
+      "event": "eval",
+      "step": 120,
+      "metrics": {
+        "eval_loss": 0.79026783,
+        "eval_runtime": 86.6195,
+        "eval_samples_per_second": 3.452,
+        "eval_steps_per_second": 3.452,
+        "eval_token_acc": 0.80652715,
+        "epoch": 0.64,
+        "global_step/max_steps": "120/188",
+        "percentage": "63.83%",
+        "elapsed_time": "24m 52s",
+        "remaining_time": "14m 5s",
+        "memory(GiB)": 45.15,
+        "train_speed(iter/s)": 0.080391
+      }
+    },
+    {
+      "event": "eval",
+      "step": 180,
+      "metrics": {
+        "eval_loss": 0.7916711,
+        "eval_runtime": 86.3023,
+        "eval_samples_per_second": 3.465,
+        "eval_steps_per_second": 3.465,
+        "eval_token_acc": 0.80619121,
+        "epoch": 0.96,
+        "global_step/max_steps": "180/188",
+        "percentage": "95.74%",
+        "elapsed_time": "37m 21s",
+        "remaining_time": "1m 39s",
+        "memory(GiB)": 45.15,
+        "train_speed(iter/s)": 0.080294
+      }
+    },
+    {
+      "event": "eval",
+      "step": 188,
+      "metrics": {
+        "eval_loss": 0.79168916,
+        "eval_runtime": 85.7725,
+        "eval_samples_per_second": 3.486,
+        "eval_steps_per_second": 3.486,
+        "eval_token_acc": 0.80643823,
+        "epoch": 1.0,
+        "global_step/max_steps": "188/188",
+        "percentage": "100.00%",
+        "elapsed_time": "40m 13s",
+        "remaining_time": "0s",
+        "memory(GiB)": 45.15,
+        "train_speed(iter/s)": 0.077907
+      }
+    }
+  ],
+  "nvidia_peak_MiB": 44628.0,
+  "step_mean_seconds": 10.269938002791296,
+  "adapter_bytes": 132195448,
+  "adapter_sha256": "85c31efe97fa05a80e8b19db98a9cb0de749e7b7be47bbd933879f3349d167fb",
+  "started": "2026-11-01T05:19:55Z",
+  "finished": "2026-11-01T06:00:55Z",
+  "merge_pass": true,
+  "vllm_pass": true,
+  "vllm_version": "0.11.0",
+  "vllm_init_seconds": 128.641,
+  "weight_bytes": 8875719328,
+  "weight_dtypes": [
+    "BF16"
+  ],
+  "processor_files_identical": [
+    "tokenizer.json",
+    "vocab.json",
+    "preprocessor_config.json",
+    "video_preprocessor_config.json",
+    "tokenizer_config.json",
+    "merges.txt",
+    "generation_config.json",
+    "chat_template.json"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "repo": "MMDL-team4/hypB-e1-structured-3k",
+  "commit": "0de38ff61af238608dc7be53358f1dac23788995",
+  "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+  "base_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05
+}

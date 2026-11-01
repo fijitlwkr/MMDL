@@ -1,0 +1,9 @@
+{
+  "repo": "MMDL-team4/hypB-e2-answer-3k",
+  "commit": "72e45c1bb07eb79179739fae949ccf80f21e891b",
+  "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+  "base_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05
+}
