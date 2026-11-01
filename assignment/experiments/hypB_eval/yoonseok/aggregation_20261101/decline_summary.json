@@ -1,0 +1,1835 @@
+{
+  "raw_sha256": {
+    "M0": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
+    "E1": "a6e307b88a0c8ab6afd4a76d6706004736ec4b8319a94a014e54fe0faa43e317",
+    "E2": "0026e5e6437f8c0ece78ca7c627847eff120783cc737e44faead4d41b8d92d1a"
+  },
+  "comparisons": {
+    "M0_vs_E1": {
+      "comparison": "M0_vs_E1",
+      "v2": {
+        "total": 900,
+        "gains": 74,
+        "losses": 147,
+        "net_gain": -73,
+        "retained_correct": 453,
+        "left_correct": 600,
+        "right_correct": 527
+      },
+      "by": {
+        "category": {
+          "Art & Design": {
+            "total": 120,
+            "gains": 7,
+            "losses": 9,
+            "net_gain": -2,
+            "retained_correct": 65,
+            "left_correct": 74,
+            "right_correct": 72,
+            "loss_share": 0.061224489795918366,
+            "loss_rate_among_left_correct": 0.12162162162162163
+          },
+          "Business": {
+            "total": 150,
+            "gains": 8,
+            "losses": 26,
+            "net_gain": -18,
+            "retained_correct": 88,
+            "left_correct": 114,
+            "right_correct": 96,
+            "loss_share": 0.17687074829931973,
+            "loss_rate_among_left_correct": 0.22807017543859648
+          },
+          "Health & Medicine": {
+            "total": 150,
+            "gains": 6,
+            "losses": 23,
+            "net_gain": -17,
+            "retained_correct": 85,
+            "left_correct": 108,
+            "right_correct": 91,
+            "loss_share": 0.1564625850340136,
+            "loss_rate_among_left_correct": 0.21296296296296297
+          },
+          "Humanities & Social Science": {
+            "total": 120,
+            "gains": 11,
+            "losses": 6,
+            "net_gain": 5,
+            "retained_correct": 80,
+            "left_correct": 86,
+            "right_correct": 91,
+            "loss_share": 0.04081632653061224,
+            "loss_rate_among_left_correct": 0.06976744186046512
+          },
+          "Science": {
+            "total": 150,
+            "gains": 18,
+            "losses": 28,
+            "net_gain": -10,
+            "retained_correct": 65,
+            "left_correct": 93,
+            "right_correct": 83,
+            "loss_share": 0.19047619047619047,
+            "loss_rate_among_left_correct": 0.3010752688172043
+          },
+          "Tech & Engineering": {
+            "total": 210,
+            "gains": 24,
+            "losses": 55,
+            "net_gain": -31,
+            "retained_correct": 70,
+            "left_correct": 125,
+            "right_correct": 94,
+            "loss_share": 0.3741496598639456,
+            "loss_rate_among_left_correct": 0.44
+          }
+        },
+        "subject": {
+          "Accounting": {
+            "total": 30,
+            "gains": 3,
+            "losses": 7,
+            "net_gain": -4,
+            "retained_correct": 15,
+            "left_correct": 22,
+            "right_correct": 18,
+            "loss_share": 0.047619047619047616,
+            "loss_rate_among_left_correct": 0.3181818181818182
+          },
+          "Agriculture": {
+            "total": 30,
+            "gains": 4,
+            "losses": 3,
+            "net_gain": 1,
+            "retained_correct": 11,
+            "left_correct": 14,
+            "right_correct": 15,
+            "loss_share": 0.02040816326530612,
+            "loss_rate_among_left_correct": 0.21428571428571427
+          },
+          "Architecture_and_Engineering": {
+            "total": 30,
+            "gains": 5,
+            "losses": 8,
+            "net_gain": -3,
+            "retained_correct": 8,
+            "left_correct": 16,
+            "right_correct": 13,
+            "loss_share": 0.05442176870748299,
+            "loss_rate_among_left_correct": 0.5
+          },
+          "Art": {
+            "total": 30,
+            "gains": 2,
+            "losses": 2,
+            "net_gain": 0,
+            "retained_correct": 16,
+            "left_correct": 18,
+            "right_correct": 18,
+            "loss_share": 0.013605442176870748,
+            "loss_rate_among_left_correct": 0.1111111111111111
+          },
+          "Art_Theory": {
+            "total": 30,
+            "gains": 1,
+            "losses": 1,
+            "net_gain": 0,
+            "retained_correct": 23,
+            "left_correct": 24,
+            "right_correct": 24,
+            "loss_share": 0.006802721088435374,
+            "loss_rate_among_left_correct": 0.041666666666666664
+          },
+          "Basic_Medical_Science": {
+            "total": 30,
+            "gains": 0,
+            "losses": 2,
+            "net_gain": -2,
+            "retained_correct": 21,
+            "left_correct": 23,
+            "right_correct": 21,
+            "loss_share": 0.013605442176870748,
+            "loss_rate_among_left_correct": 0.08695652173913043
+          },
+          "Biology": {
+            "total": 30,
+            "gains": 3,
+            "losses": 3,
+            "net_gain": 0,
+            "retained_correct": 12,
+            "left_correct": 15,
+            "right_correct": 15,
+            "loss_share": 0.02040816326530612,
+            "loss_rate_among_left_correct": 0.2
+          },
+          "Chemistry": {
+            "total": 30,
+            "gains": 4,
+            "losses": 7,
+            "net_gain": -3,
+            "retained_correct": 10,
+            "left_correct": 17,
+            "right_correct": 14,
+            "loss_share": 0.047619047619047616,
+            "loss_rate_among_left_correct": 0.4117647058823529
+          },
+          "Clinical_Medicine": {
+            "total": 30,
+            "gains": 1,
+            "losses": 4,
+            "net_gain": -3,
+            "retained_correct": 20,
+            "left_correct": 24,
+            "right_correct": 21,
+            "loss_share": 0.027210884353741496,
+            "loss_rate_among_left_correct": 0.16666666666666666
+          },
+          "Computer_Science": {
+            "total": 30,
+            "gains": 1,
+            "losses": 6,
+            "net_gain": -5,
+            "retained_correct": 13,
+            "left_correct": 19,
+            "right_correct": 14,
+            "loss_share": 0.04081632653061224,
+            "loss_rate_among_left_correct": 0.3157894736842105
+          },
+          "Design": {
+            "total": 30,
+            "gains": 1,
+            "losses": 3,
+            "net_gain": -2,
+            "retained_correct": 22,
+            "left_correct": 25,
+            "right_correct": 23,
+            "loss_share": 0.02040816326530612,
+            "loss_rate_among_left_correct": 0.12
+          },
+          "Diagnostics_and_Laboratory_Medicine": {
+            "total": 30,
+            "gains": 2,
+            "losses": 5,
+            "net_gain": -3,
+            "retained_correct": 5,
+            "left_correct": 10,
+            "right_correct": 7,
+            "loss_share": 0.034013605442176874,
+            "loss_rate_among_left_correct": 0.5
+          },
+          "Economics": {
+            "total": 30,
+            "gains": 2,
+            "losses": 3,
+            "net_gain": -1,
+            "retained_correct": 22,
+            "left_correct": 25,
+            "right_correct": 24,
+            "loss_share": 0.02040816326530612,
+            "loss_rate_among_left_correct": 0.12
+          },
+          "Electronics": {
+            "total": 30,
+            "gains": 1,
+            "losses": 10,
+            "net_gain": -9,
+            "retained_correct": 14,
+            "left_correct": 24,
+            "right_correct": 15,
+            "loss_share": 0.06802721088435375,
+            "loss_rate_among_left_correct": 0.4166666666666667
+          },
+          "Energy_and_Power": {
+            "total": 30,
+            "gains": 3,
+            "losses": 7,
+            "net_gain": -4,
+            "retained_correct": 12,
+            "left_correct": 19,
+            "right_correct": 15,
+            "loss_share": 0.047619047619047616,
+            "loss_rate_among_left_correct": 0.3684210526315789
+          },
+          "Finance": {
+            "total": 30,
+            "gains": 1,
+            "losses": 7,
+            "net_gain": -6,
+            "retained_correct": 14,
+            "left_correct": 21,
+            "right_correct": 15,
+            "loss_share": 0.047619047619047616,
+            "loss_rate_among_left_correct": 0.3333333333333333
+          },
+          "Geography": {
+            "total": 30,
+            "gains": 3,
+            "losses": 7,
+            "net_gain": -4,
+            "retained_correct": 12,
+            "left_correct": 19,
+            "right_correct": 15,
+            "loss_share": 0.047619047619047616,
+            "loss_rate_among_left_correct": 0.3684210526315789
+          },
+          "History": {
+            "total": 30,
+            "gains": 2,
+            "losses": 2,
+            "net_gain": 0,
+            "retained_correct": 19,
+            "left_correct": 21,
+            "right_correct": 21,
+            "loss_share": 0.013605442176870748,
+            "loss_rate_among_left_correct": 0.09523809523809523
+          },
+          "Literature": {
+            "total": 30,
+            "gains": 2,
+            "losses": 2,
+            "net_gain": 0,
+            "retained_correct": 22,
+            "left_correct": 24,
+            "right_correct": 24,
+            "loss_share": 0.013605442176870748,
+            "loss_rate_among_left_correct": 0.08333333333333333
+          },
+          "Manage": {
+            "total": 30,
+            "gains": 1,
+            "losses": 4,
+            "net_gain": -3,
+            "retained_correct": 17,
+            "left_correct": 21,
+            "right_correct": 18,
+            "loss_share": 0.027210884353741496,
+            "loss_rate_among_left_correct": 0.19047619047619047
+          },
+          "Marketing": {
+            "total": 30,
+            "gains": 1,
+            "losses": 5,
+            "net_gain": -4,
+            "retained_correct": 20,
+            "left_correct": 25,
+            "right_correct": 21,
+            "loss_share": 0.034013605442176874,
+            "loss_rate_among_left_correct": 0.2
+          },
+          "Materials": {
+            "total": 30,
+            "gains": 4,
+            "losses": 16,
+            "net_gain": -12,
+            "retained_correct": 5,
+            "left_correct": 21,
+            "right_correct": 9,
+            "loss_share": 0.10884353741496598,
+            "loss_rate_among_left_correct": 0.7619047619047619
+          },
+          "Math": {
+            "total": 30,
+            "gains": 5,
+            "losses": 3,
+            "net_gain": 2,
+            "retained_correct": 16,
+            "left_correct": 19,
+            "right_correct": 21,
+            "loss_share": 0.02040816326530612,
+            "loss_rate_among_left_correct": 0.15789473684210525
+          },
+          "Mechanical_Engineering": {
+            "total": 30,
+            "gains": 6,
+            "losses": 5,
+            "net_gain": 1,
+            "retained_correct": 7,
+            "left_correct": 12,
+            "right_correct": 13,
+            "loss_share": 0.034013605442176874,
+            "loss_rate_among_left_correct": 0.4166666666666667
+          },
+          "Music": {
+            "total": 30,
+            "gains": 3,
+            "losses": 3,
+            "net_gain": 0,
+            "retained_correct": 4,
+            "left_correct": 7,
+            "right_correct": 7,
+            "loss_share": 0.02040816326530612,
+            "loss_rate_among_left_correct": 0.42857142857142855
+          },
+          "Pharmacy": {
+            "total": 30,
+            "gains": 3,
+            "losses": 4,
+            "net_gain": -1,
+            "retained_correct": 19,
+            "left_correct": 23,
+            "right_correct": 22,
+            "loss_share": 0.027210884353741496,
+            "loss_rate_among_left_correct": 0.17391304347826086
+          },
+          "Physics": {
+            "total": 30,
+            "gains": 3,
+            "losses": 8,
+            "net_gain": -5,
+            "retained_correct": 15,
+            "left_correct": 23,
+            "right_correct": 18,
+            "loss_share": 0.05442176870748299,
+            "loss_rate_among_left_correct": 0.34782608695652173
+          },
+          "Psychology": {
+            "total": 30,
+            "gains": 3,
+            "losses": 1,
+            "net_gain": 2,
+            "retained_correct": 21,
+            "left_correct": 22,
+            "right_correct": 24,
+            "loss_share": 0.006802721088435374,
+            "loss_rate_among_left_correct": 0.045454545454545456
+          },
+          "Public_Health": {
+            "total": 30,
+            "gains": 0,
+            "losses": 8,
+            "net_gain": -8,
+            "retained_correct": 20,
+            "left_correct": 28,
+            "right_correct": 20,
+            "loss_share": 0.05442176870748299,
+            "loss_rate_among_left_correct": 0.2857142857142857
+          },
+          "Sociology": {
+            "total": 30,
+            "gains": 4,
+            "losses": 1,
+            "net_gain": 3,
+            "retained_correct": 18,
+            "left_correct": 19,
+            "right_correct": 22,
+            "loss_share": 0.006802721088435374,
+            "loss_rate_among_left_correct": 0.05263157894736842
+          }
+        },
+        "question_type": {
+          "multiple-choice": {
+            "total": 847,
+            "gains": 72,
+            "losses": 133,
+            "net_gain": -61,
+            "retained_correct": 427,
+            "left_correct": 560,
+            "right_correct": 499,
+            "loss_share": 0.9047619047619048,
+            "loss_rate_among_left_correct": 0.2375
+          },
+          "open": {
+            "total": 53,
+            "gains": 2,
+            "losses": 14,
+            "net_gain": -12,
+            "retained_correct": 26,
+            "left_correct": 40,
+            "right_correct": 28,
+            "loss_share": 0.09523809523809523,
+            "loss_rate_among_left_correct": 0.35
+          }
+        }
+      },
+      "loss_lengths": {
+        "left": {
+          "count": 147,
+          "total": 460718,
+          "mean": 3134.1360544217687,
+          "median": 1962,
+          "min": 10,
+          "max": 8192
+        },
+        "right": {
+          "count": 147,
+          "total": 204467,
+          "mean": 1390.9319727891157,
+          "median": 876,
+          "min": 405,
+          "max": 8192
+        },
+        "shorter": 86,
+        "equal": 0,
+        "longer": 61,
+        "left_length_ended": 27,
+        "right_length_ended": 1
+      },
+      "gain_lengths": {
+        "left": {
+          "count": 74,
+          "total": 244591,
+          "mean": 3305.2837837837837,
+          "median": 807.0,
+          "min": 4,
+          "max": 8192
+        },
+        "right": {
+          "count": 74,
+          "total": 92980,
+          "mean": 1256.4864864864865,
+          "median": 727.0,
+          "min": 401,
+          "max": 5127
+        },
+        "shorter": 37,
+        "equal": 0,
+        "longer": 37,
+        "left_length_ended": 24,
+        "right_length_ended": 0
+      },
+      "all_lengths": {
+        "left": {
+          "count": 900,
+          "total": 1813255,
+          "mean": 2014.7277777777779,
+          "median": 456.0,
+          "min": 4,
+          "max": 8192
+        },
+        "right": {
+          "count": 900,
+          "total": 920965,
+          "mean": 1023.2944444444445,
+          "median": 704.0,
+          "min": 264,
+          "max": 8192
+        },
+        "shorter": 320,
+        "equal": 5,
+        "longer": 575,
+        "left_length_ended": 128,
+        "right_length_ended": 6
+      },
+      "loss_route_transitions": {
+        "auto -> auto": 80,
+        "auto -> judge_rule_failure": 8,
+        "judge_rule_failure -> auto": 44,
+        "judge_rule_failure -> judge_conflict": 1,
+        "judge_rule_failure -> judge_rule_failure": 14
+      },
+      "gain_route_transitions": {
+        "auto -> auto": 39,
+        "auto -> judge_conflict": 3,
+        "judge_rule_failure -> auto": 30,
+        "judge_rule_failure -> judge_rule_failure": 2
+      },
+      "loss_right_status": {
+        "complete_rule": 124,
+        "extraction_failure": 21,
+        "complete_judge": 2
+      },
+      "multiple-choice": {
+        "v2": {
+          "total": 847,
+          "gains": 72,
+          "losses": 133,
+          "net_gain": -61,
+          "retained_correct": 427,
+          "left_correct": 560,
+          "right_correct": 499
+        },
+        "loss_lengths": {
+          "left": {
+            "count": 133,
+            "total": 400836,
+            "mean": 3013.8045112781956,
+            "median": 1788,
+            "min": 10,
+            "max": 8192
+          },
+          "right": {
+            "count": 133,
+            "total": 189186,
+            "mean": 1422.451127819549,
+            "median": 867,
+            "min": 405,
+            "max": 8192
+          },
+          "shorter": 75,
+          "equal": 0,
+          "longer": 58,
+          "left_length_ended": 22,
+          "right_length_ended": 1
+        },
+        "loss_route_transitions": {
+          "auto -> auto": 80,
+          "auto -> judge_rule_failure": 5,
+          "judge_rule_failure -> auto": 44,
+          "judge_rule_failure -> judge_conflict": 1,
+          "judge_rule_failure -> judge_rule_failure": 3
+        },
+        "loss_right_status": {
+          "complete_rule": 124,
+          "extraction_failure": 7,
+          "complete_judge": 2
+        }
+      },
+      "open": {
+        "v2": {
+          "total": 53,
+          "gains": 2,
+          "losses": 14,
+          "net_gain": -12,
+          "retained_correct": 26,
+          "left_correct": 40,
+          "right_correct": 28
+        },
+        "loss_lengths": {
+          "left": {
+            "count": 14,
+            "total": 59882,
+            "mean": 4277.285714285715,
+            "median": 3467.5,
+            "min": 557,
+            "max": 8192
+          },
+          "right": {
+            "count": 14,
+            "total": 15281,
+            "mean": 1091.5,
+            "median": 932.5,
+            "min": 587,
+            "max": 2501
+          },
+          "shorter": 11,
+          "equal": 0,
+          "longer": 3,
+          "left_length_ended": 5,
+          "right_length_ended": 0
+        },
+        "loss_route_transitions": {
+          "auto -> judge_rule_failure": 3,
+          "judge_rule_failure -> judge_rule_failure": 11
+        },
+        "loss_right_status": {
+          "extraction_failure": 14
+        }
+      }
+    },
+    "M0_vs_E2": {
+      "comparison": "M0_vs_E2",
+      "v2": {
+        "total": 900,
+        "gains": 71,
+        "losses": 178,
+        "net_gain": -107,
+        "retained_correct": 422,
+        "left_correct": 600,
+        "right_correct": 493
+      },
+      "by": {
+        "category": {
+          "Art & Design": {
+            "total": 120,
+            "gains": 11,
+            "losses": 11,
+            "net_gain": 0,
+            "retained_correct": 63,
+            "left_correct": 74,
+            "right_correct": 74,
+            "loss_share": 0.06179775280898876,
+            "loss_rate_among_left_correct": 0.14864864864864866
+          },
+          "Business": {
+            "total": 150,
+            "gains": 8,
+            "losses": 42,
+            "net_gain": -34,
+            "retained_correct": 72,
+            "left_correct": 114,
+            "right_correct": 80,
+            "loss_share": 0.23595505617977527,
+            "loss_rate_among_left_correct": 0.3684210526315789
+          },
+          "Health & Medicine": {
+            "total": 150,
+            "gains": 9,
+            "losses": 31,
+            "net_gain": -22,
+            "retained_correct": 77,
+            "left_correct": 108,
+            "right_correct": 86,
+            "loss_share": 0.17415730337078653,
+            "loss_rate_among_left_correct": 0.28703703703703703
+          },
+          "Humanities & Social Science": {
+            "total": 120,
+            "gains": 7,
+            "losses": 9,
+            "net_gain": -2,
+            "retained_correct": 77,
+            "left_correct": 86,
+            "right_correct": 84,
+            "loss_share": 0.05056179775280899,
+            "loss_rate_among_left_correct": 0.10465116279069768
+          },
+          "Science": {
+            "total": 150,
+            "gains": 18,
+            "losses": 37,
+            "net_gain": -19,
+            "retained_correct": 56,
+            "left_correct": 93,
+            "right_correct": 74,
+            "loss_share": 0.20786516853932585,
+            "loss_rate_among_left_correct": 0.3978494623655914
+          },
+          "Tech & Engineering": {
+            "total": 210,
+            "gains": 18,
+            "losses": 48,
+            "net_gain": -30,
+            "retained_correct": 77,
+            "left_correct": 125,
+            "right_correct": 95,
+            "loss_share": 0.2696629213483146,
+            "loss_rate_among_left_correct": 0.384
+          }
+        },
+        "subject": {
+          "Accounting": {
+            "total": 30,
+            "gains": 2,
+            "losses": 9,
+            "net_gain": -7,
+            "retained_correct": 13,
+            "left_correct": 22,
+            "right_correct": 15,
+            "loss_share": 0.05056179775280899,
+            "loss_rate_among_left_correct": 0.4090909090909091
+          },
+          "Agriculture": {
+            "total": 30,
+            "gains": 2,
+            "losses": 2,
+            "net_gain": 0,
+            "retained_correct": 12,
+            "left_correct": 14,
+            "right_correct": 14,
+            "loss_share": 0.011235955056179775,
+            "loss_rate_among_left_correct": 0.14285714285714285
+          },
+          "Architecture_and_Engineering": {
+            "total": 30,
+            "gains": 1,
+            "losses": 5,
+            "net_gain": -4,
+            "retained_correct": 11,
+            "left_correct": 16,
+            "right_correct": 12,
+            "loss_share": 0.028089887640449437,
+            "loss_rate_among_left_correct": 0.3125
+          },
+          "Art": {
+            "total": 30,
+            "gains": 3,
+            "losses": 2,
+            "net_gain": 1,
+            "retained_correct": 16,
+            "left_correct": 18,
+            "right_correct": 19,
+            "loss_share": 0.011235955056179775,
+            "loss_rate_among_left_correct": 0.1111111111111111
+          },
+          "Art_Theory": {
+            "total": 30,
+            "gains": 2,
+            "losses": 1,
+            "net_gain": 1,
+            "retained_correct": 23,
+            "left_correct": 24,
+            "right_correct": 25,
+            "loss_share": 0.0056179775280898875,
+            "loss_rate_among_left_correct": 0.041666666666666664
+          },
+          "Basic_Medical_Science": {
+            "total": 30,
+            "gains": 2,
+            "losses": 5,
+            "net_gain": -3,
+            "retained_correct": 18,
+            "left_correct": 23,
+            "right_correct": 20,
+            "loss_share": 0.028089887640449437,
+            "loss_rate_among_left_correct": 0.21739130434782608
+          },
+          "Biology": {
+            "total": 30,
+            "gains": 5,
+            "losses": 2,
+            "net_gain": 3,
+            "retained_correct": 13,
+            "left_correct": 15,
+            "right_correct": 18,
+            "loss_share": 0.011235955056179775,
+            "loss_rate_among_left_correct": 0.13333333333333333
+          },
+          "Chemistry": {
+            "total": 30,
+            "gains": 4,
+            "losses": 9,
+            "net_gain": -5,
+            "retained_correct": 8,
+            "left_correct": 17,
+            "right_correct": 12,
+            "loss_share": 0.05056179775280899,
+            "loss_rate_among_left_correct": 0.5294117647058824
+          },
+          "Clinical_Medicine": {
+            "total": 30,
+            "gains": 1,
+            "losses": 7,
+            "net_gain": -6,
+            "retained_correct": 17,
+            "left_correct": 24,
+            "right_correct": 18,
+            "loss_share": 0.03932584269662921,
+            "loss_rate_among_left_correct": 0.2916666666666667
+          },
+          "Computer_Science": {
+            "total": 30,
+            "gains": 4,
+            "losses": 11,
+            "net_gain": -7,
+            "retained_correct": 8,
+            "left_correct": 19,
+            "right_correct": 12,
+            "loss_share": 0.06179775280898876,
+            "loss_rate_among_left_correct": 0.5789473684210527
+          },
+          "Design": {
+            "total": 30,
+            "gains": 1,
+            "losses": 3,
+            "net_gain": -2,
+            "retained_correct": 22,
+            "left_correct": 25,
+            "right_correct": 23,
+            "loss_share": 0.016853932584269662,
+            "loss_rate_among_left_correct": 0.12
+          },
+          "Diagnostics_and_Laboratory_Medicine": {
+            "total": 30,
+            "gains": 3,
+            "losses": 3,
+            "net_gain": 0,
+            "retained_correct": 7,
+            "left_correct": 10,
+            "right_correct": 10,
+            "loss_share": 0.016853932584269662,
+            "loss_rate_among_left_correct": 0.3
+          },
+          "Economics": {
+            "total": 30,
+            "gains": 0,
+            "losses": 4,
+            "net_gain": -4,
+            "retained_correct": 21,
+            "left_correct": 25,
+            "right_correct": 21,
+            "loss_share": 0.02247191011235955,
+            "loss_rate_among_left_correct": 0.16
+          },
+          "Electronics": {
+            "total": 30,
+            "gains": 1,
+            "losses": 8,
+            "net_gain": -7,
+            "retained_correct": 16,
+            "left_correct": 24,
+            "right_correct": 17,
+            "loss_share": 0.0449438202247191,
+            "loss_rate_among_left_correct": 0.3333333333333333
+          },
+          "Energy_and_Power": {
+            "total": 30,
+            "gains": 3,
+            "losses": 6,
+            "net_gain": -3,
+            "retained_correct": 13,
+            "left_correct": 19,
+            "right_correct": 16,
+            "loss_share": 0.033707865168539325,
+            "loss_rate_among_left_correct": 0.3157894736842105
+          },
+          "Finance": {
+            "total": 30,
+            "gains": 2,
+            "losses": 11,
+            "net_gain": -9,
+            "retained_correct": 10,
+            "left_correct": 21,
+            "right_correct": 12,
+            "loss_share": 0.06179775280898876,
+            "loss_rate_among_left_correct": 0.5238095238095238
+          },
+          "Geography": {
+            "total": 30,
+            "gains": 5,
+            "losses": 7,
+            "net_gain": -2,
+            "retained_correct": 12,
+            "left_correct": 19,
+            "right_correct": 17,
+            "loss_share": 0.03932584269662921,
+            "loss_rate_among_left_correct": 0.3684210526315789
+          },
+          "History": {
+            "total": 30,
+            "gains": 2,
+            "losses": 1,
+            "net_gain": 1,
+            "retained_correct": 20,
+            "left_correct": 21,
+            "right_correct": 22,
+            "loss_share": 0.0056179775280898875,
+            "loss_rate_among_left_correct": 0.047619047619047616
+          },
+          "Literature": {
+            "total": 30,
+            "gains": 1,
+            "losses": 0,
+            "net_gain": 1,
+            "retained_correct": 24,
+            "left_correct": 24,
+            "right_correct": 25,
+            "loss_share": 0.0,
+            "loss_rate_among_left_correct": 0.0
+          },
+          "Manage": {
+            "total": 30,
+            "gains": 3,
+            "losses": 8,
+            "net_gain": -5,
+            "retained_correct": 13,
+            "left_correct": 21,
+            "right_correct": 16,
+            "loss_share": 0.0449438202247191,
+            "loss_rate_among_left_correct": 0.38095238095238093
+          },
+          "Marketing": {
+            "total": 30,
+            "gains": 1,
+            "losses": 10,
+            "net_gain": -9,
+            "retained_correct": 15,
+            "left_correct": 25,
+            "right_correct": 16,
+            "loss_share": 0.056179775280898875,
+            "loss_rate_among_left_correct": 0.4
+          },
+          "Materials": {
+            "total": 30,
+            "gains": 2,
+            "losses": 9,
+            "net_gain": -7,
+            "retained_correct": 12,
+            "left_correct": 21,
+            "right_correct": 14,
+            "loss_share": 0.05056179775280899,
+            "loss_rate_among_left_correct": 0.42857142857142855
+          },
+          "Math": {
+            "total": 30,
+            "gains": 3,
+            "losses": 8,
+            "net_gain": -5,
+            "retained_correct": 11,
+            "left_correct": 19,
+            "right_correct": 14,
+            "loss_share": 0.0449438202247191,
+            "loss_rate_among_left_correct": 0.42105263157894735
+          },
+          "Mechanical_Engineering": {
+            "total": 30,
+            "gains": 5,
+            "losses": 7,
+            "net_gain": -2,
+            "retained_correct": 5,
+            "left_correct": 12,
+            "right_correct": 10,
+            "loss_share": 0.03932584269662921,
+            "loss_rate_among_left_correct": 0.5833333333333334
+          },
+          "Music": {
+            "total": 30,
+            "gains": 5,
+            "losses": 5,
+            "net_gain": 0,
+            "retained_correct": 2,
+            "left_correct": 7,
+            "right_correct": 7,
+            "loss_share": 0.028089887640449437,
+            "loss_rate_among_left_correct": 0.7142857142857143
+          },
+          "Pharmacy": {
+            "total": 30,
+            "gains": 3,
+            "losses": 5,
+            "net_gain": -2,
+            "retained_correct": 18,
+            "left_correct": 23,
+            "right_correct": 21,
+            "loss_share": 0.028089887640449437,
+            "loss_rate_among_left_correct": 0.21739130434782608
+          },
+          "Physics": {
+            "total": 30,
+            "gains": 1,
+            "losses": 11,
+            "net_gain": -10,
+            "retained_correct": 12,
+            "left_correct": 23,
+            "right_correct": 13,
+            "loss_share": 0.06179775280898876,
+            "loss_rate_among_left_correct": 0.4782608695652174
+          },
+          "Psychology": {
+            "total": 30,
+            "gains": 1,
+            "losses": 2,
+            "net_gain": -1,
+            "retained_correct": 20,
+            "left_correct": 22,
+            "right_correct": 21,
+            "loss_share": 0.011235955056179775,
+            "loss_rate_among_left_correct": 0.09090909090909091
+          },
+          "Public_Health": {
+            "total": 30,
+            "gains": 0,
+            "losses": 11,
+            "net_gain": -11,
+            "retained_correct": 17,
+            "left_correct": 28,
+            "right_correct": 17,
+            "loss_share": 0.06179775280898876,
+            "loss_rate_among_left_correct": 0.39285714285714285
+          },
+          "Sociology": {
+            "total": 30,
+            "gains": 3,
+            "losses": 6,
+            "net_gain": -3,
+            "retained_correct": 13,
+            "left_correct": 19,
+            "right_correct": 16,
+            "loss_share": 0.033707865168539325,
+            "loss_rate_among_left_correct": 0.3157894736842105
+          }
+        },
+        "question_type": {
+          "multiple-choice": {
+            "total": 847,
+            "gains": 69,
+            "losses": 153,
+            "net_gain": -84,
+            "retained_correct": 407,
+            "left_correct": 560,
+            "right_correct": 476,
+            "loss_share": 0.8595505617977528,
+            "loss_rate_among_left_correct": 0.2732142857142857
+          },
+          "open": {
+            "total": 53,
+            "gains": 2,
+            "losses": 25,
+            "net_gain": -23,
+            "retained_correct": 15,
+            "left_correct": 40,
+            "right_correct": 17,
+            "loss_share": 0.1404494382022472,
+            "loss_rate_among_left_correct": 0.625
+          }
+        }
+      },
+      "loss_lengths": {
+        "left": {
+          "count": 178,
+          "total": 407321,
+          "mean": 2288.320224719101,
+          "median": 840.5,
+          "min": 73,
+          "max": 8192
+        },
+        "right": {
+          "count": 178,
+          "total": 979,
+          "mean": 5.5,
+          "median": 5.0,
+          "min": 5,
+          "max": 14
+        },
+        "shorter": 178,
+        "equal": 0,
+        "longer": 0,
+        "left_length_ended": 23,
+        "right_length_ended": 0
+      },
+      "gain_lengths": {
+        "left": {
+          "count": 71,
+          "total": 219801,
+          "mean": 3095.788732394366,
+          "median": 962,
+          "min": 4,
+          "max": 8192
+        },
+        "right": {
+          "count": 71,
+          "total": 365,
+          "mean": 5.140845070422535,
+          "median": 5,
+          "min": 5,
+          "max": 11
+        },
+        "shorter": 69,
+        "equal": 0,
+        "longer": 2,
+        "left_length_ended": 19,
+        "right_length_ended": 0
+      },
+      "all_lengths": {
+        "left": {
+          "count": 900,
+          "total": 1813255,
+          "mean": 2014.7277777777779,
+          "median": 456.0,
+          "min": 4,
+          "max": 8192
+        },
+        "right": {
+          "count": 900,
+          "total": 4691,
+          "mean": 5.2122222222222225,
+          "median": 5.0,
+          "min": 5,
+          "max": 19
+        },
+        "shorter": 881,
+        "equal": 6,
+        "longer": 13,
+        "left_length_ended": 128,
+        "right_length_ended": 0
+      },
+      "loss_route_transitions": {
+        "auto -> auto": 100,
+        "auto -> judge_rule_failure": 10,
+        "judge_rule_failure -> auto": 53,
+        "judge_rule_failure -> judge_rule_failure": 15
+      },
+      "gain_route_transitions": {
+        "auto -> auto": 40,
+        "judge_rule_failure -> auto": 31
+      },
+      "loss_right_status": {
+        "complete_rule": 153,
+        "extraction_failure": 22,
+        "complete_judge": 3
+      },
+      "multiple-choice": {
+        "v2": {
+          "total": 847,
+          "gains": 69,
+          "losses": 153,
+          "net_gain": -84,
+          "retained_correct": 407,
+          "left_correct": 560,
+          "right_correct": 476
+        },
+        "loss_lengths": {
+          "left": {
+            "count": 153,
+            "total": 326939,
+            "mean": 2136.856209150327,
+            "median": 738,
+            "min": 73,
+            "max": 8192
+          },
+          "right": {
+            "count": 153,
+            "total": 765,
+            "mean": 5,
+            "median": 5,
+            "min": 5,
+            "max": 5
+          },
+          "shorter": 153,
+          "equal": 0,
+          "longer": 0,
+          "left_length_ended": 17,
+          "right_length_ended": 0
+        },
+        "loss_route_transitions": {
+          "auto -> auto": 100,
+          "judge_rule_failure -> auto": 53
+        },
+        "loss_right_status": {
+          "complete_rule": 153
+        }
+      },
+      "open": {
+        "v2": {
+          "total": 53,
+          "gains": 2,
+          "losses": 25,
+          "net_gain": -23,
+          "retained_correct": 15,
+          "left_correct": 40,
+          "right_correct": 17
+        },
+        "loss_lengths": {
+          "left": {
+            "count": 25,
+            "total": 80382,
+            "mean": 3215.28,
+            "median": 1280,
+            "min": 91,
+            "max": 8192
+          },
+          "right": {
+            "count": 25,
+            "total": 214,
+            "mean": 8.56,
+            "median": 9,
+            "min": 5,
+            "max": 14
+          },
+          "shorter": 25,
+          "equal": 0,
+          "longer": 0,
+          "left_length_ended": 6,
+          "right_length_ended": 0
+        },
+        "loss_route_transitions": {
+          "auto -> judge_rule_failure": 10,
+          "judge_rule_failure -> judge_rule_failure": 15
+        },
+        "loss_right_status": {
+          "extraction_failure": 22,
+          "complete_judge": 3
+        }
+      }
+    },
+    "E1_vs_E2": {
+      "comparison": "E1_vs_E2",
+      "v2": {
+        "total": 900,
+        "gains": 121,
+        "losses": 155,
+        "net_gain": -34,
+        "retained_correct": 372,
+        "left_correct": 527,
+        "right_correct": 493
+      },
+      "by": {
+        "category": {
+          "Art & Design": {
+            "total": 120,
+            "gains": 13,
+            "losses": 11,
+            "net_gain": 2,
+            "retained_correct": 61,
+            "left_correct": 72,
+            "right_correct": 74,
+            "loss_share": 0.07096774193548387,
+            "loss_rate_among_left_correct": 0.1527777777777778
+          },
+          "Business": {
+            "total": 150,
+            "gains": 19,
+            "losses": 35,
+            "net_gain": -16,
+            "retained_correct": 61,
+            "left_correct": 96,
+            "right_correct": 80,
+            "loss_share": 0.22580645161290322,
+            "loss_rate_among_left_correct": 0.3645833333333333
+          },
+          "Health & Medicine": {
+            "total": 150,
+            "gains": 19,
+            "losses": 24,
+            "net_gain": -5,
+            "retained_correct": 67,
+            "left_correct": 91,
+            "right_correct": 86,
+            "loss_share": 0.15483870967741936,
+            "loss_rate_among_left_correct": 0.26373626373626374
+          },
+          "Humanities & Social Science": {
+            "total": 120,
+            "gains": 10,
+            "losses": 17,
+            "net_gain": -7,
+            "retained_correct": 74,
+            "left_correct": 91,
+            "right_correct": 84,
+            "loss_share": 0.10967741935483871,
+            "loss_rate_among_left_correct": 0.18681318681318682
+          },
+          "Science": {
+            "total": 150,
+            "gains": 18,
+            "losses": 27,
+            "net_gain": -9,
+            "retained_correct": 56,
+            "left_correct": 83,
+            "right_correct": 74,
+            "loss_share": 0.17419354838709677,
+            "loss_rate_among_left_correct": 0.3253012048192771
+          },
+          "Tech & Engineering": {
+            "total": 210,
+            "gains": 42,
+            "losses": 41,
+            "net_gain": 1,
+            "retained_correct": 53,
+            "left_correct": 94,
+            "right_correct": 95,
+            "loss_share": 0.2645161290322581,
+            "loss_rate_among_left_correct": 0.43617021276595747
+          }
+        },
+        "subject": {
+          "Accounting": {
+            "total": 30,
+            "gains": 5,
+            "losses": 8,
+            "net_gain": -3,
+            "retained_correct": 10,
+            "left_correct": 18,
+            "right_correct": 15,
+            "loss_share": 0.05161290322580645,
+            "loss_rate_among_left_correct": 0.4444444444444444
+          },
+          "Agriculture": {
+            "total": 30,
+            "gains": 4,
+            "losses": 5,
+            "net_gain": -1,
+            "retained_correct": 10,
+            "left_correct": 15,
+            "right_correct": 14,
+            "loss_share": 0.03225806451612903,
+            "loss_rate_among_left_correct": 0.3333333333333333
+          },
+          "Architecture_and_Engineering": {
+            "total": 30,
+            "gains": 7,
+            "losses": 8,
+            "net_gain": -1,
+            "retained_correct": 5,
+            "left_correct": 13,
+            "right_correct": 12,
+            "loss_share": 0.05161290322580645,
+            "loss_rate_among_left_correct": 0.6153846153846154
+          },
+          "Art": {
+            "total": 30,
+            "gains": 5,
+            "losses": 4,
+            "net_gain": 1,
+            "retained_correct": 14,
+            "left_correct": 18,
+            "right_correct": 19,
+            "loss_share": 0.025806451612903226,
+            "loss_rate_among_left_correct": 0.2222222222222222
+          },
+          "Art_Theory": {
+            "total": 30,
+            "gains": 2,
+            "losses": 1,
+            "net_gain": 1,
+            "retained_correct": 23,
+            "left_correct": 24,
+            "right_correct": 25,
+            "loss_share": 0.0064516129032258064,
+            "loss_rate_among_left_correct": 0.041666666666666664
+          },
+          "Basic_Medical_Science": {
+            "total": 30,
+            "gains": 2,
+            "losses": 3,
+            "net_gain": -1,
+            "retained_correct": 18,
+            "left_correct": 21,
+            "right_correct": 20,
+            "loss_share": 0.01935483870967742,
+            "loss_rate_among_left_correct": 0.14285714285714285
+          },
+          "Biology": {
+            "total": 30,
+            "gains": 5,
+            "losses": 2,
+            "net_gain": 3,
+            "retained_correct": 13,
+            "left_correct": 15,
+            "right_correct": 18,
+            "loss_share": 0.012903225806451613,
+            "loss_rate_among_left_correct": 0.13333333333333333
+          },
+          "Chemistry": {
+            "total": 30,
+            "gains": 5,
+            "losses": 7,
+            "net_gain": -2,
+            "retained_correct": 7,
+            "left_correct": 14,
+            "right_correct": 12,
+            "loss_share": 0.04516129032258064,
+            "loss_rate_among_left_correct": 0.5
+          },
+          "Clinical_Medicine": {
+            "total": 30,
+            "gains": 4,
+            "losses": 7,
+            "net_gain": -3,
+            "retained_correct": 14,
+            "left_correct": 21,
+            "right_correct": 18,
+            "loss_share": 0.04516129032258064,
+            "loss_rate_among_left_correct": 0.3333333333333333
+          },
+          "Computer_Science": {
+            "total": 30,
+            "gains": 4,
+            "losses": 6,
+            "net_gain": -2,
+            "retained_correct": 8,
+            "left_correct": 14,
+            "right_correct": 12,
+            "loss_share": 0.03870967741935484,
+            "loss_rate_among_left_correct": 0.42857142857142855
+          },
+          "Design": {
+            "total": 30,
+            "gains": 1,
+            "losses": 1,
+            "net_gain": 0,
+            "retained_correct": 22,
+            "left_correct": 23,
+            "right_correct": 23,
+            "loss_share": 0.0064516129032258064,
+            "loss_rate_among_left_correct": 0.043478260869565216
+          },
+          "Diagnostics_and_Laboratory_Medicine": {
+            "total": 30,
+            "gains": 5,
+            "losses": 2,
+            "net_gain": 3,
+            "retained_correct": 5,
+            "left_correct": 7,
+            "right_correct": 10,
+            "loss_share": 0.012903225806451613,
+            "loss_rate_among_left_correct": 0.2857142857142857
+          },
+          "Economics": {
+            "total": 30,
+            "gains": 2,
+            "losses": 5,
+            "net_gain": -3,
+            "retained_correct": 19,
+            "left_correct": 24,
+            "right_correct": 21,
+            "loss_share": 0.03225806451612903,
+            "loss_rate_among_left_correct": 0.20833333333333334
+          },
+          "Electronics": {
+            "total": 30,
+            "gains": 6,
+            "losses": 4,
+            "net_gain": 2,
+            "retained_correct": 11,
+            "left_correct": 15,
+            "right_correct": 17,
+            "loss_share": 0.025806451612903226,
+            "loss_rate_among_left_correct": 0.26666666666666666
+          },
+          "Energy_and_Power": {
+            "total": 30,
+            "gains": 7,
+            "losses": 6,
+            "net_gain": 1,
+            "retained_correct": 9,
+            "left_correct": 15,
+            "right_correct": 16,
+            "loss_share": 0.03870967741935484,
+            "loss_rate_among_left_correct": 0.4
+          },
+          "Finance": {
+            "total": 30,
+            "gains": 4,
+            "losses": 7,
+            "net_gain": -3,
+            "retained_correct": 8,
+            "left_correct": 15,
+            "right_correct": 12,
+            "loss_share": 0.04516129032258064,
+            "loss_rate_among_left_correct": 0.4666666666666667
+          },
+          "Geography": {
+            "total": 30,
+            "gains": 6,
+            "losses": 4,
+            "net_gain": 2,
+            "retained_correct": 11,
+            "left_correct": 15,
+            "right_correct": 17,
+            "loss_share": 0.025806451612903226,
+            "loss_rate_among_left_correct": 0.26666666666666666
+          },
+          "History": {
+            "total": 30,
+            "gains": 4,
+            "losses": 3,
+            "net_gain": 1,
+            "retained_correct": 18,
+            "left_correct": 21,
+            "right_correct": 22,
+            "loss_share": 0.01935483870967742,
+            "loss_rate_among_left_correct": 0.14285714285714285
+          },
+          "Literature": {
+            "total": 30,
+            "gains": 3,
+            "losses": 2,
+            "net_gain": 1,
+            "retained_correct": 22,
+            "left_correct": 24,
+            "right_correct": 25,
+            "loss_share": 0.012903225806451613,
+            "loss_rate_among_left_correct": 0.08333333333333333
+          },
+          "Manage": {
+            "total": 30,
+            "gains": 4,
+            "losses": 6,
+            "net_gain": -2,
+            "retained_correct": 12,
+            "left_correct": 18,
+            "right_correct": 16,
+            "loss_share": 0.03870967741935484,
+            "loss_rate_among_left_correct": 0.3333333333333333
+          },
+          "Marketing": {
+            "total": 30,
+            "gains": 4,
+            "losses": 9,
+            "net_gain": -5,
+            "retained_correct": 12,
+            "left_correct": 21,
+            "right_correct": 16,
+            "loss_share": 0.05806451612903226,
+            "loss_rate_among_left_correct": 0.42857142857142855
+          },
+          "Materials": {
+            "total": 30,
+            "gains": 9,
+            "losses": 4,
+            "net_gain": 5,
+            "retained_correct": 5,
+            "left_correct": 9,
+            "right_correct": 14,
+            "loss_share": 0.025806451612903226,
+            "loss_rate_among_left_correct": 0.4444444444444444
+          },
+          "Math": {
+            "total": 30,
+            "gains": 0,
+            "losses": 7,
+            "net_gain": -7,
+            "retained_correct": 14,
+            "left_correct": 21,
+            "right_correct": 14,
+            "loss_share": 0.04516129032258064,
+            "loss_rate_among_left_correct": 0.3333333333333333
+          },
+          "Mechanical_Engineering": {
+            "total": 30,
+            "gains": 5,
+            "losses": 8,
+            "net_gain": -3,
+            "retained_correct": 5,
+            "left_correct": 13,
+            "right_correct": 10,
+            "loss_share": 0.05161290322580645,
+            "loss_rate_among_left_correct": 0.6153846153846154
+          },
+          "Music": {
+            "total": 30,
+            "gains": 5,
+            "losses": 5,
+            "net_gain": 0,
+            "retained_correct": 2,
+            "left_correct": 7,
+            "right_correct": 7,
+            "loss_share": 0.03225806451612903,
+            "loss_rate_among_left_correct": 0.7142857142857143
+          },
+          "Pharmacy": {
+            "total": 30,
+            "gains": 4,
+            "losses": 5,
+            "net_gain": -1,
+            "retained_correct": 17,
+            "left_correct": 22,
+            "right_correct": 21,
+            "loss_share": 0.03225806451612903,
+            "loss_rate_among_left_correct": 0.22727272727272727
+          },
+          "Physics": {
+            "total": 30,
+            "gains": 2,
+            "losses": 7,
+            "net_gain": -5,
+            "retained_correct": 11,
+            "left_correct": 18,
+            "right_correct": 13,
+            "loss_share": 0.04516129032258064,
+            "loss_rate_among_left_correct": 0.3888888888888889
+          },
+          "Psychology": {
+            "total": 30,
+            "gains": 1,
+            "losses": 4,
+            "net_gain": -3,
+            "retained_correct": 20,
+            "left_correct": 24,
+            "right_correct": 21,
+            "loss_share": 0.025806451612903226,
+            "loss_rate_among_left_correct": 0.16666666666666666
+          },
+          "Public_Health": {
+            "total": 30,
+            "gains": 4,
+            "losses": 7,
+            "net_gain": -3,
+            "retained_correct": 13,
+            "left_correct": 20,
+            "right_correct": 17,
+            "loss_share": 0.04516129032258064,
+            "loss_rate_among_left_correct": 0.35
+          },
+          "Sociology": {
+            "total": 30,
+            "gains": 2,
+            "losses": 8,
+            "net_gain": -6,
+            "retained_correct": 14,
+            "left_correct": 22,
+            "right_correct": 16,
+            "loss_share": 0.05161290322580645,
+            "loss_rate_among_left_correct": 0.36363636363636365
+          }
+        },
+        "question_type": {
+          "multiple-choice": {
+            "total": 847,
+            "gains": 116,
+            "losses": 139,
+            "net_gain": -23,
+            "retained_correct": 360,
+            "left_correct": 499,
+            "right_correct": 476,
+            "loss_share": 0.896774193548387,
+            "loss_rate_among_left_correct": 0.2785571142284569
+          },
+          "open": {
+            "total": 53,
+            "gains": 5,
+            "losses": 16,
+            "net_gain": -11,
+            "retained_correct": 12,
+            "left_correct": 28,
+            "right_correct": 17,
+            "loss_share": 0.1032258064516129,
+            "loss_rate_among_left_correct": 0.5714285714285714
+          }
+        }
+      },
+      "loss_lengths": {
+        "left": {
+          "count": 155,
+          "total": 161435,
+          "mean": 1041.516129032258,
+          "median": 733,
+          "min": 300,
+          "max": 5127
+        },
+        "right": {
+          "count": 155,
+          "total": 831,
+          "mean": 5.361290322580645,
+          "median": 5,
+          "min": 5,
+          "max": 19
+        },
+        "shorter": 155,
+        "equal": 0,
+        "longer": 0,
+        "left_length_ended": 0,
+        "right_length_ended": 0
+      },
+      "gain_lengths": {
+        "left": {
+          "count": 121,
+          "total": 144749,
+          "mean": 1196.2727272727273,
+          "median": 786,
+          "min": 405,
+          "max": 8192
+        },
+        "right": {
+          "count": 121,
+          "total": 624,
+          "mean": 5.1570247933884295,
+          "median": 5,
+          "min": 5,
+          "max": 11
+        },
+        "shorter": 121,
+        "equal": 0,
+        "longer": 0,
+        "left_length_ended": 2,
+        "right_length_ended": 0
+      },
+      "all_lengths": {
+        "left": {
+          "count": 900,
+          "total": 920965,
+          "mean": 1023.2944444444445,
+          "median": 704.0,
+          "min": 264,
+          "max": 8192
+        },
+        "right": {
+          "count": 900,
+          "total": 4691,
+          "mean": 5.2122222222222225,
+          "median": 5.0,
+          "min": 5,
+          "max": 19
+        },
+        "shorter": 900,
+        "equal": 0,
+        "longer": 0,
+        "left_length_ended": 6,
+        "right_length_ended": 0
+      },
+      "loss_route_transitions": {
+        "auto -> auto": 133,
+        "auto -> judge_rule_failure": 10,
+        "judge_conflict -> auto": 5,
+        "judge_rule_failure -> auto": 1,
+        "judge_rule_failure -> judge_rule_failure": 6
+      },
+      "gain_route_transitions": {
+        "auto -> auto": 111,
+        "judge_rule_failure -> auto": 10
+      },
+      "loss_right_status": {
+        "complete_rule": 139,
+        "extraction_failure": 14,
+        "complete_judge": 2
+      },
+      "multiple-choice": {
+        "v2": {
+          "total": 847,
+          "gains": 116,
+          "losses": 139,
+          "net_gain": -23,
+          "retained_correct": 360,
+          "left_correct": 499,
+          "right_correct": 476
+        },
+        "loss_lengths": {
+          "left": {
+            "count": 139,
+            "total": 149089,
+            "mean": 1072.5827338129495,
+            "median": 733,
+            "min": 300,
+            "max": 5127
+          },
+          "right": {
+            "count": 139,
+            "total": 695,
+            "mean": 5,
+            "median": 5,
+            "min": 5,
+            "max": 5
+          },
+          "shorter": 139,
+          "equal": 0,
+          "longer": 0,
+          "left_length_ended": 0,
+          "right_length_ended": 0
+        },
+        "loss_route_transitions": {
+          "auto -> auto": 133,
+          "judge_conflict -> auto": 5,
+          "judge_rule_failure -> auto": 1
+        },
+        "loss_right_status": {
+          "complete_rule": 139
+        }
+      },
+      "open": {
+        "v2": {
+          "total": 53,
+          "gains": 5,
+          "losses": 16,
+          "net_gain": -11,
+          "retained_correct": 12,
+          "left_correct": 28,
+          "right_correct": 17
+        },
+        "loss_lengths": {
+          "left": {
+            "count": 16,
+            "total": 12346,
+            "mean": 771.625,
+            "median": 671.0,
+            "min": 437,
+            "max": 1515
+          },
+          "right": {
+            "count": 16,
+            "total": 136,
+            "mean": 8.5,
+            "median": 9.0,
+            "min": 5,
+            "max": 19
+          },
+          "shorter": 16,
+          "equal": 0,
+          "longer": 0,
+          "left_length_ended": 0,
+          "right_length_ended": 0
+        },
+        "loss_route_transitions": {
+          "auto -> judge_rule_failure": 10,
+          "judge_rule_failure -> judge_rule_failure": 6
+        },
+        "loss_right_status": {
+          "extraction_failure": 14,
+          "complete_judge": 2
+        }
+      }
+    }
+  },
+  "api_calls": 0,
+  "grading_changed": false
+}

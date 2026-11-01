@@ -2,7 +2,9 @@
 
 1단계 CPU 준비와 2단계 GPU 생성을 완료했다. E1·E2 각각 900문항 검증과 로컬 전송·해시 대조를 통과했다.
 생성은 이미지 기본 Python(Torch 2.8.0+cu128), 기존 venv는 병합 전용으로 사용했다.
-3단계 Judge 108건과 summarize도 완료했고 pending은 모두 0이다. 4단계 집계·판정은 하지 않았다.
+3단계 Judge 108건과 summarize도 완료했고 pending은 모두 0이다.
+4단계 집계·판정도 완료했다. E1·E2 모두 1차·안전 불통과, 메커니즘 통과이며 최종 불통과이다.
+최종 결과·원인 진단·런처 수정 영향은 [REPORT.md](REPORT.md)에 있다.
 결과와 설치 변경 기록은 [GENERATION_REPORT_20261101.md](GENERATION_REPORT_20261101.md),
 1단계 결과와 자원 추정은 [PREPARATION_REPORT.md](PREPARATION_REPORT.md), 고정 조건은 [PLAN.md](PLAN.md)에 있다.
 raw·문항별 채점 결과는 외부 로컬 경로에 두고, 이 폴더에는 스크립트·ID 목록·요약만 보관한다.
@@ -13,6 +15,8 @@ raw·문항별 채점 결과는 외부 로컬 경로에 두고, 이 폴더에는
 |---|---|
 | prepare.py | M0·기존 seed/재실행 v2 결과 재현, 네트워크 차단 상태에서 점검 |
 | aggregate.py | 두 raw와 두 v2 결과 폴더를 받아 128문항 v2 net_gain, 참고 MMMU 점수, 900문항 안전·기제·세부 통계 출력 |
+| analyze_decline.py | 세 비교의 전환 수 교차 검증, 유형·분야·과목·길이·경로 하락 통계. 원문 감사 자료는 Git 체크아웃 밖에만 기록 |
+| aggregation_20261101/ | 세 쌍 집계·하락 진단·입력 보존 검증 요약(문항별 결과 없음) |
 | m0_length_ids.txt | SHA가 고정된 M0의 length 128문항 ID |
 | preparation_v2/ | 재현 요약, 자기 비교, seed_42 비교, 기존 M0 생성 자원 요약 |
 | verify_code.py / code_freeze.json | main code/ 전체 및 재사용 병합·분석 코드의 LF 정규화 SHA-256 확인 |
@@ -25,7 +29,7 @@ raw·문항별 채점 결과는 외부 로컬 경로에 두고, 이 폴더에는
 | test_judge_runner.py | API 없는 모의 실패로 키 제거·로그 비노출·pending 보존 및 pilot 응답 검사 |
 
 3단계 상태·예산·처리 경로는 [SCORING_REPORT_20261101.md](SCORING_REPORT_20261101.md)에 있다.
-현재 PLAN의 본 기준은 k0=10(≥14), k0=14(≥18)는 참고이다. 4단계 집계·판정은 별도이다.
+현재 PLAN의 본 기준은 k0=10(≥14), k0=14(≥18)는 참고이다. 두 기준에서 모두 불통과이다.
 
 ## CPU 재현
 
@@ -54,7 +58,7 @@ python aggregate.py \
 M0 vs E2, E1 vs E2도 같은 인터페이스이며, 128문항은 항상 M0 목록으로 고정한다.
 방향은 오른쪽 − 왼쪽이다. 주 지표는 v2 점수이며 MMMU 규칙 점수는 참고이다.
 k0는 필수 인자이며 이번 평가에서는 --k0 10을 사용한다. 준비 점검 파일의 k0=0은 테스트 입력이다.
-이 비교·판정 명령은 사용자의 4단계 실행 지시 후 사용한다.
+4단계에서는 사용자 지시에 따라 --k0 10으로 세 비교를 실행했다.
 E1 vs E2의 decision 필드는 같은 수식을 적용한 참고값이며, PLAN의 최종 E1/E2 판정은 각각 M0와 비교한다.
 문항별 pending이 있으면 해당 net_gain·정확도 차이·판정은 null이다.
 raw ID·문항 입력·채점 정책·Judge 설정·원문 해시 불일치 시 중단한다.
