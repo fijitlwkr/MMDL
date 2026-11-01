@@ -1,0 +1,32 @@
+{
+  "raw_sha256": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
+  "rows": 900,
+  "raw_bytes": 14746860,
+  "started": "2026-09-21T23:31:32.859710+09:00",
+  "finished": "2026-09-22T00:29:22.398991+09:00",
+  "generation_seconds": 3469.539,
+  "output_tokens": 1813255,
+  "length_count": 128,
+  "max_vram_mib": 22297,
+  "invocation_vram": [
+    {
+      "nvidia_smi": {
+        "max_used_mib": 22297,
+        "total_mib": 24564,
+        "samples": 3395
+      },
+      "torch": {
+        "max_allocated_gib": 19.896218299865723,
+        "max_reserved_gib": 20.59765625,
+        "free_gib": 1.75946044921875,
+        "total_gib": 23.5164794921875
+      }
+    }
+  ],
+  "generation_config_sha256": "ab088ac1349ffb4c92ce6213fc7ea165f3d6d08be979b87f584467f210f5811a",
+  "generation_git": {
+    "commit": "a19f7b8bb45e5ed42069ba349f8c4f5af52a9510",
+    "dirty": false
+  },
+  "current_code_config_sha256_lf": "a41d4973f753da715b8cf5258913ff075b5de60ffdc014ee4eb58dea17e41ce7"
+}

@@ -1,0 +1,14 @@
+*.jsonl
+*.jsonl.gz
+raw*/
+scoring/
+runs/
+artifacts/
+preparation/
+cache/
+.venv*/
+*.safetensors
+*.bin
+*.pt
+*.png
+*.jpg
