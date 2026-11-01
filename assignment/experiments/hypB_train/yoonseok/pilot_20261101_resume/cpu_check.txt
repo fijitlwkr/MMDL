@@ -1,0 +1,50 @@
+[INFO:swift] Successfully registered `/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/.venv-train/lib/python3.12/site-packages/swift/llm/dataset/data/dataset_info.json`.
+`torch_dtype` is deprecated! Use `dtype` instead!
+[INFO:swift] Setting torch_dtype: torch.float32
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] Setting max_ratio: 200. You can adjust this hyperparameter through the environment variable: `MAX_RATIO`.
+[INFO:swift] Setting frame_factor: 2. You can adjust this hyperparameter through the environment variable: `FRAME_FACTOR`.
+[INFO:swift] Setting fps: 2.0. You can adjust this hyperparameter through the environment variable: `FPS`.
+[INFO:swift] Setting fps_min_frames: 4. You can adjust this hyperparameter through the environment variable: `FPS_MIN_FRAMES`.
+[INFO:swift] Setting fps_max_frames: 768. You can adjust this hyperparameter through the environment variable: `FPS_MAX_FRAMES`.
+[INFO:swift] Using environment variable `IMAGE_MAX_TOKEN_NUM`, Setting image_max_token_num: 3920.
+[INFO:swift] Using environment variable `IMAGE_MIN_TOKEN_NUM`, Setting image_min_token_num: 980.
+[INFO:swift] Using environment variable `SPATIAL_MERGE_SIZE`, Setting spatial_merge_size: 2.
+[INFO:swift] Setting video_max_token_num: 768. You can adjust this hyperparameter through the environment variable: `VIDEO_MAX_TOKEN_NUM`.
+[INFO:swift] Setting video_min_token_num: 128. You can adjust this hyperparameter through the environment variable: `VIDEO_MIN_TOKEN_NUM`.
+[INFO:swift] default_system: None
+[INFO:swift] max_length: 8192
+[INFO:swift] response_prefix: ''
+[INFO:swift] agent_template: hermes
+[INFO:swift] norm_bbox: norm1000
+[INFO:swift] Setting ROOT_IMAGE_DIR: None. You can adjust this hyperparameter through the environment variable: `ROOT_IMAGE_DIR`.
+[INFO:swift] Setting QWENVL_BBOX_FORMAT: legacy. You can adjust this hyperparameter through the environment variable: `QWENVL_BBOX_FORMAT`.
+
+Generating train split: 0 examples [00:00, ? examples/s]
+Generating train split: 3000 examples [00:00, 41762.90 examples/s]
+
+Map:   0%|          | 0/3000 [00:00<?, ? examples/s]
+Map: 100%|██████████| 3000/3000 [00:00<00:00, 26373.58 examples/s]
+Map: 100%|██████████| 3000/3000 [00:00<00:00, 23536.93 examples/s]
+E1 0 (1648, 1008, 1081, 567) OK
+  boundary [198, 271] prompt IDs match True full IDs match True
+E1 1 (1925, 1000, 1200, 725) OK
+  boundary [198, 271] prompt IDs match True full IDs match True
+E1 2 (1787, 1003, 1140, 647) OK
+  boundary [198, 271] prompt IDs match True full IDs match True
+E1 1161 (4906, 3648, 3769, 1137) OK
+  boundary [198, 271] prompt IDs match True full IDs match True
+
+Generating train split: 0 examples [00:00, ? examples/s]
+Generating train split: 3000 examples [00:00, 146657.40 examples/s]
+
+Map:   0%|          | 0/3000 [00:00<?, ? examples/s]
+Map: 100%|██████████| 3000/3000 [00:00<00:00, 74515.95 examples/s]
+E2 0 (1087, 1008, 1081, 6) OK
+  boundary [198, 19357] prompt IDs match True full IDs match True
+E2 1 (1206, 1000, 1200, 6) OK
+  boundary [198, 19357] prompt IDs match True full IDs match True
+E2 2 (1146, 1003, 1140, 6) OK
+  boundary [198, 19357] prompt IDs match True full IDs match True
+E2 1161 (3795, 3648, 3769, 26) OK
+  boundary [198, 19357] prompt IDs match True full IDs match True

@@ -1,0 +1,13 @@
+{
+  "data": "/workspace/hf_cache/hub/datasets--MMDL-team4--hypB-train-data/snapshots/1833bac3be047aa8bd146492436323bb7c14092a",
+  "commit": "1833bac3be047aa8bd146492436323bb7c14092a",
+  "cached": 1044,
+  "downloaded": 2263,
+  "rate_limit_waits": 0,
+  "seconds": 2547.3796910522506,
+  "sha256": {
+    "E1_train_swift.jsonl": "a8405759de84c93904dab137c16106b657e5b05682a0fd755b955c2f707941ab",
+    "E2_train_swift.jsonl": "f4f20537d5a77133c7f86c998bb270a383e6db52b1f134a17d786addcbcecf39",
+    "holdout_300_swift.jsonl": "8a68baafb77c0da00b656fe0def4dff34e1baffabd75b919eaf4510ac902d70e"
+  }
+}

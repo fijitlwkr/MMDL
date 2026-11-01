@@ -5,15 +5,18 @@ Linux GPU 서버에서 이 디렉터리를 기준으로 실행한다. 학습은 
 ```bash
 bash setup_gpu.sh
 # HF 로그인은 사용자가 직접 마친 상태여야 한다.
-DATA=$(.venv-train/bin/python -c 'from huggingface_hub import snapshot_download; from pathlib import Path; p=Path(snapshot_download("MMDL-team4/hypB-train-data", repo_type="dataset", revision="v1.1")); assert p.name.startswith("e9fe258b"); print(next(p.rglob("E1_train_swift.jsonl")).parent)')
+.venv-train/bin/python resume_data.py
+DATA=$(.venv-train/bin/python -c 'from huggingface_hub import snapshot_download; from pathlib import Path; p=Path(snapshot_download("MMDL-team4/hypB-train-data", repo_type="dataset", revision="v1.1")); assert p.name == "1833bac3be047aa8bd146492436323bb7c14092a"; print(next(p.rglob("E1_train_swift.jsonl")).parent)')
 PROCESSOR=$(.venv-train/bin/python -c 'from huggingface_hub import snapshot_download; from train import CONFIG; print(snapshot_download(CONFIG["model"], revision=CONFIG["model_revision"], allow_patterns=["*.json", "*.txt", "*.jinja"]))')
 .venv-train/bin/python check_cpu.py "$DATA" "$PROCESSOR"
 ```
 
 파일럿 승인 후에만 다음 명령을 실행한다. 한 GPU만 노출한다. `artifacts/` 아래에 매번 새 출력 폴더를 지정한다.
 
+요청 제한이 있는 파드에서는 먼저 `.venv-train/bin/python resume_data.py`로 기존 캐시를 이어받는다. 누락 파일을 순차 다운로드하고 파일마다 0.5초 대기하며, 429 발생 시 310초 대기 후 재시도한다.
+
 ```bash
-.venv-train/bin/python train.py E1 pilot "$DATA" artifacts/pilot
+.venv-train/bin/python pilot.py E1 pilot "$DATA" artifacts/pilot
 .venv-train/bin/python merge.py artifacts/pilot/checkpoint-20 artifacts/merged-pilot
 .venv-eval/bin/python check_vllm.py artifacts/merged-pilot
 ```

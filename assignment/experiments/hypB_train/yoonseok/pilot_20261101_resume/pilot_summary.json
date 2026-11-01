@@ -1,0 +1,62 @@
+{
+  "steps": 20,
+  "lora_modules": 252,
+  "visual_trainable": 0,
+  "longest_row_optimizer_step": 20,
+  "step_mean_seconds": 15.135642690351233,
+  "step_median_seconds": 15.092511727008969,
+  "step20_seconds": 17.528213034383953,
+  "nvidia_peak_MiB": 40104.0,
+  "peak_allocated_bytes": 20931102720,
+  "peak_reserved_bytes": 41494249472,
+  "wall_seconds": 492.891450480558,
+  "evals": [
+    {
+      "event": "eval",
+      "step": 10,
+      "metrics": {
+        "eval_loss": 0.59523147,
+        "eval_runtime": 86.5908,
+        "eval_samples_per_second": 3.453,
+        "eval_steps_per_second": 3.453,
+        "eval_token_acc": 0.83101138,
+        "epoch": 0.05333333,
+        "global_step/max_steps": "10/20",
+        "percentage": "50.00%",
+        "elapsed_time": "4m 4s",
+        "remaining_time": "4m 4s",
+        "memory(GiB)": 38.64,
+        "train_speed(iter/s)": 0.040855
+      }
+    },
+    {
+      "event": "eval",
+      "step": 20,
+      "metrics": {
+        "eval_loss": 0.53206837,
+        "eval_runtime": 85.8284,
+        "eval_samples_per_second": 3.484,
+        "eval_steps_per_second": 3.484,
+        "eval_token_acc": 0.84048198,
+        "epoch": 0.10666667,
+        "global_step/max_steps": "20/20",
+        "percentage": "100.00%",
+        "elapsed_time": "8m 11s",
+        "remaining_time": "0s",
+        "memory(GiB)": 38.64,
+        "train_speed(iter/s)": 0.040714
+      }
+    }
+  ],
+  "adapter_bytes": 132195448,
+  "adapter_sha256": "47d6847d6c7aa5ffab170ab6f8215b8b8be43e6ac839b6235e68cc3bced3ad8d",
+  "full_188_training_seconds": 2845.500825786032,
+  "full_188_plus_3_evals_seconds": 3104.1296257860317,
+  "vllm_version": "0.11.0",
+  "vllm_load_pass": true,
+  "vllm_init_seconds": 173.621,
+  "merge_pass": true,
+  "gpu": "NVIDIA RTX 6000 Ada Generation",
+  "image": "runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404",
+  "omitted_dataset_log_records": 4
+}

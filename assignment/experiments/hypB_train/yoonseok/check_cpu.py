@@ -28,7 +28,7 @@ def main():
     errors = []
     expected = json.loads((HERE / "pilot_expected.json").read_text())
     for run in ("E1", "E2"):
-        rows, _ = load_dataset(str(Path(f"{run}_train_swift.jsonl").resolve()),
+        rows, _ = load_dataset(str(Path(f"{run}_train_swift.jsonl").absolute()),
                                strict=True, use_hf=True, shuffle=False)
         for ref in (r for r in expected if r["run"] == run):
             row = rows[ref["row"]]

@@ -1,0 +1,46 @@
+[INFO:swift] Successfully registered `/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/.venv-train/lib/python3.12/site-packages/swift/llm/dataset/data/dataset_info.json`.
+`torch_dtype` is deprecated! Use `dtype` instead!
+[INFO:swift] Setting torch_dtype: torch.float32
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] Setting max_ratio: 200. You can adjust this hyperparameter through the environment variable: `MAX_RATIO`.
+[INFO:swift] Setting frame_factor: 2. You can adjust this hyperparameter through the environment variable: `FRAME_FACTOR`.
+[INFO:swift] Setting fps: 2.0. You can adjust this hyperparameter through the environment variable: `FPS`.
+[INFO:swift] Setting fps_min_frames: 4. You can adjust this hyperparameter through the environment variable: `FPS_MIN_FRAMES`.
+[INFO:swift] Setting fps_max_frames: 768. You can adjust this hyperparameter through the environment variable: `FPS_MAX_FRAMES`.
+[INFO:swift] Using environment variable `IMAGE_MAX_TOKEN_NUM`, Setting image_max_token_num: 3920.
+[INFO:swift] Using environment variable `IMAGE_MIN_TOKEN_NUM`, Setting image_min_token_num: 980.
+[INFO:swift] Using environment variable `SPATIAL_MERGE_SIZE`, Setting spatial_merge_size: 2.
+[INFO:swift] Setting video_max_token_num: 768. You can adjust this hyperparameter through the environment variable: `VIDEO_MAX_TOKEN_NUM`.
+[INFO:swift] Setting video_min_token_num: 128. You can adjust this hyperparameter through the environment variable: `VIDEO_MIN_TOKEN_NUM`.
+[INFO:swift] default_system: None
+[INFO:swift] max_length: 8192
+[INFO:swift] response_prefix: ''
+[INFO:swift] agent_template: hermes
+[INFO:swift] norm_bbox: norm1000
+[INFO:swift] Setting ROOT_IMAGE_DIR: None. You can adjust this hyperparameter through the environment variable: `ROOT_IMAGE_DIR`.
+[INFO:swift] Setting QWENVL_BBOX_FORMAT: legacy. You can adjust this hyperparameter through the environment variable: `QWENVL_BBOX_FORMAT`.
+Traceback (most recent call last):
+  File "/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/check_cpu.py", line 82, in <module>
+    main()
+  File "/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/check_cpu.py", line 31, in main
+    rows, _ = load_dataset(str(Path(f"{run}_train_swift.jsonl").resolve()),
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/.venv-train/lib/python3.12/site-packages/swift/llm/dataset/loader.py", line 536, in load_dataset
+    train_dataset = load_function(dataset_syntax, dataset_meta, **load_kwargs, use_hf=use_hf)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/.venv-train/lib/python3.12/site-packages/swift/llm/dataset/loader.py", line 396, in load
+    dataset = DatasetLoader._load_dataset_path(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/.venv-train/lib/python3.12/site-packages/swift/llm/dataset/loader.py", line 215, in _load_dataset_path
+    dataset = hf_load_dataset(file_type, data_files=dataset_path, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/.venv-train/lib/python3.12/site-packages/datasets/load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/.venv-train/lib/python3.12/site-packages/datasets/load.py", line 1782, in load_dataset_builder
+    dataset_module = dataset_module_factory(
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/MMDL/assignment/experiments/hypB_train/yoonseok/.venv-train/lib/python3.12/site-packages/datasets/load.py", line 1469, in dataset_module_factory
+    filename = list(filter(lambda x: x, path.replace(os.sep, "/").split("/")))[-1]
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^
+IndexError: list index out of range
