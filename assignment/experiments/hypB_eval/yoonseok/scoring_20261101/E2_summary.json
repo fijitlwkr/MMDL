@@ -1,0 +1,98 @@
+{
+  "source_sha256": "0026e5e6437f8c0ece78ca7c627847eff120783cc737e44faead4d41b8d92d1a",
+  "policy_id": "hybrid100_mc_qwen_ab_open_no_length_gate_v2",
+  "judge_settings": {
+    "model": "gpt-4.1-mini-2025-04-14",
+    "temperature": 0,
+    "top_p": 1,
+    "seed": 3407,
+    "max_tokens": 8
+  },
+  "overall": {
+    "total": 900,
+    "complete": 900,
+    "pending": 0,
+    "correct": 493,
+    "incorrect": 407,
+    "extraction_failures": 29,
+    "accuracy": 0.5477777777777778
+  },
+  "by_type": {
+    "multiple-choice": {
+      "total": 847,
+      "complete": 847,
+      "pending": 0,
+      "correct": 476,
+      "incorrect": 371,
+      "extraction_failures": 0,
+      "accuracy": 0.5619834710743802
+    },
+    "open": {
+      "total": 53,
+      "complete": 53,
+      "pending": 0,
+      "correct": 17,
+      "incorrect": 36,
+      "extraction_failures": 29,
+      "accuracy": 0.32075471698113206
+    }
+  },
+  "by_route": {
+    "auto": {
+      "total": 861,
+      "complete": 861,
+      "pending": 0,
+      "correct": 490,
+      "incorrect": 371,
+      "extraction_failures": 0,
+      "accuracy": 0.5691056910569106
+    },
+    "judge_rule_failure": {
+      "total": 39,
+      "complete": 39,
+      "pending": 0,
+      "correct": 3,
+      "incorrect": 36,
+      "extraction_failures": 29,
+      "accuracy": 0.07692307692307693
+    }
+  },
+  "automatic_count": 861,
+  "judge_count": 39,
+  "response_count": 39,
+  "judge_usage": {
+    "prompt_tokens": 11400,
+    "completion_tokens": 39,
+    "total_tokens": 11439,
+    "cached_tokens": 0,
+    "uncached_prompt_tokens": 11400
+  },
+  "price_per_million_usd": {
+    "input": 0.4,
+    "cached_input": 0.1,
+    "output": 1.6
+  },
+  "estimated_recorded_response_cost_usd": 0.0046224,
+  "judge_response_finish_reasons": {
+    "stop": 39
+  },
+  "api_attempt_events": {
+    "started": 39,
+    "received": 39
+  },
+  "input_file_sha256": {
+    "manifest.json": "ab75490f180cca0564b0eeab227b77284fc88beac5322b6b7e86c2923e1ed12f",
+    "items.jsonl": "961342268b7b7919aa2dcc4e8932aa04d81523d2138f96d519b7f656d66eae9c",
+    "requests.jsonl": "033cf574c7adae0a5e826f036dd727ada48fa9affe52321028100c2e96dccef1",
+    "responses.jsonl": "e287b27effdd31358cde8a9b5293d8d779502e09ae5924a7972fa708c4b7a803",
+    "api_attempts.jsonl": "5faa15242372008ea1d6a81ad314e72afabb3775559094c1a59f0e0b54f9dd00"
+  },
+  "raw_unchanged": true,
+  "aggregation_api_calls": 0,
+  "response_models": [
+    "gpt-4.1-mini-2025-04-14"
+  ],
+  "successful_http_receipts": 39,
+  "api_errors": 0,
+  "raw_sha256_reconfirmed": true
+}

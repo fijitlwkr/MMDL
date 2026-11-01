@@ -1,0 +1,21 @@
+{
+  "responses.jsonl": {
+    "prefix_bytes": 4517,
+    "prefix_sha256": "07cb6131ab15f469fffbf43c8ca5b3cf0f8892b496546cecc0ad88a65df8b390",
+    "lines": 5,
+    "prefix_preserved": true
+  },
+  "http_receipts.jsonl": {
+    "prefix_bytes": 6279,
+    "prefix_sha256": "0229901baaec74f6adfd2be93dc58334028c97247b6693f0274e86c1468a13ff",
+    "lines": 5,
+    "prefix_preserved": true
+  },
+  "api_attempts.jsonl": {
+    "prefix_bytes": 2503,
+    "prefix_sha256": "5190dd6c064a05c55496b2e238d7843450545ff25afadab2552a7851d5a337f8",
+    "lines": 10,
+    "prefix_preserved": true
+  },
+  "pilot_responses_recalled": false
+}

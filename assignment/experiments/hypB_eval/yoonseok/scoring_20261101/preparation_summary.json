@@ -1,0 +1,66 @@
+{
+  "pricing_source": "https://developers.openai.com/api/docs/models/gpt-4.1-mini",
+  "pricing_checked_date": "2026-11-01",
+  "budget_limit_usd": 3.0,
+  "method": "Conservative UTF-8 byte bound: canonical request bytes + 128 input tokens per request; no cached-input discount; max_tokens=8 for every output. Not a tokenizer count or invoice.",
+  "runs": {
+    "E1": {
+      "automatic_count": 831,
+      "judge_count": 69,
+      "route_counts": {
+        "auto": 831,
+        "judge_rule_failure": 48,
+        "judge_conflict": 21
+      },
+      "pending": 69,
+      "completed_extraction_failures": 0,
+      "final_extraction_failures": null,
+      "input_tokens_byte_upper_bound": 470477,
+      "output_tokens_upper_bound": 552,
+      "estimated_cost_upper_bound_usd": 0.18907400000000002,
+      "price_per_million_usd": {
+        "input": 0.4,
+        "cached_input": 0.1,
+        "output": 1.6
+      },
+      "judge_settings": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "temperature": 0,
+        "top_p": 1,
+        "seed": 3407,
+        "max_tokens": 8
+      },
+      "source_sha256": "a6e307b88a0c8ab6afd4a76d6706004736ec4b8319a94a014e54fe0faa43e317",
+      "policy_id": "hybrid100_mc_qwen_ab_open_no_length_gate_v2"
+    },
+    "E2": {
+      "automatic_count": 861,
+      "judge_count": 39,
+      "route_counts": {
+        "auto": 861,
+        "judge_rule_failure": 39
+      },
+      "pending": 39,
+      "completed_extraction_failures": 0,
+      "final_extraction_failures": null,
+      "input_tokens_byte_upper_bound": 53971,
+      "output_tokens_upper_bound": 312,
+      "estimated_cost_upper_bound_usd": 0.022087600000000002,
+      "price_per_million_usd": {
+        "input": 0.4,
+        "cached_input": 0.1,
+        "output": 1.6
+      },
+      "judge_settings": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "temperature": 0,
+        "top_p": 1,
+        "seed": 3407,
+        "max_tokens": 8
+      },
+      "source_sha256": "0026e5e6437f8c0ece78ca7c627847eff120783cc737e44faead4d41b8d92d1a",
+      "policy_id": "hybrid100_mc_qwen_ab_open_no_length_gate_v2"
+    }
+  },
+  "estimated_total_upper_bound_usd": 0.21116160000000003
+}

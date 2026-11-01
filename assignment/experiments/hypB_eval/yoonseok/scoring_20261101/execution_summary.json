@@ -1,0 +1,25 @@
+{
+  "state": "complete",
+  "pending": {
+    "E1": 0,
+    "E2": 0
+  },
+  "judge_calls": 108,
+  "api_errors": 0,
+  "usage_based_cost_usd": 0.0591708,
+  "estimated_ceiling_usd": 0.21116160000000003,
+  "budget_usd": 3,
+  "key_entry_windows": 2,
+  "initial_launcher_guard_corrected": true,
+  "first_five_receipts_preserved": true,
+  "frozen_scoring_policy_changed": false,
+  "fourth_stage_executed": false,
+  "primary_k0": 10,
+  "primary_threshold": 14,
+  "primary_criterion_evaluated": false,
+  "alternate_k0_reference_only": 14,
+  "alternate_threshold_reference_only": 18,
+  "completed_at_utc": "2026-11-01T09:52:14.139206+00:00",
+  "python": "3.13.9",
+  "PyYAML": "6.0.3"
+}

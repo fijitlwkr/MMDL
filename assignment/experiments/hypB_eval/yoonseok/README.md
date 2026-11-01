@@ -1,7 +1,8 @@
 # Hypothesis B 평가 준비 — yoonseok
 
 1단계 CPU 준비와 2단계 GPU 생성을 완료했다. E1·E2 각각 900문항 검증과 로컬 전송·해시 대조를 통과했다.
-생성은 이미지 기본 Python(Torch 2.8.0+cu128), 기존 venv는 병합 전용으로 사용했다. Judge는 호출하지 않았다.
+생성은 이미지 기본 Python(Torch 2.8.0+cu128), 기존 venv는 병합 전용으로 사용했다.
+3단계 Judge 108건과 summarize도 완료했고 pending은 모두 0이다. 4단계 집계·판정은 하지 않았다.
 결과와 설치 변경 기록은 [GENERATION_REPORT_20261101.md](GENERATION_REPORT_20261101.md),
 1단계 결과와 자원 추정은 [PREPARATION_REPORT.md](PREPARATION_REPORT.md), 고정 조건은 [PLAN.md](PLAN.md)에 있다.
 raw·문항별 채점 결과는 외부 로컬 경로에 두고, 이 폴더에는 스크립트·ID 목록·요약만 보관한다.
@@ -20,6 +21,11 @@ raw·문항별 채점 결과는 외부 로컬 경로에 두고, 이 폴더에는
 | run_gpu.sh | E1 → E2 병합·환경 게이트·900문항 preflight·생성·raw 검증 |
 | run_metrics.py | 생성 metadata/raw 해시 대조, 생성 시간·토큰·VRAM 요약 |
 | test_aggregate.py | net_gain 방향, pending 처리, 마커 단어 경계 회귀 점검 |
+| run_judge.ps1 / judge_runner.py | 3단계 전용: 새 창 숨김 키 입력 → E1 5건 시험 → E1/E2 전체 → summarize. 키 저장 없음 |
+| test_judge_runner.py | API 없는 모의 실패로 키 제거·로그 비노출·pending 보존 및 pilot 응답 검사 |
+
+3단계 상태·예산·처리 경로는 [SCORING_REPORT_20261101.md](SCORING_REPORT_20261101.md)에 있다.
+현재 PLAN의 본 기준은 k0=10(≥14), k0=14(≥18)는 참고이다. 4단계 집계·판정은 별도이다.
 
 ## CPU 재현
 
@@ -47,7 +53,8 @@ python aggregate.py \
 
 M0 vs E2, E1 vs E2도 같은 인터페이스이며, 128문항은 항상 M0 목록으로 고정한다.
 방향은 오른쪽 − 왼쪽이다. 주 지표는 v2 점수이며 MMMU 규칙 점수는 참고이다.
-k0는 필수 인자이며 아직 확정하지 않았다. 준비 점검 파일의 k0=0은 테스트 입력이다.
+k0는 필수 인자이며 이번 평가에서는 --k0 10을 사용한다. 준비 점검 파일의 k0=0은 테스트 입력이다.
+이 비교·판정 명령은 사용자의 4단계 실행 지시 후 사용한다.
 E1 vs E2의 decision 필드는 같은 수식을 적용한 참고값이며, PLAN의 최종 E1/E2 판정은 각각 M0와 비교한다.
 문항별 pending이 있으면 해당 net_gain·정확도 차이·판정은 null이다.
 raw ID·문항 입력·채점 정책·Judge 설정·원문 해시 불일치 시 중단한다.
