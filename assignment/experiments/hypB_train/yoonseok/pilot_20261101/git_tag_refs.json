@@ -1,0 +1,10 @@
+[
+  {
+    "sha": "e9fe258b9d044e0693441a4c54138054d19130ab",
+    "ref": "refs/tags/v1.1"
+  },
+  {
+    "sha": "1833bac3be047aa8bd146492436323bb7c14092a",
+    "ref": "refs/tags/v1.1^{}"
+  }
+]

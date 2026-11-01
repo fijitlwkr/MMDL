@@ -1,0 +1,17 @@
+torch==2.8.0
+torchvision==0.23.0
+ms-swift==3.12.3
+transformers==4.57.1
+qwen-vl-utils==0.0.14
+tokenizers==0.22.2
+huggingface-hub==0.35.3
+peft==0.17.1
+trl==0.22.2
+datasets==3.6.0
+accelerate==1.11.0
+safetensors==0.6.2
+Pillow==11.3.0
+numpy==2.2.6
+av==15.1.0
+gradio==5.49.1
+setuptools==80.9.0

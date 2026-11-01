@@ -1,0 +1,17 @@
+data/
+images/
+*.png
+*.jp*g
+*.webp
+*.jsonl
+*.safetensors
+*.pt
+*.bin
+artifacts/
+outputs/
+checkpoint-*/
+adapter*/
+merged*/
+cache/
+.cache/
+.venv*/

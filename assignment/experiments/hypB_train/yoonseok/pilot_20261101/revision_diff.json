@@ -1,0 +1,69 @@
+{
+  "old_commit": "1833bac3be047aa8bd146492436323bb7c14092a",
+  "new_commit": "1833bac3be047aa8bd146492436323bb7c14092a",
+  "old_files": 3307,
+  "new_files": 3307,
+  "changes": [],
+  "commits": [
+    {
+      "commit": "1833bac3be047aa8bd146492436323bb7c14092a",
+      "title": "add ms-swift format files",
+      "date": "2026-10-27 13:12:58+00:00"
+    },
+    {
+      "commit": "8cb70926a9792477db89a8b9cffac190927518d4",
+      "title": "add dataset card",
+      "date": "2026-10-26 09:37:05+00:00"
+    },
+    {
+      "commit": "0ae1576e46d04aeb5bf018c8d1ac564bdd15a43e",
+      "title": "add hypothesis B training data (final_v5_tech_20261025) (part 9)",
+      "date": "2026-10-26 09:30:07+00:00"
+    },
+    {
+      "commit": "5e3a82243f946daee597f2e0353bfa7560657bd2",
+      "title": "add hypothesis B training data (final_v5_tech_20261025) (part 8)",
+      "date": "2026-10-26 09:29:56+00:00"
+    },
+    {
+      "commit": "a30025e03a9ff723fa775349411a325379a367b5",
+      "title": "add hypothesis B training data (final_v5_tech_20261025) (part 7)",
+      "date": "2026-10-26 09:29:44+00:00"
+    },
+    {
+      "commit": "9269c7fd131da27ce4b1fe080f25fbaa1d4b6ebb",
+      "title": "add hypothesis B training data (final_v5_tech_20261025) (part 6)",
+      "date": "2026-10-26 09:29:35+00:00"
+    },
+    {
+      "commit": "dc2039d102edc596d6a5798a0e832976b8c6147f",
+      "title": "add hypothesis B training data (final_v5_tech_20261025) (part 5)",
+      "date": "2026-10-26 09:29:26+00:00"
+    },
+    {
+      "commit": "0254d233c15158cccf7fb62e164c80cd5255d42d",
+      "title": "add hypothesis B training data (final_v5_tech_20261025) (part 4)",
+      "date": "2026-10-26 09:29:17+00:00"
+    },
+    {
+      "commit": "a570bf523604e6ed1fbcd412283674964f80a0ee",
+      "title": "add hypothesis B training data (final_v5_tech_20261025) (part 3)",
+      "date": "2026-10-26 09:29:07+00:00"
+    },
+    {
+      "commit": "83b442bced316d16a0f65373b10b1d92e4b867d1",
+      "title": "add hypothesis B training data (final_v5_tech_20261025) (part 2)",
+      "date": "2026-10-26 09:29:00+00:00"
+    },
+    {
+      "commit": "aa908e7a6e191742292af549b2a27022b86e359e",
+      "title": "add hypothesis B training data (final_v5_tech_20261025)",
+      "date": "2026-10-26 09:28:52+00:00"
+    },
+    {
+      "commit": "13c64514299eafff863b28bbee422115c77185c8",
+      "title": "initial commit",
+      "date": "2026-10-26 09:28:28+00:00"
+    }
+  ]
+}

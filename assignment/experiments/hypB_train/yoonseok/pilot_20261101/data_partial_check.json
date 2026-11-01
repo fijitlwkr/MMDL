@@ -1,0 +1,24 @@
+{
+  "tag_v1.1_cached_commit": "1833bac3be047aa8bd146492436323bb7c14092a",
+  "expected_commit_prefix": "e9fe258b",
+  "jsonl": [
+    {
+      "file": "E1_train_swift.jsonl",
+      "sha256": "a8405759de84c93904dab137c16106b657e5b05682a0fd755b955c2f707941ab",
+      "local_match": true,
+      "card_has_local_sha": false
+    },
+    {
+      "file": "E2_train_swift.jsonl",
+      "sha256": "f4f20537d5a77133c7f86c998bb270a383e6db52b1f134a17d786addcbcecf39",
+      "local_match": true,
+      "card_has_local_sha": false
+    },
+    {
+      "file": "holdout_300_swift.jsonl",
+      "sha256": "8a68baafb77c0da00b656fe0def4dff34e1baffabd75b919eaf4510ac902d70e",
+      "local_match": true,
+      "card_has_local_sha": false
+    }
+  ]
+}

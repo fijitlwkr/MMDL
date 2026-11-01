@@ -1,0 +1,17 @@
+{
+  "status": "stopped_download_failed",
+  "model_snapshot": "/workspace/hf_cache/hub/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "data_partial_snapshots": [
+    {
+      "commit": "1833bac3be047aa8bd146492436323bb7c14092a",
+      "cached_files": 1044
+    }
+  ],
+  "setup_exit": 0,
+  "download_exit": 1,
+  "gpu": "NVIDIA RTX 6000 Ada Generation",
+  "memory_total_MiB": 49140,
+  "image": "runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404",
+  "training_steps": 0,
+  "pilot_started": false
+}
