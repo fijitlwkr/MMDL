@@ -1,7 +1,9 @@
 # Hypothesis B 평가 준비 — yoonseok
 
-1단계 CPU 준비만 완료했다. GPU 설치·다운로드·병합·생성 및 Judge API는 실행하지 않았다.
-결과와 자원 추정은 [PREPARATION_REPORT.md](PREPARATION_REPORT.md), 고정 조건은 [PLAN.md](PLAN.md)에 있다.
+1단계 CPU 준비를 완료했다. 2단계는 환경 설치 후 Torch 배포 메타데이터 게이트 실패로 중단했다.
+병합·시험·본 생성은 완료하지 않았고 raw와 Judge 호출은 없다.
+현재 상태는 [GENERATION_REPORT_20261101.md](GENERATION_REPORT_20261101.md),
+1단계 결과와 자원 추정은 [PREPARATION_REPORT.md](PREPARATION_REPORT.md), 고정 조건은 [PLAN.md](PLAN.md)에 있다.
 raw·문항별 채점 결과는 외부 로컬 경로에 두고, 이 폴더에는 스크립트·ID 목록·요약만 보관한다.
 
 ## 파일
@@ -54,7 +56,10 @@ raw ID·문항 입력·채점 정책·Judge 설정·원문 해시 불일치 시 
 반복 후보는 기존 repetition/analyze.py를 그대로 사용한다.
 MMMU 참고 점수는 main code/scoring/evaluate.py의 random fallback 제거 진단 함수를 그대로 사용한다.
 
-## 2단계 전용 — 현재 실행하지 않음
+## 2단계 전용 — 패키지 게이트 불일치 해결 후 재개
+
+현재 설치 환경은 Torch 배포 메타데이터 2.8.0으로 고정 게이트의 2.8.0+cu128 조건을 통과하지 못한다.
+코드·설정·패키지는 수정하지 않고 중단했다. 아래는 기존 실행 절차이며 현재 상태에서 재실행하지 않는다.
 
 사용자가 준비한 RTX 4090 / runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404에서만 실행한다.
 체크아웃·환경·캐시·결과는 모두 /workspace 아래에 두고 HF_HOME=/workspace/hf_cache를 사용한다.

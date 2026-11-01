@@ -1,0 +1,33 @@
+{
+  "status": "stopped_before_generation",
+  "start_commit": "ef13735027398c810d30cba057d08e0d76e517b9",
+  "frozen_main_commit": "016b3cf558e3dd9e366b277f5f871b28092a1379",
+  "declared_image": "runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404",
+  "gpu": "NVIDIA GeForce RTX 4090, 24564 MiB; driver 595.91.07",
+  "setup_exit_code": 0,
+  "setup_elapsed_seconds": 3953.0,
+  "package_gate_exit_code": 1,
+  "failed_checks": [
+    {
+      "section": "packages",
+      "status": "FAIL",
+      "name": "expected_version",
+      "package": "torch",
+      "expected": "2.8.0+cu128",
+      "actual": "2.8.0"
+    }
+  ],
+  "torch": {
+    "distribution_version": "2.8.0",
+    "torch___version__": "2.8.0+cu128",
+    "cuda_build_version": "12.8"
+  },
+  "smoke_stage": "merge",
+  "smoke_generation_started": false,
+  "E1_generation_started": false,
+  "E2_generation_started": false,
+  "merged_model_completed": false,
+  "raw_files_created": false,
+  "judge_calls": 0,
+  "stopped_at_utc": "2026-11-01T08:03:52.682105+00:00"
+}
