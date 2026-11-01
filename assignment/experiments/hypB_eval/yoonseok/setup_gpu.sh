@@ -16,8 +16,19 @@ print(m.version('torch'), torch.__version__)
 assert m.version('torch') == torch.__version__ == '2.8.0+cu128'
 assert Path(subprocess.check_output(['python','-c','import sys; print(sys.executable)'],text=True).strip()).resolve() == Path(sys.executable).resolve()
 PY
-# Same installation command and requirements as main code/run_generate.sh.
-python -m pip install -r "$ROOT/code/requirements.txt"
+# Preserve main code/run_generate.sh's default PEP 668 handling as well.
+INSTALL_LOG="$(mktemp "$TMPDIR/hypB-install.XXXXXX.log")"
+set +e
+python -m pip install -r "$ROOT/code/requirements.txt" 2>&1 | tee "$INSTALL_LOG"
+INSTALL_CODE=${PIPESTATUS[0]}
+set -e
+if (( INSTALL_CODE != 0 )); then
+    if grep -qi "externally-managed-environment" "$INSTALL_LOG"; then
+        python -m pip install --break-system-packages -r "$ROOT/code/requirements.txt" 2>&1 | tee -a "$INSTALL_LOG"
+    else
+        exit "$INSTALL_CODE"
+    fi
+fi
 python3.12 - <<'PY'
 import importlib.metadata as m, importlib.util, torch
 print(m.version('torch'), torch.__version__)

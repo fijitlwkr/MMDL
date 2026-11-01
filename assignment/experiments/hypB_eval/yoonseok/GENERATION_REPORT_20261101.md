@@ -90,3 +90,6 @@ E1/E2 본 실행 폴더는 생성하지 않았다. 중단 후 GPU는 1 MiB, 사�
 - check_env.py·gate·config.yaml·requirements.txt는 수정하지 않는다.
   Torch 재설치·인덱스 변경·게이트 우회도 하지 않는다. 불일치나 실행 실패 시 중단한다.
 - 재개 결과는 별도 새 실행 폴더에서 기록한다. 위 최초 실패 기록은 그대로 보존한다.
+- 기본 Python의 최초 설치 명령이 PEP 668 제한을 반환했다. main 설치 블록에 이미 있는
+  externally-managed-environment 감지 및 --break-system-packages 재시도 처리를 setup_gpu.sh에도
+  그대로 반영했다. 이 처리를 처음 옮길 때 누락했으며, 게이트·config·requirements는 변경하지 않았다.
