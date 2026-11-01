@@ -74,3 +74,19 @@ E1/E2 본 실행 폴더는 생성하지 않았다. 중단 후 GPU는 1 MiB, 사�
 실행 중인 생성 작업은 없고 필요한 실패 기록은 로컬에 백업됐다.
 기록 보존 측면에서는 파드를 종료해도 되지만, 재개 시 설치 환경과 모델 캐시를 재사용하려면
 현재 /workspace를 보존해야 한다. 파드 종료는 사용자가 직접 판단·수행한다.
+
+## 변경 기록: baseline 설치 방식으로 재개
+
+2026-11-01 사용자 지시에 따라 설치·생성 환경만 baseline 절차로 복구한다.
+기본 python3.12의 배포 메타데이터와 torch.__version__ 모두 2.8.0+cu128임을 먼저 확인했다.
+기본 python 명령도 같은 /usr/bin/python3.12를 가리키며 기본 환경에는 PEFT가 없다.
+
+- setup_gpu.sh의 venv 생성과 PEFT 설치를 제거했다. 이미지 기본 Python에서 main과 같은
+  python -m pip install -r code/requirements.txt 명령을 사용하고, 설치 전후 Torch 두 버전이
+  2.8.0+cu128인지 확인한다. 기본 Python에는 PEFT를 설치하지 않는다.
+- run_gpu.sh는 기존 /workspace/hypB-eval-env를 병합에만 사용한다.
+  check_env·preflight·생성·검증은 기본 Python으로 실행하며 main run_generate.sh의 --install도 그대로 사용한다.
+- smoke/E1/E2를 각각 선택할 수 있게 하고 실행별 새 폴더만 허용한다. 병합 safetensors의 SHA-256을 기록한다.
+- check_env.py·gate·config.yaml·requirements.txt는 수정하지 않는다.
+  Torch 재설치·인덱스 변경·게이트 우회도 하지 않는다. 불일치나 실행 실패 시 중단한다.
+- 재개 결과는 별도 새 실행 폴더에서 기록한다. 위 최초 실패 기록은 그대로 보존한다.

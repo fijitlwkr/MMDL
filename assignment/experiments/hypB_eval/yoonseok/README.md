@@ -1,7 +1,7 @@
 # Hypothesis B 평가 준비 — yoonseok
 
-1단계 CPU 준비를 완료했다. 2단계는 환경 설치 후 Torch 배포 메타데이터 게이트 실패로 중단했다.
-병합·시험·본 생성은 완료하지 않았고 raw와 Judge 호출은 없다.
+1단계 CPU 준비를 완료했다. 2단계의 최초 venv 설치는 Torch 배포 메타데이터 게이트 실패로 중단했다.
+사용자 지시에 따라 이미지 기본 Python으로 설치·생성을 재개한다. 기존 venv는 병합 전용이다.
 현재 상태는 [GENERATION_REPORT_20261101.md](GENERATION_REPORT_20261101.md),
 1단계 결과와 자원 추정은 [PREPARATION_REPORT.md](PREPARATION_REPORT.md), 고정 조건은 [PLAN.md](PLAN.md)에 있다.
 raw·문항별 채점 결과는 외부 로컬 경로에 두고, 이 폴더에는 스크립트·ID 목록·요약만 보관한다.
@@ -15,7 +15,7 @@ raw·문항별 채점 결과는 외부 로컬 경로에 두고, 이 폴더에는
 | m0_length_ids.txt | SHA가 고정된 M0의 length 128문항 ID |
 | preparation_v2/ | 재현 요약, 자기 비교, seed_42 비교, 기존 M0 생성 자원 요약 |
 | verify_code.py / code_freeze.json | main code/ 전체 및 재사용 병합·분석 코드의 LF 정규화 SHA-256 확인 |
-| setup_gpu.sh | 2단계 전용 환경 설치. main requirements 그대로 + 병합용 peft 0.17.1 |
+| setup_gpu.sh | 이미지 기본 Python에 main과 같은 requirements 설치, 설치 전후 cu128 Torch 메타데이터 확인. PEFT 추가 설치 없음 |
 | prepare_model.py | 고정 revision 다운로드, 기존 학습 merge.py로 bf16 병합, processor 파일 동일성 확인 |
 | run_gpu.sh | E1 → E2 병합·환경 게이트·900문항 preflight·생성·raw 검증 |
 | run_metrics.py | 생성 metadata/raw 해시 대조, 생성 시간·토큰·VRAM 요약 |
@@ -56,10 +56,10 @@ raw ID·문항 입력·채점 정책·Judge 설정·원문 해시 불일치 시 
 반복 후보는 기존 repetition/analyze.py를 그대로 사용한다.
 MMMU 참고 점수는 main code/scoring/evaluate.py의 random fallback 제거 진단 함수를 그대로 사용한다.
 
-## 2단계 전용 — 패키지 게이트 불일치 해결 후 재개
+## 2단계 전용 — baseline의 이미지 기본 Python으로 재개
 
-현재 설치 환경은 Torch 배포 메타데이터 2.8.0으로 고정 게이트의 2.8.0+cu128 조건을 통과하지 못한다.
-코드·설정·패키지는 수정하지 않고 중단했다. 아래는 기존 실행 절차이며 현재 상태에서 재실행하지 않는다.
+이미지 기본 Python은 Torch 메타데이터 2.8.0+cu128을 유지한다. 게이트·config·requirements는 그대로 둔다.
+기존 /workspace/hypB-eval-env는 PEFT 병합에만 사용하고 PATH에 넣지 않는다.
 
 사용자가 준비한 RTX 4090 / runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404에서만 실행한다.
 체크아웃·환경·캐시·결과는 모두 /workspace 아래에 두고 HF_HOME=/workspace/hf_cache를 사용한다.
@@ -68,7 +68,10 @@ HF 로그인은 사용자가 먼저 수행하며 토큰을 인자로 넣거나 �
 ~~~bash
 cd /workspace/MMDL/assignment/experiments/hypB_eval/yoonseok
 bash setup_gpu.sh
-bash run_gpu.sh /workspace/hypB_eval_NEW
+bash run_gpu.sh /workspace/hypB_eval_NEW smoke
+# smoke가 통과한 뒤 각각 새 E1/, E2/에서 시작한다.
+bash run_gpu.sh /workspace/hypB_eval_NEW E1
+bash run_gpu.sh /workspace/hypB_eval_NEW E2
 ~~~
 
 고정 다운로드:
@@ -80,6 +83,7 @@ bash run_gpu.sh /workspace/hypB_eval_NEW
 | E2 adapter | MMDL-team4/hypB-e2-answer-3k | 72e45c1bb07eb79179739fae949ccf80f21e891b |
 
 평가 코드·config.yaml을 바꾸지 않고 병합 모델 경로만 main 생성 스크립트에 넘긴다.
+main --install의 기본 설치 단계도 그대로 사용하며, Torch 버전이 달라지면 중단한다.
 환경 설치, 게이트, preflight, 생성, raw 검증 중 실패하면 즉시 중단한다.
 900 고유 ID·과목별 30행·오류 없음은 main 검증기를 재사용한다.
 결과는 E1/E2별 merged/, model_receipt.json, gates/, preflight/, generation/, generation_summary.json과 로그이다.
