@@ -1,0 +1,12 @@
+{
+  "rows": 3,
+  "status_ok": 3,
+  "generation_seconds": 184.759,
+  "input_tokens": 8371,
+  "output_tokens": 2770,
+  "length_count": 0,
+  "raw_sha256": "571b4697dc34baa3f1b35397c9f2c782ba14ac8d124f9d8430b8d11cd028d2f4",
+  "max_vram_mib": 22274,
+  "m0_inputs_and_prompt_tokens_match": true,
+  "torch_after_generation": "2.8.0+cu128 2.8.0+cu128"
+}

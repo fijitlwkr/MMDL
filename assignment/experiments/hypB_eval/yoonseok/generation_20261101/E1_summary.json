@@ -1,0 +1,111 @@
+{
+  "raw_sha256": "a6e307b88a0c8ab6afd4a76d6706004736ec4b8319a94a014e54fe0faa43e317",
+  "rows": 900,
+  "raw_bytes": 8284866,
+  "started": "2026-11-01T08:37:52Z",
+  "finished": "2026-11-01T09:00:59Z",
+  "generation_seconds": 1327.053,
+  "output_tokens": 920965,
+  "length_count": 6,
+  "max_vram_mib": 22280,
+  "invocation_vram": [
+    {
+      "nvidia_smi": {
+        "max_used_mib": 22280,
+        "total_mib": 24564,
+        "samples": 1196
+      },
+      "torch": {
+        "max_allocated_gib": 19.896218299865723,
+        "max_reserved_gib": 20.59765625,
+        "free_gib": 1.761474609375,
+        "total_gib": 23.5184326171875
+      }
+    }
+  ],
+  "generation_config_sha256": "a41d4973f753da715b8cf5258913ff075b5de60ffdc014ee4eb58dea17e41ce7",
+  "generation_git": {
+    "commit": "9fe57b1176caa74435d1c739de93e9de96e857df",
+    "dirty": false
+  },
+  "current_code_config_sha256_lf": "a41d4973f753da715b8cf5258913ff075b5de60ffdc014ee4eb58dea17e41ce7",
+  "run": "E1",
+  "input_tokens": 1193656,
+  "input_tokens_mean": 1326.2844444444445,
+  "output_tokens_mean": 1023.2944444444445,
+  "status_counts": {
+    "ok": 900
+  },
+  "subject_counts": {
+    "Accounting": 30,
+    "Agriculture": 30,
+    "Architecture_and_Engineering": 30,
+    "Art": 30,
+    "Art_Theory": 30,
+    "Basic_Medical_Science": 30,
+    "Biology": 30,
+    "Chemistry": 30,
+    "Clinical_Medicine": 30,
+    "Computer_Science": 30,
+    "Design": 30,
+    "Diagnostics_and_Laboratory_Medicine": 30,
+    "Economics": 30,
+    "Electronics": 30,
+    "Energy_and_Power": 30,
+    "Finance": 30,
+    "Geography": 30,
+    "History": 30,
+    "Literature": 30,
+    "Manage": 30,
+    "Marketing": 30,
+    "Materials": 30,
+    "Math": 30,
+    "Mechanical_Engineering": 30,
+    "Music": 30,
+    "Pharmacy": 30,
+    "Physics": 30,
+    "Psychology": 30,
+    "Public_Health": 30,
+    "Sociology": 30
+  },
+  "unique_ids": 900,
+  "source_commit": "9fe57b1176caa74435d1c739de93e9de96e857df",
+  "torch_after_generation": "2.8.0+cu128 2.8.0+cu128",
+  "model_receipt": {
+    "run": "E1",
+    "base": "Qwen/Qwen3-VL-4B-Instruct",
+    "base_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "adapter": "MMDL-team4/hypB-e1-structured-3k",
+    "adapter_revision": "0de38ff61af238608dc7be53358f1dac23788995",
+    "dtype": "bfloat16",
+    "adapter_sha256": "7785950a5d6aea4121d842b9136d537e13555d2b4f68c5a6222924c9bb89507e",
+    "merged_weight_bytes": 8875719328
+  },
+  "merged_safetensors_sha256": {
+    "model-00001-of-00002.safetensors": "60045c418df8f8e962fb6fa2e828d68aae87ed3a5ea881e3ca66cad9c89ab1d5",
+    "model-00002-of-00002.safetensors": "9c5d8f80a461413d1a16e92052dd596cf4a8e8e9f15c6eb24fd32fc91aec66c0"
+  },
+  "environment_counts": {
+    "INFO": 10,
+    "WARN": 3,
+    "PASS": 43
+  },
+  "generation_environment_counts": {
+    "INFO": 10,
+    "PASS": 15
+  },
+  "preflight_summary": {
+    "processed": 900,
+    "selected": 900,
+    "partial": false,
+    "total_tokens": {
+      "min": 1015,
+      "median": 1122.0,
+      "p90": 1558,
+      "p99": 4170,
+      "max": 5627
+    },
+    "exceeds_count": 0,
+    "validation_failures": []
+  }
+}

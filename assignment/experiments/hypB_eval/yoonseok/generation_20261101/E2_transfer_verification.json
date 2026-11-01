@@ -1,0 +1,17 @@
+{
+  "run": "E2",
+  "archive_sha256_remote": "275ebb133eb2a3a2dde36d655ceee72a47c35645ea7dc667bc988c0462edb7d1",
+  "archive_sha256_local": "275ebb133eb2a3a2dde36d655ceee72a47c35645ea7dc667bc988c0462edb7d1",
+  "raw_sha256_remote": "0026e5e6437f8c0ece78ca7c627847eff120783cc737e44faead4d41b8d92d1a",
+  "raw_sha256_local": "0026e5e6437f8c0ece78ca7c627847eff120783cc737e44faead4d41b8d92d1a",
+  "match": true,
+  "rows": 900,
+  "unique_ids": 900,
+  "subjects": 30,
+  "rows_per_subject": 30,
+  "status_ok": 900,
+  "m0_inputs_and_prompt_tokens_match": true,
+  "config_sha256_matches_frozen_main": true,
+  "local_raw": "C:\\Users\\brain\\Documents\\ChatGPT\\MMDL\\work\\eval_B_20261101\\runs\\E2\\generation\\raw.jsonl",
+  "local_archive": "C:\\Users\\brain\\Documents\\ChatGPT\\MMDL\\work\\eval_B_20261101\\runs\\E2\\E2_records_20261101.tar.gz"
+}

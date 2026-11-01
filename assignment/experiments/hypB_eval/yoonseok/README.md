@@ -1,8 +1,8 @@
 # Hypothesis B 평가 준비 — yoonseok
 
-1단계 CPU 준비를 완료했다. 2단계의 최초 venv 설치는 Torch 배포 메타데이터 게이트 실패로 중단했다.
-사용자 지시에 따라 이미지 기본 Python으로 설치·생성을 재개한다. 기존 venv는 병합 전용이다.
-현재 상태는 [GENERATION_REPORT_20261101.md](GENERATION_REPORT_20261101.md),
+1단계 CPU 준비와 2단계 GPU 생성을 완료했다. E1·E2 각각 900문항 검증과 로컬 전송·해시 대조를 통과했다.
+생성은 이미지 기본 Python(Torch 2.8.0+cu128), 기존 venv는 병합 전용으로 사용했다. Judge는 호출하지 않았다.
+결과와 설치 변경 기록은 [GENERATION_REPORT_20261101.md](GENERATION_REPORT_20261101.md),
 1단계 결과와 자원 추정은 [PREPARATION_REPORT.md](PREPARATION_REPORT.md), 고정 조건은 [PLAN.md](PLAN.md)에 있다.
 raw·문항별 채점 결과는 외부 로컬 경로에 두고, 이 폴더에는 스크립트·ID 목록·요약만 보관한다.
 
