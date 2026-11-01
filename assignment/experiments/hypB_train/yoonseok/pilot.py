@@ -11,6 +11,9 @@ from train import CONFIG, main
 
 
 class PilotObserver(TrainerCallback):
+    expected_steps = 20
+    observation_filename = "pilot_observations.jsonl"
+
     def record(self, event, **values):
         payload = {"event": event, **values}
         with self.log.open("a", encoding="utf-8") as stream:
@@ -18,8 +21,8 @@ class PilotObserver(TrainerCallback):
         print("PILOT", json.dumps(payload), flush=True)
 
     def on_train_begin(self, args, state, control, model=None, optimizer=None, **kwargs):
-        assert args.max_steps == 20
-        self.log = Path(args.output_dir) / "pilot_observations.jsonl"
+        assert state.max_steps == self.expected_steps
+        self.log = Path(args.output_dir) / self.observation_filename
         self.started = time.monotonic()
         modules = [name for name, module in model.named_modules() if hasattr(module, "lora_A")]
         trainable = [name for name, param in model.named_parameters() if param.requires_grad]
@@ -49,7 +52,7 @@ class PilotObserver(TrainerCallback):
 
     def on_train_end(self, args, state, control, **kwargs):
         torch.cuda.synchronize()
-        assert state.global_step == 20
+        assert state.global_step == self.expected_steps
         self.record("complete", steps=state.global_step,
                     wall_seconds=time.monotonic() - self.started,
                     max_allocated_bytes=torch.cuda.max_memory_allocated(),
