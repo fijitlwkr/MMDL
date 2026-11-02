@@ -15,19 +15,25 @@ cd "$(dirname "$0")"
 
 echo "=== 2. Setting up .venv-train (ms-swift & training stack) ==="
 if [ ! -d ".venv-train" ]; then
+    echo "Creating .venv-train and installing packages..."
     python3.12 -m venv .venv-train
+    .venv-train/bin/python -m pip install --upgrade pip setuptools wheel
+    .venv-train/bin/python -m pip install -r requirements-train.txt
+    .venv-train/bin/python -m pip check
+else
+    echo ".venv-train already exists, skipping installation."
 fi
-.venv-train/bin/python -m pip install --upgrade pip setuptools wheel
-.venv-train/bin/python -m pip install -r requirements-train.txt
-.venv-train/bin/python -m pip check
 
 echo "=== 3. Setting up .venv-eval (vLLM 0.11.0 stack) ==="
 if [ ! -d ".venv-eval" ]; then
+    echo "Creating .venv-eval and installing packages..."
     python3.12 -m venv .venv-eval
+    .venv-eval/bin/python -m pip install --upgrade pip setuptools wheel
+    .venv-eval/bin/python -m pip install -r ../../../../code/requirements.txt
+    .venv-eval/bin/python -m pip check
+else
+    echo ".venv-eval already exists, skipping installation."
 fi
-.venv-eval/bin/python -m pip install --upgrade pip setuptools wheel
-.venv-eval/bin/python -m pip install -r ../../../../code/requirements.txt
-.venv-eval/bin/python -m pip check
 
 echo "=== 4. Saving installed packages manifest ==="
 mkdir -p artifacts
