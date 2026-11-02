@@ -1,0 +1,23 @@
+*.jsonl
+*.jsonl.gz
+raw*/
+scoring/
+runs/
+artifacts/
+preparation/
+cache/
+.venv*/
+*.safetensors
+*.bin
+*.pt
+*.png
+*.jpg
+
+# Ignored personal documents and keys
+*TASK.md
+TASK.md
+*eval.md
+eval.md
+*openai_key*
+*.openai_key
+openai_key

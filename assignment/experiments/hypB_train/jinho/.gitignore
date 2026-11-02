@@ -16,3 +16,12 @@ cache/
 .cache/
 .venv*/
 
+
+# Ignored personal documents and keys
+*TASK.md
+TASK.md
+*eval.md
+eval.md
+*openai_key*
+*.openai_key
+openai_key

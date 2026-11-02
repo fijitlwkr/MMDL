@@ -35,16 +35,20 @@ def main():
                     downloaded += 1
                     time.sleep(0.5)
                     break
-                except (HfHubHTTPError, RuntimeError) as error:
+                except (HfHubHTTPError, RuntimeError, Exception) as error:
                     response = getattr(error, "response", None)
                     rate_limited = (getattr(response, "status_code", None) == 429
                                     or any(word in str(error).lower()
                                            for word in ("429", "rate limit", "quota of")))
-                    if not rate_limited or attempt == 3:
+                    if rate_limited:
+                        waits += 1
+                        print("rate limit, waiting 310 seconds", flush=True)
+                        time.sleep(310)
+                    elif attempt < 3:
+                        print(f"transient error ({error}) on {file.rfilename}, retrying in 5s (attempt {attempt+1}/4)...", flush=True)
+                        time.sleep(5)
+                    else:
                         raise RuntimeError(f"download failed at {file.rfilename}: {type(error).__name__}") from None
-                    waits += 1
-                    print("rate limit, waiting 310 seconds", flush=True)
-                    time.sleep(310)
         if index % 25 == 0 or index == len(info.siblings):
             print("files", index, "/", len(info.siblings), "cached", cached,
                   "downloaded", downloaded, "waits", waits, flush=True)
