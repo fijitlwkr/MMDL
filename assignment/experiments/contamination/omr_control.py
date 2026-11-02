@@ -6,7 +6,9 @@
 조건 (E1 과 같음): 질문 본문 ≤ --max-stem 자, 관찰 문장 추출 성공, 관찰 문장 ≤ --max-perc-words 단어,
   거부 응답 제외, 정답이 보기 안에 있음, MMMU 이미지와 해밍 거리 ≤ 12 제외, 같은 그림(≤ 8)은 하나만.
 E1 과 다른 점: 질문 유형(그림 읽기 시그널 단어)으로 고르지 않고, 이미지 없이 풀기 필터와 정답 종류 분류,
-  단서 비율 맞추기, 보기 순서 바꾸기를 하지 않는다.
+  단서 비율 맞추기를 하지 않는다.
+보기 순서는 E1 과 같이 바꿔 정답 위치를 보기 수별로 고르게 맞춘다(--keep-order 면 안 함). 앞 600건과 나머지를
+  따로 맞춰서 600건 세트와 1500건 세트 모두 고르다.
 출력: out-dir/final/control_{n}.jsonl (앞 600건이 600건 세트), 이미지는 final/images/
 """
 import argparse
@@ -19,6 +21,7 @@ import re
 import pyarrow.parquet as pq
 from huggingface_hub import hf_hub_download
 
+from finalize_omr import balance_letters
 from omr_select import PERC_RE, REPO, SEED, TYPE_PATTERNS, classify, split_stem
 from phash_utils import load_index, nearest, phash_from_bytes
 
@@ -37,6 +40,7 @@ def main():
     ap.add_argument("--mmmu-le", type=int, default=12, help="MMMU 와 이 거리 이하면 제외")
     ap.add_argument("--dup-le", type=int, default=8)
     ap.add_argument("--answer-only", type=float, default=0.2)
+    ap.add_argument("--keep-order", action="store_true", help="보기 순서를 바꾸지 않음")
     a = ap.parse_args()
 
     paths = [hf_hub_download(REPO, f"data/train-{s:05d}-of-00031.parquet", repo_type="dataset",
@@ -95,6 +99,11 @@ def main():
         r["phash"] = h
         chosen.append(r)
     assert len(chosen) == a.n, f"{len(chosen)}건밖에 못 채움"
+    print("정답 글자(섞기 전):", dict(sorted(collections.Counter(r["answer"] for r in chosen).items())))
+    if not a.keep_order:
+        n_bal = balance_letters(chosen[:600], random.Random(SEED + 60)) + \
+            balance_letters(chosen[600:], random.Random(SEED + 61))
+        print(f"보기 순서 바꿈 {n_bal}건")
 
     fin = os.path.join(a.out_dir, "final")
     os.makedirs(os.path.join(fin, "images"), exist_ok=True)
@@ -112,7 +121,7 @@ def main():
             tgt = f"Answer: {r['answer']}" if i in ans_only else f"Observation: {r['perception']}\nAnswer: {r['answer']}"
             f.write(json.dumps({"id": f"omr_{r['omr_row']:06d}", "image": f"images/{fn}",
                                 "question": f"{r['stem']}\n{r['options']}", "target": tgt, "answer": r["answer"],
-                                "answer_only": int(i in ans_only), "type": t, "keyword": kw,
+                                "orig_answer": r.get("orig_answer", r["answer"]), "answer_only": int(i in ans_only), "type": t, "keyword": kw,
                                 "omr_row": r["omr_row"], "phash": r["phash"]}, ensure_ascii=False) + "\n")
     print(dict(stats))
     print("유형(시그널 단어 기준):", dict(collections.Counter(classify(r["stem"]) or "(없음)" for r in chosen)))

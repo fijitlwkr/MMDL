@@ -4,6 +4,7 @@
   python make_upload.py --final omr_out/final --cand-dir omr_out --tokenizer <tokenizer.json> --out upload_omr
 
 출력 (out 안): omr_e1_600.jsonl, omr_e1_1500.jsonl, omr_control_600.jsonl, omr_control_1500.jsonl, images/, stats.md
+응답 마지막 줄은 --answer-label(기본 "Final Answer")로 바꾼다: "Observation: ...\nFinal Answer: X" 또는 "Final Answer: X".
 한 줄 형식: id(omr_e1_<행번호> / omr_ctl_<행번호>), images, messages(user 는 "<image>\n" 로 시작), image_phash, answer, has_observation,
   response_tokens(Qwen3-VL 토크나이저로 센 응답 토큰 수), keyword(있을 때), source="omr", type
 """
@@ -21,9 +22,10 @@ from tokenizers import Tokenizer
 from omr_select import TYPE_PATTERNS, split_stem
 
 HEX16 = re.compile(r"^[0-9a-f]{16}$")
+ANSWER_LINE = re.compile(r"(^|\n)Answer: ([A-E])$")
 
 
-def convert(recs, phash_of, tok, tag):
+def convert(recs, phash_of, tok, tag, label):
     """tag(e1/ctl)를 id 에 붙여, 두 세트에 같이 뽑힌 문항도 id 가 겹치지 않게 한다(내용이 다를 수 있음)."""
     out = []
     for x in recs:
@@ -32,19 +34,21 @@ def convert(recs, phash_of, tok, tag):
         if kw is None and x.get("type"):
             m = re.search(TYPE_PATTERNS[x["type"]], stem, re.I)
             kw = m.group(0).lower() if m else ""
+        target, n = ANSWER_LINE.subn(rf"\1{label}: \2", x["target"])
+        assert n == 1, x["id"]
         row = {"id": x["id"].replace("omr_", f"omr_{tag}_", 1), "images": [x["image"]],
                "messages": [{"role": "user", "content": "<image>\n" + x["question"]},
-                            {"role": "assistant", "content": x["target"]}],
+                            {"role": "assistant", "content": target}],
                "image_phash": x.get("phash") or phash_of[x["cand_id"]], "answer": x["answer"],
-               "has_observation": x["target"].startswith("Observation:"),
-               "response_tokens": len(tok.encode(x["target"]).ids), "source": "omr", "type": x.get("type", "")}
+               "has_observation": target.startswith("Observation:"),
+               "response_tokens": len(tok.encode(target).ids), "source": "omr", "type": x.get("type", "")}
         if kw:
             row["keyword"] = kw
         out.append(row)
     return out
 
 
-def check(name, rows, n, img_dir):
+def check(name, rows, n, img_dir, label):
     assert len(rows) == n, f"{name}: {len(rows)}행 (기대 {n})"
     assert len({r["id"] for r in rows}) == n, f"{name}: id 중복"
     per_img = collections.Counter(r["images"][0] for r in rows)
@@ -53,7 +57,7 @@ def check(name, rows, n, img_dir):
     for r in rows:
         c = r["messages"][1]["content"]
         assert r["messages"][0]["content"].startswith("<image>\n")
-        assert r["answer"] in "ABCDE" and c.endswith(f"Answer: {r['answer']}"), r["id"]
+        assert r["answer"] in "ABCDE" and re.fullmatch(rf"(Observation: [^\n]+\n)?{label}: {r['answer']}", c), r["id"]
         assert r["has_observation"] == c.startswith("Observation: "), r["id"]
         assert HEX16.match(r["image_phash"]), r["id"]
         assert os.path.exists(os.path.join(img_dir, os.path.basename(r["images"][0]))), r["id"]
@@ -80,6 +84,7 @@ def main():
     ap.add_argument("--tokenizer", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--notes", help="stats.md 앞에 붙일 만든 방법 설명(md)")
+    ap.add_argument("--answer-label", default="Final Answer", help="응답 마지막 줄의 이름")
     a = ap.parse_args()
 
     phash_of = {}
@@ -102,12 +107,12 @@ def main():
     stats += ["## 파일별 통계", ""]
     converted = {}
     for name, (recs, n, tag) in sets.items():
-        rows = convert(recs, phash_of, tok, tag)
+        rows = convert(recs, phash_of, tok, tag, a.answer_label)
         for r in rows:
             fn = os.path.basename(r["images"][0])
             if not os.path.exists(os.path.join(img_out, fn)):
                 shutil.copy(os.path.join(a.final, "images", fn), os.path.join(img_out, fn))
-        check(name, rows, n, img_out)
+        check(name, rows, n, img_out, a.answer_label)
         converted[name] = rows
         with open(os.path.join(a.out, f"{name}.jsonl"), "w", encoding="utf-8") as f:
             for r in rows:

@@ -5,6 +5,7 @@
       --message "Add OMR data (E1/control, 600/1500)"
 
 이미 올라간 파일은 다시 올릴 때 건너뛰므로, 끊겨도 같은 명령을 다시 실행하면 이어진다.
+--include 로 일부 파일만 올릴 수 있다(예: --include "omr_control_*.jsonl" stats.md).
 커밋은 모든 파일이 올라간 뒤 한 번만 생긴다. 토큰은 huggingface-cli login 으로 저장된 것을 쓴다(쓰기 권한 필요).
 """
 import argparse
@@ -29,13 +30,14 @@ def main():
     ap.add_argument("--message", required=True)
     ap.add_argument("--wait", type=int, default=330, help="한도에 걸렸을 때 쉬는 초")
     ap.add_argument("--tries", type=int, default=8)
+    ap.add_argument("--include", nargs="*", help="올릴 파일 패턴(folder 기준). 없으면 전부")
     a = ap.parse_args()
 
     api = HfApi()
     for i in range(1, a.tries + 1):
         try:
             url = api.upload_folder(folder_path=a.folder, path_in_repo=a.path_in_repo, repo_id=a.repo,
-                                    repo_type="dataset", commit_message=a.message)
+                                    repo_type="dataset", commit_message=a.message, allow_patterns=a.include)
             print("완료:", url)
             return
         except Exception as e:
