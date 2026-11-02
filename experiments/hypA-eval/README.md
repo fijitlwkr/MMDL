@@ -53,3 +53,26 @@
 
 - HF 비공개 데이터셋 `MMDL-team4/hypA-eval-raw` 의 `<이름>_seed_<시드>/` 에 arm 이 끝날 때마다 올라간다: `raw.jsonl`, `run_metadata.json`, `env.json`, `env_check.json`, `config_used.yaml`, `logs/`, `arm_minutes.txt`.
 - 끊긴 arm 은 이어받지 않고 `.partial.<시각>` 으로 옮긴 뒤 처음부터 다시 돌린다. 이미 `DONE` 인 arm 은 건너뛴다.
+
+## 채점과 분석 (맥)
+
+1. 채점. HF 에서 답안을 받아 규칙 채점 + judge 까지 한다. OpenAI 키는 시작할 때 한 번 묻는다(화면·파일에 남지 않음). 작업 폴더는 재부팅에 지워지지 않는 곳에 둔다.
+   ```bash
+   bash experiments/hypA-eval/score_all.sh --work <작업 폴더>
+   ```
+2. 커밋용 묶음. baseline 시드 실험과 같은 방식(`raw.jsonl.gz` + 문항별 채점 `item_results.jsonl` + 채점 요약)이다.
+   ```bash
+   python experiments/hypA-eval/pack_runs.py --work <작업 폴더> --dest results/hypA_eval
+   ```
+3. 분석. E0 는 `exp/baseline-seed-robustness` 브랜치의 `results/baseline_seed_robustness/seed_{42,1234,2026}` 을 받아 둔 폴더를 넘긴다.
+   ```bash
+   python experiments/hypA-eval/analyze.py --runs results/hypA_eval --e0 <E0 시드 폴더> --out results/hypA_eval/analysis
+   ```
+
+`pack_runs.py` 는 시드 실험 브랜치의 파일을 그대로 가져왔다.
+
+## 실측 (2026-11-02)
+
+- 생성: arm 당 33~50분, 9개 합계 약 6시간 30분. 에러 0건. 학습된 모델은 답이 짧아서 E0(97~106분)보다 빨랐다.
+- 채점: judge 대상은 arm 당 125~255문항, 9개 합계 1,669문항. 약 35분, $1.57.
+- 결과 요약: `results/hypA_eval/analysis/REPORT.md`. 의료 문항 답변을 직접 읽은 기록: `results/hypA_eval/analysis/MEDICAL_REVIEW.md`.
