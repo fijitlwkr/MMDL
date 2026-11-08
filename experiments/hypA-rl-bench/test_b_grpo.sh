@@ -31,6 +31,7 @@ mkdir -p "$B"; cd "$REPO"
 python "$EXP/test_b_plugin.py" prepare --bench "$BENCH" --out "$B/train16.jsonl" --n "$N_ITEMS"
 read -r MIN_TOK MAX_TOK < <(python -c "import sys, yaml; c = yaml.safe_load(open(sys.argv[1]))['image']; f = (c['image_patch_size'] * c['spatial_merge_size']) ** 2; print(c['min_pixels'] // f, c['max_pixels'] // f)" code/config.yaml)
 export IMAGE_MIN_TOKEN_NUM="$MIN_TOK" IMAGE_MAX_TOKEN_NUM="$MAX_TOK" HYPA_B_OUT="$B"
+export VLLM_PLUGINS=""  # swift 의 vLLM 플러그인(swift_uembed)이 vllm 0.11.0 에 없는 모듈을 불러 실패하므로 끈다 (setup.sh 참고)
 echo "GPU ${GPU_MIB}MiB  micro_batch=$PDBS grad_accum=$GA vllm_mem=$VLLM_MEM steps=$STEPS  image tokens ${MIN_TOK}~${MAX_TOK}" | tee "$B/settings.txt"
 
 nvidia-smi --query-gpu=timestamp,memory.used,memory.total,utilization.gpu --format=csv,noheader,nounits -l 1 > "$B/vram.csv" &

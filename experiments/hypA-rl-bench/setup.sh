@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 # 가설 A RL 사전 테스트 1단계: 환경 설치·확인 + bench64 데이터 준비 + 모델 내려받기. 파드에서 한 번만 돌린다.
 #   1. 팀 고정 버전(code/requirements.txt: vllm 0.11.0 / torch 2.8.0 / transformers 4.57.1 …) 설치
-#   2. ms-swift 4.6.0 + trl 0.29.1 설치. 1번에서 깔린 버전을 바꾸지 못하게 pip freeze 를 제약(-c)으로 건다.
+#   2. ms-swift 4.6.0 + trl 0.29.1 + datasets 4.8.4 설치. 1번에서 깔린 다른 버전은 바꾸지 못하게 pip freeze 를 제약(-c)으로 건다.
 #      trl 은 swift GRPO 가 0.26 이상을 요구하고, swift 4.6.0 README 권장값이 0.29.1 이다.
+#      datasets: swift 4.6.0 데이터 전처리가 datasets.features.Json(4.7.0 부터 있음)을 쓴다. 팀 고정 4.0.0 에는 없어
+#      학습이 데이터 로드에서 멈췄다(2026-11-08). swift 메타데이터가 허용하는 가장 높은 4.8.4 로 올린다.
+#      vLLM: swift 가 vLLM 일반 플러그인(swift_uembed)을 등록하는데, 이 플러그인이 vllm 0.11.0 에 없는 모듈을 불러
+#      LLM 생성이 실패한다. 테스트 A·B 는 VLLM_PLUGINS="" 로 플러그인을 끄고 돌린다(Qwen3-VL 에는 필요 없는 플러그인).
 #   3. pip check(swift 설치 전·후) + import 확인. 결과는 $OUT/setup/ 에 전문으로 남긴다.
 #      swift 설치·import 실패, 또는 swift 설치 후 pip check 에 새 문제가 생기면 테스트 B 는 '불가'로 기록한다.
 #   4. bench64(HF 비공개 데이터셋)를 받아 SHA256SUMS 로 검사하고 $OUT/bench64 에 푼다.
@@ -16,7 +20,7 @@ OUT="${OUT:-/workspace/hypA_rl_bench}"
 export HF_HOME="${HF_HOME:-/workspace/.cache/huggingface}"
 BENCH_REPO="${BENCH_REPO:-MMDL-team4/hypA-rl-bench64}"
 BENCH_REV="${BENCH_REV:-0a9240ad1f48a9e5c712338bb0b3e1180c9d25c8}"  # 하경님이 올린 버전 (2026-11-08 확인)
-SWIFT_PKGS=(ms-swift==4.6.0 trl==0.29.1)
+SWIFT_PKGS=(ms-swift==4.6.0 trl==0.29.1 datasets==4.8.4)
 S="$OUT/setup"; mkdir -p "$S" "$HF_HOME"; cd "$REPO"
 status() { echo "$1" >> "$S/STATUS"; echo "[STATUS] $1"; }
 : > "$S/STATUS"
@@ -26,7 +30,7 @@ python -m pip install -r code/requirements.txt 2>&1 | tee "$S/01_install_team.lo
 if (( PIPESTATUS[0] != 0 )); then status "A=fail (팀 패키지 설치 실패, 01_install_team.log)"; status "B=불가"; exit 3; fi
 python -c 'import hf_transfer' >/dev/null 2>&1 && export HF_HUB_ENABLE_HF_TRANSFER=1
 python -m pip check > "$S/02_pip_check_before_swift.log" 2>&1
-python -m pip freeze | grep -v -E '^(-e |.* @ )' > "$S/constraints.txt"
+python -m pip freeze | grep -v -E '^(-e |.* @ |datasets==)' > "$S/constraints.txt"
 
 echo "=== 2. ms-swift 설치 (${SWIFT_PKGS[*]}) ==="
 python -m pip install "${SWIFT_PKGS[@]}" -c "$S/constraints.txt" 2>&1 | tee "$S/03_install_swift.log"
@@ -54,6 +58,7 @@ check("torch.cuda", "import torch; assert torch.cuda.is_available(), 'CUDA not a
 check("vllm.LLM", "from vllm import LLM, SamplingParams")
 check("swift GRPO", "from swift.rlhf_trainers import GRPOConfig, GRPOTrainer")
 check("swift ORM", "from swift.rewards import ORM, orms")
+check("datasets Json (swift 전처리)", "from datasets.features import Json")
 versions = {}
 for dist in ["torch", "vllm", "transformers", "tokenizers", "qwen-vl-utils", "ms-swift", "trl", "peft", "accelerate",
              "datasets", "huggingface-hub", "deepspeed", "flash-attn"]:
@@ -74,7 +79,7 @@ PY
 nvidia-smi > "$S/nvidia_smi.txt" 2>&1
 
 TEAM_IMPORTS_OK=$(python -c "import json,sys; d=json.load(open(sys.argv[1]))['imports']; print(int(all(d[k]=='ok' for k in ['import torch','import vllm','import transformers','import qwen_vl_utils','torch.cuda','vllm.LLM'])))" "$S/06_imports.json")
-SWIFT_IMPORTS_OK=$(python -c "import json,sys; d=json.load(open(sys.argv[1]))['imports']; print(int(all(d[k]=='ok' for k in ['import swift','import trl','import peft','swift GRPO','swift ORM'])))" "$S/06_imports.json")
+SWIFT_IMPORTS_OK=$(python -c "import json,sys; d=json.load(open(sys.argv[1]))['imports']; print(int(all(d[k]=='ok' for k in ['import swift','import trl','import peft','swift GRPO','swift ORM','datasets Json (swift 전처리)'])))" "$S/06_imports.json")
 
 echo "=== 4. bench64 받기·검사 ==="
 python - "$BENCH_REPO" "$BENCH_REV" "$OUT" <<'PY' 2>&1 | tee "$S/07_bench64.log"

@@ -9,7 +9,7 @@ RL(GRPO) 학습의 규모와 비용을 정하기 전에 두 가지를 잰다. �
 
 | 파일 | 내용 |
 |---|---|
-| `setup.sh` | 팀 고정 버전 설치 → ms-swift 4.6.0(+trl 0.29.1) 설치 → pip check·import 확인 → bench64 받기·체크섬 검사 → 모델 받기 |
+| `setup.sh` | 팀 고정 버전 설치 → ms-swift 4.6.0(+trl 0.29.1, datasets 4.8.4) 설치 → pip check·import 확인 → bench64 받기·체크섬 검사 → 모델 받기 |
 | `test_a_generate.py` | 테스트 A. `code/` 의 `VLLMEngine`·`sampling_kwargs`·`prepare_inputs`·`config.yaml` 을 그대로 쓴다 |
 | `test_b_grpo.sh` | 테스트 B. `swift rlhf` 실행 + VRAM 기록 + 프롬프트 비교 + 결과 정리 |
 | `test_b_plugin.py` | 테스트 B 의 swift 플러그인(임시 보상, 첫 프롬프트 덤프, overlong 로그)과 보조 명령(prepare / compare / summarize) |
@@ -56,6 +56,9 @@ RL(GRPO) 학습의 규모와 비용을 정하기 전에 두 가지를 잰다. �
 
 ## 정해서 한 것
 
+- **패키지 두 가지 조정**(2026-11-08 첫 실행에서 발견). 하경님이 정한 vllm 0.11.0 / torch 2.8.0 / transformers 4.57.1 / ms-swift 4.6.0 은 그대로다.
+  - datasets 4.0.0(팀 고정) → **4.8.4**: swift 4.6.0 의 데이터 전처리가 datasets 4.7.0 부터 있는 `datasets.features.Json` 을 써서, 4.0.0 에서는 학습이 데이터 로드에서 멈췄다(`ImportError: cannot import name 'Json'`).
+  - **`VLLM_PLUGINS=""`**: swift 가 vLLM 에 자동 등록하는 플러그인(`swift_uembed`)이 vllm 0.11.0 에 없는 `vllm.model_executor.models.qwen3_5` 를 불러 vLLM 이 시작하지 못했다(`ModuleNotFoundError`). Qwen3-VL 에는 필요 없는 플러그인이라 A·B 모두 끄고 돌린다.
 - **B 의 16문항**: bench64 에서 고정 16문항(OMR 8 + Honey 8: TQA 객관식 4, ChartQA 2, TallyQA 2)을 seed 3407 로 뽑아 매 스텝 같은 16문항을 쓴다. 스텝당 16 × 8 = 128개 생성(마이크로배치 4 × 누적 32, 4090 이면 2 × 64).
 - **A 의 정답 판정**: judge 없이 규칙만 쓴다. 객관식은 팀 규칙(Qwen 파서 + Final Answer)을 먼저 쓰고, 못 뽑거나 둘이 다르면 답 끝부분의 `answer is X` → `\boxed{X}` → `**X.` 순으로 찾는다. 이 방식은 E0 seed 42 객관식 847문항에서 정오 판정이 팀 공식 채점(judge 포함)과 96.1% 같았다(끝까지 쓴 답만 보면 99.7%, 나머지는 잘린 답). 주관식은 MMMU 주관식 규칙(`eval_open`).
 - **A 의 소스별 시간**: 소스마다 256요청을 따로 한 번에 넣어 잰다. 두 소스를 섞어 넣으면 소스별 시간을 나눌 수 없다.

@@ -14,8 +14,12 @@
   - 답을 못 뽑은 응답은 오답으로 센다(개수는 따로 적는다).
 출력: responses.jsonl(응답 1개당 1줄), summary.json, REPORT.md
 """
-import argparse, collections, hashlib, importlib.metadata, importlib.util, json, re, statistics as st, sys, time
+import argparse, collections, hashlib, importlib.metadata, importlib.util, json, os, re, statistics as st, sys, time
 from pathlib import Path
+
+# ms-swift 가 설치돼 있으면 vLLM 이 swift 의 플러그인(swift_uembed)을 자동으로 불러오는데, vllm 0.11.0 에 없는 모듈을 찾다가
+# LLM 생성이 실패한다. 평가 코드는 플러그인을 쓰지 않으므로 끈다(빈 목록 = 외부 플러그인 없음).
+os.environ.setdefault("VLLM_PLUGINS", "")
 
 REPO = Path(__file__).resolve().parents[2]
 THRESHOLDS = (1024, 2048, 4096, 8192)
@@ -225,7 +229,7 @@ def main():
     groups["전체"] = summarize(recs, a.n, max_tokens, sum(groups[s]["seconds"] for s in sources))
 
     versions = {}
-    for dist in ["torch", "vllm", "transformers", "tokenizers", "qwen-vl-utils"]:
+    for dist in ["torch", "vllm", "transformers", "tokenizers", "qwen-vl-utils", "datasets", "ms-swift"]:
         try:
             versions[dist] = importlib.metadata.version(dist)
         except Exception:
@@ -237,6 +241,7 @@ def main():
         pass
     summary = {"n": a.n, "max_tokens": max_tokens, "sampling": base, "seed_rule": "config seed + request index",
                "config_sha256": hashlib.sha256(config_bytes).hexdigest(), "model": cfg["model"],
+               "vllm_plugins_env": os.environ.get("VLLM_PLUGINS"),
                "bench_sha256": hashlib.sha256((a.bench / "bench64.jsonl").read_bytes()).hexdigest(),
                "env": versions, "engine": engine.describe(), "memory": engine.memory_report(),
                "timing": {"prepare_seconds": prepare_seconds, "engine_init_seconds": engine.init_seconds},
