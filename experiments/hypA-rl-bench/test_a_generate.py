@@ -10,9 +10,12 @@
   - 소스(OMR / Honey)별로 따로 한 번에 넣어서 소스별 시간을 잰다. 한 소스 = 32문항 × 8 = 256 요청.
 정답은 judge 없이 규칙으로 단순 비교한다(팀 파서 code/scoring/frozen/parsers.py 재사용).
   - 객관식: 팀 규칙(Qwen 파서 + Final Answer, 둘이 다르면 미추출) → 실패하면 보조 규칙(FALLBACKS).
-  - 주관식: MMMU 주관식 규칙(eval_open).
+  - 주관식: 최종 답 부분(같은 줄의 마지막 'Answer:' 뒤, 없으면 첫 줄 + 마지막 줄)에 정답이 있는지 단순 비교(open_match).
   - 답을 못 뽑은 응답은 오답으로 센다(개수는 따로 적는다).
 출력: responses.jsonl(응답 1개당 1줄), summary.json, REPORT.md
+
+  python experiments/hypA-rl-bench/test_a_generate.py --bench <bench64 폴더> --out <출력 폴더> --regrade
+    생성 없이 저장된 responses.jsonl 을 지금의 판정 규칙으로 다시 채점한다(GPU 불필요). 시간·토큰 기록은 그대로 둔다.
 """
 import argparse, collections, hashlib, importlib.metadata, importlib.util, json, os, re, statistics as st, sys, time
 from pathlib import Path
@@ -27,6 +30,13 @@ OPTION = re.compile(r"^([A-I])\. (.*)$")
 # 팀 규칙이 못 뽑았거나 팀 규칙끼리 답이 다를 때 쓰는 보조 규칙. E0 seed 42 객관식 847문항에서 정오 판정이 팀 공식
 # 채점(judge 포함)과 814문항(96.1%) 같았다. 끝까지 쓴 답(734문항)만 보면 732문항(99.7%). 나머지는 8192 토큰에서
 # 잘린 답이다(judge 는 잘린 답에서도 답을 읽어 정답 처리한다).
+# 주관식(bench64 의 ChartQA·TallyQA): 정답 끝에 마침표가 붙어 있고('Sweden.', '22.07.'), 모델은 '$970 million',
+# 'two sinks', 'Answer: Sweden' 처럼 답한다. MMMU 주관식 규칙(eval_open)은 이런 답의 절반가량을 오답 처리해서
+# (2026-11-08 응답 128개를 직접 읽어 확인) 최종 답 부분에 정답이 있는지로 단순 비교한다.
+ANSWER_LINE = re.compile(r"(?:final answer|answer)[ \t*]*[:：][ \t*]*(\S.*)", re.I)
+NUMBER_WORDS = {w: float(i) for i, w in enumerate(
+    "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen "
+    "seventeen eighteen nineteen twenty".split())}
 FALLBACKS = (
     ("stated", re.compile(r"(?:final answer|correct answer is|correct option is|correct choice is|answer is|answer)"
                           r"\s*[:：]?\s*\**\s*(?:option\s*)?\(?\**([A-I])\b", re.I), 600),
@@ -54,6 +64,35 @@ def load_parsers(code_dir):
     return mod
 
 
+def final_segment(text):
+    """주관식 최종 답 부분: 같은 줄에 'Answer: X' 가 있으면 마지막 그것, 없으면 첫 줄 + 마지막 줄(구분선 제외).
+    모델은 첫 문장에서 답하고('there are **two sinks**') 설명을 덧붙이거나, 설명 뒤 마지막 줄에서 결론을 낸다."""
+    hits = list(ANSWER_LINE.finditer(text))
+    if hits:
+        return hits[-1].group(1).strip()
+    lines = [x.strip() for x in text.strip().splitlines() if x.strip() and not set(x.strip()) <= set("-*#> ")]
+    return "\n".join(dict.fromkeys([lines[0], lines[-1]])) if lines else ""
+
+
+def numbers_in(text):
+    vals = [float(x.replace(",", "")) for x in re.findall(r"\d[\d,]*(?:\.\d+)?", text)]
+    return vals + [NUMBER_WORDS[w] for w in re.findall(r"[a-z]+", text.lower()) if w in NUMBER_WORDS]
+
+
+def open_match(golds, segment):
+    """정답(끝 마침표 제거)이 최종 답 부분에 있는가. 숫자 정답은 숫자로(쉼표·$ 무시, 영어 숫자 단어 포함), 글자 정답은 대소문자 무시 포함."""
+    for g in golds:
+        g = g.strip()
+        g = g[:-1] if g.endswith(".") else g
+        try:
+            if float(g) in numbers_in(segment):
+                return True
+        except ValueError:
+            if re.search(rf"(?<![a-z]){re.escape(g.lower())}(?![a-z])", segment.lower()):
+                return True
+    return False
+
+
 def extract_mc(P, text, choices):
     """객관식 답 글자와 뽑은 규칙. 팀 규칙(Qwen 파서 + Final Answer)이 못 뽑거나 둘이 다르면
     답 끝부분에서 마지막으로 밝힌 답 → \\boxed{X} → **X. 순으로 찾는다."""
@@ -75,8 +114,8 @@ def grade(P, row, text):
     if row["type"] == "mc":
         pred, route = extract_mc(P, text, row["choices"])
         return pred, pred == row["gold"], route
-    cands = P.open_candidates(text)
-    return cands, bool(cands) and bool(P.MMMU["eval_open"](row["gold"], cands)), "mmmu_open"
+    segment = final_segment(text)
+    return segment, open_match(row["gold"], segment), "open_final"
 
 
 def summarize(recs, n, max_tokens, seconds=None):
@@ -110,6 +149,8 @@ def report(summary):
     L = ["# 테스트 A: 생성 속도·길이·정답 분포", "",
          f"원본 모델 `{summary['model']['repo_id']}`@{summary['model']['revision'][:7]}, bench64 64문항 × {n}회. "
          f"GPU {summary['env'].get('gpu')}. 생성 설정은 `code/config.yaml` 그대로, seed 만 요청마다 다름.", "",
+         *([f"생성 후 `--regrade` 로 다시 채점했다({summary['regraded']['note']}, 판정이 바뀐 응답 "
+            f"{summary['regraded']['changed_responses']}개). 원래 결과는 `*.before_regrade`.", ""] if summary.get("regraded") else []),
          "## 소스별 결과", "",
          "| 소스 | 문항 | 응답 | ① 시간(분) | ② 생성 토큰 합 | 토큰/초 | 평균 / 중앙 / 최대 토큰 | 정답률 | 답 미추출 |",
          "|---|---|---|---|---|---|---|---|---|"]
@@ -141,7 +182,9 @@ def report(summary):
           "judge 없이 규칙만 썼다. 객관식은 팀 규칙(Qwen 파서 + Final Answer, 서로 다르면 미추출)을 먼저 쓰고, "
           "못 뽑거나 둘이 다르면 답 끝부분에서 마지막으로 밝힌 답(`answer is X` 등) → `\\boxed{X}` → `**X.` 순으로 찾았다. "
           "이 방식은 E0 seed 42 객관식 847문항에서 정오 판정이 팀 공식 채점(judge 포함)과 96.1% 같았다(끝까지 쓴 답만 보면 99.7%, 나머지는 잘린 답). "
-          "주관식은 MMMU 주관식 규칙(`eval_open`). 미추출은 오답으로 셌다.", "",
+          "주관식은 최종 답 부분(같은 줄의 마지막 `Answer:` 뒤, 없으면 첫 줄 + 마지막 줄)에 정답이 있는지로 비교했다. 정답 끝 마침표는 떼고, "
+          "숫자는 쉼표·$ 를 무시하고 영어 숫자 단어(two 등)도 숫자로 읽었다. MMMU 주관식 규칙은 이 데이터의 답 형식에서 "
+          "맞은 답의 절반가량을 오답 처리해서 쓰지 않았다. 미추출은 오답으로 셌다.", "",
           "| 그룹 | 답을 뽑은 규칙별 응답 수 |", "|---|---|"]
     for name, g in S.items():
         L.append(f"| {name} | " + ", ".join(f"{k} {v}" for k, v in sorted(g["parse_routes"].items(), key=lambda kv: -kv[1])) + " |")
@@ -150,15 +193,64 @@ def report(summary):
     return "\n".join(L) + "\n"
 
 
+def regrade(a):
+    """저장된 응답을 지금 규칙으로 다시 채점하고 summary.json·REPORT.md 를 다시 쓴다. 원래 파일은 *.before_regrade 로 남긴다."""
+    code_dir = a.config.resolve().parent
+    P = load_parsers(code_dir)
+    rows = {}
+    for line in open(a.bench / "bench64.jsonl", encoding="utf-8"):
+        r = json.loads(line)
+        if r["type"] == "mc":
+            r["choices"] = choices_of(r)
+        rows[r["id"]] = r
+    path = a.out / "responses.jsonl"
+    recs = [json.loads(line) for line in open(path, encoding="utf-8")]
+    summary = json.loads((a.out / "summary.json").read_text(encoding="utf-8"))
+    # 바뀐 개수는 생성 직후의 원래 판정과 비교한다(여러 번 다시 채점해도 같은 기준)
+    orig = a.out / "responses.jsonl.before_regrade"
+    first = [json.loads(line)["correct"] for line in open(orig, encoding="utf-8")] if orig.exists() else [r["correct"] for r in recs]
+    changed = 0
+    for rec, was in zip(recs, first):
+        pred, ok, route = grade(P, rows[rec["id"]], rec["raw_text"])
+        changed += ok != was
+        rec.update(pred=pred, correct=ok, parse_route=route)
+    for name in ("responses.jsonl", "summary.json", "REPORT.md"):
+        src = a.out / name
+        if src.exists() and not (a.out / f"{name}.before_regrade").exists():
+            src.rename(a.out / f"{name}.before_regrade")
+    with open(path, "w", encoding="utf-8") as f:
+        for rec in recs:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    n, max_tokens, old = summary["n"], summary["max_tokens"], summary["groups"]
+    sources = sorted({r["source"] for r in recs})
+    groups = {s: summarize([r for r in recs if r["source"] == s], n, max_tokens, old[s]["seconds"]) for s in sources}
+    for (source, qtype) in sorted({(r["source"], r["type"]) for r in recs}):
+        part = [r for r in recs if r["source"] == source and r["type"] == qtype]
+        if len(part) < sum(r["source"] == source for r in recs):
+            groups[f"{source} / {qtype}"] = summarize(part, n, max_tokens)
+    groups["전체"] = summarize(recs, n, max_tokens, sum(groups[s]["seconds"] for s in sources))
+    summary["groups"] = groups
+    summary["regraded"] = {"changed_responses": changed, "note": "주관식을 최종 답 부분 단순 비교로 다시 채점"}
+    (a.out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1, default=str) + "\n", encoding="utf-8")
+    (a.out / "REPORT.md").write_text(report(summary), encoding="utf-8")
+    print(f"regraded: {changed} responses changed")
+    print(report(summary))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bench", type=Path, required=True, help="bench64.jsonl 과 images/ 가 있는 폴더")
-    ap.add_argument("--model_dir", type=Path, required=True)
+    ap.add_argument("--model_dir", type=Path, help="생성할 때 필요(--regrade 면 불필요)")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--config", type=Path, default=REPO / "code" / "config.yaml")
     ap.add_argument("--n", type=int, default=8, help="문항당 생성 횟수")
     ap.add_argument("--limit", type=int, default=0, help="소스당 문항 수 제한(동작 확인용, 0 = 전부)")
+    ap.add_argument("--regrade", action="store_true", help="생성 없이 저장된 응답만 다시 채점")
     a = ap.parse_args()
+    if a.regrade:
+        return regrade(a)
+    if a.model_dir is None:
+        ap.error("--model_dir 가 필요하다")
 
     import yaml
     from PIL import Image
