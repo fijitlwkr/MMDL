@@ -161,7 +161,8 @@ def cmd_compare(a):
     prepared, sizes = prepare_inputs(messages, processor)
     team_text = prepared["prompt"]
     team_ids = tok(team_text, add_special_tokens=False)["input_ids"]
-    team_full = processor(text=[team_text], images=prepared["multi_modal_data"]["image"], do_resize=False)["input_ids"][0].tolist()
+    team_full = processor(text=[team_text], images=prepared["multi_modal_data"]["image"], do_resize=False)["input_ids"][0]
+    team_full = team_full.tolist() if hasattr(team_full, "tolist") else list(team_full)  # return_tensors 없으면 list
     if swift_ids == team_ids:
         ids_match = "같음 (이미지 자리 1토큰, vLLM 이 펼침 — 평가 코드와 같은 방식)"
     elif swift_ids == team_full:
@@ -247,7 +248,10 @@ def cmd_summarize(a):
     per_step_reward = collections.defaultdict(list)
     for r in rewards:
         per_step_reward[r["step"]].append(r["reward"])
-    summary = {"exit_code": exit_code, "success": exit_code == 0, "steps": step_rows, "raw_step_logs": steps, "generation_training_split": split,
+    checkpoints = sorted(b.glob("swift/**/checkpoint-*/adapter_model.safetensors"))
+    summary = {"exit_code": exit_code, "success": exit_code == 0, "logged_steps": len(step_rows),
+               "saved_checkpoint": str(checkpoints[-1].parent) if checkpoints else None,
+               "steps": step_rows, "raw_step_logs": steps, "generation_training_split": split,
                "max_vram_mib": max((v for v, _ in vram), default=None), "gpu_total_mib": vram[0][1] if vram else None,
                "reward_mean_by_step": {k: sum(v) / len(v) for k, v in sorted(per_step_reward.items())},
                "reward_mean_by_qtype": {q: sum(r["reward"] for r in rewards if r["qtype"] == q) /
