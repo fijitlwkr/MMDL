@@ -56,17 +56,17 @@ RL(GRPO) 학습의 규모와 비용을 정하기 전에 두 가지를 잰다. �
 
 ## GRPO 문제풀 사전 선별 생성 (2026-11-10 하경님 요청)
 
-원본 모델로 후보 문항을 여러 번 풀어 응답만 저장한다. 채점은 데이터 쪽에서 한다. 생성 방식은 테스트 A 와 같다(`code/config.yaml` 그대로, 요청마다 seed 다름).
+원본 모델로 후보 문항을 여러 번 풀어 응답을 저장한다. 생성 방식은 테스트 A 와 같고(`code/config.yaml` 그대로, 요청마다 seed 다름) 생성 상한만 학습 rollout 과 같은 2048 이다(`--max_tokens 2048`, 2026-11-10 하경님 확인 후 변경). pred/correct/parse_route 는 테스트 A 규칙으로 채운다(객관식 팀 파서가 읽은 결과 확인용). 학습 보상은 데이터 쪽에서 매긴다.
 
 | 입력 (`MMDL-team4/hypA-rl-data` 의 `screen_v1/`) | 횟수 | 응답 | seed_offset | 출력 폴더 |
 |---|---|---|---|---|
-| `screen_batch1.jsonl` 앞 20문항 (형식 확인용) | 8 | 160 | 0 | `first20/` |
+| `screen_batch1.jsonl` 앞 20문항 (형식 확인용, 상한 8192·채점 필드 없이 돌림) | 8 | 160 | 0 | `first20/` |
 | `screen_batch1.jsonl` 2,200문항 | 8 | 17,600 | 0 | `batch1/` |
 | `screen_heldout.jsonl` 200문항 | 4 | 800 | 100000 | `heldout/` |
 
 seed = 3407 + seed_offset + 문항 순번(파일 안 0부터) × 횟수 + rep. 그래서 `first20` 의 seed 는 `batch1` 앞 20문항과 같고, heldout 은 batch1 과 겹치지 않는다. 문항을 256개씩 나눠 생성하며, 끊기면 같은 명령을 다시 실행하면 이어서 돈다.
 
-출력 폴더마다 `responses.jsonl`(id, rep, seed, raw_text = 응답 전문, finish_reason, output_tokens …), `sampling_params.json`(실제 적용된 생성 설정), `run_info.json`(시간·토큰·잘림 수)이 생긴다.
+출력 폴더마다 `responses.jsonl`(id, rep, seed, finish_reason, output_tokens, pred, correct, parse_route, raw_text = 응답 전문 …), `sampling_params.json`(실제 적용된 생성 설정), `run_info.json`(시간·토큰·잘림 수)이 생긴다.
 
 1. 파드: 위 "순서" 1~4 와 같다(HF 토큰은 업로드를 하므로 **Write** 권한). `huggingface-cli` 가 없다고 나오면 로그인 전에 `pip install -q huggingface-hub==0.35.3 hf-transfer==0.1.9`.
 2. 입력 받기·검사.
@@ -80,9 +80,9 @@ seed = 3407 + seed_offset + 문항 순번(파일 안 0부터) × 횟수 + rep. �
    python experiments/hypA-rl-bench/test_a_generate.py --input /workspace/screen/screen_v1/screen_batch1.jsonl --limit 20 --n 8 --model_dir "$(cat /workspace/hypA_rl_bench/setup/model_dir.txt)" --out /workspace/screen_out/first20
    HF_HOME=/workspace/.cache/huggingface hf upload MMDL-team4/hypA-rl-data /workspace/screen_out/first20/responses.jsonl screen_v1_out/first20/responses.jsonl --repo-type dataset --commit-message "screen_v1 first20 responses"
    ```
-4. 본 실행(약 2시간). 브라우저를 닫아도 멈추지 않는다.
+4. 본 실행. 브라우저를 닫아도 멈추지 않는다.
    ```bash
-   nohup bash -c 'M="$(cat /workspace/hypA_rl_bench/setup/model_dir.txt)"; D=/workspace/screen/screen_v1; O=/workspace/screen_out; python experiments/hypA-rl-bench/test_a_generate.py --input $D/screen_batch1.jsonl --n 8 --model_dir "$M" --out $O/batch1 && python experiments/hypA-rl-bench/test_a_generate.py --input $D/screen_heldout.jsonl --n 4 --seed_offset 100000 --model_dir "$M" --out $O/heldout' > /workspace/screen_out/run.log 2>&1 &
+   nohup bash -c 'M="$(cat /workspace/hypA_rl_bench/setup/model_dir.txt)"; D=/workspace/screen/screen_v1; O=/workspace/screen_out; python experiments/hypA-rl-bench/test_a_generate.py --input $D/screen_batch1.jsonl --n 8 --max_tokens 2048 --model_dir "$M" --out $O/batch1 && python experiments/hypA-rl-bench/test_a_generate.py --input $D/screen_heldout.jsonl --n 4 --seed_offset 100000 --max_tokens 2048 --model_dir "$M" --out $O/heldout' > /workspace/screen_out/run.log 2>&1 &
    tail -f /workspace/screen_out/run.log
    ```
 5. 올리기. 두 `sampling_params.json` 은 같아야 한다(`SAME`).

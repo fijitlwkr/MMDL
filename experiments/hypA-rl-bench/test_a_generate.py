@@ -19,12 +19,13 @@
 
   python experiments/hypA-rl-bench/test_a_generate.py --input <문항 jsonl> --n 8 --model_dir <모델 폴더> --out <출력 폴더>
     GRPO 문제풀 사전 선별용 생성(2026-11-10 하경님 요청). 입력 형식은 bench64 와 같고 이미지 경로는 jsonl 이 있는 폴더 기준.
-    생성 방식은 위 테스트 A 와 같다(config 그대로, 요청마다 seed 다름). 채점은 하지 않는다(데이터 쪽에서 한다).
+    생성 방식은 위 테스트 A 와 같다(config 그대로, 요청마다 seed 다름). --max_tokens 로 생성 상한만 바꿀 수 있다(학습 rollout 상한 2048).
+    pred/correct/parse_route 는 테스트 A 와 같은 규칙으로 채운다(객관식 팀 파서가 읽은 결과 확인용). 학습 보상은 데이터 쪽에서 매긴다.
       - seed = config seed + seed_offset + 문항 순번(파일 안 0부터) × n + rep. --limit 로 앞 일부만 돌려도 같은 문항은 같은 seed.
       - 문항을 --chunk_items 개씩 나눠 생성하고 묶음마다 responses.jsonl 에 이어 쓴다. 한 번에 다 넣으면 대기 중인
         요청의 이미지 전처리 결과가 메모리에 쌓인다. 중간에 끊겨도 같은 명령을 다시 실행하면 끝난 문항은 건너뛴다.
       - finish_reason=length(잘림) 응답도 그대로 저장한다.
-    출력: responses.jsonl(응답 1개당 1줄: id, rep, seed, raw_text, finish_reason, output_tokens …),
+    출력: responses.jsonl(응답 1개당 1줄: id, rep, seed, finish_reason, output_tokens, pred, correct, parse_route, raw_text …),
           sampling_params.json(실제 적용된 생성 설정), run_info.json(문항 수·seed_offset·시간·토큰·잘림 수)
 """
 import argparse, collections, hashlib, importlib.metadata, importlib.util, json, os, re, statistics as st, sys, time
@@ -91,7 +92,7 @@ def numbers_in(text):
 
 def open_match(golds, segment):
     """정답(끝 마침표 제거)이 최종 답 부분에 있는가. 숫자 정답은 숫자로(쉼표·$ 무시, 영어 숫자 단어 포함), 글자 정답은 대소문자 무시 포함."""
-    for g in golds:
+    for g in ([golds] if isinstance(golds, str) else golds):
         g = g.strip()
         g = g[:-1] if g.endswith(".") else g
         try:
@@ -273,7 +274,7 @@ def load_done(path, n):
 
 
 def screen(a):
-    """GRPO 문제풀 사전 선별용 생성. 채점 없이 응답만 저장한다(모듈 docstring 참고)."""
+    """GRPO 문제풀 사전 선별용 생성. 응답 + 테스트 A 규칙의 채점 결과를 저장한다(모듈 docstring 참고)."""
     import yaml
     from PIL import Image
     code_dir = a.config.resolve().parent
@@ -293,11 +294,22 @@ def screen(a):
     bad = [r["id"] for r in rows if not r.get("prompt") or not (folder / r.get("image_path", "")).is_file()]
     if bad:
         sys.exit(f"ABORT: prompt 나 이미지 파일이 없는 문항 {len(bad)}개: {bad[:5]}")
+    # 채점(pred/correct/parse_route)은 테스트 A 와 같은 규칙. 객관식 보기 읽기가 실패하는 문항이 있으면 모델을 올리기 전에 멈춘다
+    P = load_parsers(code_dir)
+    bad = []
+    for r in rows:
+        if r.get("type") == "mc":
+            try:
+                r["choices"] = choices_of(r)
+            except (ValueError, KeyError) as e:
+                bad.append(f"{r['id']}: {e}")
+    if bad:
+        sys.exit(f"ABORT: 객관식 보기를 읽지 못한 문항 {len(bad)}개: {bad[:5]}")
 
     a.out.mkdir(parents=True, exist_ok=True)
     info_path = a.out / "run_info.json"
     run_key = {"input": a.input.name, "input_sha256": hashlib.sha256(a.input.read_bytes()).hexdigest(),
-               "limit": a.limit, "n": a.n, "seed_offset": a.seed_offset,
+               "limit": a.limit, "n": a.n, "seed_offset": a.seed_offset, "max_tokens": a.max_tokens or None,
                "config_sha256": hashlib.sha256(config_bytes).hexdigest()}
     if info_path.exists():
         old = json.loads(info_path.read_text(encoding="utf-8"))["run"]
@@ -317,6 +329,8 @@ def screen(a):
     from vllm import SamplingParams
     import vllm
     base = sampling_kwargs(cfg)
+    if a.max_tokens:  # 학습 rollout 상한에 맞출 때(2026-11-10 하경님: 2048). 나머지 생성 설정은 config 그대로
+        base["max_tokens"] = a.max_tokens
     first = SamplingParams(**{**base, "seed": base["seed"] + a.seed_offset})
     sampling = {"applied": {k: getattr(first, k) for k in SAMPLING_FIELDS},
                 "seed_rule": f"{base['seed']} + seed_offset + 문항 순번(파일 안 0부터) × n + rep (seed_offset·n 은 run_info.json)",
@@ -352,10 +366,12 @@ def screen(a):
                 raise RuntimeError(f"vLLM 출력 {len(outs)}개 != 요청 {len(reqs)}개")
             for (r, k, seed), out in zip(reqs, outs):
                 c = out.outputs[0]
+                pred, ok, route = grade(P, r, c.text)
                 f.write(json.dumps({"id": r["id"], "source": r.get("source"), "subset": r.get("subset"),
                                     "type": r.get("type"), "gold": r.get("gold"), "rep": k, "seed": seed,
                                     "image_size": r["image_size"], "prompt_tokens": len(out.prompt_token_ids),
                                     "output_tokens": len(c.token_ids), "finish_reason": c.finish_reason,
+                                    "pred": pred, "correct": ok, "parse_route": route,
                                     "raw_text": c.text}, ensure_ascii=False) + "\n")
             f.flush()
             os.fsync(f.fileno())
@@ -388,7 +404,7 @@ def screen(a):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bench", type=Path, help="bench64.jsonl 과 images/ 가 있는 폴더(테스트 A)")
-    ap.add_argument("--input", type=Path, help="사전 선별 생성: 문항 jsonl(bench64 형식). 주면 채점 없이 생성만 한다")
+    ap.add_argument("--input", type=Path, help="사전 선별 생성: 문항 jsonl(bench64 형식)")
     ap.add_argument("--model_dir", type=Path, help="생성할 때 필요(--regrade 면 불필요)")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--config", type=Path, default=REPO / "code" / "config.yaml")
@@ -397,6 +413,7 @@ def main():
                     help="동작 확인용 문항 수 제한(0 = 전부). 테스트 A 는 소스당, --input 은 파일 앞에서부터")
     ap.add_argument("--seed_offset", type=int, default=0, help="--input: seed 에 더할 값(파일끼리 seed 가 겹치지 않게)")
     ap.add_argument("--chunk_items", type=int, default=256, help="--input: 한 번에 생성할 문항 수")
+    ap.add_argument("--max_tokens", type=int, default=0, help="--input: 생성 상한(0 = config 값). 나머지 생성 설정은 config 그대로")
     ap.add_argument("--regrade", action="store_true", help="생성 없이 저장된 응답만 다시 채점")
     a = ap.parse_args()
     if bool(a.bench) == bool(a.input):
