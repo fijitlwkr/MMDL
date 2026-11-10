@@ -9,6 +9,10 @@ swift rlhf --external_plugins 로 불러오면(import) 세 가지가 붙는다. 
   3. overlong 로그: 손실 계산 직전 배치마다 잘린 응답 수와 그 응답들의 토큰 수를 overlong.jsonl 에 남긴다.
      overlong_filter 가 켜져 있으면 swift 가 이 토큰들을 손실 마스크에서 뺀다
      (swift/rlhf_trainers/grpo_trainer.py 의 _compute_loss_and_metrics, 4.6.0 기준 965~970행).
+  4. presence_penalty 패치(환경변수 HYPA_PRESENCE_PENALTY 가 있을 때만): swift GRPO 는 vLLM 에 presence_penalty 를
+     넘기지 않아 0 이 된다(2026-11-08 테스트 B). vLLM 에 요청을 넣기 직전(VllmEngine._add_request)에 샘플링 설정의
+     presence_penalty 를 그 값으로 바꾼다. 바꾸기 전 값과 바꾼 뒤 설정은 prompt_dump.json 에, 실패는 plugin_errors.txt 에 남는다.
+     학습(손실) 계산에는 이 불이익이 들어가지 않는다. 생성·학습 확률 차이는 swift 의 log_rollout_offpolicy_metrics 로 잰다.
 
 직접 실행하면 보조 명령이다.
   python test_b_plugin.py prepare   --bench <bench64> --out <jsonl> [--n 16]
@@ -20,6 +24,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 OUT = Path(os.environ["HYPA_B_OUT"]) if os.environ.get("HYPA_B_OUT") else None
+PRESENCE = float(os.environ["HYPA_PRESENCE_PENALTY"]) if os.environ.get("HYPA_PRESENCE_PENALTY") else None
 
 
 def _append(name, rec):
@@ -69,6 +74,14 @@ def _patch_prompt_dump():
     state = {"dumped": False}
 
     def _add_request(self, inputs, generation_config, *args, **kwargs):
+        if PRESENCE is not None and not state.get("presence_failed"):
+            try:
+                if generation_config.presence_penalty != PRESENCE:
+                    state.setdefault("presence_before", generation_config.presence_penalty)
+                    generation_config.presence_penalty = PRESENCE
+            except Exception:
+                state["presence_failed"] = True
+                _patch_failed("presence_penalty patch")
         if not state["dumped"] and OUT is not None:
             state["dumped"] = True
             try:
@@ -76,7 +89,9 @@ def _patch_prompt_dump():
                 dump = {"input_ids": [int(x) for x in inputs["input_ids"]],
                         "image_sizes": [list(getattr(im, "size", ())) for im in images],
                         "mm_processor_kwargs": inputs.get("mm_processor_kwargs"),
-                        "sampling_params": repr(generation_config)}
+                        "sampling_params": repr(generation_config),
+                        "presence_penalty_patch": {"target": PRESENCE, "before": state.get("presence_before"),
+                                                   "failed": bool(state.get("presence_failed"))}}
                 (OUT / "prompt_dump.json").write_text(json.dumps(dump, ensure_ascii=False, default=str), encoding="utf-8")
             except Exception:
                 _patch_failed("prompt dump")
@@ -261,6 +276,16 @@ def cmd_summarize(a):
     if summary["prompt_check"]:
         for k in ("swift_prompt_text", "eval_prompt_text"):
             summary["prompt_check"].pop(k, None)
+    # presence_penalty 패치 확인: vLLM 에 들어간 첫 요청의 샘플링 설정 값 + plugin_errors.txt 가 비었는지
+    dump = json.loads((b / "prompt_dump.json").read_text()) if (b / "prompt_dump.json").is_file() else {}
+    m = re.search(r"presence_penalty=([-\d.]+)", dump.get("sampling_params", ""))
+    errors = (b / "plugin_errors.txt").read_text() if (b / "plugin_errors.txt").is_file() else ""
+    summary["presence_penalty_check"] = {"patch": dump.get("presence_penalty_patch"),
+                                         "dump_presence_penalty": float(m.group(1)) if m else None,
+                                         "plugin_errors": errors.strip() or "none"}
+    # 생성(vLLM)·학습 확률 차이 지표(log_rollout_offpolicy_metrics 를 켰을 때 swift 가 남기는 키)
+    keys = sorted({k for r in steps for k in r if re.search(r"rollout|off_?policy|importance|logp|mismatch", k)})
+    summary["offpolicy_metrics"] = [{"step": r.get("global_step/max_steps"), **{k: r.get(k) for k in keys}} for r in steps]
     a.out.mkdir(parents=True, exist_ok=True)
     (a.out / "b_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=1))

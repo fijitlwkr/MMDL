@@ -5,10 +5,14 @@
 #   - 임시 보상 answer_in_response, overlong_filter 켬. 플러그인(test_b_plugin.py)이 보상·첫 프롬프트 덤프·overlong 로그를 남긴다.
 #   - 이미지 크기는 code/config.yaml 의 min/max_pixels 를 swift 환경변수(IMAGE_MIN/MAX_TOKEN_NUM = 픽셀 ÷ 32²)로 넘긴다.
 #   - 생성 설정은 평가와 같은 temp 0.7 / top_p 0.8 / top_k 20 / repetition_penalty 1.0.
-#     presence_penalty 는 swift GRPO 가 vLLM 에 넘기지 않아 0 이다(prompt_dump.json 의 sampling_params 로 확인).
+#     presence_penalty 는 swift GRPO 가 vLLM 에 넘기지 않아 0 이 되므로(2026-11-08), 플러그인이 vLLM 에 요청을 넣기 직전에
+#     config 값(1.5)으로 바꾼다(2026-11-10 하경님 요청). PRESENCE=0 이면 패치하지 않는다. 확인: prompt_dump.json 의
+#     sampling_params 에 presence_penalty=1.5, plugin_errors.txt 비어 있음 → b_summary.json 의 presence_penalty_check.
+#   - 생성·학습 확률 차이는 swift 의 log_rollout_offpolicy_metrics 로 기록만 한다(보정 안 함). OFFPOLICY=false 로 끌 수 있다.
 #   - 끝나면 프롬프트 비교(평가 코드 inputs.py 와) + 측정 결과 정리를 한다. 실패해도 로그와 에러 전문은 남는다.
 #
-#   bash experiments/hypA-rl-bench/test_b_grpo.sh
+#   bash experiments/hypA-rl-bench/test_b_grpo.sh             # 4스텝 (테스트 B)
+#   STEPS=2 bash experiments/hypA-rl-bench/test_b_grpo.sh     # 2스텝 검증 (presence_penalty 패치 확인)
 # GPU 메모리 40GB 이상(RTX 6000 Ada 48GB)이면 마이크로배치 4, vLLM 메모리 비율 0.45. 그보다 작으면(RTX 4090) 2, 0.35.
 # PDBS, VLLM_MEM, STEPS 환경변수로 바꿀 수 있다.
 set -uo pipefail
@@ -30,9 +34,12 @@ mkdir -p "$B"; cd "$REPO"
 
 python "$EXP/test_b_plugin.py" prepare --bench "$BENCH" --out "$B/train16.jsonl" --n "$N_ITEMS"
 read -r MIN_TOK MAX_TOK < <(python -c "import sys, yaml; c = yaml.safe_load(open(sys.argv[1]))['image']; f = (c['image_patch_size'] * c['spatial_merge_size']) ** 2; print(c['min_pixels'] // f, c['max_pixels'] // f)" code/config.yaml)
+PRESENCE="${PRESENCE:-$(python -c "import sys, yaml; print(yaml.safe_load(open(sys.argv[1]))['sampling']['presence_penalty'])" code/config.yaml)}"
+OFFPOLICY="${OFFPOLICY:-true}"
+if [[ "$PRESENCE" != "0" && "$PRESENCE" != "0.0" ]]; then export HYPA_PRESENCE_PENALTY="$PRESENCE"; else unset HYPA_PRESENCE_PENALTY; fi
 export IMAGE_MIN_TOKEN_NUM="$MIN_TOK" IMAGE_MAX_TOKEN_NUM="$MAX_TOK" HYPA_B_OUT="$B"
 export VLLM_PLUGINS=""  # swift 의 vLLM 플러그인(swift_uembed)이 vllm 0.11.0 에 없는 모듈을 불러 실패하므로 끈다 (setup.sh 참고)
-echo "GPU ${GPU_MIB}MiB  micro_batch=$PDBS grad_accum=$GA vllm_mem=$VLLM_MEM steps=$STEPS  image tokens ${MIN_TOK}~${MAX_TOK}" | tee "$B/settings.txt"
+echo "GPU ${GPU_MIB}MiB  micro_batch=$PDBS grad_accum=$GA vllm_mem=$VLLM_MEM steps=$STEPS  image tokens ${MIN_TOK}~${MAX_TOK}  presence_penalty patch=${HYPA_PRESENCE_PENALTY:-none}  offpolicy_metrics=$OFFPOLICY" | tee "$B/settings.txt"
 
 nvidia-smi --query-gpu=timestamp,memory.used,memory.total,utilization.gpu --format=csv,noheader,nounits -l 1 > "$B/vram.csv" &
 SMI=$!
@@ -45,7 +52,7 @@ swift rlhf \
   --tuner_type lora --lora_rank 16 --lora_alpha 32 --target_modules all-linear \
   --freeze_llm false --freeze_vit true --freeze_aligner true \
   --num_generations "$NUM_GEN" --per_device_train_batch_size "$PDBS" --gradient_accumulation_steps "$GA" \
-  --max_completion_length 2048 --overlong_filter true \
+  --max_completion_length 2048 --overlong_filter true --log_rollout_offpolicy_metrics "$OFFPOLICY" \
   --temperature 0.7 --top_p 0.8 --top_k 20 --repetition_penalty 1.0 \
   --use_vllm true --vllm_mode colocate --vllm_gpu_memory_utilization "$VLLM_MEM" --vllm_max_model_len 8192 \
   --vllm_limit_mm_per_prompt '{"image": 1, "video": 0}' --sleep_level 1 \

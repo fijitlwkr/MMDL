@@ -92,6 +92,16 @@ seed = 3407 + seed_offset + 문항 순번(파일 안 0부터) × 횟수 + rep. �
    HF_HOME=/workspace/.cache/huggingface hf upload MMDL-team4/hypA-rl-data $U screen_v1_out --repo-type dataset --commit-message "screen_v1 batch1/heldout responses"
    ```
 
+### 학습 쪽 presence_penalty 1.5 패치 + 2스텝 검증 (2026-11-10 하경님 요청)
+
+swift GRPO 는 vLLM 에 presence_penalty 를 넘기지 않아 0 이 된다(테스트 B). `test_b_plugin.py` 가 vLLM 에 요청을 넣기 직전에 config 값(1.5)으로 바꾼다. 확인 기준은 `prompt_dump.json` 의 sampling_params 에 `presence_penalty=1.5`, `plugin_errors.txt` 가 비어 있음이다. 생성·학습 확률 차이는 swift 의 `--log_rollout_offpolicy_metrics` 로 기록만 한다. 같은 GPU 를 쓰므로 사전 선별 생성이 끝난 뒤 돌린다.
+
+```bash
+cd /workspace/MMDL && git pull -q && STEPS=2 bash experiments/hypA-rl-bench/test_b_grpo.sh > /workspace/hypA_rl_bench/b2.log 2>&1; python -c "import json; d = json.load(open('/workspace/hypA_rl_bench/test_b/b_summary.json')); print(json.dumps({k: d[k] for k in ('exit_code', 'logged_steps', 'saved_checkpoint', 'presence_penalty_check', 'offpolicy_metrics')}, ensure_ascii=False, indent=1))"
+```
+
+`logged_steps` 2 와 `saved_checkpoint` 가 있으면 학습은 끝까지 돈 것이다(테스트 B 처럼 저장 뒤 종료 단계에서 exit 245 가 날 수 있다).
+
 ## 정해서 한 것
 
 - **패키지 두 가지 조정**(2026-11-08 첫 실행에서 발견). 하경님이 정한 vllm 0.11.0 / torch 2.8.0 / transformers 4.57.1 / ms-swift 4.6.0 은 그대로다.
@@ -101,5 +111,5 @@ seed = 3407 + seed_offset + 문항 순번(파일 안 0부터) × 횟수 + rep. �
 - **A 의 정답 판정**: judge 없이 규칙만 쓴다. 객관식은 팀 규칙(Qwen 파서 + Final Answer)을 먼저 쓰고, 못 뽑거나 둘이 다르면 답 끝부분의 `answer is X` → `\boxed{X}` → `**X.` 순으로 찾는다. 이 방식은 E0 seed 42 객관식 847문항에서 정오 판정이 팀 공식 채점(judge 포함)과 96.1% 같았다(끝까지 쓴 답만 보면 99.7%, 나머지는 잘린 답). 주관식은 최종 답 부분(같은 줄의 마지막 `Answer:` 뒤, 없으면 첫 줄 + 마지막 줄)에 정답이 있는지 단순 비교한다(정답 끝 마침표 제거, 숫자는 쉼표·$ 무시, 영어 숫자 단어 포함). 처음 쓴 MMMU 주관식 규칙(`eval_open`)은 bench64 정답 끝 마침표(`Sweden.`)와 이 데이터의 답 형식 때문에 맞은 답을 오답 처리해서 바꿨다. 바꾼 규칙은 주관식 응답 128개를 직접 읽은 판정과 128개 모두 같았다. 생성을 다시 하지 않고 `--regrade` 로 저장된 응답만 다시 채점한다.
 - **A 의 소스별 시간**: 소스마다 256요청을 따로 한 번에 넣어 잰다. 두 소스를 섞어 넣으면 소스별 시간을 나눌 수 없다.
 - **B 의 임시 보상**: 객관식은 정답 글자가 단독 대문자로 응답에 나오면 1점, 주관식은 정답 문자열(끝 마침표 제거, 대소문자 무시)이 응답에 들어 있으면 1점.
-- **B 의 생성 설정**: temp 0.7 / top_p 0.8 / top_k 20 은 평가와 같게 줬다. **presence_penalty 는 swift GRPO 가 vLLM 에 넘기지 않아 0 이다**(평가는 1.5). 실제 값은 `prompt_dump.json` 의 `sampling_params` 에 찍힌다.
+- **B 의 생성 설정**: temp 0.7 / top_p 0.8 / top_k 20 은 평가와 같게 줬다. **presence_penalty 는 swift GRPO 가 vLLM 에 넘기지 않아 0 이었다**(2026-11-08 테스트 B, 평가는 1.5). 2026-11-10 부터 플러그인이 1.5 로 바꿔 넣는다(위 2스텝 검증, `PRESENCE=0` 이면 끔). 실제 값은 `prompt_dump.json` 의 `sampling_params` 에 찍힌다.
 - **B 의 학습 설정**(요청에 없던 값, swift 일반값): lora_alpha 32, lr 1e-5, beta 0.04(swift GRPO 기본), loss_type grpo(기본), gradient checkpointing.
