@@ -16,6 +16,16 @@
 
   python experiments/hypA-rl-bench/test_a_generate.py --bench <bench64 폴더> --out <출력 폴더> --regrade
     생성 없이 저장된 responses.jsonl 을 지금의 판정 규칙으로 다시 채점한다(GPU 불필요). 시간·토큰 기록은 그대로 둔다.
+
+  python experiments/hypA-rl-bench/test_a_generate.py --input <문항 jsonl> --n 8 --model_dir <모델 폴더> --out <출력 폴더>
+    GRPO 문제풀 사전 선별용 생성(2026-11-10 하경님 요청). 입력 형식은 bench64 와 같고 이미지 경로는 jsonl 이 있는 폴더 기준.
+    생성 방식은 위 테스트 A 와 같다(config 그대로, 요청마다 seed 다름). 채점은 하지 않는다(데이터 쪽에서 한다).
+      - seed = config seed + seed_offset + 문항 순번(파일 안 0부터) × n + rep. --limit 로 앞 일부만 돌려도 같은 문항은 같은 seed.
+      - 문항을 --chunk_items 개씩 나눠 생성하고 묶음마다 responses.jsonl 에 이어 쓴다. 한 번에 다 넣으면 대기 중인
+        요청의 이미지 전처리 결과가 메모리에 쌓인다. 중간에 끊겨도 같은 명령을 다시 실행하면 끝난 문항은 건너뛴다.
+      - finish_reason=length(잘림) 응답도 그대로 저장한다.
+    출력: responses.jsonl(응답 1개당 1줄: id, rep, seed, raw_text, finish_reason, output_tokens …),
+          sampling_params.json(실제 적용된 생성 설정), run_info.json(문항 수·seed_offset·시간·토큰·잘림 수)
 """
 import argparse, collections, hashlib, importlib.metadata, importlib.util, json, os, re, statistics as st, sys, time
 from pathlib import Path
@@ -237,20 +247,168 @@ def regrade(a):
     print(report(summary))
 
 
+SAMPLING_FIELDS = ("temperature", "top_p", "top_k", "min_p", "presence_penalty", "frequency_penalty",
+                   "repetition_penalty", "max_tokens", "skip_special_tokens", "stop_token_ids")
+
+
+def load_done(path, n):
+    """이어 실행: responses.jsonl 에서 rep 0..n-1 이 다 있는 문항만 남기고(끊기며 생긴 깨진 줄·덜 쓴 문항 제거) 그 id 를 돌려준다."""
+    if not path.exists():
+        return set()
+    by_id = collections.defaultdict(dict)
+    for line in open(path, encoding="utf-8"):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        by_id[rec["id"]][rec["rep"]] = rec
+    done = [i for i, reps in by_id.items() if set(reps) == set(range(n))]  # 파일 순서 유지
+    tmp = path.with_suffix(".jsonl.tmp")
+    with open(tmp, "w", encoding="utf-8") as f:
+        for i in done:
+            for k in range(n):
+                f.write(json.dumps(by_id[i][k], ensure_ascii=False) + "\n")
+    tmp.replace(path)
+    return set(done)
+
+
+def screen(a):
+    """GRPO 문제풀 사전 선별용 생성. 채점 없이 응답만 저장한다(모듈 docstring 참고)."""
+    import yaml
+    from PIL import Image
+    code_dir = a.config.resolve().parent
+    sys.path.insert(0, str(code_dir))
+    from inputs import load_processor, prepare_inputs
+    from vllm_engine import VLLMEngine, sampling_kwargs
+
+    config_bytes = a.config.read_bytes()
+    cfg = yaml.safe_load(config_bytes)
+    rows = [json.loads(line) for line in open(a.input, encoding="utf-8") if line.strip()]
+    if a.limit:
+        rows = rows[:a.limit]
+    folder = a.input.resolve().parent
+    ids = [r["id"] for r in rows]
+    if len(set(ids)) != len(ids):
+        sys.exit(f"ABORT: {a.input} 에 중복 id 가 있다")
+    bad = [r["id"] for r in rows if not r.get("prompt") or not (folder / r.get("image_path", "")).is_file()]
+    if bad:
+        sys.exit(f"ABORT: prompt 나 이미지 파일이 없는 문항 {len(bad)}개: {bad[:5]}")
+
+    a.out.mkdir(parents=True, exist_ok=True)
+    info_path = a.out / "run_info.json"
+    run_key = {"input": a.input.name, "input_sha256": hashlib.sha256(a.input.read_bytes()).hexdigest(),
+               "limit": a.limit, "n": a.n, "seed_offset": a.seed_offset,
+               "config_sha256": hashlib.sha256(config_bytes).hexdigest()}
+    if info_path.exists():
+        old = json.loads(info_path.read_text(encoding="utf-8"))["run"]
+        if old != run_key:
+            sys.exit(f"ABORT: {a.out} 에 다른 설정으로 돌린 결과가 있다. 이어 실행하려면 같은 인자로, 새로 하려면 다른 --out 으로.\n"
+                     f"  기존 {old}\n  지금 {run_key}")
+    else:  # 끝나면 결과로 덮어쓴다. 먼저 써 두는 건 중간에 끊겼을 때 이어 실행 인자를 검사하기 위해서다
+        info_path.write_text(json.dumps({"run": run_key, "status": "running"}, ensure_ascii=False, indent=1) + "\n",
+                             encoding="utf-8")
+    path = a.out / "responses.jsonl"
+    done = load_done(path, a.n)
+    todo = [(i, r) for i, r in enumerate(rows) if r["id"] not in done]
+    print(f"=== {a.input.name}: {len(rows)}문항 × {a.n}회, 이미 끝난 문항 {len(done)}, 남은 문항 {len(todo)}", flush=True)
+
+    processor = load_processor(a.model_dir, cfg)
+    engine = VLLMEngine(cfg, a.model_dir)
+    from vllm import SamplingParams
+    import vllm
+    base = sampling_kwargs(cfg)
+    first = SamplingParams(**{**base, "seed": base["seed"] + a.seed_offset})
+    sampling = {"applied": {k: getattr(first, k) for k in SAMPLING_FIELDS},
+                "seed_rule": f"{base['seed']} + seed_offset + 문항 순번(파일 안 0부터) × n + rep (seed_offset·n 은 run_info.json)",
+                "max_model_len": engine.kwargs.get("max_model_len"),
+                "image_min_pixels": cfg["image"]["min_pixels"], "image_max_pixels": cfg["image"]["max_pixels"],
+                "model": cfg["model"], "config_sha256": run_key["config_sha256"], "vllm": vllm.__version__,
+                "vllm_plugins_env": os.environ.get("VLLM_PLUGINS"), "sampling_params_repr": repr(first).replace(
+                    f"seed={first.seed}", "seed=<요청마다 다름>")}
+    (a.out / "sampling_params.json").write_text(json.dumps(sampling, ensure_ascii=False, indent=1, default=str) + "\n",
+                                                encoding="utf-8")
+    print("sampling", sampling["applied"], flush=True)
+
+    started, gen_seconds = time.monotonic(), 0.0
+    with open(path, "a", encoding="utf-8") as f:
+        for c0 in range(0, len(todo), a.chunk_items):
+            chunk = todo[c0:c0 + a.chunk_items]
+            prepared = {}
+            for _, r in chunk:
+                image = Image.open(folder / r["image_path"])
+                image.load()
+                messages = [{"role": "user", "content": [
+                    {"type": "image", "image": image, "min_pixels": cfg["image"]["min_pixels"],
+                     "max_pixels": cfg["image"]["max_pixels"]},
+                    {"type": "text", "text": r["prompt"]}]}]
+                prepared[r["id"]], sizes = prepare_inputs(messages, processor)
+                r["image_size"] = list(sizes[0])
+            reqs = [(r, k, base["seed"] + a.seed_offset + i * a.n + k) for i, r in chunk for k in range(a.n)]
+            t = time.monotonic()
+            outs = engine.llm.generate([dict(prepared[r["id"]]) for r, _, _ in reqs],
+                                       [SamplingParams(**{**base, "seed": seed}) for _, _, seed in reqs], use_tqdm=True)
+            gen_seconds += time.monotonic() - t
+            if len(outs) != len(reqs):
+                raise RuntimeError(f"vLLM 출력 {len(outs)}개 != 요청 {len(reqs)}개")
+            for (r, k, seed), out in zip(reqs, outs):
+                c = out.outputs[0]
+                f.write(json.dumps({"id": r["id"], "source": r.get("source"), "subset": r.get("subset"),
+                                    "type": r.get("type"), "gold": r.get("gold"), "rep": k, "seed": seed,
+                                    "image_size": r["image_size"], "prompt_tokens": len(out.prompt_token_ids),
+                                    "output_tokens": len(c.token_ids), "finish_reason": c.finish_reason,
+                                    "raw_text": c.text}, ensure_ascii=False) + "\n")
+            f.flush()
+            os.fsync(f.fileno())
+            del prepared, outs
+            n_done = c0 + len(chunk)
+            elapsed = time.monotonic() - started
+            print(f"=== {n_done}/{len(todo)}문항 끝, {elapsed / 60:.1f}분 경과, "
+                  f"남은 예상 {elapsed / n_done * (len(todo) - n_done) / 60:.0f}분", flush=True)
+
+    recs = [json.loads(line) for line in open(path, encoding="utf-8")]
+    toks = [r["output_tokens"] for r in recs]
+    by_source = collections.defaultdict(list)
+    for r in recs:
+        by_source[r["source"]].append(r)
+    stats = {s: {"responses": len(g), "output_tokens_sum": sum(x["output_tokens"] for x in g),
+                 "length_truncated": sum(x["finish_reason"] == "length" for x in g)} for s, g in sorted(by_source.items(), key=str)}
+    info = {"run": run_key, "items": len(rows), "responses": len(recs), "expected_responses": len(rows) * a.n,
+            "output_tokens_sum": sum(toks), "output_tokens_median": st.median(toks) if toks else None,
+            "length_truncated": sum(r["finish_reason"] == "length" for r in recs), "by_source": stats,
+            "timing_this_call": {"engine_init_seconds": engine.init_seconds, "generate_seconds": round(gen_seconds, 1),
+                                 "total_seconds": round(time.monotonic() - started, 1), "items_generated": len(todo)},
+            "gpu": engine.memory_report(), "engine": engine.describe()}
+    info_path.write_text(json.dumps(info, ensure_ascii=False, indent=1, default=str) + "\n", encoding="utf-8")
+    print(json.dumps({k: info[k] for k in ("items", "responses", "expected_responses", "output_tokens_sum",
+                                           "length_truncated", "timing_this_call")}, ensure_ascii=False, indent=1))
+    if len(recs) != len(rows) * a.n:
+        sys.exit(f"WARNING: 응답 {len(recs)}개, 기대 {len(rows) * a.n}개")
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bench", type=Path, required=True, help="bench64.jsonl 과 images/ 가 있는 폴더")
+    ap.add_argument("--bench", type=Path, help="bench64.jsonl 과 images/ 가 있는 폴더(테스트 A)")
+    ap.add_argument("--input", type=Path, help="사전 선별 생성: 문항 jsonl(bench64 형식). 주면 채점 없이 생성만 한다")
     ap.add_argument("--model_dir", type=Path, help="생성할 때 필요(--regrade 면 불필요)")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--config", type=Path, default=REPO / "code" / "config.yaml")
     ap.add_argument("--n", type=int, default=8, help="문항당 생성 횟수")
-    ap.add_argument("--limit", type=int, default=0, help="소스당 문항 수 제한(동작 확인용, 0 = 전부)")
+    ap.add_argument("--limit", type=int, default=0,
+                    help="동작 확인용 문항 수 제한(0 = 전부). 테스트 A 는 소스당, --input 은 파일 앞에서부터")
+    ap.add_argument("--seed_offset", type=int, default=0, help="--input: seed 에 더할 값(파일끼리 seed 가 겹치지 않게)")
+    ap.add_argument("--chunk_items", type=int, default=256, help="--input: 한 번에 생성할 문항 수")
     ap.add_argument("--regrade", action="store_true", help="생성 없이 저장된 응답만 다시 채점")
     a = ap.parse_args()
+    if bool(a.bench) == bool(a.input):
+        ap.error("--bench(테스트 A) 와 --input(사전 선별) 중 하나만 준다")
     if a.regrade:
+        if a.input:
+            ap.error("--regrade 는 --bench 와 함께 쓴다")
         return regrade(a)
     if a.model_dir is None:
         ap.error("--model_dir 가 필요하다")
+    if a.input:
+        return screen(a)
 
     import yaml
     from PIL import Image
