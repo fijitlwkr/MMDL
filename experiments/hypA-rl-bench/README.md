@@ -92,6 +92,20 @@ seed = 3407 + seed_offset + 문항 순번(파일 안 0부터) × 횟수 + rep. �
    HF_HOME=/workspace/.cache/huggingface hf upload MMDL-team4/hypA-rl-data $U screen_v1_out --repo-type dataset --commit-message "screen_v1 batch1/heldout responses"
    ```
 
+### 2차 선별 (2026-11-12 하경님 요청, OMR 분량 추가)
+
+입력 `screen_v2/screen_batch2.jsonl`(1,576문항: 객관식 1,464 + 단답 112, 단답이 파일 뒤쪽 112개), 문항당 8회 = 12,608응답. 설정은 1차 본 실행과 같다(max_tokens 2048, 나머지 config 그대로). seed_offset 200000(1차 batch1 0, heldout 100000 과 겹치지 않게). 시험 실행은 앞 10 + 뒤 10문항(`--limit 10 --tail 10`, seed 는 본 실행과 같음). 결과는 `screen_v2_out/batch2/` 에 responses.jsonl 과 sampling_params.json.
+
+```bash
+export HF_HOME=/workspace/.cache/huggingface
+hf download MMDL-team4/hypA-rl-data --repo-type dataset --include "screen_v2/*" --local-dir /workspace/screen
+cd /workspace/screen/screen_v2 && sha256sum -c --quiet SHA256SUMS && echo SHA_OK; cd /workspace/MMDL
+# 시험 실행(앞 10 + 뒤 10)
+python experiments/hypA-rl-bench/test_a_generate.py --input /workspace/screen/screen_v2/screen_batch2.jsonl --limit 10 --tail 10 --n 8 --seed_offset 200000 --max_tokens 2048 --model_dir "$(cat /workspace/hypA_rl_bench/setup/model_dir.txt)" --out /workspace/screen_out2/pilot20
+# 본 실행
+nohup python experiments/hypA-rl-bench/test_a_generate.py --input /workspace/screen/screen_v2/screen_batch2.jsonl --n 8 --seed_offset 200000 --max_tokens 2048 --model_dir "$(cat /workspace/hypA_rl_bench/setup/model_dir.txt)" --out /workspace/screen_out2/batch2 > /workspace/screen_out2/run.log 2>&1 &
+```
+
 ### 학습 쪽 presence_penalty 1.5 패치 + 2스텝 검증 (2026-11-10 하경님 요청)
 
 swift GRPO 는 vLLM 에 presence_penalty 를 넘기지 않아 0 이 된다(테스트 B). `test_b_plugin.py` 가 vLLM 에 요청을 넣기 직전에 config 값(1.5)으로 바꾼다. 확인 기준은 `prompt_dump.json` 의 sampling_params 에 `presence_penalty=1.5`, `plugin_errors.txt` 가 비어 있음이다. 생성·학습 확률 차이는 swift 의 `--log_rollout_offpolicy_metrics` 로 기록만 한다. 같은 GPU 를 쓰므로 사전 선별 생성이 끝난 뒤 돌린다.

@@ -21,7 +21,8 @@
     GRPO 문제풀 사전 선별용 생성(2026-11-10 하경님 요청). 입력 형식은 bench64 와 같고 이미지 경로는 jsonl 이 있는 폴더 기준.
     생성 방식은 위 테스트 A 와 같다(config 그대로, 요청마다 seed 다름). --max_tokens 로 생성 상한만 바꿀 수 있다(학습 rollout 상한 2048).
     pred/correct/parse_route 는 테스트 A 와 같은 규칙으로 채운다(객관식 팀 파서가 읽은 결과 확인용). 학습 보상은 데이터 쪽에서 매긴다.
-      - seed = config seed + seed_offset + 문항 순번(파일 안 0부터) × n + rep. --limit 로 앞 일부만 돌려도 같은 문항은 같은 seed.
+      - seed = config seed + seed_offset + 문항 순번(파일 안 0부터) × n + rep. --limit(앞 N문항)·--tail(뒤 N문항)로 일부만
+        돌려도 같은 문항은 본 실행과 같은 seed.
       - 문항을 --chunk_items 개씩 나눠 생성하고 묶음마다 responses.jsonl 에 이어 쓴다. 한 번에 다 넣으면 대기 중인
         요청의 이미지 전처리 결과가 메모리에 쌓인다. 중간에 끊겨도 같은 명령을 다시 실행하면 끝난 문항은 건너뛴다.
       - finish_reason=length(잘림) 응답도 그대로 저장한다.
@@ -285,8 +286,10 @@ def screen(a):
     config_bytes = a.config.read_bytes()
     cfg = yaml.safe_load(config_bytes)
     rows = [json.loads(line) for line in open(a.input, encoding="utf-8") if line.strip()]
-    if a.limit:
-        rows = rows[:a.limit]
+    order = {r["id"]: i for i, r in enumerate(rows)}  # seed 는 파일 안 순번으로 정한다(일부만 돌려도 같게)
+    if a.limit or a.tail:
+        picked = (rows[:a.limit] if a.limit else []) + (rows[-a.tail:] if a.tail else [])
+        rows = list({r["id"]: r for r in picked}.values())
     folder = a.input.resolve().parent
     ids = [r["id"] for r in rows]
     if len(set(ids)) != len(ids):
@@ -309,7 +312,7 @@ def screen(a):
     a.out.mkdir(parents=True, exist_ok=True)
     info_path = a.out / "run_info.json"
     run_key = {"input": a.input.name, "input_sha256": hashlib.sha256(a.input.read_bytes()).hexdigest(),
-               "limit": a.limit, "n": a.n, "seed_offset": a.seed_offset, "max_tokens": a.max_tokens or None,
+               "limit": a.limit, "tail": a.tail or None, "n": a.n, "seed_offset": a.seed_offset, "max_tokens": a.max_tokens or None,
                "config_sha256": hashlib.sha256(config_bytes).hexdigest()}
     if info_path.exists():
         old = json.loads(info_path.read_text(encoding="utf-8"))["run"]
@@ -321,7 +324,7 @@ def screen(a):
                              encoding="utf-8")
     path = a.out / "responses.jsonl"
     done = load_done(path, a.n)
-    todo = [(i, r) for i, r in enumerate(rows) if r["id"] not in done]
+    todo = [(order[r["id"]], r) for r in rows if r["id"] not in done]
     print(f"=== {a.input.name}: {len(rows)}문항 × {a.n}회, 이미 끝난 문항 {len(done)}, 남은 문항 {len(todo)}", flush=True)
 
     processor = load_processor(a.model_dir, cfg)
@@ -411,6 +414,7 @@ def main():
     ap.add_argument("--n", type=int, default=8, help="문항당 생성 횟수")
     ap.add_argument("--limit", type=int, default=0,
                     help="동작 확인용 문항 수 제한(0 = 전부). 테스트 A 는 소스당, --input 은 파일 앞에서부터")
+    ap.add_argument("--tail", type=int, default=0, help="--input: 뒤에서 N문항(--limit 과 같이 주면 앞 N + 뒤 N, 동작 확인용)")
     ap.add_argument("--seed_offset", type=int, default=0, help="--input: seed 에 더할 값(파일끼리 seed 가 겹치지 않게)")
     ap.add_argument("--chunk_items", type=int, default=256, help="--input: 한 번에 생성할 문항 수")
     ap.add_argument("--max_tokens", type=int, default=0, help="--input: 생성 상한(0 = config 값). 나머지 생성 설정은 config 그대로")
