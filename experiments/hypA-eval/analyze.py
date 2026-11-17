@@ -3,7 +3,9 @@
 
   python experiments/hypA-eval/analyze.py --runs <pack_runs.py 로 묶은 폴더> --e0 <baseline 시드 실험 결과 폴더> --out <출력 폴더>
 
---runs 안의 <e1|e2|e3>_seed_<시드>/, --e0 안의 seed_<시드>/ 에서 item_results.jsonl 과 raw.jsonl.gz 를 읽는다.
+--runs 안의 <조건>_seed_<시드>/, --e0 안의 seed_<시드>/ 에서 item_results.jsonl 과 raw.jsonl.gz 를 읽는다.
+--arms 로 비교할 조건을 고른다(기본 e1,e2,e3. GRPO 체크포인트는 --arms g10,g20,g30). 조건마다 있는 시드만 쓰고,
+E0 대비 값은 그 조건과 같은 시드의 E0 평균과 비교한다(시드가 하나뿐이면 표준편차는 "-").
 출력: summary.json, REPORT.md
   1. 실행별·조건별 정확도 (시드 평균·표준편차·범위)
   2. 의료 5과목과 나머지 과목의 정확도
@@ -15,7 +17,6 @@ import argparse, collections, gzip, json, re, statistics as st
 from pathlib import Path
 
 MEDICAL = {"Basic_Medical_Science", "Clinical_Medicine", "Diagnostics_and_Laboratory_Medicine", "Pharmacy", "Public_Health"}
-ARMS = ["e0", "e1", "e2", "e3"]
 SEEDS = [42, 1234, 2026]
 STATED = re.compile(r"(?:Final Answer|correct answer is|correct option is|Answer)\s*[:：]?\s*\**\s*(?:Option\s*)?\(?([A-I])\b", re.I)
 
@@ -42,35 +43,45 @@ def main():
     ap.add_argument("--runs", type=Path, required=True)
     ap.add_argument("--e0", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--arms", default="e1,e2,e3")
+    ap.add_argument("--title", default="가설 A 결과 분석")
     a = ap.parse_args()
+    ARMS = ["e0"] + a.arms.split(",")
 
     runs = {("e0", s): load_run(a.e0 / f"seed_{s}") for s in SEEDS}
-    runs.update({(arm, s): load_run(a.runs / f"{arm}_seed_{s}") for arm in ARMS[1:] for s in SEEDS})
+    seeds_of = {"e0": SEEDS}
+    for arm in ARMS[1:]:
+        seeds_of[arm] = [s for s in SEEDS if (a.runs / f"{arm}_seed_{s}" / "item_results.jsonl").exists()]
+        assert seeds_of[arm], f"{arm}: --runs 에 채점된 시드가 없음"
+        runs.update({(arm, s): load_run(a.runs / f"{arm}_seed_{s}") for s in seeds_of[arm]})
     ids = sorted(runs[("e0", 42)])
     assert all(sorted(r) == ids for r in runs.values()), "실행마다 문항 목록이 다름"
     med = [i for i in ids if runs[("e0", 42)][i]["subject"] in MEDICAL]
     oth = [i for i in ids if i not in set(med)]
-    e0_mean = {i: st.mean(bool(runs[("e0", s)][i]["final_correct"]) for s in SEEDS) for i in ids}
     out = {"seeds": SEEDS, "n_items": len(ids), "n_medical": len(med), "arms": {}}
 
     for arm in ARMS:
-        rs = [runs[(arm, s)] for s in SEEDS]
+        AS = seeds_of[arm]
+        rs = [runs[(arm, s)] for s in AS]
         per_seed = [acc(r.values()) for r in rs]
-        o = {"accuracy_by_seed": dict(zip(map(str, SEEDS), per_seed)), "mean": st.mean(per_seed), "sd": st.stdev(per_seed),
+        o = {"seeds": AS, "accuracy_by_seed": dict(zip(map(str, AS), per_seed)), "mean": st.mean(per_seed),
+             "sd": st.stdev(per_seed) if len(per_seed) > 1 else None,
+             "e0_mean_same_seeds": st.mean(acc(runs[("e0", s)].values()) for s in AS),
              "medical": st.mean(acc(r[i] for i in med) for r in rs), "other": st.mean(acc(r[i] for i in oth) for r in rs)}
         for name, sub in (("medical", med), ("other", oth)):
             o[f"short_form_share_{name}"] = st.mean(sum(short_form(r[i]) for i in sub) / len(sub) * 100 for r in rs)
             o[f"median_output_tokens_{name}"] = st.mean(st.median(r[i]["output_tokens"] for i in sub) for r in rs)
         # E0 대비 정답 수 변화: 그룹마다 (이 실행의 정답 수 − 같은 문항의 E0 시드 평균 정답 수), 시드 평균
         groups = collections.defaultdict(lambda: [0, 0.0, 0.0])
+        e0_mean = {i: st.mean(bool(runs[("e0", s)][i]["final_correct"]) for s in AS) for i in ids}
         for r in rs:
             for i in ids:
                 g = ("medical" if i in set(med) else "other") + ("_short" if short_form(r[i]) else "_long")
                 groups[g][0] += 1; groups[g][1] += bool(r[i]["final_correct"]); groups[g][2] += e0_mean[i]
-        o["change_vs_e0"] = {g: {"items_per_seed": n / len(SEEDS), "accuracy": c / n * 100, "e0_accuracy_same_items": c0 / n * 100,
-                                 "correct_change_per_seed": (c - c0) / len(SEEDS)} for g, (n, c, c0) in sorted(groups.items())}
+        o["change_vs_e0"] = {g: {"items_per_seed": n / len(AS), "accuracy": c / n * 100, "e0_accuracy_same_items": c0 / n * 100,
+                                 "correct_change_per_seed": (c - c0) / len(AS)} for g, (n, c, c0) in sorted(groups.items())}
         mism = []
-        for s, r in zip(SEEDS, rs):
+        for s, r in zip(AS, rs):
             k = 0
             for x in r.values():
                 if x["question_type"] == "open" or x["final_status"] != "complete_rule":
@@ -78,22 +89,24 @@ def main():
                 m = list(STATED.finditer(x["raw_text"][-600:]))
                 k += bool(m) and m[-1].group(1).upper() != x["final_answer"]
             mism.append(k)
-        o["rule_parse_mismatch_by_seed"] = dict(zip(map(str, SEEDS), mism))
+        o["rule_parse_mismatch_by_seed"] = dict(zip(map(str, AS), mism))
         out["arms"][arm] = o
 
     subjects = sorted({r["subject"] for r in runs[("e0", 42)].values()})
-    out["subjects"] = {sub: {arm: st.mean(acc(runs[(arm, s)][i] for i in ids if runs[(arm, s)][i]["subject"] == sub) for s in SEEDS)
+    out["subjects"] = {sub: {arm: st.mean(acc(runs[(arm, s)][i] for i in ids if runs[(arm, s)][i]["subject"] == sub) for s in seeds_of[arm])
                              for arm in ARMS} for sub in subjects}
 
     a.out.mkdir(parents=True, exist_ok=True)
     (a.out / "summary.json").write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     A = out["arms"]
-    L = ["# 가설 A 결과 분석", "", "`analyze.py` 가 만든 파일이다. E0 는 baseline 시드 실험(seed 42/1234/2026), 나머지는 `results/hypA_eval/`.", "",
-         "## 1. 정확도 (%)", "", "| 조건 | seed 42 | seed 1234 | seed 2026 | 평균 | 표준편차 | E0 대비 |", "|---|---|---|---|---|---|---|"]
+    f2 = lambda v: "-" if v is None else f"{v:.2f}"
+    L = [f"# {a.title}", "", f"`analyze.py --arms {a.arms}` 가 만든 파일이다. E0 는 baseline 시드 실험(seed 42/1234/2026), 나머지는 `--runs` 폴더.", "",
+         "## 1. 정확도 (%)", "", "E0 대비 = 같은 시드들의 E0 평균과의 차이.", "",
+         "| 조건 | seed 42 | seed 1234 | seed 2026 | 평균 | 표준편차 | E0 대비 |", "|---|---|---|---|---|---|---|"]
     for arm in ARMS:
         b = A[arm]["accuracy_by_seed"]
-        L.append(f"| {arm.upper()} | {b['42']:.2f} | {b['1234']:.2f} | {b['2026']:.2f} | {A[arm]['mean']:.2f} | {A[arm]['sd']:.2f} | "
-                 f"{A[arm]['mean'] - A['e0']['mean']:+.2f} |")
+        L.append(f"| {arm.upper()} | " + " | ".join(f2(b.get(str(s))) for s in SEEDS) + f" | {A[arm]['mean']:.2f} | {f2(A[arm]['sd'])} | "
+                 f"{A[arm]['mean'] - A[arm]['e0_mean_same_seeds']:+.2f} |")
     L += ["", f"## 2. 의료 5과목({len(med)}문항)과 나머지({len(oth)}문항), 시드 평균 (%)", "",
           "| 조건 | 의료 | 나머지 | 의료 답 중 짧은 형식 | 나머지 답 중 짧은 형식 | 출력 토큰 중앙값 (의료 / 나머지) |", "|---|---|---|---|---|---|"]
     for arm in ARMS:
@@ -115,13 +128,15 @@ def main():
           "| 조건 | seed 42 | seed 1234 | seed 2026 |", "|---|---|---|---|"]
     for arm in ARMS:
         m = A[arm]["rule_parse_mismatch_by_seed"]
-        L.append(f"| {arm.upper()} | {m['42']} | {m['1234']} | {m['2026']} |")
-    L += ["", "## 5. 과목별 정확도 (시드 평균, %, E1~E3 평균의 E0 대비 변화순)", "", "| 과목 | E0 | E1 | E2 | E3 | 변화 |", "|---|---|---|---|---|---|"]
+        L.append(f"| {arm.upper()} | " + " | ".join(str(m.get(str(s), "-")) for s in SEEDS) + " |")
+    names = [x.upper() for x in ARMS[1:]]
+    L += ["", f"## 5. 과목별 정확도 (시드 평균, %, {'·'.join(names)} 평균의 E0 대비 변화순)", "",
+          "| 과목 | E0 | " + " | ".join(names) + " | 변화 |", "|" + "---|" * (len(ARMS) + 2)]
     rows = sorted(out["subjects"].items(), key=lambda kv: st.mean(kv[1][x] for x in ARMS[1:]) - kv[1]["e0"])
     for sub, v in rows:
-        L.append(f"| {sub}{' (의료)' if sub in MEDICAL else ''} | {v['e0']:.1f} | {v['e1']:.1f} | {v['e2']:.1f} | {v['e3']:.1f} | "
-                 f"{st.mean(v[x] for x in ARMS[1:]) - v['e0']:+.1f} |")
-    L.append("\n과목당 30문항이라 과목 하나의 차이는 오차가 크다(1문항 = 3.3%p).")
+        L.append(f"| {sub}{' (의료)' if sub in MEDICAL else ''} | {v['e0']:.1f} | " + " | ".join(f"{v[x]:.1f}" for x in ARMS[1:]) +
+                 f" | {st.mean(v[x] for x in ARMS[1:]) - v['e0']:+.1f} |")
+    L.append("\n과목당 30문항이라 과목 하나의 차이는 오차가 크다(1문항 = 3.3%p). 2·5절의 E0 는 시드 3개 평균이다.")
     (a.out / "REPORT.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 

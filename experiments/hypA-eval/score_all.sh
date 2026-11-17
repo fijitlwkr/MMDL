@@ -4,6 +4,7 @@
 #
 #   bash experiments/hypA-eval/score_all.sh --work <작업 폴더>              # 받기 + 규칙 채점 + judge. OpenAI 키는 시작할 때 한 번 묻는다(화면·파일에 남지 않음)
 #   bash experiments/hypA-eval/score_all.sh --work <작업 폴더> --no_judge   # 받기 + 규칙 채점만. API 호출 없음
+#   bash experiments/hypA-eval/score_all.sh --work <작업 폴더> --arms g30_seed_42,g30_seed_1234,g30_seed_2026   # 일부 실행만(기본: E1~E3 9개)
 #
 # 작업 폴더는 재부팅에 지워지지 않는 곳에 둔다(유료 judge 응답이 여기 저장된다). 끝나면 pack_runs.py 로 커밋용 묶음을 만든다.
 # 아직 HF 에 없는 실행은 건너뛰고, 채점이 끝난 실행(scoring/FINAL_OK)도 건너뛴다. 그래서 몇 번 다시 돌려도 된다.
@@ -16,6 +17,7 @@ ARMS=(e1_seed_42 e1_seed_1234 e1_seed_2026 e2_seed_42 e2_seed_1234 e2_seed_2026 
 STAGE=""; JUDGE=1
 while (($#)); do case "$1" in
   --work) STAGE="$2"; shift 2;; --no_judge) JUDGE=0; shift;;
+  --arms) IFS=, read -r -a ARMS <<<"$2"; shift 2;;
   *) echo "unknown arg $1" >&2; exit 2;; esac; done
 [[ -n "$STAGE" ]] || { echo "need --work <dir>" >&2; exit 2; }
 

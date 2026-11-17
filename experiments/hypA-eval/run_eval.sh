@@ -5,6 +5,10 @@
 #   - config 는 code/config.yaml 에서 sampling seed 만 바꾼다(engine seed 3407 고정). make_seed_config.py 가 그 외 변경을 막는다.
 #   - arm 하나씩 순차 실행하고, 중간에 끊긴 arm 은 이어받지 않는다(배치 구성이 달라지므로).
 # 다른 점: --model_path/--revision 으로 학습된 모델을 고정 버전으로 받고, arm 이 끝날 때마다 결과 폴더를 HF 데이터셋에 올린다.
+# g10/g20/g30 (2026-11-17 추가): GRPO 30스텝 학습의 step10/20/30 LoRA 어댑터(MMDL-team4/hypA-grpo-pilot30-ckpt).
+#   병합본이 없어서 arm 을 돌리기 전에 merge_adapter.py 로 베이스(config.yaml 의 고정 revision)에 병합해 $WORK/merged/<이름> 에
+#   만들고, 그 로컬 폴더를 --model_path 로 넘긴다. 어댑터 저장소는 시작할 때 commit sha 로 고정하고(ADAPTER_REV 로 지정 가능)
+#   그 sha 를 --revision 으로 기록한다. 병합에는 peft 가 필요하다(README 참고). 생성 코드·config·시드는 E1~E3 와 같다.
 #
 #   bash experiments/hypA-eval/run_eval.sh --arms e1:42            # 첫 실행: E1 시드 42 하나
 #   bash experiments/hypA-eval/run_eval.sh --arms e1:1234,e1:2026  # 이어서 원하는 arm 만
@@ -19,10 +23,13 @@ DATA_ROOT="${DATA_ROOT:-/workspace/.cache/hf_datasets}"
 RESULT_REPO="${RESULT_REPO:-MMDL-team4/hypA-eval-raw}"
 CODE_FREEZE="0e7ffcddf5c821bf6975e2373a2f60dc75ea61e0bbbfb7037e1e6f92b0157537"  # baseline 시드 실험 때 code/ 해시
 ENGINE_SEED=3407
+ADAPTER_REPO="${ADAPTER_REPO:-MMDL-team4/hypA-grpo-pilot30-ckpt}"
+ADAPTER_REV="${ADAPTER_REV:-$(cat "$WORK/adapter_rev.txt" 2>/dev/null || echo main)}"  # 첫 실행 때 sha 로 고정해 adapter_rev.txt 에 저장, 이후 실행은 그 sha
+is_grpo() { [[ "$1" =~ ^g(10|20|30)$ ]]; }
 model_repo() { case "$1" in e1) echo MMDL-team4/hypA-e1-matched-2k;; e2) echo MMDL-team4/hypA-e2-control-2k;;
-  e3) echo MMDL-team4/hypA-e3-general-2k;; *) return 1;; esac; }
+  e3) echo MMDL-team4/hypA-e3-general-2k;; g10|g20|g30) echo "$WORK/merged/$1";; *) return 1;; esac; }
 model_rev() { case "$1" in e1) echo 8a13d9e67dd5ff16c5407dd756962ecff725eabe;; e2) echo 7d4a8a58c427fdcbb6e9b0382e6176630770c57f;;
-  e3) echo e591371e742f8e5cd4e7859d892305789c3b8516;; *) return 1;; esac; }
+  e3) echo e591371e742f8e5cd4e7859d892305789c3b8516;; g10|g20|g30) echo "$ADAPTER_REV";; *) return 1;; esac; }
 
 ARMS="e1:42,e1:1234,e1:2026,e2:42,e2:1234,e2:2026,e3:42,e3:1234,e3:2026"; INSTALL=0; UPLOAD=1; SKIP_FREEZE=0
 while (($#)); do case "$1" in
@@ -37,16 +44,36 @@ if (( ! SKIP_FREEZE )); then
   [[ "$NOW" == "$CODE_FREEZE" ]] || { echo "ABORT: code/ 가 baseline 시드 실험 때와 다름 ($NOW)" >&2; exit 3; }
 fi
 for spec in ${ARMS//,/ }; do
-  model_repo "${spec%%:*}" >/dev/null || { echo "unknown model in arm '$spec' (e1/e2/e3)" >&2; exit 2; }
+  model_repo "${spec%%:*}" >/dev/null || { echo "unknown model in arm '$spec' (e1/e2/e3/g10/g20/g30)" >&2; exit 2; }
   [[ "${spec#*:}" =~ ^[0-9]+$ ]] || { echo "bad seed in arm '$spec'" >&2; exit 2; }
 done
 mkdir -p "$WORK"; cd "$REPO"
 # 비공개 모델에 접근되는지 먼저 확인한다(토큰은 이 HF_HOME 기준으로 찾는다)
-for m in $(for spec in ${ARMS//,/ }; do echo "${spec%%:*}"; done | sort -u); do
+MODELS="$(for spec in ${ARMS//,/ }; do echo "${spec%%:*}"; done | sort -u)"
+for m in $MODELS; do
+  is_grpo "$m" && continue
   python -c "import sys; from huggingface_hub import HfApi; HfApi().model_info(sys.argv[1], revision=sys.argv[2])" \
     "$(model_repo "$m")" "$(model_rev "$m")" >/dev/null 2>&1 \
     || { echo "ABORT: $(model_repo "$m") 에 접근할 수 없음. 'HF_HOME=$HF_HOME huggingface-cli login' 을 했는지 확인" >&2; exit 4; }
 done
+# GRPO 어댑터: 저장소 sha 고정 → 필요한 step 을 모두 병합(이미 MERGE_OK 면 건너뜀). 병합이 실패하면 GPU 평가 전에 멈춘다.
+if grep -qE '^g' <<<"$MODELS"; then
+  python -c "import peft" 2>/dev/null || { echo "ABORT: peft 가 없음. README 의 peft 설치 명령을 먼저 실행" >&2; exit 4; }
+  ADAPTER_REV="$(python -c "import sys; from huggingface_hub import HfApi; print(HfApi().model_info(sys.argv[1], revision=sys.argv[2]).sha)" \
+    "$ADAPTER_REPO" "$ADAPTER_REV" 2>/dev/null)" \
+    || { echo "ABORT: $ADAPTER_REPO 에 접근할 수 없음. 'HF_HOME=$HF_HOME huggingface-cli login' 을 했는지 확인" >&2; exit 4; }
+  mkdir -p "$WORK"; echo "$ADAPTER_REV" > "$WORK/adapter_rev.txt"
+  echo "adapter repo $ADAPTER_REPO @ $ADAPTER_REV"
+  for m in $MODELS; do
+    is_grpo "$m" || continue
+    MERGE_EXTRA=(); [[ "${SKIP_BASE_CHECK:-0}" == 1 ]] && MERGE_EXTRA+=(--skip_base_check)
+    python -u "$EXP/merge_adapter.py" --adapter_repo "$ADAPTER_REPO" --adapter_rev "$ADAPTER_REV" --subfolder "step${m#g}" \
+      --config "$REPO/code/config.yaml" --out "$(model_repo "$m")" "${MERGE_EXTRA[@]}" 2>&1 | tee "$WORK/merge_$m.log"
+    [[ -f "$(model_repo "$m")/MERGE_OK" ]] || { echo "ABORT: $m 병합 실패 ($WORK/merge_$m.log)" >&2; exit 5; }
+    grep -q "\"adapter_rev\": \"$ADAPTER_REV\"" "$(model_repo "$m")/merge_info.json" \
+      || { echo "ABORT: $(model_repo "$m") 는 다른 어댑터 버전으로 병합됨. 폴더를 지우고 다시 실행" >&2; exit 5; }
+  done
+fi
 T0=$(date +%s)
 
 for spec in ${ARMS//,/ }; do
@@ -56,6 +83,7 @@ for spec in ${ARMS//,/ }; do
   if [[ -f "$OUT/DONE" ]]; then echo "[skip] $NAME already DONE"; continue; fi
   if [[ -d "$OUT" ]]; then mv "$OUT" "$OUT.partial.$(date -u +%Y%m%dT%H%M%SZ)"; fi
   mkdir -p "$OUT"
+  if is_grpo "$M"; then cp "$MREPO/merge_info.json" "$OUT/merge_info.json"; fi
   python "$EXP/make_seed_config.py" --base "$REPO/code/config.yaml" --out "$OUT/config_used.yaml" \
     --sampling-seed "$S" --engine-seed "$ENGINE_SEED"
   ARGS=(--config "$OUT/config_used.yaml" --out "$OUT" --data_root "$DATA_ROOT"

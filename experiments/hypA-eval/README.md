@@ -76,3 +76,45 @@
 - 생성: arm 당 33~50분, 9개 합계 약 6시간 30분. 에러 0건. 학습된 모델은 답이 짧아서 E0(97~106분)보다 빨랐다.
 - 채점: judge 대상은 arm 당 125~255문항, 9개 합계 1,669문항. 약 35분, $1.57.
 - 결과 요약: `results/hypA_eval/analysis/REPORT.md`. 의료 문항 답변을 직접 읽은 기록: `results/hypA_eval/analysis/MEDICAL_REVIEW.md`.
+
+## GRPO 체크포인트 평가 (2026-11-17 하경님 요청)
+
+hypA RL(GRPO) 30스텝 학습의 LoRA 어댑터(`MMDL-team4/hypA-grpo-pilot30-ckpt` 의 `step10/`·`step20/`·`step30/`)를 E1~E3 와 같은 방식으로 평가한다. 이름은 `g10`·`g20`·`g30`, 시드는 E0·E1~E3 와 같은 42/1234/2026(engine seed 3407).
+
+- 병합본이 없어서 `run_eval.sh` 가 arm 을 돌리기 전에 `merge_adapter.py` 로 베이스(`code/config.yaml` 의 고정 revision)에 병합한다. 어댑터 설정 파일에 적힌 베이스 경로(학습 서버 로컬 경로)는 쓰지 않는다.
+- 병합본 폴더(`/workspace/hypA_eval/merged/g30` 등)의 config·토크나이저·프로세서·대화 템플릿은 베이스 파일을 그대로 복사하고 가중치만 병합본이다. 평가 코드(`code/`)·config·프롬프트·채점·생성 상한 8192 는 그대로다(`code/` 해시 검사 그대로).
+- `merge_adapter.py` 가 확인하는 것: 어댑터가 LoRA 키만 있고 비전 키가 없는지, 어댑터 텐서가 모델에 빠짐없이 값 그대로 올라갔는지, 병합 뒤 바뀐 가중치가 LoRA 대상 언어모델 선형층뿐인지(비전·임베딩 등은 비트 단위로 같음). 하나라도 어긋나면 GPU 평가 전에 멈춘다.
+- 병합본은 bf16 이라 LoRA 변화가 아주 작으면 반올림으로 일부가 사라진다. 층마다 계산상 변화(scaling × B·A)와 실제로 더해진 변화의 차이를 `merge_info.json` 의 `bf16_merge` 에 기록한다(로그에도 한 줄). 각 arm 결과 폴더에도 `merge_info.json` 이 복사되어 HF 에 같이 올라간다.
+- 어댑터 저장소는 첫 실행 때 commit sha 로 고정해 `/workspace/hypA_eval/adapter_rev.txt` 에 저장하고 `--revision` 으로 기록한다. 같은 파드의 이후 실행(step10·20)도 이 sha 를 쓴다(`ADAPTER_REV=<sha>` 로 직접 지정 가능).
+- 학습 시작 모델 확인: 어댑터와 같이 저장된 swift `args.json` 의 모델이 이 베이스(이름·snapshot revision)가 아니면 멈춘다(원본이 아닌 모델에서 학습했는데 원본에 병합하는 실수 방지). 경로 이름만 다르고 원본이 맞다고 확인되면 `SKIP_BASE_CHECK=1` 로 건너뛴다.
+- 병합본 bf16 경고: 값이 바뀐 원소가 절반 미만이거나 반올림 오차 중앙값이 0.5 를 넘으면 로그에 `경고(bf16)` 가 찍힌다. 이때는 결과 보고에 `merge_info.json` 의 `bf16_merge` 숫자를 같이 적는다(학습 변화가 병합 과정에서 줄어든 상태로 평가된 것일 수 있음).
+
+### 순서 (RunPod)
+
+1. 파드: RTX 4090, 템플릿 PyTorch 2.8.0 / CUDA 12.8.1, **Container Disk 100GB**(베이스 9GB + 병합본 9GB × 최대 3 + 패키지). 켠 뒤 `df -h /workspace` 로 여유가 70GB 이상인지 본다(모델·병합본·결과가 /workspace 에 쌓인다).
+2. 받기·설치·로그인(위 "순서" 2~4 와 같다). 그다음 병합용 peft 를 팀 고정 버전을 바꾸지 못하게 제약을 걸어 설치한다(학습 때와 같은 0.20.0).
+   ```bash
+   cd /workspace && git clone -b exp/hypA-eval https://github.com/fijitlwkr/MMDL.git && cd MMDL
+   pip install -r code/requirements.txt
+   pip freeze | grep -v -E '^(-e |.* @ )' > /workspace/constraints.txt && pip install peft==0.20.0 -c /workspace/constraints.txt
+   HF_HOME=/workspace/.cache/huggingface huggingface-cli login
+   ```
+3. step30 의 시드 3개. 병합(약 10분) 뒤 arm 마다 생성하고 끝날 때마다 HF(`MMDL-team4/hypA-eval-raw/g30_seed_<시드>/`)에 올린다.
+   ```bash
+   nohup bash experiments/hypA-eval/run_eval.sh --arms g30:42,g30:1234,g30:2026 > /workspace/eval_g30.log 2>&1 &
+   grep -E "adapter repo|어댑터 텐서|가중치 비교|LoRA 변화|MERGE_OK|ABORT|START|END|uploaded" /workspace/eval_g30.log
+   ```
+4. 여유가 있으면 step10·20 도 같은 파드에서 이어서 돈다(이미 끝난 arm·병합은 건너뛴다).
+   ```bash
+   nohup bash experiments/hypA-eval/run_eval.sh --arms g10:42,g10:1234,g10:2026,g20:42,g20:1234,g20:2026 > /workspace/eval_g1020.log 2>&1 &
+   ```
+
+### 채점·분석 (맥)
+
+```bash
+bash experiments/hypA-eval/score_all.sh --work <작업 폴더> --arms g30_seed_42,g30_seed_1234,g30_seed_2026
+python experiments/hypA-eval/pack_runs.py --work <작업 폴더> --dest results/hypA_grpo_eval
+python experiments/hypA-eval/analyze.py --runs results/hypA_grpo_eval --e0 <E0 시드 폴더> --arms g30 --title "GRPO 체크포인트 평가" --out results/hypA_grpo_eval/analysis
+```
+
+`analyze.py` 는 조건마다 있는 시드만 쓰고, E0 대비 값은 같은 시드의 E0 평균과 비교한다. 하경님 기준: 전체 정확도 차이가 표준오차(약 1.7pt)보다 작으면 "차이 없음".

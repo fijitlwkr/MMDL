@@ -3,7 +3,7 @@
 import argparse, gzip, json, shutil
 from pathlib import Path
 
-KEEP = ["config_used.yaml", "config_used.diff.json", "run_metadata.json", "env.json", "env_check.json"]
+KEEP = ["config_used.yaml", "config_used.diff.json", "run_metadata.json", "env.json", "env_check.json", "merge_info.json"]
 KEEP_LOGS = ["03_generate.log", "04_validate_raw.log"]
 KEEP_SCORING = ["summary.json", "manifest.json", "REPORT.md"]
 
