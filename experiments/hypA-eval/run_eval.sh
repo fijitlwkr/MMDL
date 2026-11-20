@@ -9,6 +9,8 @@
 #   병합본이 없어서 arm 을 돌리기 전에 merge_adapter.py 로 베이스(config.yaml 의 고정 revision)에 병합해 $WORK/merged/<이름> 에
 #   만들고, 그 로컬 폴더를 --model_path 로 넘긴다. 어댑터 저장소는 시작할 때 commit sha 로 고정하고(ADAPTER_REV 로 지정 가능)
 #   그 sha 를 --revision 으로 기록한다. 병합에는 peft 가 필요하다(README 참고). 생성 코드·config·시드는 E1~E3 와 같다.
+# g25/g50/g75/g100 (2026-11-20 추가): lr 1e-4 로 100스텝 다시 학습한 어댑터(MMDL-team4/hypA-grpo-step100-ckpt 의 step25~100).
+#   어댑터 저장소는 arm 이름으로 정해진다(g10~g30 = 파일럿 저장소, g25~g100 = step100 저장소). 한 번 실행에 두 저장소를 섞을 수 없다.
 #
 #   bash experiments/hypA-eval/run_eval.sh --arms e1:42            # 첫 실행: E1 시드 42 하나
 #   bash experiments/hypA-eval/run_eval.sh --arms e1:1234,e1:2026  # 이어서 원하는 arm 만
@@ -23,13 +25,15 @@ DATA_ROOT="${DATA_ROOT:-/workspace/.cache/hf_datasets}"
 RESULT_REPO="${RESULT_REPO:-MMDL-team4/hypA-eval-raw}"
 CODE_FREEZE="0e7ffcddf5c821bf6975e2373a2f60dc75ea61e0bbbfb7037e1e6f92b0157537"  # baseline 시드 실험 때 code/ 해시
 ENGINE_SEED=3407
-ADAPTER_REPO="${ADAPTER_REPO:-MMDL-team4/hypA-grpo-pilot30-ckpt}"
-ADAPTER_REV="${ADAPTER_REV:-$(cat "$WORK/adapter_rev.txt" 2>/dev/null || echo main)}"  # 첫 실행 때 sha 로 고정해 adapter_rev.txt 에 저장, 이후 실행은 그 sha
-is_grpo() { [[ "$1" =~ ^g(10|20|30)$ ]]; }
+# GRPO arm → 어댑터 묶음. pilot30 = 파일럿(lr 1e-5, 30스텝), step100 = 재학습(lr 1e-4, 100스텝)
+grpo_family() { case "$1" in g10|g20|g30) echo pilot30;; g25|g50|g75|g100) echo step100;; *) return 1;; esac; }
+family_repo() { case "$1" in pilot30) echo MMDL-team4/hypA-grpo-pilot30-ckpt;; step100) echo MMDL-team4/hypA-grpo-step100-ckpt;; *) return 1;; esac; }
+is_grpo() { grpo_family "$1" >/dev/null 2>&1; }
+# ADAPTER_REPO·ADAPTER_REV 는 arm 을 읽은 뒤 정한다(아래). 첫 실행 때 sha 로 고정해 adapter_rev_<묶음>.txt 에 저장, 이후 실행은 그 sha
 model_repo() { case "$1" in e1) echo MMDL-team4/hypA-e1-matched-2k;; e2) echo MMDL-team4/hypA-e2-control-2k;;
-  e3) echo MMDL-team4/hypA-e3-general-2k;; g10|g20|g30) echo "$WORK/merged/$1";; *) return 1;; esac; }
+  e3) echo MMDL-team4/hypA-e3-general-2k;; *) is_grpo "$1" && echo "$WORK/merged/$1";; esac; }
 model_rev() { case "$1" in e1) echo 8a13d9e67dd5ff16c5407dd756962ecff725eabe;; e2) echo 7d4a8a58c427fdcbb6e9b0382e6176630770c57f;;
-  e3) echo e591371e742f8e5cd4e7859d892305789c3b8516;; g10|g20|g30) echo "$ADAPTER_REV";; *) return 1;; esac; }
+  e3) echo e591371e742f8e5cd4e7859d892305789c3b8516;; *) is_grpo "$1" && echo "$ADAPTER_REV";; esac; }
 
 ARMS="e1:42,e1:1234,e1:2026,e2:42,e2:1234,e2:2026,e3:42,e3:1234,e3:2026"; INSTALL=0; UPLOAD=1; SKIP_FREEZE=0
 while (($#)); do case "$1" in
@@ -44,12 +48,18 @@ if (( ! SKIP_FREEZE )); then
   [[ "$NOW" == "$CODE_FREEZE" ]] || { echo "ABORT: code/ 가 baseline 시드 실험 때와 다름 ($NOW)" >&2; exit 3; }
 fi
 for spec in ${ARMS//,/ }; do
-  model_repo "${spec%%:*}" >/dev/null || { echo "unknown model in arm '$spec' (e1/e2/e3/g10/g20/g30)" >&2; exit 2; }
+  model_repo "${spec%%:*}" >/dev/null || { echo "unknown model in arm '$spec' (e1/e2/e3/g10/g20/g30/g25/g50/g75/g100)" >&2; exit 2; }
   [[ "${spec#*:}" =~ ^[0-9]+$ ]] || { echo "bad seed in arm '$spec'" >&2; exit 2; }
 done
 mkdir -p "$WORK"; cd "$REPO"
 # 비공개 모델에 접근되는지 먼저 확인한다(토큰은 이 HF_HOME 기준으로 찾는다)
 MODELS="$(for spec in ${ARMS//,/ }; do echo "${spec%%:*}"; done | sort -u)"
+FAMILIES="$(for m in $MODELS; do grpo_family "$m" 2>/dev/null || true; done | sort -u)"
+if [[ -n "$FAMILIES" ]]; then
+  [[ "$(wc -w <<<"$FAMILIES")" -eq 1 ]] || { echo "ABORT: 파일럿(g10~g30)과 step100(g25~g100) arm 은 따로 실행" >&2; exit 2; }
+  ADAPTER_REPO="${ADAPTER_REPO:-$(family_repo "$FAMILIES")}"
+  ADAPTER_REV="${ADAPTER_REV:-$(cat "$WORK/adapter_rev_$FAMILIES.txt" 2>/dev/null || echo main)}"
+fi
 for m in $MODELS; do
   is_grpo "$m" && continue
   python -c "import sys; from huggingface_hub import HfApi; HfApi().model_info(sys.argv[1], revision=sys.argv[2])" \
@@ -62,7 +72,7 @@ if grep -qE '^g' <<<"$MODELS"; then
   ADAPTER_REV="$(python -c "import sys; from huggingface_hub import HfApi; print(HfApi().model_info(sys.argv[1], revision=sys.argv[2]).sha)" \
     "$ADAPTER_REPO" "$ADAPTER_REV" 2>/dev/null)" \
     || { echo "ABORT: $ADAPTER_REPO 에 접근할 수 없음. 'HF_HOME=$HF_HOME huggingface-cli login' 을 했는지 확인" >&2; exit 4; }
-  mkdir -p "$WORK"; echo "$ADAPTER_REV" > "$WORK/adapter_rev.txt"
+  mkdir -p "$WORK"; echo "$ADAPTER_REV" > "$WORK/adapter_rev_$FAMILIES.txt"
   echo "adapter repo $ADAPTER_REPO @ $ADAPTER_REV"
   for m in $MODELS; do
     is_grpo "$m" || continue

@@ -85,7 +85,7 @@ hypA RL(GRPO) 30스텝 학습의 LoRA 어댑터(`MMDL-team4/hypA-grpo-pilot30-ck
 - 병합본 폴더(`/workspace/hypA_eval/merged/g30` 등)의 config·토크나이저·프로세서·대화 템플릿은 베이스 파일을 그대로 복사하고 가중치만 병합본이다. 평가 코드(`code/`)·config·프롬프트·채점·생성 상한 8192 는 그대로다(`code/` 해시 검사 그대로).
 - `merge_adapter.py` 가 확인하는 것: 어댑터가 LoRA 키만 있고 비전 키가 없는지, 어댑터 텐서가 모델에 빠짐없이 값 그대로 올라갔는지, 병합 뒤 바뀐 가중치가 LoRA 대상 언어모델 선형층뿐인지(비전·임베딩 등은 비트 단위로 같음). 하나라도 어긋나면 GPU 평가 전에 멈춘다.
 - 병합본은 bf16 이라 LoRA 변화가 아주 작으면 반올림으로 일부가 사라진다. 층마다 계산상 변화(scaling × B·A)와 실제로 더해진 변화의 차이를 `merge_info.json` 의 `bf16_merge` 에 기록한다(로그에도 한 줄). 각 arm 결과 폴더에도 `merge_info.json` 이 복사되어 HF 에 같이 올라간다.
-- 어댑터 저장소는 첫 실행 때 commit sha 로 고정해 `/workspace/hypA_eval/adapter_rev.txt` 에 저장하고 `--revision` 으로 기록한다. 같은 파드의 이후 실행(step10·20)도 이 sha 를 쓴다(`ADAPTER_REV=<sha>` 로 직접 지정 가능).
+- 어댑터 저장소는 첫 실행 때 commit sha 로 고정해 `/workspace/hypA_eval/adapter_rev_pilot30.txt` 에 저장하고 `--revision` 으로 기록한다. 같은 파드의 이후 실행(step10·20)도 이 sha 를 쓴다(`ADAPTER_REV=<sha>` 로 직접 지정 가능).
 - 학습 시작 모델 확인: 어댑터와 같이 저장된 swift `args.json` 의 모델이 이 베이스(이름·snapshot revision)가 아니면 멈춘다(원본이 아닌 모델에서 학습했는데 원본에 병합하는 실수 방지). 경로 이름만 다르고 원본이 맞다고 확인되면 `SKIP_BASE_CHECK=1` 로 건너뛴다.
 - 병합본 bf16 경고: 값이 바뀐 원소가 절반 미만이거나 반올림 오차 중앙값이 0.5 를 넘으면 로그에 `경고(bf16)` 가 찍힌다. 이때는 결과 보고에 `merge_info.json` 의 `bf16_merge` 숫자를 같이 적는다(학습 변화가 병합 과정에서 줄어든 상태로 평가된 것일 수 있음).
 
@@ -108,6 +108,19 @@ hypA RL(GRPO) 30스텝 학습의 LoRA 어댑터(`MMDL-team4/hypA-grpo-pilot30-ck
    ```bash
    nohup bash experiments/hypA-eval/run_eval.sh --arms g10:42,g10:1234,g10:2026,g20:42,g20:1234,g20:2026 > /workspace/eval_g1020.log 2>&1 &
    ```
+
+### step100 재학습 체크포인트 (2026-11-20 추가)
+
+lr 1e-4 로 100스텝 다시 학습한 어댑터(`MMDL-team4/hypA-grpo-step100-ckpt` 의 `step25/`·`step50/`·`step75/`·`step100/`)를 같은 방식으로 평가한다. 이름은 `g25`·`g50`·`g75`·`g100`. 파드·설치는 위 1~2 와 같다. 병합본이 4개(9GB씩)라 `/workspace` 여유가 70GB 이상인지 꼭 본다.
+
+```bash
+ADAPTER_REV=7af4bebfd1e2dfe1252cad05dff6a8ce98b31d77 nohup bash experiments/hypA-eval/run_eval.sh --arms g100:42,g50:42,g25:42,g75:42 > /workspace/eval_step100.log 2>&1 &
+grep -E "adapter repo|LoRA 변화|경고|MERGE_OK|ABORT|START|END|uploaded" /workspace/eval_step100.log
+```
+
+- 어댑터 저장소는 arm 이름으로 정해진다(g10~g30 = 파일럿, g25~g100 = step100). 한 번 실행에 두 저장소를 섞으면 멈춘다. 고정 sha 는 `/workspace/hypA_eval/adapter_rev_step100.txt` 에 저장된다.
+- 병합 4개를 먼저 하고(약 10분씩) 생성은 적은 순서대로 한다. 끝난 arm 부터 HF 에 올라가므로 중간에 멈춰도 앞 arm 결과는 남는다.
+- 학습 조건 차이: 학습 GPU 가 L40S 라 micro batch 2 × grad accum 64 로 돌렸다(파일럿은 RTX 6000 Ada 에서 4 × 32). 스텝당 응답 수 128 은 같다.
 
 ### 채점·분석 (맥)
 
