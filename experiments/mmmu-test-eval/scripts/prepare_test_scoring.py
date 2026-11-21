@@ -17,7 +17,7 @@ def main():
     args = parser.parse_args()
     evaluator = args.code / "scoring/evaluate.py"
     sys.argv = [str(evaluator), "prepare", "--config", str(args.config), "--raw", str(args.raw),
-                "--out", str(args.out)]
+                "--out", str(args.out), "--requests-only"]
     offline = RuntimeError("Network is disabled for offline scoring preparation")
     with (
         patch.object(socket, "socket", side_effect=offline),
@@ -29,10 +29,9 @@ def main():
             if error.code not in (None, 0):
                 raise
     manifest = json.loads((args.out / "manifest.json").read_bytes())
-    summary = json.loads((args.out / "summary.json").read_bytes())
     requests = [json.loads(line) for line in (args.out / "requests.jsonl").read_bytes().splitlines()]
-    assert manifest["total"] == 10500 and len(requests) == summary["overall"]["pending"] == manifest["judge_count"]
-    assert summary["response_count"] == 0
+    assert manifest["total"] == 10500 and len(requests) == manifest["judge_count"]
+    assert manifest["automatic_count"] + len(requests) == manifest["total"]
     prices = manifest["price_per_million_usd"]
     input_bound = sum(len(json.dumps(row["request"], ensure_ascii=False, sort_keys=True,
                                     separators=(",", ":")).encode("utf-8")) + 128 for row in requests)

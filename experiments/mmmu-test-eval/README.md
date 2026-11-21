@@ -47,6 +47,7 @@ Each worker sees one RTX 4090 through CUDA_VISIBLE_DEVICES and uses tensor paral
    ```
 
 5. Transfer the raw files and metadata and verify the hashes recorded in `full/merge_receipt.json`. Keep the model shard hashes and the raw prompt token counts `num_prompt_tokens` for comparison across models. Run preparation on the verified combined raw. The preparation prints the request count and conservative cost estimate and uses no network.
+   Trailing blank multiple-choice options are removed from the scoring choices and listed in `manifest.json`, with the raw and input prompt preserved. Preparation saves routing and Judge requests without calculating scores.
 
    ```bash
    python scripts/prepare_test_scoring.py --code code --config code/config_test.yaml --raw "$OUTPUT_ROOT/full/raw.jsonl" --out "$SCORING_DIR"

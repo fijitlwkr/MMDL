@@ -201,6 +201,55 @@ class EvaluationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "open options"):
             ev.validate_raw(bad)
 
+    def test_trailing_empty_choices_are_removed_only_for_scoring(self):
+        self.rows[0].update(options=["first option", "second option", "third option", "", " \t"],
+                            options_raw="['first option', 'second option', 'third option', '', ' \\t']",
+                            prompt="Fixture question\nA. first option\nB. second option\nC. third option\nD. \nE. \t",
+                            raw_text="D")
+        ev.write_rows(self.raw, self.rows)
+        before = self.raw.read_bytes()
+        with patch.object(ev, "summarize", side_effect=AssertionError("Scoring is disabled")), \
+             patch.object(ev, "mmmu_diagnostic", side_effect=AssertionError("Scoring is disabled")):
+            result = ev.prepare(self.raw, self.out, CONFIG, requests_only=True)
+        self.assertEqual(result, {"automatic_count": 898, "judge_count": 2})
+        output = ev.load_inputs(self.out)
+        self.assertEqual(output[1]["trailing_empty_mc_options_removed"],
+                         [{"id": self.rows[0]["id"], "option_count_before": 5, "option_count_after": 3}])
+        self.assertEqual(output[2][0], self.rows[0])
+        self.assertEqual(output[3][0]["choices"], {"A": "first option", "B": "second option", "C": "third option"})
+        self.assertEqual(output[3][0]["route"], "judge_rule_failure")
+        self.assertEqual(self.raw.read_bytes(), before)
+        self.assertEqual((self.out / "input/raw.jsonl").read_bytes(), before)
+        self.assertFalse((self.out / "summary.json").exists())
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", return_value=FakeHTTP("D")) as api:
+            ev.run(self.out, limit=1)
+        api.assert_called_once()
+        result = ev.read_rows(self.out / "final_results.jsonl")[0]
+        self.assertFalse(result["final_correct"])
+        self.assertEqual(result["final_status"], "extraction_failure")
+
+    def test_internal_empty_choice_is_rejected(self):
+        self.rows[0]["options"] = ["first option", " \t", "third option", ""]
+        with self.assertRaisesRegex(ValueError, "invalid options list"):
+            ev.validate_raw(self.rows)
+
+    def test_invalid_mc_gold_or_too_few_choices_after_trimming_is_rejected(self):
+        for gold, options in (("C", ["first option", "second option", ""]), ("A", ["first option", ""])):
+            with self.subTest(gold=gold, options=options):
+                self.rows[0].update(gold=gold, options=options)
+                with self.assertRaisesRegex(ValueError, "invalid MC gold/options"):
+                    ev.validate_raw(self.rows)
+
+    def test_nonempty_choices_keep_the_existing_labels_and_routing(self):
+        self.assertEqual(ev.validate_raw(self.rows), [])
+        self.prepare()
+        manifest = ev.read_json(self.out / "manifest.json")
+        self.assertEqual(manifest["trailing_empty_mc_options_removed"], [])
+        items = ev.read_rows(self.out / "items.jsonl")
+        self.assertEqual(items[2]["choices"], {"A": "first option", "B": "second option"})
+        self.assertEqual((items[2]["route"], items[2]["auto_answer"]), ("auto", "A"))
+
 
 if __name__ == "__main__":
     unittest.main()

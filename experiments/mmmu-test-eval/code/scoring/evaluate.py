@@ -150,6 +150,13 @@ def load_parsers():
     return module
 
 
+def mc_scoring_options(options):
+    end = len(options)
+    while end and not options[end - 1].strip():
+        end -= 1
+    return options[:end]
+
+
 def validate_raw(rows, dataset=None):
     unique(rows, "raw")
     dataset = dataset or {}
@@ -169,6 +176,7 @@ def validate_raw(rows, dataset=None):
     expected_ids = {f"{split}_{subject}_{number}": subject
                     for subject, count in expected.items() for number in range(1, count + 1)}
     fields = {"schema_version", "synthetic", "id", "subject", "subfield", "topic_difficulty", "img_type", "question_type", "gold", "options", "options_raw", "image_indices", "prompt", "status", "reason", "error", "raw_text", "output_token_ids", "output_tokens", "finish_reason", "stop_reason", "max_new_tokens", "num_prompt_tokens", "precomputed_prompt_tokens"}
+    removed = []
     for row in rows:
         label = row["id"] + ": "
         require(fields == set(row), label + "raw schema fields differ; missing=" + ", ".join(sorted(fields - set(row))) + "; extra=" + ", ".join(sorted(set(row) - fields)))
@@ -183,11 +191,17 @@ def validate_raw(rows, dataset=None):
         require(row["raw_text"].strip() and row["prompt"].strip() and row["gold"].strip(), label + "empty input/output/reference")
         require(row["finish_reason"] in ("stop", "length"), label + "unknown finish_reason")
         require(row["stop_reason"] is None or type(row["stop_reason"]) in (str, int), label + "invalid stop_reason")
-        require(isinstance(row["options"], list) and all(isinstance(text, str) and text.strip() for text in row["options"]), label + "invalid options list")
+        options = row["options"]
+        require(isinstance(options, list) and all(isinstance(text, str) for text in options), label + "invalid options list")
         if row["question_type"] == "multiple-choice":
-            require(2 <= len(row["options"]) <= 26 and row["gold"] in [chr(65 + index) for index in range(len(row["options"]))], label + "invalid MC gold/options")
+            scoring_options = mc_scoring_options(options)
+            require(all(text.strip() for text in scoring_options), label + "invalid options list")
+            count = len(scoring_options)
+            require(2 <= count <= 26 and row["gold"] in [chr(65 + index) for index in range(count)], label + "invalid MC gold/options")
+            if count != len(options):
+                removed.append({"id": row["id"], "option_count_before": len(options), "option_count_after": count})
         else:
-            require(row["options"] == [], label + "open options must be empty")
+            require(options == [], label + "open options must be empty")
         require(isinstance(row["image_indices"], list) and all(type(index) is int and 1 <= index <= 7 for index in row["image_indices"]), label + "invalid image_indices")
         require(row["image_indices"] == sorted(set(row["image_indices"])), label + "image indices must be unique and ascending")
         for key in ("output_tokens", "max_new_tokens", "num_prompt_tokens", "precomputed_prompt_tokens"):
@@ -197,11 +211,12 @@ def validate_raw(rows, dataset=None):
         require(len(tokens) == row["output_tokens"] <= row["max_new_tokens"], label + "token count/budget mismatch")
         require(row["precomputed_prompt_tokens"] == row["num_prompt_tokens"], label + "prompt token counts differ")
         require(row["finish_reason"] != "length" or row["output_tokens"] == row["max_new_tokens"], label + "length output count must equal the recorded cap")
+    return removed
 
 
 def derive_item(row, parsers):
     is_open = row["question_type"] == "open"
-    choices = {"A": row["gold"], "B": "Other Answers"} if is_open else {chr(65 + index): value for index, value in enumerate(row["options"])}
+    choices = {"A": row["gold"], "B": "Other Answers"} if is_open else {chr(65 + index): value for index, value in enumerate(mc_scoring_options(row["options"]))}
     answer = parsers.qwen_parse(row["raw_text"], choices)
     conflict = False
     if not is_open:
@@ -246,7 +261,7 @@ def mmmu_diagnostic(rows, parsers):
     for row in rows:
         gold = row["gold"]
         if row["question_type"] == "multiple-choice":
-            choices = {chr(65 + index): text for index, text in enumerate(row["options"])}
+            choices = {chr(65 + index): text for index, text in enumerate(mc_scoring_options(row["options"]))}
             answer, blocked = parsers.mmmu_mc_parse(row["raw_text"], choices)
             correct, failure = answer == gold, answer is None
         else:
@@ -265,7 +280,7 @@ def mmmu_diagnostic(rows, parsers):
             "serialized_gold_adaptations": adaptations, "random_fallback_blocked": sum(row["random_fallback_blocked"] for row in details), "api_calls": 0}, details
 
 
-def prepare(raw, out, config, judge_model=None):
+def prepare(raw, out, config, judge_model=None, *, requests_only=False):
     import yaml
 
     raw, out = Path(raw).resolve(), Path(out).resolve()
@@ -273,11 +288,12 @@ def prepare(raw, out, config, judge_model=None):
     data = raw.read_bytes()
     source_hash = sha(data)
     rows = [json.loads(line) for line in data.decode("utf-8-sig").splitlines() if line.strip()]
-    validate_raw(rows, yaml.safe_load(config_data).get("dataset"))
+    removed = validate_raw(rows, yaml.safe_load(config_data).get("dataset"))
     parsers = load_parsers()
     items = [derive_item(row, parsers) for row in rows]
     requests = [make_request(row, item, judge_settings, parsers, source_hash) for row, item in zip(rows, items) if item["route"] != "auto"]
-    diagnostic, diagnostic_rows = mmmu_diagnostic(rows, parsers)
+    if not requests_only:
+        diagnostic, diagnostic_rows = mmmu_diagnostic(rows, parsers)
     out.mkdir(parents=True, exist_ok=True)
     require(not any(out.iterdir()), "Output directory is not empty; use run/summarize for an existing evaluation, or choose a new directory")
     with execution_lock(out):
@@ -290,16 +306,19 @@ def prepare(raw, out, config, judge_model=None):
                     "source_sha256": source_hash, "policy_id": POLICY, "judge_settings": judge_settings, "endpoint": ENDPOINT,
                     "config_path": "input/config.yaml", "config_sha256": sha(config_data), "judge_model_override": judge_model, "price_per_million_usd": prices,
                     "total": len(rows), "judge_count": len(requests), "automatic_count": len(items) - len(requests),
+                    "trailing_empty_mc_options_removed": removed,
                     "items_sha256": sha((out / "items.jsonl").read_bytes()), "requests_sha256": sha((out / "requests.jsonl").read_bytes()),
                     "code_sha256": code_hashes(), "max_new_tokens_values": sorted({row["max_new_tokens"] for row in rows}),
                     "reproducibility_metadata": {"model_revision": "not_attested_by_raw", "dataset_revision": "not_attested_by_raw", "generation_seed": "not_attested_by_raw", "inference_code_commit": "not_attested_by_raw"},
-                    "policy_notes": ["MC gold hidden from Judge; open A contains verbatim gold and B is Other Answers.", "Only rule failures and MC rule conflicts go to Judge, regardless of backbone finish_reason; no random fallback or retries of completed Z.", "Pinned prompt lists A-D/Z; parsing permits all actual option labels.", "Raw snapshot is byte-identical; original input was not modified."]}
+                    "policy_notes": ["MC gold hidden from Judge; open A contains verbatim gold and B is Other Answers.", "Only rule failures and MC rule conflicts go to Judge, regardless of backbone finish_reason; no random fallback or retries of completed Z.", "Pinned prompt lists A-D/Z; parsing permits all actual option labels.", "Raw snapshot is byte-identical; original input was not modified.",
+                                     "Trailing whitespace-only MC options are dropped from scoring choices; the raw record and input prompt are kept verbatim."]}
         write_json(out / "manifest.json", manifest)
+        require(sha(raw.read_bytes()) == source_hash, "Original input changed during preparation")
+        if requests_only:
+            return {"automatic_count": manifest["automatic_count"], "judge_count": manifest["judge_count"]}
         write_json(out / "mmmu_summary.json", {"source_sha256": source_hash, **diagnostic})
         write_rows(out / "mmmu_results.jsonl", diagnostic_rows)
-        require(sha(raw.read_bytes()) == source_hash, "Original input changed during preparation")
-        result = summarize(out)
-    return result
+        return summarize(out)
 
 
 def load_inputs(out):
@@ -323,7 +342,8 @@ def load_inputs(out):
     for filename, key in (("items.jsonl", "items_sha256"), ("requests.jsonl", "requests_sha256")):
         require(sha((out / filename).read_bytes()) == manifest[key], filename + " hash mismatch")
     rows = read_rows(source)
-    validate_raw(rows, yaml.safe_load(config_data).get("dataset"))
+    removed = validate_raw(rows, yaml.safe_load(config_data).get("dataset"))
+    require(manifest["trailing_empty_mc_options_removed"] == removed, "Trailing empty option metadata differs from the raw")
     parsers = load_parsers()
     items = read_rows(out / "items.jsonl")
     requests = read_rows(out / "requests.jsonl")
@@ -581,6 +601,7 @@ def main():
     p.add_argument("--out", type=Path, required=True)
     p.add_argument("--config", type=Path, required=True)
     p.add_argument("--judge-model", choices=SUPPORTED_MODELS)
+    p.add_argument("--requests-only", action="store_true", help="Save routing and requests without calculating scores")
     p = sub.add_parser("run", help="Send each outstanding request once using your API key")
     p.add_argument("--out", type=Path, required=True)
     p.add_argument("--ask-key", action="store_true")
@@ -594,7 +615,7 @@ def main():
     args = ap.parse_args()
     try:
         if args.command == "prepare":
-            result = prepare(args.raw, args.out, args.config, args.judge_model)
+            result = prepare(args.raw, args.out, args.config, args.judge_model, requests_only=args.requests_only)
         elif args.command == "run":
             result = run(args.out, args.ask_key, args.limit)
         elif args.command == "summarize":

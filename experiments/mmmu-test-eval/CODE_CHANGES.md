@@ -782,3 +782,156 @@ Only the test split, subject counts, ID checks, metadata, and equal-count assump
 +python "$1/scoring/evaluate.py" run --out "$2" --ask-key
 +python "$1/scoring/evaluate.py" summarize --out "$2"
 ```
+
+
+## Scoring-time handling of trailing empty options (2026-11-22)
+
+Multiple-choice scoring uses the contiguous nonblank options after trimming trailing blank entries. Preparation records affected IDs and option counts. The test preparation wrapper saves routing and request budgets without computing scores.
+
+```diff
+diff --git a/README.md b/README.md
+index a1fcd68..acae145 100644
+--- a/README.md
++++ b/README.md
+@@ -49,0 +50 @@ Each worker sees one RTX 4090 through CUDA_VISIBLE_DEVICES and uses tensor paral
++   Trailing blank multiple-choice options are removed from the scoring choices and listed in `manifest.json`, with the raw and input prompt preserved. Preparation saves routing and Judge requests without calculating scores.
+diff --git a/code/scoring/evaluate.py b/code/scoring/evaluate.py
+index 6052422..74d35ca 100644
+--- a/code/scoring/evaluate.py
++++ b/code/scoring/evaluate.py
+@@ -152,0 +153,7 @@ def load_parsers():
++def mc_scoring_options(options):
++    end = len(options)
++    while end and not options[end - 1].strip():
++        end -= 1
++    return options[:end]
++
++
+@@ -171,0 +179 @@ def validate_raw(rows, dataset=None):
++    removed = []
+@@ -186 +194,2 @@ def validate_raw(rows, dataset=None):
+-        require(isinstance(row["options"], list) and all(isinstance(text, str) and text.strip() for text in row["options"]), label + "invalid options list")
++        options = row["options"]
++        require(isinstance(options, list) and all(isinstance(text, str) for text in options), label + "invalid options list")
+@@ -188 +197,6 @@ def validate_raw(rows, dataset=None):
+-            require(2 <= len(row["options"]) <= 26 and row["gold"] in [chr(65 + index) for index in range(len(row["options"]))], label + "invalid MC gold/options")
++            scoring_options = mc_scoring_options(options)
++            require(all(text.strip() for text in scoring_options), label + "invalid options list")
++            count = len(scoring_options)
++            require(2 <= count <= 26 and row["gold"] in [chr(65 + index) for index in range(count)], label + "invalid MC gold/options")
++            if count != len(options):
++                removed.append({"id": row["id"], "option_count_before": len(options), "option_count_after": count})
+@@ -190 +204 @@ def validate_raw(rows, dataset=None):
+-            require(row["options"] == [], label + "open options must be empty")
++            require(options == [], label + "open options must be empty")
+@@ -199,0 +214 @@ def validate_raw(rows, dataset=None):
++    return removed
+@@ -204 +219 @@ def derive_item(row, parsers):
+-    choices = {"A": row["gold"], "B": "Other Answers"} if is_open else {chr(65 + index): value for index, value in enumerate(row["options"])}
++    choices = {"A": row["gold"], "B": "Other Answers"} if is_open else {chr(65 + index): value for index, value in enumerate(mc_scoring_options(row["options"]))}
+@@ -249 +264 @@ def mmmu_diagnostic(rows, parsers):
+-            choices = {chr(65 + index): text for index, text in enumerate(row["options"])}
++            choices = {chr(65 + index): text for index, text in enumerate(mc_scoring_options(row["options"]))}
+@@ -268 +283 @@ def mmmu_diagnostic(rows, parsers):
+-def prepare(raw, out, config, judge_model=None):
++def prepare(raw, out, config, judge_model=None, *, requests_only=False):
+@@ -276 +291 @@ def prepare(raw, out, config, judge_model=None):
+-    validate_raw(rows, yaml.safe_load(config_data).get("dataset"))
++    removed = validate_raw(rows, yaml.safe_load(config_data).get("dataset"))
+@@ -280 +295,2 @@ def prepare(raw, out, config, judge_model=None):
+-    diagnostic, diagnostic_rows = mmmu_diagnostic(rows, parsers)
++    if not requests_only:
++        diagnostic, diagnostic_rows = mmmu_diagnostic(rows, parsers)
+@@ -292,0 +309 @@ def prepare(raw, out, config, judge_model=None):
++                    "trailing_empty_mc_options_removed": removed,
+@@ -296 +313,2 @@ def prepare(raw, out, config, judge_model=None):
+-                    "policy_notes": ["MC gold hidden from Judge; open A contains verbatim gold and B is Other Answers.", "Only rule failures and MC rule conflicts go to Judge, regardless of backbone finish_reason; no random fallback or retries of completed Z.", "Pinned prompt lists A-D/Z; parsing permits all actual option labels.", "Raw snapshot is byte-identical; original input was not modified."]}
++                    "policy_notes": ["MC gold hidden from Judge; open A contains verbatim gold and B is Other Answers.", "Only rule failures and MC rule conflicts go to Judge, regardless of backbone finish_reason; no random fallback or retries of completed Z.", "Pinned prompt lists A-D/Z; parsing permits all actual option labels.", "Raw snapshot is byte-identical; original input was not modified.",
++                                     "Trailing whitespace-only MC options are dropped from scoring choices; the raw record and input prompt are kept verbatim."]}
+@@ -297,0 +316,3 @@ def prepare(raw, out, config, judge_model=None):
++        require(sha(raw.read_bytes()) == source_hash, "Original input changed during preparation")
++        if requests_only:
++            return {"automatic_count": manifest["automatic_count"], "judge_count": manifest["judge_count"]}
+@@ -300,3 +321 @@ def prepare(raw, out, config, judge_model=None):
+-        require(sha(raw.read_bytes()) == source_hash, "Original input changed during preparation")
+-        result = summarize(out)
+-    return result
++        return summarize(out)
+@@ -326 +345,2 @@ def load_inputs(out):
+-    validate_raw(rows, yaml.safe_load(config_data).get("dataset"))
++    removed = validate_raw(rows, yaml.safe_load(config_data).get("dataset"))
++    require(manifest["trailing_empty_mc_options_removed"] == removed, "Trailing empty option metadata differs from the raw")
+@@ -583,0 +604 @@ def main():
++    p.add_argument("--requests-only", action="store_true", help="Save routing and requests without calculating scores")
+@@ -597 +618 @@ def main():
+-            result = prepare(args.raw, args.out, args.config, args.judge_model)
++            result = prepare(args.raw, args.out, args.config, args.judge_model, requests_only=args.requests_only)
+diff --git a/code/scoring/tests/test_evaluate.py b/code/scoring/tests/test_evaluate.py
+index 9ea6974..cf3e45c 100644
+--- a/code/scoring/tests/test_evaluate.py
++++ b/code/scoring/tests/test_evaluate.py
+@@ -203,0 +204,49 @@ class EvaluationTests(unittest.TestCase):
++    def test_trailing_empty_choices_are_removed_only_for_scoring(self):
++        self.rows[0].update(options=["first option", "second option", "third option", "", " \t"],
++                            options_raw="['first option', 'second option', 'third option', '', ' \\t']",
++                            prompt="Fixture question\nA. first option\nB. second option\nC. third option\nD. \nE. \t",
++                            raw_text="D")
++        ev.write_rows(self.raw, self.rows)
++        before = self.raw.read_bytes()
++        with patch.object(ev, "summarize", side_effect=AssertionError("Scoring is disabled")), \
++             patch.object(ev, "mmmu_diagnostic", side_effect=AssertionError("Scoring is disabled")):
++            result = ev.prepare(self.raw, self.out, CONFIG, requests_only=True)
++        self.assertEqual(result, {"automatic_count": 898, "judge_count": 2})
++        output = ev.load_inputs(self.out)
++        self.assertEqual(output[1]["trailing_empty_mc_options_removed"],
++                         [{"id": self.rows[0]["id"], "option_count_before": 5, "option_count_after": 3}])
++        self.assertEqual(output[2][0], self.rows[0])
++        self.assertEqual(output[3][0]["choices"], {"A": "first option", "B": "second option", "C": "third option"})
++        self.assertEqual(output[3][0]["route"], "judge_rule_failure")
++        self.assertEqual(self.raw.read_bytes(), before)
++        self.assertEqual((self.out / "input/raw.jsonl").read_bytes(), before)
++        self.assertFalse((self.out / "summary.json").exists())
++        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
++             patch.object(ev.urllib.request, "urlopen", return_value=FakeHTTP("D")) as api:
++            ev.run(self.out, limit=1)
++        api.assert_called_once()
++        result = ev.read_rows(self.out / "final_results.jsonl")[0]
++        self.assertFalse(result["final_correct"])
++        self.assertEqual(result["final_status"], "extraction_failure")
++
++    def test_internal_empty_choice_is_rejected(self):
++        self.rows[0]["options"] = ["first option", " \t", "third option", ""]
++        with self.assertRaisesRegex(ValueError, "invalid options list"):
++            ev.validate_raw(self.rows)
++
++    def test_invalid_mc_gold_or_too_few_choices_after_trimming_is_rejected(self):
++        for gold, options in (("C", ["first option", "second option", ""]), ("A", ["first option", ""])):
++            with self.subTest(gold=gold, options=options):
++                self.rows[0].update(gold=gold, options=options)
++                with self.assertRaisesRegex(ValueError, "invalid MC gold/options"):
++                    ev.validate_raw(self.rows)
++
++    def test_nonempty_choices_keep_the_existing_labels_and_routing(self):
++        self.assertEqual(ev.validate_raw(self.rows), [])
++        self.prepare()
++        manifest = ev.read_json(self.out / "manifest.json")
++        self.assertEqual(manifest["trailing_empty_mc_options_removed"], [])
++        items = ev.read_rows(self.out / "items.jsonl")
++        self.assertEqual(items[2]["choices"], {"A": "first option", "B": "second option"})
++        self.assertEqual((items[2]["route"], items[2]["auto_answer"]), ("auto", "A"))
++
+diff --git a/scripts/prepare_test_scoring.py b/scripts/prepare_test_scoring.py
+index fe0d3e4..47a1395 100644
+--- a/scripts/prepare_test_scoring.py
++++ b/scripts/prepare_test_scoring.py
+@@ -20 +20 @@ def main():
+-                "--out", str(args.out)]
++                "--out", str(args.out), "--requests-only"]
+@@ -32 +31,0 @@ def main():
+-    summary = json.loads((args.out / "summary.json").read_bytes())
+@@ -34,2 +33,2 @@ def main():
+-    assert manifest["total"] == 10500 and len(requests) == summary["overall"]["pending"] == manifest["judge_count"]
+-    assert summary["response_count"] == 0
++    assert manifest["total"] == 10500 and len(requests) == manifest["judge_count"]
++    assert manifest["automatic_count"] + len(requests) == manifest["total"]
+```
