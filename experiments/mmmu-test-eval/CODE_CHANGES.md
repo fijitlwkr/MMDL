@@ -935,3 +935,172 @@ index fe0d3e4..47a1395 100644
 +    assert manifest["total"] == 10500 and len(requests) == manifest["judge_count"]
 +    assert manifest["automatic_count"] + len(requests) == manifest["total"]
 ```
+
+
+## Resume Judge requests with no response
+
+The request loop preserves saved responses and journals, waits up to 120 seconds for HTTP, and retries only failed attempts without responses in a later run. It stops after five consecutive failures or a third failed attempt for a request.
+
+```diff
+diff --git a/README.md b/README.md
+index acae145..6ee44fb 100644
+--- a/README.md
++++ b/README.md
+@@ -56,0 +57 @@ Each worker sees one RTX 4090 through CUDA_VISIBLE_DEVICES and uses tensor paral
++   If eligible requests remain pending, run the same command again. Completed responses and attempts with unresolved journals or HTTP responses are protected from retransmission.
+diff --git a/code/scoring/evaluate.py b/code/scoring/evaluate.py
+index 74d35ca..ddf173f 100644
+--- a/code/scoring/evaluate.py
++++ b/code/scoring/evaluate.py
+@@ -486,3 +486,33 @@ def run(out, ask_key=False, limit=None):
+-        started = {event["id"] for event in attempts if event["event"] == "started"}
+-        unresolved = started - set(cached)
+-        require(not unresolved, "Unresolved previous API attempt(s): " + ", ".join(sorted(unresolved)) + ". No automatic retry; inspect the saved receipt/journal first.")
++        request_index = unique(requests, "requests")
++        history = {}
++        for event in attempts:
++            attempt_id, question = event["attempt_id"], event["id"]
++            require(question in request_index and event["request_sha256"] == request_index[question]["request_sha256"],
++                    "Attempt provenance mismatch")
++            prior = history.get(attempt_id)
++            if event["event"] == "started":
++                require(prior is None, "Duplicate API attempt start")
++            else:
++                require(prior is not None and prior["event"] == "started" and prior["id"] == question
++                        and event["event"] in ("received", "failed"), "Inconsistent API attempt journal")
++            history[attempt_id] = event
++        receipt_attempts = set()
++        for receipt in read_rows(out / "http_receipts.jsonl", optional=True):
++            attempt_id = receipt["attempt_id"]
++            event = history.get(attempt_id)
++            require(event is not None and receipt["id"] == event["id"] and receipt["request_sha256"] == event["request_sha256"]
++                    and attempt_id not in receipt_attempts, "HTTP receipt provenance mismatch")
++            receipt_attempts.add(attempt_id)
++        unresolved = set()
++        failures = Counter()
++        for attempt_id, event in history.items():
++            question = event["id"]
++            if question in cached:
++                continue
++            if event["event"] == "failed" and attempt_id not in receipt_attempts and event.get("http_status") is None:
++                failures[question] += 1
++            else:
++                unresolved.add(question)
++        require(not unresolved, "Unresolved previous API attempt(s): " + ", ".join(sorted(unresolved)) + ". Inspect the saved receipt/journal first.")
++        exhausted = sorted(question for question, count in failures.items() if count >= 3)
++        require(not exhausted, "Three failed runs for request(s): " + ", ".join(exhausted))
+@@ -492,0 +523 @@ def run(out, ask_key=False, limit=None):
++            print(f"Run summary: succeeded 0; failed 0; pending {current['overall']['pending']}", flush=True)
+@@ -504,0 +536,2 @@ def run(out, ask_key=False, limit=None):
++        succeeded = failed = consecutive = 0
++        run_id = str(uuid.uuid4())
+@@ -507 +540,3 @@ def run(out, ask_key=False, limit=None):
+-                attempt = {"id": request["id"], "request_sha256": request["request_sha256"], "attempt_id": str(uuid.uuid4())}
++                question = request["id"]
++                attempt = {"id": question, "request_sha256": request["request_sha256"],
++                           "attempt_id": str(uuid.uuid4()), "run_id": run_id}
+@@ -508,0 +544 @@ def run(out, ask_key=False, limit=None):
++                http_status = None
+@@ -511,2 +547 @@ def run(out, ask_key=False, limit=None):
+-                    with urllib.request.urlopen(req, timeout=60) as response:
+-                        body = response.read().decode("utf-8")
++                    with urllib.request.urlopen(req, timeout=120) as response:
+@@ -514,0 +550 @@ def run(out, ask_key=False, limit=None):
++                        body = response.read().decode("utf-8")
+@@ -523,2 +559,2 @@ def run(out, ask_key=False, limit=None):
+-                             "http_status": exc.code if isinstance(exc, urllib.error.HTTPError) else None,
+-                             "message": "API attempt failed; no automatic retry. Error body omitted to protect credentials."}
++                             "http_status": exc.code if isinstance(exc, urllib.error.HTTPError) else http_status,
++                             "message": "API attempt failed. Error body omitted to protect credentials."}
+@@ -527,2 +563,11 @@ def run(out, ask_key=False, limit=None):
+-                    summarize(out)
+-                    raise RuntimeError("API attempt failed for " + request["id"] + "; results remain pending. Inspect errors.jsonl before taking further action.") from None
++                    failed += 1
++                    consecutive += 1
++                    failures[question] += 1
++                    print(f"API attempt failed for {question}; remains pending", flush=True)
++                    if failures[question] >= 3 or consecutive >= 5:
++                        reason = "three failed runs for " + question if failures[question] >= 3 else "five consecutive failures"
++                        print("Run stopped: " + reason, flush=True)
++                        break
++                    continue
++                succeeded += 1
++                consecutive = 0
+@@ -532,0 +578,3 @@ def run(out, ask_key=False, limit=None):
++        if failed:
++            current = summarize(out)
++        print(f"Run summary: succeeded {succeeded}; failed {failed}; pending {current['overall']['pending']}", flush=True)
+diff --git a/code/scoring/tests/test_evaluate.py b/code/scoring/tests/test_evaluate.py
+index cf3e45c..793f5ba 100644
+--- a/code/scoring/tests/test_evaluate.py
++++ b/code/scoring/tests/test_evaluate.py
+@@ -128 +128 @@ class EvaluationTests(unittest.TestCase):
+-    def test_uncertain_failure_blocks_retry(self):
++    def test_timeout_retries_only_the_unanswered_request_on_resume(self):
+@@ -131,3 +131,31 @@ class EvaluationTests(unittest.TestCase):
+-             patch.object(ev.urllib.request, "urlopen", side_effect=TimeoutError("offline-test-secret")) as api:
+-            with self.assertRaises(RuntimeError):
+-                ev.run(self.out, limit=1)
++             patch.object(ev.urllib.request, "urlopen",
++                          side_effect=[TimeoutError("offline-test-secret"), FakeHTTP("Z"), FakeHTTP("A")]) as api:
++            partial = ev.run(self.out)
++            self.assertEqual(partial["overall"]["pending"], 1)
++            self.assertIsNone(partial["overall"]["accuracy"])
++            self.assertEqual(ev.run(self.out)["overall"]["pending"], 0)
++            self.assertEqual(ev.run(self.out)["response_count"], 2)
++        self.assertEqual(api.call_count, 3)
++        self.assertTrue(all(call.kwargs["timeout"] == 120 for call in api.call_args_list))
++        started = [row["id"] for row in ev.read_rows(self.out / "api_attempts.jsonl") if row["event"] == "started"]
++        requests = ev.read_rows(self.out / "requests.jsonl")
++        self.assertEqual(started, [requests[0]["id"], requests[1]["id"], requests[0]["id"]])
++        self.assertNotIn("offline-test-secret", (self.out / "errors.jsonl").read_text())
++
++    def test_started_only_attempt_blocks_retry(self):
++        self.prepare()
++        request = ev.read_rows(self.out / "requests.jsonl")[0]
++        ev.append(self.out / "api_attempts.jsonl",
++                  {**{key: request[key] for key in ("id", "request_sha256")},
++                   "attempt_id": "interrupted", "event": "started"})
++        with self.assertRaisesRegex(ValueError, "Unresolved"):
++            ev.run(self.out)
++        self.blocked.assert_not_called()
++
++    def test_failed_http_receipt_blocks_retry(self):
++        self.prepare()
++        malformed = FakeHTTP()
++        malformed.read = lambda: b"malformed"
++        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
++             patch.object(ev.urllib.request, "urlopen", return_value=malformed) as api:
++            self.assertEqual(ev.run(self.out, limit=1)["overall"]["pending"], 2)
+@@ -134,0 +163,25 @@ class EvaluationTests(unittest.TestCase):
++                ev.run(self.out, limit=1)
++        api.assert_called_once()
++        self.assertEqual(len(ev.read_rows(self.out / "http_receipts.jsonl")), 1)
++
++    def test_five_consecutive_failures_stop_before_the_next_request(self):
++        for row in self.rows[:7]:
++            row["raw_text"] = "Cannot determine."
++        ev.write_rows(self.raw, self.rows)
++        self.prepare()
++        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
++             patch.object(ev.urllib.request, "urlopen", side_effect=TimeoutError) as api:
++            summary = ev.run(self.out)
++        self.assertEqual(api.call_count, 5)
++        self.assertEqual(summary["overall"]["pending"], 7)
++        self.assertIsNone(summary["overall"]["accuracy"])
++        failed = ev.read_rows(self.out / "errors.jsonl")
++        self.assertEqual(len({row["id"] for row in failed}), 5)
++
++    def test_three_failed_runs_for_one_request_block_further_attempts(self):
++        self.prepare()
++        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
++             patch.object(ev.urllib.request, "urlopen", side_effect=TimeoutError) as api:
++            for _ in range(3):
++                self.assertEqual(ev.run(self.out, limit=1)["overall"]["pending"], 2)
++            with self.assertRaisesRegex(ValueError, "Three failed runs"):
+@@ -136,3 +189 @@ class EvaluationTests(unittest.TestCase):
+-        self.assertEqual(api.call_count, 1)
+-        self.assertEqual(ev.summarize(self.out)["overall"]["pending"], 2)
+-        self.assertNotIn("offline-test-secret", (self.out / "errors.jsonl").read_text())
++        self.assertEqual(api.call_count, 3)
+```

@@ -125,17 +125,68 @@ class EvaluationTests(unittest.TestCase):
             if path.is_file():
                 self.assertNotIn(b"offline-test-secret", path.read_bytes())
 
-    def test_uncertain_failure_blocks_retry(self):
+    def test_timeout_retries_only_the_unanswered_request_on_resume(self):
         self.prepare()
         with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
-             patch.object(ev.urllib.request, "urlopen", side_effect=TimeoutError("offline-test-secret")) as api:
-            with self.assertRaises(RuntimeError):
-                ev.run(self.out, limit=1)
-            with self.assertRaisesRegex(ValueError, "Unresolved"):
-                ev.run(self.out)
-        self.assertEqual(api.call_count, 1)
-        self.assertEqual(ev.summarize(self.out)["overall"]["pending"], 2)
+             patch.object(ev.urllib.request, "urlopen",
+                          side_effect=[TimeoutError("offline-test-secret"), FakeHTTP("Z"), FakeHTTP("A")]) as api:
+            partial = ev.run(self.out)
+            self.assertEqual(partial["overall"]["pending"], 1)
+            self.assertIsNone(partial["overall"]["accuracy"])
+            self.assertEqual(ev.run(self.out)["overall"]["pending"], 0)
+            self.assertEqual(ev.run(self.out)["response_count"], 2)
+        self.assertEqual(api.call_count, 3)
+        self.assertTrue(all(call.kwargs["timeout"] == 120 for call in api.call_args_list))
+        started = [row["id"] for row in ev.read_rows(self.out / "api_attempts.jsonl") if row["event"] == "started"]
+        requests = ev.read_rows(self.out / "requests.jsonl")
+        self.assertEqual(started, [requests[0]["id"], requests[1]["id"], requests[0]["id"]])
         self.assertNotIn("offline-test-secret", (self.out / "errors.jsonl").read_text())
+
+    def test_started_only_attempt_blocks_retry(self):
+        self.prepare()
+        request = ev.read_rows(self.out / "requests.jsonl")[0]
+        ev.append(self.out / "api_attempts.jsonl",
+                  {**{key: request[key] for key in ("id", "request_sha256")},
+                   "attempt_id": "interrupted", "event": "started"})
+        with self.assertRaisesRegex(ValueError, "Unresolved"):
+            ev.run(self.out)
+        self.blocked.assert_not_called()
+
+    def test_failed_http_receipt_blocks_retry(self):
+        self.prepare()
+        malformed = FakeHTTP()
+        malformed.read = lambda: b"malformed"
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", return_value=malformed) as api:
+            self.assertEqual(ev.run(self.out, limit=1)["overall"]["pending"], 2)
+            with self.assertRaisesRegex(ValueError, "Unresolved"):
+                ev.run(self.out, limit=1)
+        api.assert_called_once()
+        self.assertEqual(len(ev.read_rows(self.out / "http_receipts.jsonl")), 1)
+
+    def test_five_consecutive_failures_stop_before_the_next_request(self):
+        for row in self.rows[:7]:
+            row["raw_text"] = "Cannot determine."
+        ev.write_rows(self.raw, self.rows)
+        self.prepare()
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", side_effect=TimeoutError) as api:
+            summary = ev.run(self.out)
+        self.assertEqual(api.call_count, 5)
+        self.assertEqual(summary["overall"]["pending"], 7)
+        self.assertIsNone(summary["overall"]["accuracy"])
+        failed = ev.read_rows(self.out / "errors.jsonl")
+        self.assertEqual(len({row["id"] for row in failed}), 5)
+
+    def test_three_failed_runs_for_one_request_block_further_attempts(self):
+        self.prepare()
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", side_effect=TimeoutError) as api:
+            for _ in range(3):
+                self.assertEqual(ev.run(self.out, limit=1)["overall"]["pending"], 2)
+            with self.assertRaisesRegex(ValueError, "Three failed runs"):
+                ev.run(self.out)
+        self.assertEqual(api.call_count, 3)
 
     def test_nonstop_valid_label_is_incorrect(self):
         self.prepare()

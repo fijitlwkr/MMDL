@@ -483,13 +483,44 @@ def run(out, ask_key=False, limit=None):
         _, manifest, _, _, requests, _ = load_inputs(out)
         cached = unique(read_rows(out / "responses.jsonl", optional=True), "responses")
         attempts = read_rows(out / "api_attempts.jsonl", optional=True)
-        started = {event["id"] for event in attempts if event["event"] == "started"}
-        unresolved = started - set(cached)
-        require(not unresolved, "Unresolved previous API attempt(s): " + ", ".join(sorted(unresolved)) + ". No automatic retry; inspect the saved receipt/journal first.")
+        request_index = unique(requests, "requests")
+        history = {}
+        for event in attempts:
+            attempt_id, question = event["attempt_id"], event["id"]
+            require(question in request_index and event["request_sha256"] == request_index[question]["request_sha256"],
+                    "Attempt provenance mismatch")
+            prior = history.get(attempt_id)
+            if event["event"] == "started":
+                require(prior is None, "Duplicate API attempt start")
+            else:
+                require(prior is not None and prior["event"] == "started" and prior["id"] == question
+                        and event["event"] in ("received", "failed"), "Inconsistent API attempt journal")
+            history[attempt_id] = event
+        receipt_attempts = set()
+        for receipt in read_rows(out / "http_receipts.jsonl", optional=True):
+            attempt_id = receipt["attempt_id"]
+            event = history.get(attempt_id)
+            require(event is not None and receipt["id"] == event["id"] and receipt["request_sha256"] == event["request_sha256"]
+                    and attempt_id not in receipt_attempts, "HTTP receipt provenance mismatch")
+            receipt_attempts.add(attempt_id)
+        unresolved = set()
+        failures = Counter()
+        for attempt_id, event in history.items():
+            question = event["id"]
+            if question in cached:
+                continue
+            if event["event"] == "failed" and attempt_id not in receipt_attempts and event.get("http_status") is None:
+                failures[question] += 1
+            else:
+                unresolved.add(question)
+        require(not unresolved, "Unresolved previous API attempt(s): " + ", ".join(sorted(unresolved)) + ". Inspect the saved receipt/journal first.")
+        exhausted = sorted(question for question, count in failures.items() if count >= 3)
+        require(not exhausted, "Three failed runs for request(s): " + ", ".join(exhausted))
         todo = [request for request in requests if request["id"] not in cached]
         if limit is not None:
             todo = todo[:limit]
         if not todo:
+            print(f"Run summary: succeeded 0; failed 0; pending {current['overall']['pending']}", flush=True)
             return current
         if ask_key:
             with warnings.catch_warnings():
@@ -502,16 +533,21 @@ def run(out, ask_key=False, limit=None):
             key = os.environ.get("OPENAI_API_KEY", "")
         key = key.strip()
         require(bool(key), "Set OPENAI_API_KEY, or use run --ask-key")
+        succeeded = failed = consecutive = 0
+        run_id = str(uuid.uuid4())
         try:
             for request in todo:
-                attempt = {"id": request["id"], "request_sha256": request["request_sha256"], "attempt_id": str(uuid.uuid4())}
+                question = request["id"]
+                attempt = {"id": question, "request_sha256": request["request_sha256"],
+                           "attempt_id": str(uuid.uuid4()), "run_id": run_id}
                 append(out / "api_attempts.jsonl", {**attempt, "event": "started", "at": now()})
+                http_status = None
                 try:
                     req = urllib.request.Request(ENDPOINT, data=canonical(request["request"]), headers={"Authorization": "Bearer " + key, "Content-Type": "application/json"}, method="POST")
-                    with urllib.request.urlopen(req, timeout=60) as response:
-                        body = response.read().decode("utf-8")
+                    with urllib.request.urlopen(req, timeout=120) as response:
                         http_status = response.status
                         http_request_id = response.headers.get("x-request-id")
+                        body = response.read().decode("utf-8")
                     # Authorization headers are never persisted; a successful body is retained verbatim.
                     append(out / "http_receipts.jsonl", {**attempt, "received_at": now(), "http_status": http_status, "http_request_id": http_request_id, "body": body})
                     payload = json.loads(body)
@@ -520,16 +556,28 @@ def run(out, ask_key=False, limit=None):
                 except Exception as exc:
                     # HTTP error bodies may repeat a credential. Keep only safe structural error data.
                     error = {**attempt, "event": "failed", "at": now(), "error_type": type(exc).__name__,
-                             "http_status": exc.code if isinstance(exc, urllib.error.HTTPError) else None,
-                             "message": "API attempt failed; no automatic retry. Error body omitted to protect credentials."}
+                             "http_status": exc.code if isinstance(exc, urllib.error.HTTPError) else http_status,
+                             "message": "API attempt failed. Error body omitted to protect credentials."}
                     append(out / "errors.jsonl", error)
                     append(out / "api_attempts.jsonl", error)
-                    summarize(out)
-                    raise RuntimeError("API attempt failed for " + request["id"] + "; results remain pending. Inspect errors.jsonl before taking further action.") from None
+                    failed += 1
+                    consecutive += 1
+                    failures[question] += 1
+                    print(f"API attempt failed for {question}; remains pending", flush=True)
+                    if failures[question] >= 3 or consecutive >= 5:
+                        reason = "three failed runs for " + question if failures[question] >= 3 else "five consecutive failures"
+                        print("Run stopped: " + reason, flush=True)
+                        break
+                    continue
+                succeeded += 1
+                consecutive = 0
                 current = summarize(out)
                 print(f"received {current['response_count']}/{current['judge_count']}; pending {current['overall']['pending']}", flush=True)
         finally:
             key = ""
+        if failed:
+            current = summarize(out)
+        print(f"Run summary: succeeded {succeeded}; failed {failed}; pending {current['overall']['pending']}", flush=True)
         return current
 
 

@@ -54,6 +54,7 @@ Each worker sees one RTX 4090 through CUDA_VISIBLE_DEVICES and uses tensor paral
    ```
 
 6. Once approved separately, run Judge in an interactive terminal and enter the key only at the hidden prompt. The scorer keeps request receipts and leaves failed calls pending.
+   If eligible requests remain pending, run the same command again. Completed responses and attempts with unresolved journals or HTTP responses are protected from retransmission.
 
    ```bash
    bash scripts/run_test_judge.sh code "$SCORING_DIR"
