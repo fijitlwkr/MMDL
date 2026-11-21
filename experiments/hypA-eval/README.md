@@ -131,3 +131,15 @@ python experiments/hypA-eval/analyze.py --runs results/hypA_grpo_eval --e0 <E0 �
 ```
 
 `analyze.py` 는 조건마다 있는 시드만 쓰고, E0 대비 값은 같은 시드의 E0 평균과 비교한다. 하경님 기준: 전체 정확도 차이가 표준오차(약 1.7pt)보다 작으면 "차이 없음".
+
+2026-11-21 결과: `results/hypA_grpo_eval/` 에 G30 과 g25·g50·g75·g100(모두 seed 42)의 채점 결과가 있다. `pack_runs.py` 는 `--work` 안의 폴더를 전부 묶으므로, 이 다섯 arm 만 든 폴더를 따로 만들어 실행했다. 분석 파일은 `analysis/` 에 있다.
+
+```bash
+python experiments/hypA-eval/analyze.py --runs results/hypA_grpo_eval --e0 <E0 시드 폴더> --arms g30,g25,g50,g75,g100 --title "GRPO 체크포인트 평가" --out results/hypA_grpo_eval/analysis
+python experiments/hypA-eval/paired.py --runs results/hypA_grpo_eval --e0 <E0 시드 폴더> --arms g30,g25,g50,g75,g100 --out results/hypA_grpo_eval/analysis
+python experiments/hypA-eval/adapter_diff.py --adapters <step25~step100 어댑터 폴더> --steps 25,50,75,100 --out results/hypA_grpo_eval/analysis
+```
+
+- `paired.py` → `PAIRED.md`: E0 seed 42 와 같은 문항끼리 짝지은 비교(맞힘/틀림 문항 수, McNemar p), 의료 150문항, 같은 학습의 이웃한 체크포인트끼리.
+- `adapter_diff.py` → `ADAPTER_DIFF.md`: 체크포인트끼리 학습된 변화(ΔW)의 상대 차이·방향 코사인·크기 비. 어댑터는 `MMDL-team4/hypA-grpo-step100-ckpt` @ `7af4beb` 에서 받는다.
+- `<E0 시드 폴더>` 는 `exp/baseline-seed-robustness` 브랜치의 `results/baseline_seed_robustness/` 다.
