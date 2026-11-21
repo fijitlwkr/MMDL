@@ -19,7 +19,10 @@ def main():
     sys.argv = [str(evaluator), "prepare", "--config", str(args.config), "--raw", str(args.raw),
                 "--out", str(args.out)]
     offline = RuntimeError("Network is disabled for offline scoring preparation")
-    with patch.object(socket, "socket", side_effect=offline), +         patch.object(socket, "create_connection", side_effect=offline):
+    with (
+        patch.object(socket, "socket", side_effect=offline),
+        patch.object(socket, "create_connection", side_effect=offline),
+    ):
         try:
             runpy.run_path(sys.argv[0], run_name="__main__")
         except SystemExit as error:

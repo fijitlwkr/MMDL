@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-if [[ $# -ne 6 || ( "$1" != smoke && "$1" != full ) ]]; then
-  echo "Usage: run_test_dual.sh smoke|full CODE_DIR CONFIG_TEST MODEL_DIR DATA_CACHE OUTPUT_ROOT" >&2
+if [[ ( $# -ne 6 && $# -ne 7 ) || ( "$1" != smoke && "$1" != full ) ]]; then
+  echo "Usage: run_test_dual.sh smoke|full CODE_DIR CONFIG_TEST MODEL_DIR DATA_CACHE OUTPUT_ROOT [1|2]" >&2
   exit 2
 fi
 mode=$1
@@ -10,13 +10,18 @@ config=$(realpath "$3")
 model=$(realpath "$4")
 data=$(realpath "$5")
 root=$(realpath -m "$6")
+gpu_count=${7:-2}
+[[ "$gpu_count" == 1 || "$gpu_count" == 2 ]]
 scripts=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 : "${HF_HOME:?Set HF_HOME before running}"
 export PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 OMP_NUM_THREADS=4
 mapfile -t gpu_names < <(nvidia-smi --query-gpu=name --format=csv,noheader)
-[[ "${#gpu_names[@]}" == 2 && "${gpu_names[0]}" == "NVIDIA GeForce RTX 4090" && "${gpu_names[1]}" == "NVIDIA GeForce RTX 4090" ]]
+[[ "${#gpu_names[@]}" == "$gpu_count" ]]
+for name in "${gpu_names[@]}"; do
+  [[ "$name" == "NVIDIA GeForce RTX 4090" ]]
+done
 if [[ "$mode" == full ]]; then
-  python "$scripts/test_shards.py" --config "$config" --smoke "$root/smoke"
+  python "$scripts/test_shards.py" --config "$config" --gpu-count "$gpu_count" --smoke "$root/smoke"
 fi
 mkdir -p "$root"
 mkdir "$root/$mode"
@@ -25,7 +30,7 @@ run_worker() (
   gpu=$1
   dir="$root/$mode/gpu$gpu"
   mkdir "$dir"
-  mapfile -t plan < <(python "$scripts/test_shards.py" --config "$config" --gpu "$gpu")
+  mapfile -t plan < <(python "$scripts/test_shards.py" --config "$config" --gpu-count "$gpu_count" --gpu "$gpu")
   [[ "${#plan[@]}" == 2 ]]
   export CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES="$gpu"
   python -c 'import torch; assert torch.__version__=="2.8.0+cu128" and torch.cuda.device_count()==1; assert "RTX 4090" in torch.cuda.get_device_name(0)'
@@ -41,21 +46,22 @@ run_worker() (
   EXPECT_ROWS="$expected" bash "$code/run_generate.sh" --config "$config" --model_path "$model" \
     --data_root "$data" --out "$dir" --subjects "${plan[0]}" "${flags[@]}" > "$dir/worker.log" 2>&1
 )
-run_worker 0 &
-pid0=$!
-run_worker 1 &
-pid1=$!
-rc0=0
-rc1=0
-wait "$pid0" || rc0=$?
-wait "$pid1" || rc1=$?
-printf 'gpu0=%s gpu1=%s\n' "$rc0" "$rc1"
-if (( rc0 || rc1 )); then
-  exit 1
-fi
+pids=()
+for (( gpu=0; gpu<gpu_count; gpu++ )); do
+  run_worker "$gpu" &
+  pids+=("$!")
+done
+failed=0
+for gpu in "${!pids[@]}"; do
+  rc=0
+  wait "${pids[gpu]}" || rc=$?
+  printf 'gpu%s=%s\n' "$gpu" "$rc"
+  if (( rc )); then failed=1; fi
+done
+(( failed == 0 ))
 if [[ "$mode" == smoke ]]; then
-  python "$scripts/test_shards.py" --config "$config" --smoke "$root/smoke"
+  python "$scripts/test_shards.py" --config "$config" --gpu-count "$gpu_count" --smoke "$root/smoke"
 else
-  python "$scripts/test_shards.py" --config "$config" --merge "$root/full"
+  python "$scripts/test_shards.py" --config "$config" --gpu-count "$gpu_count" --merge "$root/full"
   python "$code/validate_raw.py" --config "$config" --raw "$root/full/raw.jsonl" --expect 10500
 fi

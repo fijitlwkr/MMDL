@@ -7,7 +7,6 @@ import hashlib
 import json
 from pathlib import Path
 import statistics
-import sys
 
 import yaml
 
@@ -24,7 +23,7 @@ def sha(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def plan(config):
+def plan(config, gpu_count=2):
     dataset = yaml.safe_load(config.read_bytes())["dataset"]
     counts, subjects = dataset["expected_rows_by_subject"], dataset["subjects"]
     if dataset["split"] != "test" or sum(counts.values()) != 10500 or dataset["expected_total_rows"] != 10500:
@@ -34,11 +33,11 @@ def plan(config):
     shards = [GPU0, [subject for subject in subjects if subject not in GPU0]]
     if [sum(counts[s] for s in group) for group in shards] != [5321, 5179]:
         raise ValueError("Unexpected GPU shard counts")
-    return counts, subjects, shards
+    return counts, subjects, [subjects] if gpu_count == 1 else shards
 
 
-def merge(root, config):
-    counts, subjects, shards = plan(config)
+def merge(root, config, gpu_count):
+    counts, subjects, shards = plan(config, gpu_count)
     config_sha = sha(config)
     expected_ids = [f"test_{subject}_{i}" for subject in subjects for i in range(1, counts[subject] + 1)]
     combined = root / "raw.jsonl"
@@ -85,7 +84,7 @@ def merge(root, config):
                              "output_tokens_total": sum(tokens), "output_tokens_mean": statistics.mean(tokens),
                              "output_tokens_median": statistics.median(tokens), "prompt_tokens_total": input_tokens,
                              "duration_seconds": meta["run"]["duration_seconds"], "max_vram_mib": max(samples)}
-    assert settings[0] == settings[1], "Shard generation settings differ"
+    assert all(setting == settings[0] for setting in settings[1:]), "Shard generation settings differ"
     assert set(lines) == set(expected_ids) and len(lines) == 10500
     with combined.open("xb") as stream:
         stream.writelines(lines[qid] for qid in expected_ids)
@@ -100,15 +99,16 @@ def merge(root, config):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", required=True, type=Path)
+    parser.add_argument("--gpu-count", type=int, choices=(1, 2), default=2)
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--gpu", type=int, choices=(0, 1))
     modes.add_argument("--merge", type=Path)
     modes.add_argument("--smoke", type=Path)
     args = parser.parse_args()
     if args.merge:
-        merge(args.merge, args.config)
+        merge(args.merge, args.config, args.gpu_count)
     elif args.smoke:
-        _, _, groups = plan(args.config)
+        _, _, groups = plan(args.config, args.gpu_count)
         for gpu, group in enumerate(groups):
             folder = args.smoke / f"gpu{gpu}"
             assert (folder / "worker.exit").read_text().strip() == "0"
@@ -120,7 +120,9 @@ def main():
                 assert row["output_tokens"] > 0 and row["finish_reason"] in {"stop", "length"}
         print("Smoke verified: 3 rows per GPU")
     else:
-        counts, _, shards = plan(args.config)
+        counts, _, shards = plan(args.config, args.gpu_count)
+        if args.gpu >= len(shards):
+            parser.error("--gpu must identify a worker in the selected GPU count")
         group = shards[args.gpu]
         print(",".join(group))
         print(sum(counts[subject] for subject in group))

@@ -21,7 +21,7 @@ Each worker sees one RTX 4090 through CUDA_VISIBLE_DEVICES and uses tensor paral
 
 ## Run
 
-1. Select the existing base Python in the pinned CUDA 12.8 image. Set `HF_HOME`, `MODEL`, `DATA_CACHE` and `OUTPUT_ROOT` in the shell. Verify both cards with `nvidia-smi` and at least 35 GB free on the storage volume with `df -h`.
+1. Select the existing base Python in the pinned CUDA 12.8 image. Set `HF_HOME`, `MODEL`, `DATA_CACHE` and `OUTPUT_ROOT` in the shell. Verify each RTX 4090 with `nvidia-smi` and at least 35 GB free on the storage volume with `df -h` (about 30 GB required).
 2. For adapter evaluation, use a separate PEFT 0.17.1 environment. Supply expected SHA-256 values in shard filename order. The merge command checks base and adapter hashes, copies the original processor/tokenizer/template files, and records output hashes.
 
    ```bash
@@ -39,14 +39,14 @@ Each worker sees one RTX 4090 through CUDA_VISIBLE_DEVICES and uses tensor paral
    ```
 
    Confirm all 10,500 rows in preflight, no validation failures, and no input above the fixed prompt budget. The dataset loader checks the expected test IDs and rejects missing answers.
-4. Run the smoke and then the full test in separate folders. After both full workers exit successfully, the script verifies identical inference settings, merges in the configured subject and numeric ID order, and validates the merged raw.
+4. Set `GPU_COUNT=1` for one RTX 4090 or `GPU_COUNT=2` for two. The one-card run uses all 30 subjects in one process and is expected to take about 12 hours. The two-card run uses the assignment above and is expected to take about 6 hours. Run smoke and the full test in separate folders. After the full workers exit successfully, the script checks their settings and validates the combined raw in configured subject and numeric ID order.
 
    ```bash
-   bash scripts/run_test_dual.sh smoke code code/config_test.yaml "$MODEL" "$DATA_CACHE" "$OUTPUT_ROOT"
-   bash scripts/run_test_dual.sh full code code/config_test.yaml "$MODEL" "$DATA_CACHE" "$OUTPUT_ROOT"
+   bash scripts/run_test_dual.sh smoke code code/config_test.yaml "$MODEL" "$DATA_CACHE" "$OUTPUT_ROOT" "$GPU_COUNT"
+   bash scripts/run_test_dual.sh full code code/config_test.yaml "$MODEL" "$DATA_CACHE" "$OUTPUT_ROOT" "$GPU_COUNT"
    ```
 
-5. Transfer the raw files and metadata and verify the hashes recorded in `full/merge_receipt.json`. Run preparation on the verified combined raw. The preparation prints the request count and conservative cost estimate and uses no network.
+5. Transfer the raw files and metadata and verify the hashes recorded in `full/merge_receipt.json`. Keep the model shard hashes and the raw prompt token counts `num_prompt_tokens` for comparison across models. Run preparation on the verified combined raw. The preparation prints the request count and conservative cost estimate and uses no network.
 
    ```bash
    python scripts/prepare_test_scoring.py --code code --config code/config_test.yaml --raw "$OUTPUT_ROOT/full/raw.jsonl" --out "$SCORING_DIR"
@@ -58,4 +58,4 @@ Each worker sees one RTX 4090 through CUDA_VISIBLE_DEVICES and uses tensor paral
    bash scripts/run_test_judge.sh code "$SCORING_DIR"
    ```
 
-The validation config and prompt, image, and Judge behavior are retained. The test config and split-aware checks add test counts and IDs. The test macro average is unweighted across subjects, while the overall score is weighted by question count. The dual-GPU runner passes the expected count for each shard and records physical VRAM separately.
+The validation config and prompt, image, and Judge behavior are retained. The test config and split-aware checks add test counts and IDs. The test macro average is unweighted across subjects, while the overall score is weighted by question count. The runner passes the expected count for each worker and records physical VRAM separately.
