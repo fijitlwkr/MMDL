@@ -26,6 +26,7 @@ Qwen3-VL-4B-Instruct(M0)의 **자기 샘플 응답**을 재료로 한 파인튜�
 | C1-h / C1-f | 자기 증류 (합의 풀이 조건부 교사) | 1,036문항 × M0 응답 4개 = 4,144개. 교사 = 같은 M0에 기준 정답 풀이 하나를 추가로 보여 준 입력, 학생 = 평가 형식 입력 | 전체 어휘 Jensen-Shannon 손실, lr 1e-5 constant, 1 epoch(259 step). h = step 130, f = step 259 | `scripts/c1_config.json`, `configs/c1_*`, `configs/c1_full_run/` |
 | T1 진단 | 학습 없음. M0를 temperature 0.35 / 0.10으로 개발 세트 측정 | — | 온도 외 조건 동일 | `scripts/t1_sample_dev.py` |
 | AB1 | 가중치 병합: M0 + ΔD3-e1 + Δ(가설 A GRPO pilot step30) | — | 1:1 합, PEFT safe merge 순서(D3-e1 → A) | `scripts/ab1_merge_v2.py` |
+| AB2 | 가중치 병합: M0 + ΔD3-e1 + Δ(가설 A GRPO step100) | — | AB1과 같은 절차, A 체크포인트만 `MMDL-team4/hypA-grpo-step100-ckpt` rev `7af4bebf` `step100/` | `scripts/ab2_merge.py`, `scripts/ab2_run_dev.sh` |
 
 - E1 / E2 / E3(외부 교사 풀이 SFT)의 학습 코드는 `exp/hypB-data` 브랜치 `assignment/experiments/hypB_train/`에 있다. E3 평가 결과는 이 브랜치의 `results/hypB_eval/E3_seed_3407/`에 있다.
 - 개발 세트 후보 선택 규칙(전체 정답 수, M0가 4회 모두 맞힌 층의 정답 수)은 `scripts/sd1_select.py`, `scripts/c1_select.py`, `scripts/ab1_select.py`에 있다.
