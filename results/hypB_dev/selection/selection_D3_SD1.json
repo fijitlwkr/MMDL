@@ -1,0 +1,246 @@
+{
+  "measurements": {
+    "M0": {
+      "responses": 1200,
+      "correct": 861,
+      "reward_mean": 0.7175,
+      "length_rate": 0.056666666666666664,
+      "mean_output_tokens": 1721.9108333333334,
+      "direction_overuse_rate": 0.2225,
+      "by_stratum": {
+        "excluded_correct_0": {
+          "correct": 22,
+          "responses": 132,
+          "reward_mean": 0.16666666666666666
+        },
+        "excluded_correct_4": {
+          "correct": 594,
+          "responses": 632,
+          "reward_mean": 0.939873417721519
+        },
+        "retain": {
+          "correct": 101,
+          "responses": 180,
+          "reward_mean": 0.5611111111111111
+        },
+        "target": {
+          "correct": 144,
+          "responses": 256,
+          "reward_mean": 0.5625
+        }
+      }
+    },
+    "D3-e1": {
+      "responses": 1200,
+      "correct": 882,
+      "reward_mean": 0.735,
+      "length_rate": 0.035,
+      "mean_output_tokens": 1594.4675,
+      "direction_overuse_rate": 0.21833333333333332,
+      "by_stratum": {
+        "excluded_correct_0": {
+          "correct": 24,
+          "responses": 132,
+          "reward_mean": 0.18181818181818182
+        },
+        "excluded_correct_4": {
+          "correct": 603,
+          "responses": 632,
+          "reward_mean": 0.9541139240506329
+        },
+        "retain": {
+          "correct": 102,
+          "responses": 180,
+          "reward_mean": 0.5666666666666667
+        },
+        "target": {
+          "correct": 153,
+          "responses": 256,
+          "reward_mean": 0.59765625
+        }
+      }
+    },
+    "D3-e2": {
+      "responses": 1200,
+      "correct": 882,
+      "reward_mean": 0.735,
+      "length_rate": 0.04083333333333333,
+      "mean_output_tokens": 1655.8408333333334,
+      "direction_overuse_rate": 0.21083333333333334,
+      "by_stratum": {
+        "excluded_correct_0": {
+          "correct": 17,
+          "responses": 132,
+          "reward_mean": 0.12878787878787878
+        },
+        "excluded_correct_4": {
+          "correct": 612,
+          "responses": 632,
+          "reward_mean": 0.9683544303797469
+        },
+        "retain": {
+          "correct": 108,
+          "responses": 180,
+          "reward_mean": 0.6
+        },
+        "target": {
+          "correct": 145,
+          "responses": 256,
+          "reward_mean": 0.56640625
+        }
+      }
+    },
+    "SD1-a": {
+      "responses": 1200,
+      "correct": 863,
+      "reward_mean": 0.7191666666666666,
+      "length_rate": 0.06666666666666667,
+      "mean_output_tokens": 1655.7533333333333,
+      "direction_overuse_rate": 0.20333333333333334,
+      "by_stratum": {
+        "excluded_correct_0": {
+          "correct": 18,
+          "responses": 132,
+          "reward_mean": 0.13636363636363635
+        },
+        "excluded_correct_4": {
+          "correct": 603,
+          "responses": 632,
+          "reward_mean": 0.9541139240506329
+        },
+        "retain": {
+          "correct": 102,
+          "responses": 180,
+          "reward_mean": 0.5666666666666667
+        },
+        "target": {
+          "correct": 140,
+          "responses": 256,
+          "reward_mean": 0.546875
+        }
+      }
+    },
+    "SD1-b": {
+      "responses": 1200,
+      "correct": 880,
+      "reward_mean": 0.7333333333333333,
+      "length_rate": 0.0525,
+      "mean_output_tokens": 1619.3608333333334,
+      "direction_overuse_rate": 0.19166666666666668,
+      "by_stratum": {
+        "excluded_correct_0": {
+          "correct": 22,
+          "responses": 132,
+          "reward_mean": 0.16666666666666666
+        },
+        "excluded_correct_4": {
+          "correct": 598,
+          "responses": 632,
+          "reward_mean": 0.9462025316455697
+        },
+        "retain": {
+          "correct": 108,
+          "responses": 180,
+          "reward_mean": 0.6
+        },
+        "target": {
+          "correct": 152,
+          "responses": 256,
+          "reward_mean": 0.59375
+        }
+      }
+    },
+    "SD1-c": {
+      "responses": 1200,
+      "correct": 875,
+      "reward_mean": 0.7291666666666666,
+      "length_rate": 0.04833333333333333,
+      "mean_output_tokens": 1639.1808333333333,
+      "direction_overuse_rate": 0.20333333333333334,
+      "by_stratum": {
+        "excluded_correct_0": {
+          "correct": 28,
+          "responses": 132,
+          "reward_mean": 0.21212121212121213
+        },
+        "excluded_correct_4": {
+          "correct": 599,
+          "responses": 632,
+          "reward_mean": 0.9477848101265823
+        },
+        "retain": {
+          "correct": 109,
+          "responses": 180,
+          "reward_mean": 0.6055555555555555
+        },
+        "target": {
+          "correct": 139,
+          "responses": 256,
+          "reward_mean": 0.54296875
+        }
+      }
+    }
+  },
+  "selection": {
+    "selected": "D3-e1",
+    "eligible": [
+      "D3-e1",
+      "D3-e2",
+      "SD1-a",
+      "SD1-b",
+      "SD1-c"
+    ],
+    "excluded": {},
+    "protection": {
+      "D3-e1": {
+        "delta_pp": 1.4240506329113924,
+        "passed": true
+      },
+      "D3-e2": {
+        "delta_pp": 2.848101265822785,
+        "passed": true
+      },
+      "SD1-a": {
+        "delta_pp": 1.4240506329113924,
+        "passed": true
+      },
+      "SD1-b": {
+        "delta_pp": 0.6329113924050633,
+        "passed": true
+      },
+      "SD1-c": {
+        "delta_pp": 0.7911392405063291,
+        "passed": true
+      }
+    },
+    "best_correct": 882,
+    "within_strict_half_percentage_point_of_best": [
+      "D3-e1",
+      "D3-e2",
+      "SD1-b"
+    ],
+    "priority_order": [
+      "D3-e1",
+      "D3-e2",
+      "SD1-a",
+      "SD1-b",
+      "SD1-c"
+    ],
+    "other_metrics_used_for_selection": false,
+    "reason": "First priority among eligible candidates within <0.5pp of the highest overall mean"
+  },
+  "reward": {
+    "reward_version": "v2",
+    "reward_sha256": "ba71a13013bdd3244d972d3d2d45edf4bf22abdccc8eb80163d28f7e64263b82",
+    "legacy_reward_sha256": "b697783b47b2d6bc520c11e119cf0c1ff6f1f02094f6670784b0c2a56756345e"
+  },
+  "development_sha256": "6fd7a51d0625ca0f7d2ad7274bb8fe6525c0594be7ec70c4312ac3e07eeb191d",
+  "raw_sha256": {
+    "M0": "0d23d51016620d84e56fe834400339fc8dd7e7232f959b1dd4d15a8f77250cd2",
+    "D3-e1": "65e0ec75dda1b42fcd2964e2f0c203cb8bded43a3ad3bb30ca81c3a56f10aeb8",
+    "D3-e2": "e82ea36955698aab1ffa587fb340eb952f2ccc7862455a1249e924d6bc37ea57",
+    "SD1-a": "03a388d73b87579e38961fe453e4e043fcf3249ee9577b5bf73c136ac1e764d1",
+    "SD1-b": "16940b13478966b601c7769d782e47095167658ff7cfc4db3d9a612e941c4de6",
+    "SD1-c": "2c0739b2959a6c81d195cebc3d709055352c643715d6a08abab908108bd02469"
+  }
+}

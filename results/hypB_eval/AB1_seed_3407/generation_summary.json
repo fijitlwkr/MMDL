@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "rows": 900,
+  "unique_ids": 900,
+  "subjects": {
+    "Accounting": 30,
+    "Agriculture": 30,
+    "Architecture_and_Engineering": 30,
+    "Art": 30,
+    "Art_Theory": 30,
+    "Basic_Medical_Science": 30,
+    "Biology": 30,
+    "Chemistry": 30,
+    "Clinical_Medicine": 30,
+    "Computer_Science": 30,
+    "Design": 30,
+    "Diagnostics_and_Laboratory_Medicine": 30,
+    "Economics": 30,
+    "Electronics": 30,
+    "Energy_and_Power": 30,
+    "Finance": 30,
+    "Geography": 30,
+    "History": 30,
+    "Literature": 30,
+    "Manage": 30,
+    "Marketing": 30,
+    "Materials": 30,
+    "Math": 30,
+    "Mechanical_Engineering": 30,
+    "Music": 30,
+    "Pharmacy": 30,
+    "Physics": 30,
+    "Psychology": 30,
+    "Public_Health": 30,
+    "Sociology": 30
+  },
+  "errors": 0,
+  "m0_input_and_prompt_token_mismatches": 0,
+  "m0_sha256": "ef23f0c49d9b1ae6c62b9625fbd52cce474a0c035c1a644cfa737e0967daa313",
+  "raw_sha256": "69360703b3ceb1531ef90297ab27841eaf0b76bd985a92d1452d00e2aec526dc",
+  "raw_bytes": 13961237,
+  "generation_seconds": 3042.219,
+  "prompt_tokens_total": 1193656,
+  "output_tokens_total": 1711641,
+  "output_tokens_mean": 1901.8233333333333,
+  "output_tokens_median": 457.0,
+  "length_count": 106,
+  "max_vram_mib": 22669,
+  "invocation_vram": [
+    {
+      "nvidia_smi": {
+        "max_used_mib": 22669,
+        "total_mib": 24564,
+        "samples": 2981
+      },
+      "torch": {
+        "max_allocated_gib": 19.948654651641846,
+        "max_reserved_gib": 20.59765625,
+        "free_gib": 1.763427734375,
+        "total_gib": 23.5184326171875
+      }
+    }
+  ],
+  "generation_config_sha256": "a41d4973f753da715b8cf5258913ff075b5de60ffdc014ee4eb58dea17e41ce7"
+}

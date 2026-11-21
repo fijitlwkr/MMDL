@@ -1,0 +1,13 @@
+{
+  "step": 130,
+  "examples": 2080,
+  "js_loss": 0.041733378428034484,
+  "grad_norm": 0.048625294119119644,
+  "step_seconds": 33.755973861087114,
+  "max_vram_allocated_mib": 16774.90234375,
+  "max_vram_reserved_mib": 17530.0,
+  "response_tokens": 30028,
+  "student_mean_logp": -0.2595695877337572,
+  "teacher_mean_logp": -0.3828443387157119,
+  "learning_rate": 1e-05
+}
