@@ -39,6 +39,15 @@ Qwen3-VL-4B-Instruct(M0)의 **자기 샘플 응답**을 재료로 한 파인튜�
 | `configs/<모델>/` | 학습 인자(`args.json`), adapter 설정, 학습 기록(`trainer_state.json`). 가중치는 포함하지 않음 |
 | `data/` | 문항 풀, 개발 세트 분할, 학습 쌍·SFT 예제 목록(index). 응답 원문이 담긴 학습 파일은 HF에 둔다 |
 
+## Hugging Face (비공개)
+
+| 저장소 | 내용 |
+|---|---|
+| `MMDL-team4/hypB-d3e1-dpo` | D3-e1 LoRA adapter |
+| `MMDL-team4/hypB-d1-dpo`, `MMDL-team4/hypB-d2p-dpo` | D1, D2' LoRA adapter |
+| `MMDL-team4/hypB-rl-data` | 문항 풀, M0·D1 샘플, DPO 쌍, SFT·증류 학습 파일, 추가 이미지 |
+| `MMDL-team4/hypB-eval-raw` | validation 생성 raw와 채점 결과 |
+
 ## 실행 환경
 
 - 학습: A100 80GB, torch 2.8.0+cu128, transformers 4.57.1, peft 0.17.1, ms-swift 3.12.3
