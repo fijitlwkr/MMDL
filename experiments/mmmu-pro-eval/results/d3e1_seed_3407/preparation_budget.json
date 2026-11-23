@@ -1,0 +1,11 @@
+{
+  "raw_sha256": "c67aeb5f8650f7141b84af931a44e5b495b1875520753ee719afeeb62f2b15a1",
+  "automatic": 1198,
+  "judge": 532,
+  "rule_extraction_failure": 529,
+  "conflict": 3,
+  "api_calls": 0,
+  "conservative_cost_usd": "3.1143376",
+  "input_tokens_bound": 7768820,
+  "output_tokens_bound": 4256
+}
