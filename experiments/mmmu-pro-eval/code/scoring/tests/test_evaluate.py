@@ -1,0 +1,306 @@
+"""Offline integration tests: no credentials or external API calls are used."""
+import copy
+import importlib.util
+import json
+import os
+from pathlib import Path
+import shutil
+import tempfile
+import unittest
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parents[1]
+spec = importlib.util.spec_from_file_location("portable_evaluate", ROOT / "evaluate.py")
+ev = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(ev)
+CONFIG = ROOT.parent / "config.yaml"
+
+
+def fixture_rows():
+    """Construct schema fixtures; these are never benchmark measurements."""
+    rows = []
+    for subject in ev.SUBJECTS:
+        for number in range(1, 31):
+            is_open = len(rows) >= 847
+            rows.append(dict(
+                schema_version="0", synthetic=False,
+                id=f"validation_{subject}_{number}", subject=subject,
+                subfield=None, topic_difficulty=None, img_type=None,
+                question_type="open" if is_open else "multiple-choice",
+                gold="reference" if is_open else "A",
+                options=[] if is_open else ["first option", "second option"],
+                options_raw="[]" if is_open else "['first option', 'second option']",
+                image_indices=[1], prompt="Fixture question <image 1>",
+                status="ok", reason=None, error=None,
+                raw_text="reference" if is_open else "A",
+                output_token_ids=[10], output_tokens=1,
+                finish_reason="stop", stop_reason=None, max_new_tokens=2,
+                num_prompt_tokens=10, precomputed_prompt_tokens=10,
+            ))
+    rows[0].update(raw_text="unfinished reasoning", finish_reason="length",
+                   output_token_ids=[10, 11], output_tokens=2)
+    rows[1]["raw_text"] = "Cannot determine."
+    return rows
+
+
+class FakeHTTP:
+    status = 200
+    headers = {"x-request-id": "offline-fixture"}
+
+    def __init__(self, text="Z", finish="stop"):
+        self.payload = dict(model="gpt-4.1-mini-2025-04-14",
+            choices=[dict(message=dict(content=text), finish_reason=finish)],
+            usage=dict(prompt_tokens=10, completion_tokens=1, total_tokens=11,
+                       prompt_tokens_details=dict(cached_tokens=2)))
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        return False
+
+    def read(self):
+        return json.dumps(self.payload).encode()
+
+
+class EvaluationTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.base = Path(self.temp.name)
+        self.rows = fixture_rows()
+        self.raw = self.base / "source.jsonl"
+        ev.write_rows(self.raw, self.rows)
+        self.out = self.base / "run"
+        self.network = patch.object(ev.urllib.request, "urlopen", side_effect=AssertionError("Unexpected network"))
+        self.blocked = self.network.start()
+        self.addCleanup(self.network.stop)
+
+    def prepare(self, out=None, raw=None, model=None):
+        return ev.prepare(raw or self.raw, out or self.out, CONFIG, model)
+
+    def test_prepare_offline_dynamic_routing_pending_and_move(self):
+        before = self.raw.read_bytes()
+        summary = self.prepare()
+        self.assertEqual(summary["judge_count"], 2)
+        self.assertEqual(summary["automatic_count"], 898)
+        self.assertEqual(summary["overall"]["pending"], 2)
+        self.assertIsNone(summary["overall"]["accuracy"])
+        self.assertEqual(before, self.raw.read_bytes())
+        moved = self.base / "moved"
+        shutil.move(str(self.out), str(moved))
+        self.assertEqual(ev.summarize(moved)["overall"], summary["overall"])
+        self.blocked.assert_not_called()
+
+    def test_length_uses_the_same_routing_as_stop(self):
+        parsers = ev.load_parsers()
+        cases = [
+            (self.rows[2], "A", "auto", "A"),
+            (self.rows[-1], "reference", "auto", "A"),
+            (self.rows[2], "A and B considered; first option. Final Answer: B", "judge_conflict", None),
+            (self.rows[2], "unfinished reasoning", "judge_rule_failure", None),
+            (self.rows[-1], "unfinished reasoning", "judge_rule_failure", None),
+        ]
+        for template, text, route, answer in cases:
+            for finish in ("stop", "length"):
+                with self.subTest(text=text, finish=finish):
+                    row = dict(template, raw_text=text, finish_reason=finish)
+                    item = ev.derive_item(row, parsers)
+                    self.assertEqual((item["route"], item["auto_answer"]), (route, answer))
+
+    def test_z_is_completed_and_resume_sends_only_remaining(self):
+        self.prepare()
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", return_value=FakeHTTP("Z")) as api:
+            first = ev.run(self.out, limit=1)
+            second = ev.run(self.out)
+            third = ev.run(self.out)
+        self.assertEqual(api.call_count, 2)
+        self.assertEqual(first["overall"]["pending"], 1)
+        self.assertEqual(second["overall"]["pending"], 0)
+        self.assertEqual(third["response_count"], 2)
+        self.assertEqual(third["overall"]["extraction_failures"], 2)
+        self.assertAlmostEqual(third["estimated_recorded_response_cost_usd"], 0.0000100)
+        for path in self.out.rglob("*"):
+            if path.is_file():
+                self.assertNotIn(b"offline-test-secret", path.read_bytes())
+
+    def test_timeout_retries_only_the_unanswered_request_on_resume(self):
+        self.prepare()
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen",
+                          side_effect=[TimeoutError("offline-test-secret"), FakeHTTP("Z"), FakeHTTP("A")]) as api:
+            partial = ev.run(self.out)
+            self.assertEqual(partial["overall"]["pending"], 1)
+            self.assertIsNone(partial["overall"]["accuracy"])
+            self.assertEqual(ev.run(self.out)["overall"]["pending"], 0)
+            self.assertEqual(ev.run(self.out)["response_count"], 2)
+        self.assertEqual(api.call_count, 3)
+        self.assertTrue(all(call.kwargs["timeout"] == 120 for call in api.call_args_list))
+        started = [row["id"] for row in ev.read_rows(self.out / "api_attempts.jsonl") if row["event"] == "started"]
+        requests = ev.read_rows(self.out / "requests.jsonl")
+        self.assertEqual(started, [requests[0]["id"], requests[1]["id"], requests[0]["id"]])
+        self.assertNotIn("offline-test-secret", (self.out / "errors.jsonl").read_text())
+
+    def test_started_only_attempt_blocks_retry(self):
+        self.prepare()
+        request = ev.read_rows(self.out / "requests.jsonl")[0]
+        ev.append(self.out / "api_attempts.jsonl",
+                  {**{key: request[key] for key in ("id", "request_sha256")},
+                   "attempt_id": "interrupted", "event": "started"})
+        with self.assertRaisesRegex(ValueError, "Unresolved"):
+            ev.run(self.out)
+        self.blocked.assert_not_called()
+
+    def test_failed_http_receipt_blocks_retry(self):
+        self.prepare()
+        malformed = FakeHTTP()
+        malformed.read = lambda: b"malformed"
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", return_value=malformed) as api:
+            self.assertEqual(ev.run(self.out, limit=1)["overall"]["pending"], 2)
+            with self.assertRaisesRegex(ValueError, "Unresolved"):
+                ev.run(self.out, limit=1)
+        api.assert_called_once()
+        self.assertEqual(len(ev.read_rows(self.out / "http_receipts.jsonl")), 1)
+
+    def test_five_consecutive_failures_stop_before_the_next_request(self):
+        for row in self.rows[:7]:
+            row["raw_text"] = "Cannot determine."
+        ev.write_rows(self.raw, self.rows)
+        self.prepare()
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", side_effect=TimeoutError) as api:
+            summary = ev.run(self.out)
+        self.assertEqual(api.call_count, 5)
+        self.assertEqual(summary["overall"]["pending"], 7)
+        self.assertIsNone(summary["overall"]["accuracy"])
+        failed = ev.read_rows(self.out / "errors.jsonl")
+        self.assertEqual(len({row["id"] for row in failed}), 5)
+
+    def test_three_failed_runs_for_one_request_block_further_attempts(self):
+        self.prepare()
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", side_effect=TimeoutError) as api:
+            for _ in range(3):
+                self.assertEqual(ev.run(self.out, limit=1)["overall"]["pending"], 2)
+            with self.assertRaisesRegex(ValueError, "Three failed runs"):
+                ev.run(self.out)
+        self.assertEqual(api.call_count, 3)
+
+    def test_nonstop_valid_label_is_incorrect(self):
+        self.prepare()
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", return_value=FakeHTTP("A", "length")):
+            summary = ev.run(self.out)
+        self.assertEqual(summary["overall"]["extraction_failures"], 2)
+        self.assertEqual(summary["overall"]["correct"], 898)
+
+    def test_mutated_snapshot_rejected_before_network(self):
+        self.prepare()
+        with (self.out / "input" / "raw.jsonl").open("a") as handle:
+            handle.write("\n")
+        with self.assertRaisesRegex(ValueError, "hash"):
+            ev.run(self.out)
+        self.blocked.assert_not_called()
+
+    def test_lock_prevents_second_executor(self):
+        self.prepare()
+        with ev.execution_lock(self.out):
+            with self.assertRaisesRegex(ValueError, "locked"):
+                ev.run(self.out)
+        self.blocked.assert_not_called()
+
+    def test_compare_pending_then_reject_question_and_model_change(self):
+        self.prepare()
+        right = self.base / "right"
+        self.prepare(out=right)
+        result = ev.compare(self.out, right, self.base / "comparison")
+        self.assertEqual(result["state"], "partial")
+        self.assertIsNone(result["right_minus_left_accuracy_pp"])
+        self.assertFalse(result["cap_only_causal_effect_verified"])
+        different_model = self.base / "other-model"
+        self.prepare(out=different_model, model="gpt-4o-mini-2024-07-18")
+        with self.assertRaisesRegex(ValueError, "settings/policy differ"):
+            ev.compare(self.out, different_model, self.base / "comparison2")
+        self.rows[2]["prompt"] = "Different question"
+        ev.write_rows(self.raw, self.rows)
+        different_question = self.base / "other-question"
+        self.prepare(out=different_question)
+        with self.assertRaisesRegex(ValueError, "input differs: prompt"):
+            ev.compare(self.out, different_question, self.base / "comparison3")
+
+    def test_duplicate_or_inconsistent_raw_rejected(self):
+        bad = copy.deepcopy(self.rows)
+        bad[1]["id"] = bad[0]["id"]
+        with self.assertRaisesRegex(ValueError, "duplicate"):
+            ev.validate_raw(bad)
+        bad = copy.deepcopy(self.rows)
+        bad[0]["output_tokens"] = 1
+        with self.assertRaisesRegex(ValueError, "token|length"):
+            ev.validate_raw(bad)
+        bad = copy.deepcopy(self.rows)
+        bad[0]["max_new_tokens"] = 3
+        with self.assertRaisesRegex(ValueError, "length"):
+            ev.validate_raw(bad)
+        bad = copy.deepcopy(self.rows)
+        bad[0]["num_prompt_tokens"] = 11
+        with self.assertRaisesRegex(ValueError, "prompt token"):
+            ev.validate_raw(bad)
+        bad = copy.deepcopy(self.rows)
+        bad[-1]["options"] = ["unexpected"]
+        with self.assertRaisesRegex(ValueError, "open options"):
+            ev.validate_raw(bad)
+
+    def test_trailing_empty_choices_are_removed_only_for_scoring(self):
+        self.rows[0].update(options=["first option", "second option", "third option", "", " \t"],
+                            options_raw="['first option', 'second option', 'third option', '', ' \\t']",
+                            prompt="Fixture question\nA. first option\nB. second option\nC. third option\nD. \nE. \t",
+                            raw_text="D")
+        ev.write_rows(self.raw, self.rows)
+        before = self.raw.read_bytes()
+        with patch.object(ev, "summarize", side_effect=AssertionError("Scoring is disabled")), \
+             patch.object(ev, "mmmu_diagnostic", side_effect=AssertionError("Scoring is disabled")):
+            result = ev.prepare(self.raw, self.out, CONFIG, requests_only=True)
+        self.assertEqual(result, {"automatic_count": 898, "judge_count": 2})
+        output = ev.load_inputs(self.out)
+        self.assertEqual(output[1]["trailing_empty_mc_options_removed"],
+                         [{"id": self.rows[0]["id"], "option_count_before": 5, "option_count_after": 3}])
+        self.assertEqual(output[2][0], self.rows[0])
+        self.assertEqual(output[3][0]["choices"], {"A": "first option", "B": "second option", "C": "third option"})
+        self.assertEqual(output[3][0]["route"], "judge_rule_failure")
+        self.assertEqual(self.raw.read_bytes(), before)
+        self.assertEqual((self.out / "input/raw.jsonl").read_bytes(), before)
+        self.assertFalse((self.out / "summary.json").exists())
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "offline-test-secret"}), \
+             patch.object(ev.urllib.request, "urlopen", return_value=FakeHTTP("D")) as api:
+            ev.run(self.out, limit=1)
+        api.assert_called_once()
+        result = ev.read_rows(self.out / "final_results.jsonl")[0]
+        self.assertFalse(result["final_correct"])
+        self.assertEqual(result["final_status"], "extraction_failure")
+
+    def test_internal_empty_choice_is_rejected(self):
+        self.rows[0]["options"] = ["first option", " \t", "third option", ""]
+        with self.assertRaisesRegex(ValueError, "invalid options list"):
+            ev.validate_raw(self.rows)
+
+    def test_invalid_mc_gold_or_too_few_choices_after_trimming_is_rejected(self):
+        for gold, options in (("C", ["first option", "second option", ""]), ("A", ["first option", ""])):
+            with self.subTest(gold=gold, options=options):
+                self.rows[0].update(gold=gold, options=options)
+                with self.assertRaisesRegex(ValueError, "invalid MC gold/options"):
+                    ev.validate_raw(self.rows)
+
+    def test_nonempty_choices_keep_the_existing_labels_and_routing(self):
+        self.assertEqual(ev.validate_raw(self.rows), [])
+        self.prepare()
+        manifest = ev.read_json(self.out / "manifest.json")
+        self.assertEqual(manifest["trailing_empty_mc_options_removed"], [])
+        items = ev.read_rows(self.out / "items.jsonl")
+        self.assertEqual(items[2]["choices"], {"A": "first option", "B": "second option"})
+        self.assertEqual((items[2]["route"], items[2]["auto_answer"]), ("auto", "A"))
+
+
+if __name__ == "__main__":
+    unittest.main()

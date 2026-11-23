@@ -1,0 +1,4052 @@
+{
+ "repo": "MMMU/MMMU_Pro",
+ "revision": "0d7426df4ccb3d8704a992fe6850abee7c262127",
+ "config": "standard (10 options)",
+ "files": [
+  "test-00000-of-00002.parquet",
+  "test-00001-of-00002.parquet"
+ ],
+ "columns": [
+  "id",
+  "question",
+  "options",
+  "explanation",
+  "image_1",
+  "image_2",
+  "image_3",
+  "image_4",
+  "image_5",
+  "image_6",
+  "image_7",
+  "img_type",
+  "answer",
+  "topic_difficulty",
+  "subject"
+ ],
+ "rows": 1730,
+ "ids_sha256": "782771460a58c18f550793866fc2cddc8575650f40450b57661d3d26b71b49fb",
+ "id_examples": [
+  "test_History_1",
+  "test_Art_113",
+  "validation_Design_19",
+  "test_History_134",
+  "test_Literature_65"
+ ],
+ "id_prefix_counts": {
+  "test": 1153,
+  "validation": 577
+ },
+ "subjects": [
+  "Accounting",
+  "Agriculture",
+  "Architecture_and_Engineering",
+  "Art",
+  "Art_Theory",
+  "Basic_Medical_Science",
+  "Biology",
+  "Chemistry",
+  "Clinical_Medicine",
+  "Computer_Science",
+  "Design",
+  "Diagnostics_and_Laboratory_Medicine",
+  "Economics",
+  "Electronics",
+  "Energy_and_Power",
+  "Finance",
+  "Geography",
+  "History",
+  "Literature",
+  "Manage",
+  "Marketing",
+  "Materials",
+  "Math",
+  "Mechanical_Engineering",
+  "Music",
+  "Pharmacy",
+  "Physics",
+  "Psychology",
+  "Public_Health",
+  "Sociology"
+ ],
+ "subject_counts": {
+  "Accounting": 58,
+  "Agriculture": 60,
+  "Architecture_and_Engineering": 60,
+  "Art": 53,
+  "Art_Theory": 55,
+  "Basic_Medical_Science": 52,
+  "Biology": 59,
+  "Chemistry": 60,
+  "Clinical_Medicine": 59,
+  "Computer_Science": 60,
+  "Design": 60,
+  "Diagnostics_and_Laboratory_Medicine": 60,
+  "Economics": 59,
+  "Electronics": 60,
+  "Energy_and_Power": 58,
+  "Finance": 60,
+  "Geography": 52,
+  "History": 56,
+  "Literature": 52,
+  "Manage": 50,
+  "Marketing": 59,
+  "Materials": 60,
+  "Math": 60,
+  "Mechanical_Engineering": 59,
+  "Music": 60,
+  "Pharmacy": 57,
+  "Physics": 60,
+  "Psychology": 60,
+  "Public_Health": 58,
+  "Sociology": 54
+ },
+ "option_count_distribution": {
+  "2": 28,
+  "3": 42,
+  "4": 125,
+  "5": 41,
+  "6": 16,
+  "7": 12,
+  "8": 31,
+  "9": 221,
+  "10": 1213,
+  "12": 1
+ },
+ "options_parse_failures": [],
+ "answer_not_in_options": [],
+ "mmmu_validation_overlap": {
+  "rule": "Pro id가 MMMU validation id와 같거나, <image N> 태그를 뺀 정규화 질문(30자 이상)이 validation 질문과 같음",
+  "by_id": 577,
+  "by_text": 548,
+  "union": 608,
+  "ids": [
+   "test_Basic_Medical_Science_148",
+   "test_Basic_Medical_Science_218",
+   "test_Basic_Medical_Science_261",
+   "test_Basic_Medical_Science_269",
+   "test_Basic_Medical_Science_27",
+   "test_Basic_Medical_Science_30",
+   "test_Basic_Medical_Science_35",
+   "test_Basic_Medical_Science_98",
+   "test_Biology_231",
+   "test_Clinical_Medicine_189",
+   "test_Clinical_Medicine_214",
+   "test_Clinical_Medicine_302",
+   "test_Clinical_Medicine_45",
+   "test_Design_48",
+   "test_Design_69",
+   "test_Design_87",
+   "test_Diagnostics_and_Laboratory_Medicine_126",
+   "test_Diagnostics_and_Laboratory_Medicine_133",
+   "test_Diagnostics_and_Laboratory_Medicine_161",
+   "test_Diagnostics_and_Laboratory_Medicine_18",
+   "test_Diagnostics_and_Laboratory_Medicine_24",
+   "test_Diagnostics_and_Laboratory_Medicine_36",
+   "test_Diagnostics_and_Laboratory_Medicine_72",
+   "test_Materials_204",
+   "test_Mechanical_Engineering_173",
+   "test_Mechanical_Engineering_201",
+   "test_Mechanical_Engineering_205",
+   "test_Mechanical_Engineering_257",
+   "test_Music_127",
+   "test_Music_209",
+   "test_Music_289",
+   "validation_Accounting_10",
+   "validation_Accounting_11",
+   "validation_Accounting_13",
+   "validation_Accounting_14",
+   "validation_Accounting_15",
+   "validation_Accounting_16",
+   "validation_Accounting_17",
+   "validation_Accounting_18",
+   "validation_Accounting_19",
+   "validation_Accounting_2",
+   "validation_Accounting_20",
+   "validation_Accounting_21",
+   "validation_Accounting_23",
+   "validation_Accounting_24",
+   "validation_Accounting_26",
+   "validation_Accounting_27",
+   "validation_Accounting_29",
+   "validation_Accounting_3",
+   "validation_Accounting_30",
+   "validation_Accounting_4",
+   "validation_Accounting_5",
+   "validation_Accounting_6",
+   "validation_Accounting_7",
+   "validation_Accounting_8",
+   "validation_Accounting_9",
+   "validation_Agriculture_1",
+   "validation_Agriculture_10",
+   "validation_Agriculture_11",
+   "validation_Agriculture_12",
+   "validation_Agriculture_13",
+   "validation_Agriculture_17",
+   "validation_Agriculture_18",
+   "validation_Agriculture_20",
+   "validation_Agriculture_21",
+   "validation_Agriculture_22",
+   "validation_Agriculture_23",
+   "validation_Agriculture_27",
+   "validation_Agriculture_29",
+   "validation_Agriculture_3",
+   "validation_Agriculture_4",
+   "validation_Agriculture_5",
+   "validation_Agriculture_6",
+   "validation_Agriculture_8",
+   "validation_Agriculture_9",
+   "validation_Architecture_and_Engineering_10",
+   "validation_Architecture_and_Engineering_11",
+   "validation_Architecture_and_Engineering_12",
+   "validation_Architecture_and_Engineering_13",
+   "validation_Architecture_and_Engineering_15",
+   "validation_Architecture_and_Engineering_17",
+   "validation_Architecture_and_Engineering_20",
+   "validation_Architecture_and_Engineering_21",
+   "validation_Architecture_and_Engineering_22",
+   "validation_Architecture_and_Engineering_23",
+   "validation_Architecture_and_Engineering_24",
+   "validation_Architecture_and_Engineering_26",
+   "validation_Architecture_and_Engineering_27",
+   "validation_Architecture_and_Engineering_28",
+   "validation_Architecture_and_Engineering_29",
+   "validation_Architecture_and_Engineering_3",
+   "validation_Architecture_and_Engineering_30",
+   "validation_Architecture_and_Engineering_4",
+   "validation_Architecture_and_Engineering_5",
+   "validation_Architecture_and_Engineering_7",
+   "validation_Architecture_and_Engineering_8",
+   "validation_Architecture_and_Engineering_9",
+   "validation_Art_10",
+   "validation_Art_12",
+   "validation_Art_13",
+   "validation_Art_14",
+   "validation_Art_15",
+   "validation_Art_16",
+   "validation_Art_18",
+   "validation_Art_19",
+   "validation_Art_2",
+   "validation_Art_25",
+   "validation_Art_26",
+   "validation_Art_29",
+   "validation_Art_3",
+   "validation_Art_30",
+   "validation_Art_4",
+   "validation_Art_5",
+   "validation_Art_6",
+   "validation_Art_7",
+   "validation_Art_Theory_10",
+   "validation_Art_Theory_12",
+   "validation_Art_Theory_14",
+   "validation_Art_Theory_15",
+   "validation_Art_Theory_16",
+   "validation_Art_Theory_17",
+   "validation_Art_Theory_19",
+   "validation_Art_Theory_20",
+   "validation_Art_Theory_21",
+   "validation_Art_Theory_22",
+   "validation_Art_Theory_23",
+   "validation_Art_Theory_25",
+   "validation_Art_Theory_26",
+   "validation_Art_Theory_27",
+   "validation_Art_Theory_28",
+   "validation_Art_Theory_29",
+   "validation_Art_Theory_3",
+   "validation_Art_Theory_30",
+   "validation_Art_Theory_4",
+   "validation_Art_Theory_6",
+   "validation_Art_Theory_7",
+   "validation_Art_Theory_8",
+   "validation_Art_Theory_9",
+   "validation_Basic_Medical_Science_1",
+   "validation_Basic_Medical_Science_11",
+   "validation_Basic_Medical_Science_12",
+   "validation_Basic_Medical_Science_13",
+   "validation_Basic_Medical_Science_17",
+   "validation_Basic_Medical_Science_18",
+   "validation_Basic_Medical_Science_21",
+   "validation_Basic_Medical_Science_23",
+   "validation_Basic_Medical_Science_26",
+   "validation_Basic_Medical_Science_28",
+   "validation_Basic_Medical_Science_3",
+   "validation_Basic_Medical_Science_5",
+   "validation_Basic_Medical_Science_6",
+   "validation_Basic_Medical_Science_9",
+   "validation_Biology_1",
+   "validation_Biology_11",
+   "validation_Biology_13",
+   "validation_Biology_14",
+   "validation_Biology_15",
+   "validation_Biology_17",
+   "validation_Biology_20",
+   "validation_Biology_21",
+   "validation_Biology_22",
+   "validation_Biology_23",
+   "validation_Biology_24",
+   "validation_Biology_25",
+   "validation_Biology_27",
+   "validation_Biology_28",
+   "validation_Biology_29",
+   "validation_Biology_30",
+   "validation_Biology_4",
+   "validation_Biology_6",
+   "validation_Biology_8",
+   "validation_Biology_9",
+   "validation_Chemistry_1",
+   "validation_Chemistry_11",
+   "validation_Chemistry_12",
+   "validation_Chemistry_16",
+   "validation_Chemistry_17",
+   "validation_Chemistry_2",
+   "validation_Chemistry_21",
+   "validation_Chemistry_22",
+   "validation_Chemistry_24",
+   "validation_Chemistry_26",
+   "validation_Chemistry_28",
+   "validation_Chemistry_29",
+   "validation_Chemistry_3",
+   "validation_Chemistry_5",
+   "validation_Chemistry_6",
+   "validation_Chemistry_7",
+   "validation_Chemistry_8",
+   "validation_Chemistry_9",
+   "validation_Clinical_Medicine_1",
+   "validation_Clinical_Medicine_11",
+   "validation_Clinical_Medicine_13",
+   "validation_Clinical_Medicine_14",
+   "validation_Clinical_Medicine_15",
+   "validation_Clinical_Medicine_16",
+   "validation_Clinical_Medicine_18",
+   "validation_Clinical_Medicine_2",
+   "validation_Clinical_Medicine_20",
+   "validation_Clinical_Medicine_22",
+   "validation_Clinical_Medicine_23",
+   "validation_Clinical_Medicine_24",
+   "validation_Clinical_Medicine_25",
+   "validation_Clinical_Medicine_28",
+   "validation_Clinical_Medicine_3",
+   "validation_Clinical_Medicine_5",
+   "validation_Clinical_Medicine_8",
+   "validation_Clinical_Medicine_9",
+   "validation_Computer_Science_1",
+   "validation_Computer_Science_10",
+   "validation_Computer_Science_11",
+   "validation_Computer_Science_12",
+   "validation_Computer_Science_14",
+   "validation_Computer_Science_15",
+   "validation_Computer_Science_17",
+   "validation_Computer_Science_18",
+   "validation_Computer_Science_19",
+   "validation_Computer_Science_2",
+   "validation_Computer_Science_22",
+   "validation_Computer_Science_24",
+   "validation_Computer_Science_25",
+   "validation_Computer_Science_28",
+   "validation_Computer_Science_29",
+   "validation_Computer_Science_30",
+   "validation_Computer_Science_5",
+   "validation_Computer_Science_6",
+   "validation_Computer_Science_7",
+   "validation_Design_1",
+   "validation_Design_10",
+   "validation_Design_11",
+   "validation_Design_12",
+   "validation_Design_14",
+   "validation_Design_15",
+   "validation_Design_16",
+   "validation_Design_19",
+   "validation_Design_2",
+   "validation_Design_24",
+   "validation_Design_25",
+   "validation_Design_27",
+   "validation_Design_29",
+   "validation_Design_5",
+   "validation_Design_8",
+   "validation_Diagnostics_and_Laboratory_Medicine_1",
+   "validation_Diagnostics_and_Laboratory_Medicine_10",
+   "validation_Diagnostics_and_Laboratory_Medicine_12",
+   "validation_Diagnostics_and_Laboratory_Medicine_13",
+   "validation_Diagnostics_and_Laboratory_Medicine_14",
+   "validation_Diagnostics_and_Laboratory_Medicine_15",
+   "validation_Diagnostics_and_Laboratory_Medicine_16",
+   "validation_Diagnostics_and_Laboratory_Medicine_17",
+   "validation_Diagnostics_and_Laboratory_Medicine_18",
+   "validation_Diagnostics_and_Laboratory_Medicine_19",
+   "validation_Diagnostics_and_Laboratory_Medicine_2",
+   "validation_Diagnostics_and_Laboratory_Medicine_20",
+   "validation_Diagnostics_and_Laboratory_Medicine_21",
+   "validation_Diagnostics_and_Laboratory_Medicine_22",
+   "validation_Diagnostics_and_Laboratory_Medicine_24",
+   "validation_Diagnostics_and_Laboratory_Medicine_26",
+   "validation_Diagnostics_and_Laboratory_Medicine_27",
+   "validation_Diagnostics_and_Laboratory_Medicine_3",
+   "validation_Diagnostics_and_Laboratory_Medicine_30",
+   "validation_Diagnostics_and_Laboratory_Medicine_5",
+   "validation_Diagnostics_and_Laboratory_Medicine_7",
+   "validation_Diagnostics_and_Laboratory_Medicine_8",
+   "validation_Diagnostics_and_Laboratory_Medicine_9",
+   "validation_Economics_1",
+   "validation_Economics_12",
+   "validation_Economics_13",
+   "validation_Economics_14",
+   "validation_Economics_16",
+   "validation_Economics_17",
+   "validation_Economics_24",
+   "validation_Economics_26",
+   "validation_Economics_28",
+   "validation_Economics_29",
+   "validation_Economics_3",
+   "validation_Economics_30",
+   "validation_Economics_4",
+   "validation_Economics_5",
+   "validation_Economics_6",
+   "validation_Economics_7",
+   "validation_Economics_8",
+   "validation_Economics_9",
+   "validation_Electronics_1",
+   "validation_Electronics_10",
+   "validation_Electronics_13",
+   "validation_Electronics_14",
+   "validation_Electronics_17",
+   "validation_Electronics_19",
+   "validation_Electronics_20",
+   "validation_Electronics_7",
+   "validation_Electronics_8",
+   "validation_Energy_and_Power_1",
+   "validation_Energy_and_Power_10",
+   "validation_Energy_and_Power_12",
+   "validation_Energy_and_Power_13",
+   "validation_Energy_and_Power_14",
+   "validation_Energy_and_Power_15",
+   "validation_Energy_and_Power_16",
+   "validation_Energy_and_Power_18",
+   "validation_Energy_and_Power_19",
+   "validation_Energy_and_Power_2",
+   "validation_Energy_and_Power_20",
+   "validation_Energy_and_Power_22",
+   "validation_Energy_and_Power_23",
+   "validation_Energy_and_Power_24",
+   "validation_Energy_and_Power_25",
+   "validation_Energy_and_Power_26",
+   "validation_Energy_and_Power_27",
+   "validation_Energy_and_Power_28",
+   "validation_Energy_and_Power_29",
+   "validation_Energy_and_Power_3",
+   "validation_Energy_and_Power_4",
+   "validation_Energy_and_Power_5",
+   "validation_Energy_and_Power_6",
+   "validation_Energy_and_Power_7",
+   "validation_Energy_and_Power_8",
+   "validation_Energy_and_Power_9",
+   "validation_Finance_1",
+   "validation_Finance_12",
+   "validation_Finance_13",
+   "validation_Finance_14",
+   "validation_Finance_15",
+   "validation_Finance_16",
+   "validation_Finance_18",
+   "validation_Finance_19",
+   "validation_Finance_21",
+   "validation_Finance_22",
+   "validation_Finance_26",
+   "validation_Finance_27",
+   "validation_Finance_29",
+   "validation_Finance_3",
+   "validation_Finance_4",
+   "validation_Finance_5",
+   "validation_Finance_6",
+   "validation_Finance_7",
+   "validation_Finance_9",
+   "validation_Geography_1",
+   "validation_Geography_10",
+   "validation_Geography_11",
+   "validation_Geography_16",
+   "validation_Geography_18",
+   "validation_Geography_30",
+   "validation_Geography_5",
+   "validation_Geography_7",
+   "validation_Geography_8",
+   "validation_Geography_9",
+   "validation_History_10",
+   "validation_History_15",
+   "validation_History_16",
+   "validation_History_17",
+   "validation_History_2",
+   "validation_History_5",
+   "validation_History_6",
+   "validation_History_7",
+   "validation_History_8",
+   "validation_History_9",
+   "validation_Literature_1",
+   "validation_Literature_10",
+   "validation_Literature_11",
+   "validation_Literature_12",
+   "validation_Literature_13",
+   "validation_Literature_16",
+   "validation_Literature_18",
+   "validation_Literature_2",
+   "validation_Literature_20",
+   "validation_Literature_22",
+   "validation_Literature_26",
+   "validation_Literature_27",
+   "validation_Literature_28",
+   "validation_Literature_29",
+   "validation_Literature_3",
+   "validation_Literature_30",
+   "validation_Literature_4",
+   "validation_Literature_5",
+   "validation_Literature_7",
+   "validation_Literature_8",
+   "validation_Literature_9",
+   "validation_Manage_11",
+   "validation_Manage_12",
+   "validation_Manage_13",
+   "validation_Manage_15",
+   "validation_Manage_2",
+   "validation_Manage_24",
+   "validation_Manage_26",
+   "validation_Manage_29",
+   "validation_Manage_30",
+   "validation_Manage_4",
+   "validation_Manage_6",
+   "validation_Manage_7",
+   "validation_Manage_8",
+   "validation_Marketing_1",
+   "validation_Marketing_10",
+   "validation_Marketing_12",
+   "validation_Marketing_13",
+   "validation_Marketing_14",
+   "validation_Marketing_15",
+   "validation_Marketing_17",
+   "validation_Marketing_19",
+   "validation_Marketing_22",
+   "validation_Marketing_23",
+   "validation_Marketing_24",
+   "validation_Marketing_25",
+   "validation_Marketing_26",
+   "validation_Marketing_28",
+   "validation_Marketing_29",
+   "validation_Marketing_3",
+   "validation_Marketing_30",
+   "validation_Marketing_4",
+   "validation_Marketing_7",
+   "validation_Marketing_9",
+   "validation_Materials_1",
+   "validation_Materials_10",
+   "validation_Materials_11",
+   "validation_Materials_12",
+   "validation_Materials_13",
+   "validation_Materials_14",
+   "validation_Materials_16",
+   "validation_Materials_17",
+   "validation_Materials_18",
+   "validation_Materials_19",
+   "validation_Materials_2",
+   "validation_Materials_20",
+   "validation_Materials_21",
+   "validation_Materials_22",
+   "validation_Materials_23",
+   "validation_Materials_24",
+   "validation_Materials_25",
+   "validation_Materials_27",
+   "validation_Materials_28",
+   "validation_Materials_29",
+   "validation_Materials_3",
+   "validation_Materials_30",
+   "validation_Materials_4",
+   "validation_Materials_6",
+   "validation_Materials_7",
+   "validation_Materials_8",
+   "validation_Materials_9",
+   "validation_Math_1",
+   "validation_Math_12",
+   "validation_Math_14",
+   "validation_Math_16",
+   "validation_Math_17",
+   "validation_Math_19",
+   "validation_Math_2",
+   "validation_Math_20",
+   "validation_Math_22",
+   "validation_Math_24",
+   "validation_Math_25",
+   "validation_Math_26",
+   "validation_Math_27",
+   "validation_Math_28",
+   "validation_Math_29",
+   "validation_Math_3",
+   "validation_Math_30",
+   "validation_Math_4",
+   "validation_Math_5",
+   "validation_Math_7",
+   "validation_Math_8",
+   "validation_Mechanical_Engineering_1",
+   "validation_Mechanical_Engineering_10",
+   "validation_Mechanical_Engineering_12",
+   "validation_Mechanical_Engineering_14",
+   "validation_Mechanical_Engineering_15",
+   "validation_Mechanical_Engineering_16",
+   "validation_Mechanical_Engineering_17",
+   "validation_Mechanical_Engineering_18",
+   "validation_Mechanical_Engineering_2",
+   "validation_Mechanical_Engineering_20",
+   "validation_Mechanical_Engineering_22",
+   "validation_Mechanical_Engineering_23",
+   "validation_Mechanical_Engineering_24",
+   "validation_Mechanical_Engineering_25",
+   "validation_Mechanical_Engineering_26",
+   "validation_Mechanical_Engineering_27",
+   "validation_Mechanical_Engineering_28",
+   "validation_Mechanical_Engineering_29",
+   "validation_Mechanical_Engineering_3",
+   "validation_Mechanical_Engineering_30",
+   "validation_Mechanical_Engineering_4",
+   "validation_Mechanical_Engineering_5",
+   "validation_Mechanical_Engineering_6",
+   "validation_Mechanical_Engineering_7",
+   "validation_Mechanical_Engineering_8",
+   "validation_Music_1",
+   "validation_Music_11",
+   "validation_Music_12",
+   "validation_Music_13",
+   "validation_Music_14",
+   "validation_Music_15",
+   "validation_Music_16",
+   "validation_Music_17",
+   "validation_Music_18",
+   "validation_Music_19",
+   "validation_Music_2",
+   "validation_Music_20",
+   "validation_Music_21",
+   "validation_Music_22",
+   "validation_Music_23",
+   "validation_Music_24",
+   "validation_Music_25",
+   "validation_Music_27",
+   "validation_Music_28",
+   "validation_Music_29",
+   "validation_Music_3",
+   "validation_Music_30",
+   "validation_Music_4",
+   "validation_Music_5",
+   "validation_Music_6",
+   "validation_Music_7",
+   "validation_Music_8",
+   "validation_Music_9",
+   "validation_Pharmacy_1",
+   "validation_Pharmacy_10",
+   "validation_Pharmacy_11",
+   "validation_Pharmacy_14",
+   "validation_Pharmacy_17",
+   "validation_Pharmacy_18",
+   "validation_Pharmacy_21",
+   "validation_Pharmacy_22",
+   "validation_Pharmacy_23",
+   "validation_Pharmacy_24",
+   "validation_Pharmacy_27",
+   "validation_Pharmacy_28",
+   "validation_Pharmacy_30",
+   "validation_Pharmacy_4",
+   "validation_Pharmacy_7",
+   "validation_Pharmacy_8",
+   "validation_Pharmacy_9",
+   "validation_Physics_1",
+   "validation_Physics_11",
+   "validation_Physics_12",
+   "validation_Physics_13",
+   "validation_Physics_14",
+   "validation_Physics_15",
+   "validation_Physics_16",
+   "validation_Physics_17",
+   "validation_Physics_18",
+   "validation_Physics_19",
+   "validation_Physics_2",
+   "validation_Physics_20",
+   "validation_Physics_23",
+   "validation_Physics_25",
+   "validation_Physics_26",
+   "validation_Physics_27",
+   "validation_Physics_28",
+   "validation_Physics_29",
+   "validation_Physics_30",
+   "validation_Physics_4",
+   "validation_Physics_5",
+   "validation_Physics_7",
+   "validation_Physics_8",
+   "validation_Physics_9",
+   "validation_Psychology_1",
+   "validation_Psychology_12",
+   "validation_Psychology_13",
+   "validation_Psychology_15",
+   "validation_Psychology_16",
+   "validation_Psychology_17",
+   "validation_Psychology_18",
+   "validation_Psychology_19",
+   "validation_Psychology_21",
+   "validation_Psychology_24",
+   "validation_Psychology_26",
+   "validation_Psychology_29",
+   "validation_Psychology_3",
+   "validation_Psychology_30",
+   "validation_Psychology_4",
+   "validation_Psychology_5",
+   "validation_Psychology_6",
+   "validation_Psychology_7",
+   "validation_Psychology_8",
+   "validation_Public_Health_1",
+   "validation_Public_Health_10",
+   "validation_Public_Health_14",
+   "validation_Public_Health_15",
+   "validation_Public_Health_16",
+   "validation_Public_Health_17",
+   "validation_Public_Health_2",
+   "validation_Public_Health_20",
+   "validation_Public_Health_21",
+   "validation_Public_Health_23",
+   "validation_Public_Health_24",
+   "validation_Public_Health_25",
+   "validation_Public_Health_27",
+   "validation_Public_Health_28",
+   "validation_Public_Health_29",
+   "validation_Public_Health_30",
+   "validation_Public_Health_5",
+   "validation_Public_Health_7",
+   "validation_Public_Health_8",
+   "validation_Public_Health_9",
+   "validation_Sociology_1",
+   "validation_Sociology_10",
+   "validation_Sociology_11",
+   "validation_Sociology_12",
+   "validation_Sociology_15",
+   "validation_Sociology_17",
+   "validation_Sociology_20",
+   "validation_Sociology_21",
+   "validation_Sociology_22",
+   "validation_Sociology_25",
+   "validation_Sociology_28",
+   "validation_Sociology_29",
+   "validation_Sociology_30",
+   "validation_Sociology_4",
+   "validation_Sociology_5",
+   "validation_Sociology_8"
+  ],
+  "text_matches": [
+   {
+    "pro_id": "validation_Architecture_and_Engineering_17",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_29",
+    "val_ids": [
+     "validation_Sociology_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_7",
+    "val_ids": [
+     "validation_Physics_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Electronics_10",
+    "val_ids": [
+     "validation_Electronics_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_3",
+    "val_ids": [
+     "validation_Clinical_Medicine_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_29",
+    "val_ids": [
+     "validation_Manage_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_18",
+    "val_ids": [
+     "validation_Mechanical_Engineering_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_12",
+    "val_ids": [
+     "validation_Economics_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Basic_Medical_Science_21",
+    "val_ids": [
+     "validation_Basic_Medical_Science_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_17",
+    "val_ids": [
+     "validation_Economics_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_28",
+    "val_ids": [
+     "validation_Economics_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_15",
+    "val_ids": [
+     "validation_Clinical_Medicine_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_14",
+    "val_ids": [
+     "validation_Physics_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Basic_Medical_Science_28",
+    "val_ids": [
+     "validation_Basic_Medical_Science_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_12",
+    "val_ids": [
+     "validation_Computer_Science_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_27",
+    "val_ids": [
+     "validation_Pharmacy_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_17",
+    "val_ids": [
+     "validation_Art_Theory_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_1",
+    "val_ids": [
+     "validation_Pharmacy_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_29",
+    "val_ids": [
+     "validation_Energy_and_Power_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_3",
+    "val_ids": [
+     "validation_Literature_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_29",
+    "val_ids": [
+     "validation_Accounting_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_6",
+    "val_ids": [
+     "validation_Energy_and_Power_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_16",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_29",
+    "val_ids": [
+     "validation_Mechanical_Engineering_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_7",
+    "val_ids": [
+     "validation_Music_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_10",
+    "val_ids": [
+     "validation_Sociology_10"
+    ]
+   },
+   {
+    "pro_id": "test_Basic_Medical_Science_148",
+    "val_ids": [
+     "validation_Basic_Medical_Science_2",
+     "validation_Basic_Medical_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_23",
+    "val_ids": [
+     "validation_Physics_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_25",
+    "val_ids": [
+     "validation_Biology_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_14",
+    "val_ids": [
+     "validation_Energy_and_Power_14"
+    ]
+   },
+   {
+    "pro_id": "test_Biology_231",
+    "val_ids": [
+     "validation_Biology_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_11",
+    "val_ids": [
+     "validation_Pharmacy_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_23",
+    "val_ids": [
+     "validation_Mechanical_Engineering_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_28",
+    "val_ids": [
+     "validation_Energy_and_Power_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_8",
+    "val_ids": [
+     "validation_Biology_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_15",
+    "val_ids": [
+     "validation_Sociology_15"
+    ]
+   },
+   {
+    "pro_id": "test_Diagnostics_and_Laboratory_Medicine_126",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_30",
+    "val_ids": [
+     "validation_Manage_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_29",
+    "val_ids": [
+     "validation_Physics_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_30",
+    "val_ids": [
+     "validation_Art_Theory_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_26",
+    "val_ids": [
+     "validation_Accounting_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Electronics_17",
+    "val_ids": [
+     "validation_Electronics_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_19",
+    "val_ids": [
+     "validation_Music_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_11",
+    "val_ids": [
+     "validation_Manage_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_4",
+    "val_ids": [
+     "validation_Finance_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_29",
+    "val_ids": [
+     "validation_Computer_Science_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_1",
+    "val_ids": [
+     "validation_Music_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Electronics_20",
+    "val_ids": [
+     "validation_Electronics_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_11",
+    "val_ids": [
+     "validation_Literature_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_17",
+    "val_ids": [
+     "validation_Psychology_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Electronics_7",
+    "val_ids": [
+     "validation_Electronics_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_24",
+    "val_ids": [
+     "validation_Chemistry_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_5",
+    "val_ids": [
+     "validation_Accounting_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_26",
+    "val_ids": [
+     "validation_Psychology_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_8",
+    "val_ids": [
+     "validation_Music_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_25",
+    "val_ids": [
+     "validation_Music_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_4",
+    "val_ids": [
+     "validation_Mechanical_Engineering_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_29",
+    "val_ids": [
+     "validation_Literature_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_12",
+    "val_ids": [
+     "validation_Chemistry_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_30",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_30",
+    "val_ids": [
+     "validation_Computer_Science_30"
+    ]
+   },
+   {
+    "pro_id": "test_Diagnostics_and_Laboratory_Medicine_161",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_19",
+    "val_ids": [
+     "validation_Computer_Science_19"
+    ]
+   },
+   {
+    "pro_id": "test_Diagnostics_and_Laboratory_Medicine_18",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_17",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_8",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_27",
+    "val_ids": [
+     "validation_Literature_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_14",
+    "val_ids": [
+     "validation_Pharmacy_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_29",
+    "val_ids": [
+     "validation_Materials_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_20",
+    "val_ids": [
+     "validation_Sociology_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_25",
+    "val_ids": [
+     "validation_Marketing_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_28",
+    "val_ids": [
+     "validation_Biology_28"
+    ]
+   },
+   {
+    "pro_id": "test_Basic_Medical_Science_98",
+    "val_ids": [
+     "validation_Basic_Medical_Science_2",
+     "validation_Basic_Medical_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_20",
+    "val_ids": [
+     "validation_Biology_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_23",
+    "val_ids": [
+     "validation_Biology_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_30",
+    "val_ids": [
+     "validation_Marketing_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_7",
+    "val_ids": [
+     "validation_Psychology_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_14",
+    "val_ids": [
+     "validation_Public_Health_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_7",
+    "val_ids": [
+     "validation_Accounting_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_28",
+    "val_ids": [
+     "validation_Chemistry_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_18",
+    "val_ids": [
+     "validation_Materials_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_11",
+    "val_ids": [
+     "validation_Materials_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_4",
+    "val_ids": [
+     "validation_Accounting_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_16",
+    "val_ids": [
+     "validation_Literature_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_9",
+    "val_ids": [
+     "validation_Literature_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_27",
+    "val_ids": [
+     "validation_Agriculture_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_1",
+    "val_ids": [
+     "validation_Biology_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_9",
+    "val_ids": [
+     "validation_Public_Health_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_10",
+    "val_ids": [
+     "validation_Agriculture_10"
+    ]
+   },
+   {
+    "pro_id": "test_Clinical_Medicine_302",
+    "val_ids": [
+     "validation_Clinical_Medicine_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_7",
+    "val_ids": [
+     "validation_Manage_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_23",
+    "val_ids": [
+     "validation_Marketing_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_6",
+    "val_ids": [
+     "validation_Materials_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_28",
+    "val_ids": [
+     "validation_Public_Health_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_8",
+    "val_ids": [
+     "validation_Agriculture_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_22",
+    "val_ids": [
+     "validation_Marketing_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_13",
+    "val_ids": [
+     "validation_Materials_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_11",
+    "val_ids": [
+     "validation_Clinical_Medicine_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_16",
+    "val_ids": [
+     "validation_Design_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_11",
+    "val_ids": [
+     "validation_Computer_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_14",
+    "val_ids": [
+     "validation_Finance_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_15",
+    "val_ids": [
+     "validation_Design_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Geography_1",
+    "val_ids": [
+     "validation_Geography_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_16",
+    "val_ids": [
+     "validation_Finance_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_1",
+    "val_ids": [
+     "validation_Physics_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_2",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_19",
+    "val_ids": [
+     "validation_Marketing_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_29",
+    "val_ids": [
+     "validation_Agriculture_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_8",
+    "val_ids": [
+     "validation_Economics_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_13",
+    "val_ids": [
+     "validation_Clinical_Medicine_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_6",
+    "val_ids": [
+     "validation_Agriculture_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_8",
+    "val_ids": [
+     "validation_Energy_and_Power_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_22",
+    "val_ids": [
+     "validation_Biology_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_23",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_1",
+    "val_ids": [
+     "validation_Clinical_Medicine_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_23",
+    "val_ids": [
+     "validation_Clinical_Medicine_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_8",
+    "val_ids": [
+     "validation_Sociology_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_21",
+    "val_ids": [
+     "validation_Agriculture_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_1",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_1",
+    "val_ids": [
+     "validation_Math_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_5",
+    "val_ids": [
+     "validation_Clinical_Medicine_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_17",
+    "val_ids": [
+     "validation_Music_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_21",
+    "val_ids": [
+     "validation_Chemistry_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_14",
+    "val_ids": [
+     "validation_Computer_Science_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_4",
+    "val_ids": [
+     "validation_Agriculture_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_16",
+    "val_ids": [
+     "validation_Public_Health_16"
+    ]
+   },
+   {
+    "pro_id": "test_Basic_Medical_Science_218",
+    "val_ids": [
+     "validation_Basic_Medical_Science_2",
+     "validation_Basic_Medical_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_8",
+    "val_ids": [
+     "validation_Accounting_8"
+    ]
+   },
+   {
+    "pro_id": "test_Basic_Medical_Science_27",
+    "val_ids": [
+     "validation_Basic_Medical_Science_2",
+     "validation_Basic_Medical_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_5",
+    "val_ids": [
+     "validation_Literature_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_16",
+    "val_ids": [
+     "validation_Math_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_19",
+    "val_ids": [
+     "validation_Materials_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_4",
+    "val_ids": [
+     "validation_Economics_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_12",
+    "val_ids": [
+     "validation_Materials_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_2",
+    "val_ids": [
+     "validation_Physics_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_5",
+    "val_ids": [
+     "validation_Chemistry_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_19",
+    "val_ids": [
+     "validation_Math_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Basic_Medical_Science_18",
+    "val_ids": [
+     "validation_Basic_Medical_Science_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_4",
+    "val_ids": [
+     "validation_Marketing_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_27",
+    "val_ids": [
+     "validation_Art_Theory_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_8",
+    "val_ids": [
+     "validation_Clinical_Medicine_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_2",
+    "val_ids": [
+     "validation_Design_2"
+    ]
+   },
+   {
+    "pro_id": "test_Basic_Medical_Science_261",
+    "val_ids": [
+     "validation_Basic_Medical_Science_2",
+     "validation_Basic_Medical_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_28",
+    "val_ids": [
+     "validation_Computer_Science_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_4",
+    "val_ids": [
+     "validation_Biology_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_15",
+    "val_ids": [
+     "validation_Finance_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_12",
+    "val_ids": [
+     "validation_Art_Theory_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_25",
+    "val_ids": [
+     "validation_Clinical_Medicine_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_8",
+    "val_ids": [
+     "validation_Pharmacy_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_7",
+    "val_ids": [
+     "validation_Math_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_9",
+    "val_ids": [
+     "validation_Physics_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_25",
+    "val_ids": [
+     "validation_Sociology_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_21",
+    "val_ids": [
+     "validation_Music_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_25",
+    "val_ids": [
+     "validation_Energy_and_Power_25"
+    ]
+   },
+   {
+    "pro_id": "test_Design_87",
+    "val_ids": [
+     "validation_Design_6",
+     "validation_Design_7",
+     "validation_Design_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_6",
+    "val_ids": [
+     "validation_Biology_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Geography_7",
+    "val_ids": [
+     "validation_Geography_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_14",
+    "val_ids": [
+     "validation_Art_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_19",
+    "val_ids": [
+     "validation_Art_Theory_19"
+    ]
+   },
+   {
+    "pro_id": "test_Diagnostics_and_Laboratory_Medicine_72",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_29",
+    "val_ids": [
+     "validation_Marketing_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_28",
+    "val_ids": [
+     "validation_Literature_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_27",
+    "val_ids": [
+     "validation_Finance_27"
+    ]
+   },
+   {
+    "pro_id": "test_Design_69",
+    "val_ids": [
+     "validation_Design_6",
+     "validation_Design_7",
+     "validation_Design_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_15",
+    "val_ids": [
+     "validation_Mechanical_Engineering_12",
+     "validation_Mechanical_Engineering_13",
+     "validation_Mechanical_Engineering_15",
+     "validation_Mechanical_Engineering_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_14",
+    "val_ids": [
+     "validation_Economics_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_8",
+    "val_ids": [
+     "validation_Manage_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_25",
+    "val_ids": [
+     "validation_Design_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_2",
+    "val_ids": [
+     "validation_Energy_and_Power_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_5",
+    "val_ids": [
+     "validation_Math_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_29",
+    "val_ids": [
+     "validation_Economics_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_22",
+    "val_ids": [
+     "validation_Energy_and_Power_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_7",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_14",
+    "val_ids": [
+     "validation_Biology_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_2",
+    "val_ids": [
+     "validation_Chemistry_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_8",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_7",
+    "val_ids": [
+     "validation_Finance_7"
+    ]
+   },
+   {
+    "pro_id": "test_Mechanical_Engineering_173",
+    "val_ids": [
+     "validation_Mechanical_Engineering_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_1",
+    "val_ids": [
+     "validation_Marketing_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_24",
+    "val_ids": [
+     "validation_Accounting_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_14",
+    "val_ids": [
+     "validation_Math_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_13",
+    "val_ids": [
+     "validation_Music_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_2",
+    "val_ids": [
+     "validation_Manage_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_3",
+    "val_ids": [
+     "validation_Energy_and_Power_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_20",
+    "val_ids": [
+     "validation_Music_20"
+    ]
+   },
+   {
+    "pro_id": "test_Music_209",
+    "val_ids": [
+     "validation_Music_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_24",
+    "val_ids": [
+     "validation_Materials_24"
+    ]
+   },
+   {
+    "pro_id": "test_Diagnostics_and_Laboratory_Medicine_133",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_3",
+    "val_ids": [
+     "validation_Economics_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_7",
+    "val_ids": [
+     "validation_Computer_Science_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_21",
+    "val_ids": [
+     "validation_Materials_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_23",
+    "val_ids": [
+     "validation_Public_Health_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_17",
+    "val_ids": [
+     "validation_Physics_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_29",
+    "val_ids": [
+     "validation_Design_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_2",
+    "val_ids": [
+     "validation_Computer_Science_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_27",
+    "val_ids": [
+     "validation_Energy_and_Power_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_12",
+    "val_ids": [
+     "validation_Marketing_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_12",
+    "val_ids": [
+     "validation_Literature_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Electronics_8",
+    "val_ids": [
+     "validation_Electronics_8"
+    ]
+   },
+   {
+    "pro_id": "validation_History_7",
+    "val_ids": [
+     "validation_History_7"
+    ]
+   },
+   {
+    "pro_id": "test_Music_127",
+    "val_ids": [
+     "validation_Music_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_1",
+    "val_ids": [
+     "validation_Chemistry_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_29",
+    "val_ids": [
+     "validation_Chemistry_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_12",
+    "val_ids": [
+     "validation_Finance_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_3",
+    "val_ids": [
+     "validation_Materials_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_3",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_23",
+    "val_ids": [
+     "validation_Energy_and_Power_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_7",
+    "val_ids": [
+     "validation_Mechanical_Engineering_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_18",
+    "val_ids": [
+     "validation_Clinical_Medicine_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_13",
+    "val_ids": [
+     "validation_Finance_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_26",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_4",
+    "val_ids": [
+     "validation_Energy_and_Power_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_3",
+    "val_ids": [
+     "validation_Finance_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_10",
+    "val_ids": [
+     "validation_Pharmacy_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_4",
+    "val_ids": [
+     "validation_Math_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_24",
+    "val_ids": [
+     "validation_Energy_and_Power_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_16",
+    "val_ids": [
+     "validation_Materials_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_13",
+    "val_ids": [
+     "validation_Literature_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_11",
+    "val_ids": [
+     "validation_Physics_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_9",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_10",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_21",
+    "val_ids": [
+     "validation_Finance_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_26",
+    "val_ids": [
+     "validation_Literature_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_29",
+    "val_ids": [
+     "validation_Finance_29"
+    ]
+   },
+   {
+    "pro_id": "test_Basic_Medical_Science_269",
+    "val_ids": [
+     "validation_Basic_Medical_Science_2",
+     "validation_Basic_Medical_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_20",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_22",
+    "val_ids": [
+     "validation_Pharmacy_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_30",
+    "val_ids": [
+     "validation_Psychology_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_24",
+    "val_ids": [
+     "validation_Manage_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_6",
+    "val_ids": [
+     "validation_Psychology_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_24",
+    "val_ids": [
+     "validation_Design_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_6",
+    "val_ids": [
+     "validation_Music_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_4",
+    "val_ids": [
+     "validation_Art_Theory_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_27",
+    "val_ids": [
+     "validation_Music_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_1",
+    "val_ids": [
+     "validation_Mechanical_Engineering_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Basic_Medical_Science_6",
+    "val_ids": [
+     "validation_Basic_Medical_Science_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_11",
+    "val_ids": [
+     "validation_Accounting_11"
+    ]
+   },
+   {
+    "pro_id": "validation_History_16",
+    "val_ids": [
+     "validation_History_16"
+    ]
+   },
+   {
+    "pro_id": "test_Music_289",
+    "val_ids": [
+     "validation_Music_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_26",
+    "val_ids": [
+     "validation_Mechanical_Engineering_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_24",
+    "val_ids": [
+     "validation_Public_Health_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_7",
+    "val_ids": [
+     "validation_Art_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_10",
+    "val_ids": [
+     "validation_Mechanical_Engineering_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_20",
+    "val_ids": [
+     "validation_Materials_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_30",
+    "val_ids": [
+     "validation_Physics_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_10",
+    "val_ids": [
+     "validation_Computer_Science_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_18",
+    "val_ids": [
+     "validation_Music_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_15",
+    "val_ids": [
+     "validation_Psychology_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_18",
+    "val_ids": [
+     "validation_Computer_Science_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_17",
+    "val_ids": [
+     "validation_Chemistry_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_17",
+    "val_ids": [
+     "validation_Mechanical_Engineering_17"
+    ]
+   },
+   {
+    "pro_id": "validation_History_2",
+    "val_ids": [
+     "validation_History_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_15",
+    "val_ids": [
+     "validation_Accounting_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Geography_9",
+    "val_ids": [
+     "validation_Geography_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_10",
+    "val_ids": [
+     "validation_Accounting_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_24",
+    "val_ids": [
+     "validation_Clinical_Medicine_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_19",
+    "val_ids": [
+     "validation_Accounting_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_30",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_1",
+    "val_ids": [
+     "validation_Economics_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_7",
+    "val_ids": [
+     "validation_Economics_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_21",
+    "val_ids": [
+     "validation_Biology_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_10",
+    "val_ids": [
+     "validation_Marketing_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_5",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_26",
+    "val_ids": [
+     "validation_Art_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_4",
+    "val_ids": [
+     "validation_Music_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_16",
+    "val_ids": [
+     "validation_Clinical_Medicine_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_10",
+    "val_ids": [
+     "validation_Literature_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_10",
+    "val_ids": [
+     "validation_Public_Health_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_20",
+    "val_ids": [
+     "validation_Energy_and_Power_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_20",
+    "val_ids": [
+     "validation_Mechanical_Engineering_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_24",
+    "val_ids": [
+     "validation_Computer_Science_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_5",
+    "val_ids": [
+     "validation_Economics_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_14",
+    "val_ids": [
+     "validation_Music_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_1",
+    "val_ids": [
+     "validation_Agriculture_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_25",
+    "val_ids": [
+     "validation_Public_Health_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_9",
+    "val_ids": [
+     "validation_Biology_9"
+    ]
+   },
+   {
+    "pro_id": "test_Mechanical_Engineering_201",
+    "val_ids": [
+     "validation_Mechanical_Engineering_12",
+     "validation_Mechanical_Engineering_13",
+     "validation_Mechanical_Engineering_15",
+     "validation_Mechanical_Engineering_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_22",
+    "val_ids": [
+     "validation_Agriculture_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Electronics_1",
+    "val_ids": [
+     "validation_Electronics_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_15",
+    "val_ids": [
+     "validation_Marketing_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_26",
+    "val_ids": [
+     "validation_Manage_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_24",
+    "val_ids": [
+     "validation_Psychology_24"
+    ]
+   },
+   {
+    "pro_id": "test_Mechanical_Engineering_257",
+    "val_ids": [
+     "validation_Mechanical_Engineering_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_11",
+    "val_ids": [
+     "validation_Agriculture_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_9",
+    "val_ids": [
+     "validation_Clinical_Medicine_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_5",
+    "val_ids": [
+     "validation_Public_Health_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_24",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_9",
+    "val_ids": [
+     "validation_Pharmacy_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_20",
+    "val_ids": [
+     "validation_Art_Theory_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_6",
+    "val_ids": [
+     "validation_Art_Theory_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_29",
+    "val_ids": [
+     "validation_Math_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_17",
+    "val_ids": [
+     "validation_Agriculture_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_7",
+    "val_ids": [
+     "validation_Art_Theory_7"
+    ]
+   },
+   {
+    "pro_id": "test_Basic_Medical_Science_35",
+    "val_ids": [
+     "validation_Basic_Medical_Science_2",
+     "validation_Basic_Medical_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_6",
+    "val_ids": [
+     "validation_Manage_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_26",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_26"
+    ]
+   },
+   {
+    "pro_id": "test_Clinical_Medicine_189",
+    "val_ids": [
+     "validation_Clinical_Medicine_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_14",
+    "val_ids": [
+     "validation_Mechanical_Engineering_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_1",
+    "val_ids": [
+     "validation_Materials_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_15",
+    "val_ids": [
+     "validation_Public_Health_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_19",
+    "val_ids": [
+     "validation_Psychology_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_22",
+    "val_ids": [
+     "validation_Math_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_3",
+    "val_ids": [
+     "validation_Mechanical_Engineering_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_5",
+    "val_ids": [
+     "validation_Computer_Science_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_17",
+    "val_ids": [
+     "validation_Materials_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_7",
+    "val_ids": [
+     "validation_Energy_and_Power_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_18",
+    "val_ids": [
+     "validation_Agriculture_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_3",
+    "val_ids": [
+     "validation_Music_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_4",
+    "val_ids": [
+     "validation_Sociology_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_24",
+    "val_ids": [
+     "validation_Music_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_30",
+    "val_ids": [
+     "validation_Materials_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Basic_Medical_Science_11",
+    "val_ids": [
+     "validation_Basic_Medical_Science_2",
+     "validation_Basic_Medical_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_22",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_5",
+    "val_ids": [
+     "validation_Design_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_23",
+    "val_ids": [
+     "validation_Pharmacy_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_22",
+    "val_ids": [
+     "validation_Clinical_Medicine_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Geography_11",
+    "val_ids": [
+     "validation_Geography_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_27",
+    "val_ids": [
+     "validation_Materials_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_12",
+    "val_ids": [
+     "validation_Sociology_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_5",
+    "val_ids": [
+     "validation_Mechanical_Engineering_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_10",
+    "val_ids": [
+     "validation_Materials_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_3",
+    "val_ids": [
+     "validation_Accounting_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_30",
+    "val_ids": [
+     "validation_Mechanical_Engineering_12",
+     "validation_Mechanical_Engineering_13",
+     "validation_Mechanical_Engineering_15",
+     "validation_Mechanical_Engineering_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_26",
+    "val_ids": [
+     "validation_Chemistry_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_14",
+    "val_ids": [
+     "validation_Clinical_Medicine_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_27",
+    "val_ids": [
+     "validation_Accounting_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_27",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_13",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_21",
+    "val_ids": [
+     "validation_Pharmacy_21"
+    ]
+   },
+   {
+    "pro_id": "test_Materials_204",
+    "val_ids": [
+     "validation_Materials_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_25",
+    "val_ids": [
+     "validation_Materials_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_10",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_8",
+    "val_ids": [
+     "validation_Design_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_3",
+    "val_ids": [
+     "validation_Psychology_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_13",
+    "val_ids": [
+     "validation_Economics_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_22",
+    "val_ids": [
+     "validation_Finance_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_29",
+    "val_ids": [
+     "validation_Art_Theory_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_4",
+    "val_ids": [
+     "validation_Psychology_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_26",
+    "val_ids": [
+     "validation_Art_Theory_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_17",
+    "val_ids": [
+     "validation_Math_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_4",
+    "val_ids": [
+     "validation_Physics_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_16",
+    "val_ids": [
+     "validation_Physics_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_13",
+    "val_ids": [
+     "validation_Agriculture_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_18",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_12",
+    "val_ids": [
+     "validation_Manage_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_22",
+    "val_ids": [
+     "validation_Mechanical_Engineering_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_29",
+    "val_ids": [
+     "validation_Public_Health_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_7",
+    "val_ids": [
+     "validation_Materials_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_28",
+    "val_ids": [
+     "validation_Pharmacy_28"
+    ]
+   },
+   {
+    "pro_id": "test_Diagnostics_and_Laboratory_Medicine_24",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_1"
+    ]
+   },
+   {
+    "pro_id": "test_Clinical_Medicine_214",
+    "val_ids": [
+     "validation_Clinical_Medicine_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_11",
+    "val_ids": [
+     "validation_Biology_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_9",
+    "val_ids": [
+     "validation_Economics_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_13",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_9",
+    "val_ids": [
+     "validation_Music_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_12",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_1",
+    "val_ids": [
+     "validation_Literature_1"
+    ]
+   },
+   {
+    "pro_id": "test_Mechanical_Engineering_205",
+    "val_ids": [
+     "validation_Mechanical_Engineering_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_8",
+    "val_ids": [
+     "validation_Physics_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_19",
+    "val_ids": [
+     "validation_Physics_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_12",
+    "val_ids": [
+     "validation_Music_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_1",
+    "val_ids": [
+     "validation_Computer_Science_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_2",
+    "val_ids": [
+     "validation_Materials_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_30",
+    "val_ids": [
+     "validation_Accounting_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_21",
+    "val_ids": [
+     "validation_Psychology_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Basic_Medical_Science_17",
+    "val_ids": [
+     "validation_Basic_Medical_Science_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_13",
+    "val_ids": [
+     "validation_Physics_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_20",
+    "val_ids": [
+     "validation_Math_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_8",
+    "val_ids": [
+     "validation_Public_Health_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_22",
+    "val_ids": [
+     "validation_Chemistry_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_24",
+    "val_ids": [
+     "validation_Biology_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_18",
+    "val_ids": [
+     "validation_Physics_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_2",
+    "val_ids": [
+     "validation_Clinical_Medicine_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_9",
+    "val_ids": [
+     "validation_Chemistry_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_9",
+    "val_ids": [
+     "validation_Materials_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_17",
+    "val_ids": [
+     "validation_Biology_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_9",
+    "val_ids": [
+     "validation_Marketing_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_14",
+    "val_ids": [
+     "validation_Marketing_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_27",
+    "val_ids": [
+     "validation_Physics_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_18",
+    "val_ids": [
+     "validation_Literature_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_19",
+    "val_ids": [
+     "validation_Energy_and_Power_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_19",
+    "val_ids": [
+     "validation_Finance_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_1",
+    "val_ids": [
+     "validation_Public_Health_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_12",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_12"
+    ]
+   },
+   {
+    "pro_id": "validation_History_9",
+    "val_ids": [
+     "validation_History_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_11",
+    "val_ids": [
+     "validation_Chemistry_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_18",
+    "val_ids": [
+     "validation_Pharmacy_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_20",
+    "val_ids": [
+     "validation_Agriculture_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_25",
+    "val_ids": [
+     "validation_Math_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_20",
+    "val_ids": [
+     "validation_Literature_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_13",
+    "val_ids": [
+     "validation_Energy_and_Power_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_15",
+    "val_ids": [
+     "validation_Manage_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_17",
+    "val_ids": [
+     "validation_Public_Health_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_7",
+    "val_ids": [
+     "validation_Chemistry_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_4",
+    "val_ids": [
+     "validation_Pharmacy_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_30",
+    "val_ids": [
+     "validation_Biology_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_4",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_22",
+    "val_ids": [
+     "validation_Music_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_16",
+    "val_ids": [
+     "validation_Mechanical_Engineering_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_5",
+    "val_ids": [
+     "validation_Physics_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_18",
+    "val_ids": [
+     "validation_Finance_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_20",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_30",
+    "val_ids": [
+     "validation_Math_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_4",
+    "val_ids": [
+     "validation_Literature_4"
+    ]
+   },
+   {
+    "pro_id": "validation_History_8",
+    "val_ids": [
+     "validation_History_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_14",
+    "val_ids": [
+     "validation_Art_Theory_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_16",
+    "val_ids": [
+     "validation_Energy_and_Power_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_30",
+    "val_ids": [
+     "validation_Sociology_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_8",
+    "val_ids": [
+     "validation_Chemistry_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_18",
+    "val_ids": [
+     "validation_Energy_and_Power_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_23",
+    "val_ids": [
+     "validation_Materials_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_13",
+    "val_ids": [
+     "validation_Manage_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_11",
+    "val_ids": [
+     "validation_Design_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_14",
+    "val_ids": [
+     "validation_Materials_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_2",
+    "val_ids": [
+     "validation_Accounting_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_12",
+    "val_ids": [
+     "validation_Physics_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Electronics_19",
+    "val_ids": [
+     "validation_Electronics_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_16",
+    "val_ids": [
+     "validation_Accounting_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_30",
+    "val_ids": [
+     "validation_Music_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_15",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_13",
+    "val_ids": [
+     "validation_Art_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_4",
+    "val_ids": [
+     "validation_Materials_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_5",
+    "val_ids": [
+     "validation_Sociology_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_15",
+    "val_ids": [
+     "validation_Art_Theory_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_28",
+    "val_ids": [
+     "validation_Sociology_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_29",
+    "val_ids": [
+     "validation_Biology_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_24",
+    "val_ids": [
+     "validation_Marketing_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_11",
+    "val_ids": [
+     "validation_Music_11"
+    ]
+   },
+   {
+    "pro_id": "test_Basic_Medical_Science_30",
+    "val_ids": [
+     "validation_Basic_Medical_Science_2",
+     "validation_Basic_Medical_Science_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_1",
+    "val_ids": [
+     "validation_Sociology_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_23",
+    "val_ids": [
+     "validation_Art_Theory_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_28",
+    "val_ids": [
+     "validation_Materials_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_19",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_16",
+    "val_ids": [
+     "validation_Chemistry_16"
+    ]
+   },
+   {
+    "pro_id": "validation_History_6",
+    "val_ids": [
+     "validation_History_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_30",
+    "val_ids": [
+     "validation_Public_Health_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_23",
+    "val_ids": [
+     "validation_Accounting_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Manage_4",
+    "val_ids": [
+     "validation_Manage_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Basic_Medical_Science_13",
+    "val_ids": [
+     "validation_Basic_Medical_Science_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_28",
+    "val_ids": [
+     "validation_Art_Theory_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_22",
+    "val_ids": [
+     "validation_Literature_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_20",
+    "val_ids": [
+     "validation_Accounting_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_30",
+    "val_ids": [
+     "validation_Literature_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_9",
+    "val_ids": [
+     "validation_Energy_and_Power_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_28",
+    "val_ids": [
+     "validation_Marketing_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Geography_16",
+    "val_ids": [
+     "validation_Geography_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_3",
+    "val_ids": [
+     "validation_Art_Theory_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Geography_18",
+    "val_ids": [
+     "validation_Geography_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_16",
+    "val_ids": [
+     "validation_Art_16"
+    ]
+   },
+   {
+    "pro_id": "test_Design_48",
+    "val_ids": [
+     "validation_Design_6",
+     "validation_Design_7",
+     "validation_Design_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_26",
+    "val_ids": [
+     "validation_Marketing_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_7",
+    "val_ids": [
+     "validation_Pharmacy_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_7",
+    "val_ids": [
+     "validation_Public_Health_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_2",
+    "val_ids": [
+     "validation_Math_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Electronics_13",
+    "val_ids": [
+     "validation_Electronics_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Basic_Medical_Science_12",
+    "val_ids": [
+     "validation_Basic_Medical_Science_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_21",
+    "val_ids": [
+     "validation_Accounting_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_9",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_26",
+    "val_ids": [
+     "validation_Finance_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_18",
+    "val_ids": [
+     "validation_Psychology_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_14",
+    "val_ids": [
+     "validation_Design_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_12",
+    "val_ids": [
+     "validation_Psychology_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Design_1",
+    "val_ids": [
+     "validation_Design_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_20",
+    "val_ids": [
+     "validation_Public_Health_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_20",
+    "val_ids": [
+     "validation_Physics_20"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_17",
+    "val_ids": [
+     "validation_Pharmacy_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_8",
+    "val_ids": [
+     "validation_Mechanical_Engineering_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_6",
+    "val_ids": [
+     "validation_Accounting_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_28",
+    "val_ids": [
+     "validation_Physics_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_2",
+    "val_ids": [
+     "validation_Literature_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_29",
+    "val_ids": [
+     "validation_Psychology_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_5",
+    "val_ids": [
+     "validation_Psychology_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_26",
+    "val_ids": [
+     "validation_Physics_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_11",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_11"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_21",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_24",
+    "val_ids": [
+     "validation_Pharmacy_24"
+    ]
+   },
+   {
+    "pro_id": "validation_History_10",
+    "val_ids": [
+     "validation_History_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_27",
+    "val_ids": [
+     "validation_Math_27"
+    ]
+   },
+   {
+    "pro_id": "validation_History_5",
+    "val_ids": [
+     "validation_History_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_12",
+    "val_ids": [
+     "validation_Mechanical_Engineering_12",
+     "validation_Mechanical_Engineering_13",
+     "validation_Mechanical_Engineering_15",
+     "validation_Mechanical_Engineering_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_27",
+    "val_ids": [
+     "validation_Biology_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Pharmacy_30",
+    "val_ids": [
+     "validation_Pharmacy_30"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_8",
+    "val_ids": [
+     "validation_Materials_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_3",
+    "val_ids": [
+     "validation_Math_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_8",
+    "val_ids": [
+     "validation_Literature_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_25",
+    "val_ids": [
+     "validation_Computer_Science_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_29",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_3",
+    "val_ids": [
+     "validation_Chemistry_3"
+    ]
+   },
+   {
+    "pro_id": "validation_History_17",
+    "val_ids": [
+     "validation_History_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_14",
+    "val_ids": [
+     "validation_Accounting_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_15",
+    "val_ids": [
+     "validation_Computer_Science_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_5",
+    "val_ids": [
+     "validation_Energy_and_Power_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_10",
+    "val_ids": [
+     "validation_Energy_and_Power_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_1",
+    "val_ids": [
+     "validation_Psychology_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_26",
+    "val_ids": [
+     "validation_Economics_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Materials_22",
+    "val_ids": [
+     "validation_Materials_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Literature_7",
+    "val_ids": [
+     "validation_Literature_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_29",
+    "val_ids": [
+     "validation_Art_29"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_2",
+    "val_ids": [
+     "validation_Public_Health_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_13",
+    "val_ids": [
+     "validation_Accounting_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_12",
+    "val_ids": [
+     "validation_Math_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Sociology_21",
+    "val_ids": [
+     "validation_Sociology_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_21",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Public_Health_21",
+    "val_ids": [
+     "validation_Public_Health_21"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_5",
+    "val_ids": [
+     "validation_Agriculture_5"
+    ]
+   },
+   {
+    "pro_id": "test_Diagnostics_and_Laboratory_Medicine_36",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_7",
+    "val_ids": [
+     "validation_Marketing_7"
+    ]
+   },
+   {
+    "pro_id": "validation_Finance_1",
+    "val_ids": [
+     "validation_Finance_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Biology_13",
+    "val_ids": [
+     "validation_Biology_13"
+    ]
+   },
+   {
+    "pro_id": "validation_History_15",
+    "val_ids": [
+     "validation_History_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_4",
+    "val_ids": [
+     "validation_Art_4"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_13",
+    "val_ids": [
+     "validation_Psychology_13"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_23",
+    "val_ids": [
+     "validation_Agriculture_23"
+    ]
+   },
+   {
+    "pro_id": "validation_Geography_10",
+    "val_ids": [
+     "validation_Geography_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_1",
+    "val_ids": [
+     "validation_Energy_and_Power_1"
+    ]
+   },
+   {
+    "pro_id": "validation_Marketing_17",
+    "val_ids": [
+     "validation_Marketing_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_10",
+    "val_ids": [
+     "validation_Art_Theory_10"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_6",
+    "val_ids": [
+     "validation_Computer_Science_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_15",
+    "val_ids": [
+     "validation_Energy_and_Power_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_27",
+    "val_ids": [
+     "validation_Mechanical_Engineering_27"
+    ]
+   },
+   {
+    "pro_id": "validation_Accounting_9",
+    "val_ids": [
+     "validation_Accounting_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Psychology_16",
+    "val_ids": [
+     "validation_Psychology_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_Theory_8",
+    "val_ids": [
+     "validation_Art_Theory_8"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_18",
+    "val_ids": [
+     "validation_Art_18"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_12",
+    "val_ids": [
+     "validation_Energy_and_Power_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Economics_16",
+    "val_ids": [
+     "validation_Economics_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_17",
+    "val_ids": [
+     "validation_Computer_Science_17"
+    ]
+   },
+   {
+    "pro_id": "validation_Clinical_Medicine_28",
+    "val_ids": [
+     "validation_Clinical_Medicine_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Architecture_and_Engineering_15",
+    "val_ids": [
+     "validation_Architecture_and_Engineering_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Basic_Medical_Science_3",
+    "val_ids": [
+     "validation_Basic_Medical_Science_3"
+    ]
+   },
+   {
+    "pro_id": "test_Clinical_Medicine_45",
+    "val_ids": [
+     "validation_Clinical_Medicine_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_28",
+    "val_ids": [
+     "validation_Mechanical_Engineering_28"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_25",
+    "val_ids": [
+     "validation_Physics_25"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_2",
+    "val_ids": [
+     "validation_Mechanical_Engineering_2"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_24",
+    "val_ids": [
+     "validation_Math_24"
+    ]
+   },
+   {
+    "pro_id": "validation_Computer_Science_22",
+    "val_ids": [
+     "validation_Computer_Science_22"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_3",
+    "val_ids": [
+     "validation_Agriculture_3"
+    ]
+   },
+   {
+    "pro_id": "validation_Music_16",
+    "val_ids": [
+     "validation_Music_16"
+    ]
+   },
+   {
+    "pro_id": "validation_Diagnostics_and_Laboratory_Medicine_5",
+    "val_ids": [
+     "validation_Diagnostics_and_Laboratory_Medicine_5"
+    ]
+   },
+   {
+    "pro_id": "validation_Math_26",
+    "val_ids": [
+     "validation_Math_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Energy_and_Power_26",
+    "val_ids": [
+     "validation_Energy_and_Power_26"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_9",
+    "val_ids": [
+     "validation_Agriculture_9"
+    ]
+   },
+   {
+    "pro_id": "validation_Agriculture_12",
+    "val_ids": [
+     "validation_Agriculture_12"
+    ]
+   },
+   {
+    "pro_id": "validation_Mechanical_Engineering_6",
+    "val_ids": [
+     "validation_Mechanical_Engineering_6"
+    ]
+   },
+   {
+    "pro_id": "validation_Electronics_14",
+    "val_ids": [
+     "validation_Electronics_14"
+    ]
+   },
+   {
+    "pro_id": "validation_Art_19",
+    "val_ids": [
+     "validation_Art_19"
+    ]
+   },
+   {
+    "pro_id": "validation_Physics_15",
+    "val_ids": [
+     "validation_Physics_15"
+    ]
+   },
+   {
+    "pro_id": "validation_Chemistry_6",
+    "val_ids": [
+     "validation_Chemistry_6"
+    ]
+   }
+  ],
+  "val_raw_sha256": "cf0aba5b6941d46620244e3a57653c944aed0e1eb5b47a54136a7a4c39376722"
+ },
+ "problems": []
+}
